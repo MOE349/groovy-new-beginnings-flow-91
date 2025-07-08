@@ -147,8 +147,8 @@ const CreateAsset = () => {
                       {renderField({ name: "name", type: "input", required: true, inputType: "text" })}
                     </div>
                   </div>
-                  <div className="flex items-start space-x-2">
-                    <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0 pt-1">Description</label>
+                  <div className="flex items-center space-x-2">
+                    <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Description</label>
                     <div className="flex-grow">
                       {renderField({ name: "description", type: "textarea", rows: 2 })}
                     </div>
