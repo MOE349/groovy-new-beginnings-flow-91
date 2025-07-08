@@ -67,7 +67,7 @@ const CreateAttachment = () => {
                 />
                 <Label className="text-caption font-normal">Online</Label>
               </div>
-              <div className="w-full h-32 bg-muted rounded border overflow-hidden">
+              <div className="w-1/2 h-32 bg-muted rounded border overflow-hidden">
                 <img 
                   src="/lovable-uploads/cf9d21df-6820-4bea-ae16-54c41a67117e.png" 
                   alt="Attachment" 
