@@ -123,17 +123,17 @@
     @apply bg-background text-foreground font-inter antialiased;
   }
 
-  /* Typography Classes */
+  /* Typography Classes with TenMil Blue accents */
   .heading-1 {
-    @apply text-[32px] leading-[40px] font-semibold;
+    @apply text-[32px] leading-[40px] font-semibold text-primary;
   }
 
   .heading-2 {
-    @apply text-[24px] leading-[32px] font-semibold;
+    @apply text-[24px] leading-[32px] font-semibold text-accent;
   }
 
   .heading-3 {
-    @apply text-[20px] leading-[28px] font-medium;
+    @apply text-[20px] leading-[28px] font-medium text-accent;
   }
 
   .body-text {
@@ -200,14 +200,14 @@
     @apply hover:bg-secondary/10;
   }
 
-  /* Professional input styles */
+  /* TenMil input styles with blue accents */
   .input-field {
     @apply relative;
   }
 
   .input-field input {
-    @apply w-full px-4 py-3 border border-input rounded-[4px] text-[16px] leading-[24px] bg-background focus-outline;
-    @apply focus:border-primary transition-colors duration-150;
+    @apply w-full px-4 py-3 border border-input rounded-md text-[16px] leading-[24px] bg-background focus-outline;
+    @apply focus:border-accent transition-colors duration-150;
   }
 
   .input-field input.error {
