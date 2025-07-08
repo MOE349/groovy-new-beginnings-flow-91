@@ -66,7 +66,7 @@
     --sidebar-background: 227 45% 19%; /* #252D63 - TenMil Navy (dark blue) */
     --sidebar-foreground: 46 100% 70%; /* #FFCF64 - TenMil Gold (yellow) */
     --sidebar-primary: 46 100% 70%; /* #FFCF64 - TenMil Gold for active */
-    --sidebar-primary-foreground: 227 45% 19%;
+    --sidebar-primary-foreground: 227 45% 19%; /* TenMil Navy - dark text on yellow background */
     --sidebar-accent: 46 100% 70%; /* #FFCF64 - TenMil Gold for hover */
     --sidebar-accent-foreground: 227 45% 19%;
     --sidebar-border: 227 45% 25%; /* Slightly lighter navy for borders */
