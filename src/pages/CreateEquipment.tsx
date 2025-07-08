@@ -56,10 +56,10 @@ const CreateEquipment = () => {
         <form onSubmit={handleSubmit} className="h-full">
           <h3 className="text-h3 font-medium mb-4 text-primary">Equipment Information</h3>
           
-          {/* 2-Column Grid Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-            {/* Left Column - 35% - Online toggle + image + location */}
-            <div className="lg:col-span-4 space-y-3 flex flex-col">
+          {/* Layout matching reference image */}
+          <div className="flex gap-8">
+            {/* Left Section - Image, toggle, location */}
+            <div className="flex flex-col space-y-3 w-64">
               <div className="flex items-center space-x-2">
                 <Switch 
                   checked={formData?.is_online || false} 
@@ -67,15 +67,15 @@ const CreateEquipment = () => {
                 />
                 <Label className="text-caption font-normal">Online</Label>
               </div>
-              <div className="w-1/2 h-32 bg-muted rounded border overflow-hidden">
+              <div className="w-48 h-32 bg-muted rounded border overflow-hidden">
                 <img 
                   src="/lovable-uploads/cf9d21df-6820-4bea-ae16-54c41a67117e.png" 
                   alt="Equipment" 
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="space-y-1 w-1/2">
-                <label className="block text-caption font-normal text-right w-24 text-foreground">Location</label>
+              <div className="space-y-1 w-48">
+                <label className="block text-caption font-normal text-foreground">Location</label>
                 {renderField({ 
                   name: "location", 
                   type: "dropdown", 
@@ -88,9 +88,9 @@ const CreateEquipment = () => {
               </div>
             </div>
             
-            {/* Right Column - 65% - Three equal sub-columns for fields */}
-            <div className="lg:col-span-8 w-full">
-              <div className="grid grid-cols-3 gap-x-4 gap-y-2 w-full">
+            {/* Right Section - Form fields in three columns */}
+            <div className="flex-1">
+              <div className="grid grid-cols-3 gap-x-8 gap-y-2">
                 {/* First sub-column */}
                 <div className="space-y-2">
                   <div className="flex items-center space-x-2">
