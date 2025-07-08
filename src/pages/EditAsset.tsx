@@ -118,8 +118,12 @@ const EditAsset = () => {
                 />
                 <Label className="text-caption font-normal">Online</Label>
               </div>
-              <div className="w-full h-32 bg-muted rounded border flex items-center justify-center text-muted-foreground text-caption">
-                Equipment Photo
+              <div className="w-full h-32 bg-muted rounded border overflow-hidden">
+                <img 
+                  src="/lovable-uploads/cf9d21df-6820-4bea-ae16-54c41a67117e.png" 
+                  alt="Equipment" 
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div className="space-y-1">
                 <label className="block text-caption font-normal text-right w-24 text-foreground">Location</label>
