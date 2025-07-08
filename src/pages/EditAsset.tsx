@@ -288,7 +288,7 @@ const EditAsset = () => {
                       {
                         name: "meter_reading",
                         type: "input",
-                        inputType: "text",
+                        inputType: "number",
                         required: true
                       }
                     ]}
@@ -318,7 +318,7 @@ const EditAsset = () => {
                           {renderField({ 
                             name: "meter_reading", 
                             type: "input", 
-                            inputType: "text", 
+                            inputType: "number", 
                             required: true
                           })}
                         </div>
