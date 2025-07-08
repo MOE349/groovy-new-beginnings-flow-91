@@ -82,7 +82,7 @@ const EditAsset = () => {
   };
 
   const customLayout = ({ handleSubmit, formData, handleFieldChange, loading, error, renderField }: any) => (
-    <div className="px-6 space-y-0">
+    <div className="space-y-0">
       {/* Top Bar - Height 3.5rem */}
       <div className="h-14 flex items-center justify-between px-4 py-2 bg-card border-b border-border">
         <Button 
@@ -227,7 +227,7 @@ const EditAsset = () => {
       </div>
 
       {/* Compact Tabs Section */}
-      <div className="px-6">
+      <div>
         <Tabs defaultValue="parts-bom" className="h-full">
           {/* Compact Pill-Style Tab List */}
           <div className="h-10 overflow-x-auto">
