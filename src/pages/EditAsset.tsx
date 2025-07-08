@@ -103,7 +103,7 @@ const EditAsset = () => {
       </div>
       
       {/* Equipment Information Card - Compact */}
-      <div className="bg-card rounded-md shadow-sm p-2">
+      <div className="bg-card rounded-md shadow-sm px-2 py-1">
         <form onSubmit={handleSubmit} className="h-full">
           <h3 className="text-h3 font-medium mb-4 text-primary">{assetTypeName} Information</h3>
           

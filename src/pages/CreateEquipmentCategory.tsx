@@ -45,7 +45,7 @@ const CreateEquipmentCategory = () => {
       </div>
       
       {/* Form Card */}
-      <div className="bg-card rounded-md shadow-sm p-2 max-w-2xl">
+      <div className="bg-card rounded-md shadow-sm px-2 py-1 max-w-2xl">
         <form onSubmit={handleSubmit} className="h-full">
           <h3 className="text-h3 font-medium mb-4 text-primary">Equipment Category Information</h3>
           <div className="space-y-4">
