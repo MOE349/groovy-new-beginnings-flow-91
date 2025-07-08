@@ -2,89 +2,114 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Professional Design System - 8px grid with consistent spacing, colors, and typography */
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
-    --foreground: 210 15% 20%;
+    /* Color Palette - Professional UI System */
+    --background: 0 0% 96.1%; /* #F5F5F5 - Neutral Light */
+    --foreground: 0 0% 20%; /* #333333 - Neutral Dark */
 
-    --card: 0 0% 100%;
-    --card-foreground: 210 15% 20%;
+    --card: 0 0% 100%; /* White cards */
+    --card-foreground: 0 0% 20%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 210 15% 20%;
+    --popover-foreground: 0 0% 20%;
 
-    --primary: 210 70% 50%;
+    --primary: 216 87% 51%; /* #1A73E8 - Primary Blue */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 94%;
-    --secondary-foreground: 210 20% 25%;
+    --secondary: 28 100% 44%; /* #E37400 - Secondary Orange */
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 40% 96%;
-    --muted-foreground: 210 15% 45%;
+    --muted: 0 0% 96.1%; /* #F5F5F5 */
+    --muted-foreground: 0 0% 45%;
 
-    --accent: 200 60% 55%;
+    --accent: 216 87% 51%; /* Same as primary for consistency */
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 4 90% 50%; /* #D93025 - Error Red */
     --destructive-foreground: 0 0% 100%;
 
-    --border: 210 40% 88%;
-    --input: 210 40% 92%;
-    --ring: 210 70% 50%;
+    --border: 0 0% 80%; /* #CCCCCC for inputs */
+    --input: 0 0% 80%;
+    --ring: 216 87% 51%; /* Primary for focus states */
 
-    --radius: 0.5rem;
+    --radius: 0.25rem; /* 4px border radius */
 
-    --sidebar-background: 210 60% 96%;
-    --sidebar-foreground: 210 20% 25%;
-    --sidebar-primary: 210 70% 50%;
+    /* Typography Scale */
+    --font-h1: 32px;
+    --font-h2: 24px;
+    --font-h3: 20px;
+    --font-body: 16px;
+    --font-caption: 14px;
+    --font-small: 12px;
+
+    /* Line Heights */
+    --line-h1: 40px;
+    --line-h2: 32px;
+    --line-h3: 28px;
+    --line-body: 24px;
+    --line-caption: 20px;
+
+    /* Spacing (8px grid) */
+    --space-1: 0.5rem; /* 8px */
+    --space-2: 1rem; /* 16px */
+    --space-3: 1.5rem; /* 24px */
+    --space-4: 2rem; /* 32px */
+
+    /* Shadows */
+    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+    --shadow-hover: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    /* Sidebar colors */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 0 0% 20%;
+    --sidebar-primary: 216 87% 51%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 210 50% 90%;
-    --sidebar-accent-foreground: 210 20% 25%;
-    --sidebar-border: 210 40% 85%;
-    --sidebar-ring: 210 70% 50%;
+    --sidebar-accent: 0 0% 96.1%;
+    --sidebar-accent-foreground: 0 0% 20%;
+    --sidebar-border: 0 0% 90%;
+    --sidebar-ring: 216 87% 51%;
   }
 
   .dark {
-    --background: 210 15% 8%;
-    --foreground: 210 40% 95%;
+    --background: 0 0% 9%; /* Dark background */
+    --foreground: 0 0% 95%;
 
-    --card: 210 15% 10%;
-    --card-foreground: 210 40% 95%;
+    --card: 0 0% 12%;
+    --card-foreground: 0 0% 95%;
 
-    --popover: 210 15% 10%;
-    --popover-foreground: 210 40% 95%;
+    --popover: 0 0% 12%;
+    --popover-foreground: 0 0% 95%;
 
-    --primary: 210 70% 60%;
-    --primary-foreground: 210 15% 8%;
+    --primary: 216 87% 51%; /* Keep primary consistent */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 20% 15%;
-    --secondary-foreground: 210 40% 85%;
+    --secondary: 28 100% 44%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 20% 12%;
-    --muted-foreground: 210 15% 60%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 60%;
 
-    --accent: 200 60% 65%;
-    --accent-foreground: 210 15% 8%;
+    --accent: 216 87% 51%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 70% 55%;
+    --destructive: 4 90% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 210 20% 18%;
-    --input: 210 20% 15%;
-    --ring: 210 70% 60%;
+    --border: 0 0% 25%;
+    --input: 0 0% 20%;
+    --ring: 216 87% 51%;
 
-    --sidebar-background: 210 20% 6%;
-    --sidebar-foreground: 210 40% 85%;
-    --sidebar-primary: 210 70% 60%;
-    --sidebar-primary-foreground: 210 15% 8%;
-    --sidebar-accent: 210 25% 12%;
-    --sidebar-accent-foreground: 210 40% 85%;
-    --sidebar-border: 210 20% 15%;
-    --sidebar-ring: 210 70% 60%;
+    --sidebar-background: 0 0% 6%;
+    --sidebar-foreground: 0 0% 85%;
+    --sidebar-primary: 216 87% 51%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent-foreground: 0 0% 85%;
+    --sidebar-border: 0 0% 20%;
+    --sidebar-ring: 216 87% 51%;
   }
 }
 
@@ -94,6 +119,107 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-inter antialiased;
+  }
+
+  /* Typography Classes */
+  .heading-1 {
+    @apply text-[32px] leading-[40px] font-semibold;
+  }
+
+  .heading-2 {
+    @apply text-[24px] leading-[32px] font-semibold;
+  }
+
+  .heading-3 {
+    @apply text-[20px] leading-[28px] font-medium;
+  }
+
+  .body-text {
+    @apply text-[16px] leading-[24px] font-normal;
+  }
+
+  .caption-text {
+    @apply text-[14px] leading-[20px] font-normal;
+  }
+
+  .small-text {
+    @apply text-[12px] leading-[16px] font-normal;
+  }
+
+  /* Focus styles for accessibility */
+  .focus-outline {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2;
+  }
+
+  /* Form floating labels */
+  .floating-label {
+    @apply absolute left-4 top-4 text-muted-foreground transition-all duration-150 ease-in-out pointer-events-none;
+  }
+
+  .floating-label.float {
+    @apply text-xs top-2 text-primary;
+  }
+
+  /* Button transitions */
+  .btn-transition {
+    @apply transition-all duration-150 ease-in-out;
+  }
+
+  /* Card shadows */
+  .card-shadow {
+    box-shadow: var(--shadow-card);
+  }
+
+  .card-shadow-hover {
+    box-shadow: var(--shadow-hover);
+  }
+
+  /* Shake animation for form errors */
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+  }
+
+  .shake {
+    animation: shake 0.1s ease-in-out 3;
+  }
+}
+
+@layer components {
+  /* Professional button styles */
+  .btn-primary {
+    @apply bg-primary text-primary-foreground px-6 py-3 rounded-[4px] font-medium text-[16px] btn-transition focus-outline;
+    @apply hover:bg-primary/90 active:shadow-inner;
+  }
+
+  .btn-secondary {
+    @apply border border-primary text-primary bg-transparent px-6 py-3 rounded-[4px] font-medium text-[16px] btn-transition focus-outline;
+    @apply hover:bg-primary/10;
+  }
+
+  /* Professional input styles */
+  .input-field {
+    @apply relative;
+  }
+
+  .input-field input {
+    @apply w-full px-4 py-3 border border-input rounded-[4px] text-[16px] leading-[24px] bg-background focus-outline;
+    @apply focus:border-primary transition-colors duration-150;
+  }
+
+  .input-field input.error {
+    @apply border-destructive;
+  }
+
+  .input-error {
+    @apply text-destructive text-[12px] mt-1;
+  }
+
+  /* Professional card styles */
+  .card-professional {
+    @apply bg-card rounded-[4px] card-shadow p-6 border-0;
+    @apply hover:card-shadow-hover transition-shadow duration-150;
   }
 }

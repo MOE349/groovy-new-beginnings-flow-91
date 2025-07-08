@@ -12,12 +12,22 @@ export default {
 	theme: {
 		container: {
 			center: true,
-			padding: '2rem',
+			padding: '1rem',
 			screens: {
-				'2xl': '1400px'
+				'sm': '600px',   // Mobile breakpoint
+				'md': '960px',   // Tablet breakpoint  
+				'lg': '1280px',  // Desktop breakpoint
+				'xl': '1400px'
 			}
 		},
 		extend: {
+			fontFamily: {
+				'inter': ['Inter', 'sans-serif'],
+			},
+			spacing: {
+				'grid': '8px',    // Base 8px grid
+				'gutter': '16px', // 16px gutters
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -64,9 +74,22 @@ export default {
 				}
 			},
 			borderRadius: {
-				lg: 'var(--radius)',
-				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+				'DEFAULT': '4px',
+				'lg': '6px',
+				'md': '4px',
+				'sm': '2px'
+			},
+			boxShadow: {
+				'card': '0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06)',
+				'hover': '0 4px 6px rgba(0, 0, 0, 0.1)',
+			},
+			fontSize: {
+				'h1': ['32px', '40px'],
+				'h2': ['24px', '32px'], 
+				'h3': ['20px', '28px'],
+				'body': ['16px', '24px'],
+				'caption': ['14px', '20px'],
+				'small': ['12px', '16px'],
 			},
 			keyframes: {
 				'accordion-down': {
