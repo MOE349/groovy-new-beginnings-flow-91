@@ -220,11 +220,11 @@ const ApiTable = <T extends Record<string, any>>({
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
       >
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto border border-border/30 rounded-sm">
           <Table>
             <TableHeader>
               <TableRow>
-                <SortableContext 
+                <SortableContext
                   items={orderedColumns.map(col => col.key)} 
                   strategy={horizontalListSortingStrategy}
                 >
