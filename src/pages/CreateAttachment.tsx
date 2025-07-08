@@ -90,7 +90,7 @@ const CreateAttachment = () => {
             
             {/* Right Column - 65% - Two sub-columns for fields */}
             <div className="lg:col-span-8">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-x-3 gap-y-2">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-2 w-full">
                 {/* First sub-column */}
                 <div className="space-y-2">
                   <div className="flex items-center space-x-2">
