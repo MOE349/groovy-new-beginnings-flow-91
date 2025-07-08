@@ -4,6 +4,8 @@ import { toast } from "@/hooks/use-toast";
 import ApiForm from "@/components/ApiForm";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import { apiPost } from "@/utils/apis";
 import { equipmentFields, attachmentFields } from "@/data/assetFormFields";
 
@@ -100,6 +102,109 @@ const CreateAsset = () => {
             initialData={{
               is_online: false,
             }}
+            customLayout={({ handleSubmit, formData, handleFieldChange, loading, error, renderField }) => (
+              <div className="space-y-4">
+                <h3 className="text-h3 font-medium mb-4 text-primary">{assetTypeName} Information</h3>
+                
+                {/* 2-Column Grid Layout */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+                  {/* Left Column - 35% - Online toggle + image + location */}
+                  <div className="lg:col-span-4 space-y-3 flex flex-col">
+                    <div className="flex items-center space-x-2">
+                      <Switch 
+                        checked={formData?.is_online || false} 
+                        onCheckedChange={(checked) => handleFieldChange("is_online", checked)}
+                      />
+                      <Label className="text-caption font-normal">Online</Label>
+                    </div>
+                    <div className="w-full h-32 bg-muted rounded border overflow-hidden">
+                      <img 
+                        src="/lovable-uploads/cf9d21df-6820-4bea-ae16-54c41a67117e.png" 
+                        alt="Equipment" 
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="block text-caption font-normal text-right w-24 text-foreground">Location</label>
+                      {renderField({ 
+                        name: "location", 
+                        type: "dropdown", 
+                        required: true, 
+                        endpoint: "/company/location", 
+                        queryKey: ["company_location"], 
+                        optionValueKey: "id", 
+                        optionLabelKey: "name"
+                      })}
+                    </div>
+                  </div>
+                  
+                  {/* Right Column - 65% - Two sub-columns for fields */}
+                  <div className="lg:col-span-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-3">
+                      {/* First sub-column */}
+                      <div className="space-y-3">
+                        <div className="flex items-center space-x-2">
+                          <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Code</label>
+                          {renderField({ name: "code", type: "input", required: true, inputType: "text" })}
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Name</label>
+                          {renderField({ name: "name", type: "input", required: true, inputType: "text" })}
+                        </div>
+                        <div className="flex items-start space-x-2">
+                          <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0 pt-2">Description</label>
+                          {renderField({ name: "description", type: "textarea", rows: 3 })}
+                        </div>
+                        {assetType === "attachment" && (
+                          <div className="flex items-center space-x-2">
+                            <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Equipment</label>
+                            {renderField({ name: "equipment", type: "dropdown", endpoint: "/assets/equipments", queryKey: ["assets_equipments"], optionValueKey: "id", optionLabelKey: "name" })}
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* Second sub-column */}
+                      <div className="space-y-3">
+                        <div className="flex items-center space-x-2">
+                          <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Category</label>
+                          {renderField({ 
+                            name: "category", 
+                            type: "dropdown", 
+                            required: true, 
+                            endpoint: assetType === "equipment" ? "/assets/equipment_category" : "/assets/attachment_category",
+                            queryKey: assetType === "equipment" ? ["equipment_category"] : ["attachment_category"],
+                            optionValueKey: "id", 
+                            optionLabelKey: "name"
+                          })}
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Make</label>
+                          {renderField({ name: "make", type: "input", required: true, inputType: "text" })}
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Model</label>
+                          {renderField({ name: "model", type: "input", required: true, inputType: "text" })}
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Serial #</label>
+                          {renderField({ name: "serial_number", type: "input", required: true, inputType: "text" })}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="pt-4">
+                  <Button 
+                    onClick={handleSubmit} 
+                    disabled={loading} 
+                    className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90"
+                  >
+                    {loading ? "Loading..." : `Create ${assetTypeName}`}
+                  </Button>
+                </div>
+              </div>
+            )}
           />
         </div>
       </div>
