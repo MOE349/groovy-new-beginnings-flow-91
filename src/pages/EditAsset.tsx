@@ -141,7 +141,7 @@ const EditAsset = () => {
             
             {/* Right Column - 65% - Two sub-columns for fields */}
             <div className="lg:col-span-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3 gap-y-2">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-x-3 gap-y-2">
                 {/* First sub-column */}
                 <div className="space-y-2">
                   <div className="flex items-center space-x-2">
@@ -204,6 +204,56 @@ const EditAsset = () => {
                     <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Serial #</label>
                     <div className="flex-grow">
                       {renderField({ name: "serial_number", type: "input", required: true, inputType: "text" })}
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Third sub-column */}
+                <div className="space-y-2">
+                  <div className="flex items-center space-x-2">
+                    <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Status</label>
+                    <div className="flex-grow">
+                      {renderField({ 
+                        name: "status", 
+                        type: "dropdown",
+                        required: true,
+                        options: [
+                          { id: "active", name: "Active" },
+                          { id: "inactive", name: "Inactive" },
+                          { id: "maintenance", name: "Under Maintenance" },
+                          { id: "retired", name: "Retired" }
+                        ]
+                      })}
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Job Code</label>
+                    <div className="flex-grow">
+                      {renderField({ 
+                        name: "job_code", 
+                        type: "dropdown",
+                        options: [
+                          { id: "job001", name: "JOB-001" },
+                          { id: "job002", name: "JOB-002" },
+                          { id: "job003", name: "JOB-003" },
+                          { id: "job004", name: "JOB-004" }
+                        ]
+                      })}
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Account Code</label>
+                    <div className="flex-grow">
+                      {renderField({ 
+                        name: "account_code", 
+                        type: "dropdown",
+                        options: [
+                          { id: "acc001", name: "ACC-001" },
+                          { id: "acc002", name: "ACC-002" },
+                          { id: "acc003", name: "ACC-003" },
+                          { id: "acc004", name: "ACC-004" }
+                        ]
+                      })}
                     </div>
                   </div>
                 </div>
