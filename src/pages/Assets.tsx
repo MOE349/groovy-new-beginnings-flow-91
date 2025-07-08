@@ -23,13 +23,13 @@ const Assets = () => {
   return (
     <div className="space-y-6">
       <div className="flex gap-4">
-        <Button asChild>
+        <Button asChild size="sm">
           <Link to="/assets/equipment/create">
             <Plus className="mr-2 h-4 w-4" />
             New Equipment
           </Link>
         </Button>
-        <Button asChild variant="outline">
+        <Button asChild variant="outline" size="sm">
           <Link to="/assets/attachment/create">
             <Plus className="mr-2 h-4 w-4" />
             New Attachment

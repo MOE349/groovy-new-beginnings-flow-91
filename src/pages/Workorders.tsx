@@ -9,7 +9,7 @@ const Workorders = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <Button onClick={() => navigate("/workorders/create")} className="flex items-center gap-2">
+        <Button onClick={() => navigate("/workorders/create")} className="flex items-center gap-2" size="sm">
           <Plus className="h-4 w-4" />
           New Work Order
         </Button>
