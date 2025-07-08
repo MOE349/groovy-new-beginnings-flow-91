@@ -50,6 +50,7 @@ interface ApiTableProps<T = any> {
   title?: string;
   queryKey?: string[];
   className?: string;
+  tableClassName?: string; // Applied directly to the Table component
   emptyMessage?: string;
   createNewHref?: string;
   createNewText?: string;
@@ -97,6 +98,7 @@ const ApiTable = <T extends Record<string, any>>({
   title,
   queryKey,
   className,
+  tableClassName,
   emptyMessage = "No data available",
   createNewHref,
   createNewText = "Create New",
@@ -221,7 +223,7 @@ const ApiTable = <T extends Record<string, any>>({
         onDragEnd={handleDragEnd}
       >
         <div className="overflow-x-auto">
-          <Table>
+          <Table className={tableClassName}>
             <TableHeader>
               <TableRow>
                 <SortableContext
