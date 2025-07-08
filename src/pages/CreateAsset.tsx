@@ -140,54 +140,70 @@ const CreateAsset = () => {
                   
                   {/* Right Column - 65% - Two sub-columns for fields */}
                   <div className="lg:col-span-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-3">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3 gap-y-2">
                       {/* First sub-column */}
-                      <div className="space-y-3">
+                      <div className="space-y-2">
                         <div className="flex items-center space-x-2">
-                          <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Code</label>
-                          {renderField({ name: "code", type: "input", required: true, inputType: "text" })}
+                          <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Code</label>
+                          <div className="flex-grow">
+                            {renderField({ name: "code", type: "input", required: true, inputType: "text" })}
+                          </div>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Name</label>
-                          {renderField({ name: "name", type: "input", required: true, inputType: "text" })}
+                          <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Name</label>
+                          <div className="flex-grow">
+                            {renderField({ name: "name", type: "input", required: true, inputType: "text" })}
+                          </div>
                         </div>
                         <div className="flex items-start space-x-2">
-                          <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0 pt-2">Description</label>
-                          {renderField({ name: "description", type: "textarea", rows: 3 })}
+                          <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0 pt-1">Description</label>
+                          <div className="flex-grow">
+                            {renderField({ name: "description", type: "textarea", rows: 2 })}
+                          </div>
                         </div>
                         {assetType === "attachment" && (
                           <div className="flex items-center space-x-2">
-                            <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Equipment</label>
-                            {renderField({ name: "equipment", type: "dropdown", endpoint: "/assets/equipments", queryKey: ["assets_equipments"], optionValueKey: "id", optionLabelKey: "name" })}
+                            <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Equipment</label>
+                            <div className="flex-grow">
+                              {renderField({ name: "equipment", type: "dropdown", endpoint: "/assets/equipments", queryKey: ["assets_equipments"], optionValueKey: "id", optionLabelKey: "name" })}
+                            </div>
                           </div>
                         )}
                       </div>
                       
                       {/* Second sub-column */}
-                      <div className="space-y-3">
+                      <div className="space-y-2">
                         <div className="flex items-center space-x-2">
-                          <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Category</label>
-                          {renderField({ 
-                            name: "category", 
-                            type: "dropdown", 
-                            required: true, 
-                            endpoint: assetType === "equipment" ? "/assets/equipment_category" : "/assets/attachment_category",
-                            queryKey: assetType === "equipment" ? ["equipment_category"] : ["attachment_category"],
-                            optionValueKey: "id", 
-                            optionLabelKey: "name"
-                          })}
+                          <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Category</label>
+                          <div className="flex-grow">
+                            {renderField({ 
+                              name: "category", 
+                              type: "dropdown", 
+                              required: true, 
+                              endpoint: assetType === "equipment" ? "/assets/equipment_category" : "/assets/attachment_category",
+                              queryKey: assetType === "equipment" ? ["equipment_category"] : ["attachment_category"],
+                              optionValueKey: "id", 
+                              optionLabelKey: "name"
+                            })}
+                          </div>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Make</label>
-                          {renderField({ name: "make", type: "input", required: true, inputType: "text" })}
+                          <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Make</label>
+                          <div className="flex-grow">
+                            {renderField({ name: "make", type: "input", required: true, inputType: "text" })}
+                          </div>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Model</label>
-                          {renderField({ name: "model", type: "input", required: true, inputType: "text" })}
+                          <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Model</label>
+                          <div className="flex-grow">
+                            {renderField({ name: "model", type: "input", required: true, inputType: "text" })}
+                          </div>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Serial #</label>
-                          {renderField({ name: "serial_number", type: "input", required: true, inputType: "text" })}
+                          <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Serial #</label>
+                          <div className="flex-grow">
+                            {renderField({ name: "serial_number", type: "input", required: true, inputType: "text" })}
+                          </div>
                         </div>
                       </div>
                     </div>
