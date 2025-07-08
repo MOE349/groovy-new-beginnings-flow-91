@@ -290,7 +290,7 @@ const ApiTable = <T extends Record<string, any>>({
 
   return (
     <Card className={className}>
-      <CardContent className="p-2">{content()}</CardContent>
+      <CardContent className="p-1">{content()}</CardContent>
     </Card>
   );
 };
