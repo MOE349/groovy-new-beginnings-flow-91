@@ -12,6 +12,7 @@ interface ApiInputProps {
   required?: boolean;
   disabled?: boolean;
   type?: "text" | "email" | "password" | "number";
+  hideLabel?: boolean;
 }
 
 const ApiInput = ({
@@ -24,10 +25,11 @@ const ApiInput = ({
   required = false,
   disabled = false,
   type = "text",
+  hideLabel = false,
 }: ApiInputProps) => {
   return (
-    <div className={cn("space-y-2", className)}>
-      {label && (
+    <div className={cn(hideLabel ? "" : "space-y-2", className)}>
+      {label && !hideLabel && (
         <Label htmlFor={name} className={required ? "after:content-['*'] after:text-destructive" : ""}>
           {label}
         </Label>

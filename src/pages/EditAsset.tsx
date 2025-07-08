@@ -134,7 +134,8 @@ const EditAsset = () => {
                   endpoint: "/company/location", 
                   queryKey: ["company_location"], 
                   optionValueKey: "id", 
-                  optionLabelKey: "name"
+                  optionLabelKey: "name",
+                  hideLabel: true
                 })}
               </div>
             </div>
@@ -147,26 +148,26 @@ const EditAsset = () => {
                   <div className="flex items-center space-x-2">
                     <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Code</label>
                     <div className="flex-grow">
-                      {renderField({ name: "code", type: "input", required: true, inputType: "text" })}
+                      {renderField({ name: "code", type: "input", required: true, inputType: "text", hideLabel: true })}
                     </div>
                   </div>
                   <div className="flex items-center space-x-2">
                     <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Name</label>
                     <div className="flex-grow">
-                      {renderField({ name: "name", type: "input", required: true, inputType: "text" })}
+                      {renderField({ name: "name", type: "input", required: true, inputType: "text", hideLabel: true })}
                     </div>
                   </div>
                   <div className="flex items-start space-x-2">
                     <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0 pt-1">Description</label>
                     <div className="flex-grow">
-                      {renderField({ name: "description", type: "textarea", rows: 2 })}
+                      {renderField({ name: "description", type: "textarea", rows: 2, hideLabel: true })}
                     </div>
                   </div>
                   {assetType === "attachment" && (
                     <div className="flex items-center space-x-2">
                       <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Equipment</label>
                       <div className="flex-grow">
-                        {renderField({ name: "equipment", type: "dropdown", endpoint: "/assets/equipments", queryKey: ["assets_equipments"], optionValueKey: "id", optionLabelKey: "name" })}
+                        {renderField({ name: "equipment", type: "dropdown", endpoint: "/assets/equipments", queryKey: ["assets_equipments"], optionValueKey: "id", optionLabelKey: "name", hideLabel: true })}
                       </div>
                     </div>
                   )}
@@ -184,26 +185,27 @@ const EditAsset = () => {
                         endpoint: assetType === "equipment" ? "/assets/equipment_category" : "/assets/attachment_category",
                         queryKey: assetType === "equipment" ? ["equipment_category"] : ["attachment_category"],
                         optionValueKey: "id", 
-                        optionLabelKey: "name"
+                        optionLabelKey: "name",
+                        hideLabel: true
                       })}
                     </div>
                   </div>
                   <div className="flex items-center space-x-2">
                     <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Make</label>
                     <div className="flex-grow">
-                      {renderField({ name: "make", type: "input", required: true, inputType: "text" })}
+                      {renderField({ name: "make", type: "input", required: true, inputType: "text", hideLabel: true })}
                     </div>
                   </div>
                   <div className="flex items-center space-x-2">
                     <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Model</label>
                     <div className="flex-grow">
-                      {renderField({ name: "model", type: "input", required: true, inputType: "text" })}
+                      {renderField({ name: "model", type: "input", required: true, inputType: "text", hideLabel: true })}
                     </div>
                   </div>
                   <div className="flex items-center space-x-2">
                     <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Serial #</label>
                     <div className="flex-grow">
-                      {renderField({ name: "serial_number", type: "input", required: true, inputType: "text" })}
+                      {renderField({ name: "serial_number", type: "input", required: true, inputType: "text", hideLabel: true })}
                     </div>
                   </div>
                 </div>
