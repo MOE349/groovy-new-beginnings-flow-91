@@ -147,7 +147,7 @@ const EditAsset = () => {
                   <div className="flex items-center space-x-2">
                     <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Code</label>
                     <div className="flex-grow">
-                      {renderField({ name: "code", type: "input", required: true, inputType: "text" })}
+                      {renderField({ name: "code", type: "input", required: true, inputType: "text", className: "mb-0" })}
                     </div>
                   </div>
                   <div className="flex items-center space-x-2">
