@@ -90,9 +90,9 @@ const CreateEquipment = () => {
             
             {/* Right Column - 65% - Three equal sub-columns for fields */}
             <div className="lg:col-span-8 w-full">
-              <div className="grid grid-cols-3 gap-x-4 gap-y-2 w-full">
+              <div className="grid grid-cols-3 gap-x-8 gap-y-2 w-full justify-items-center">
                 {/* First sub-column */}
-                <div className="space-y-2">
+                <div className="space-y-2 w-full max-w-[200px]">
                   <div className="flex items-center space-x-2">
                     <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Code</label>
                     <div className="flex-grow">
@@ -114,7 +114,7 @@ const CreateEquipment = () => {
                 </div>
                 
                 {/* Second sub-column */}
-                <div className="space-y-2">
+                <div className="space-y-2 w-full max-w-[200px]">
                   <div className="flex items-center space-x-2">
                     <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Category</label>
                     <div className="flex-grow">
@@ -150,7 +150,7 @@ const CreateEquipment = () => {
                 </div>
                 
                 {/* Third sub-column */}
-                <div className="space-y-2">
+                <div className="space-y-2 w-full max-w-[200px]">
                   <div className="flex items-center space-x-2">
                     <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Status</label>
                     <div className="flex-grow">
