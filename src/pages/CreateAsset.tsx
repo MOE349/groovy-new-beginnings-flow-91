@@ -46,7 +46,7 @@ const CreateAsset = () => {
         </div>
 
         <div className="max-w-xl">
-          <div className="bg-card rounded-md shadow-sm p-4">
+          <div className="bg-card rounded-md shadow-sm p-2">
             <h3 className="text-h3 font-medium mb-4 text-primary">Select Asset Type</h3>
             <div className="space-y-3">
               <Button 
@@ -94,7 +94,7 @@ const CreateAsset = () => {
       </div>
       
       {/* Equipment Information Card - Compact */}
-      <div className="bg-card rounded-md shadow-sm p-4">
+      <div className="bg-card rounded-md shadow-sm p-2">
         <form onSubmit={handleSubmit} className="h-full">
           <h3 className="text-h3 font-medium mb-4 text-primary">{assetTypeName} Information</h3>
           
