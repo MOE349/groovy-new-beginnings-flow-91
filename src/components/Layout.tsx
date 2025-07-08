@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
 import { LogOut } from "lucide-react";
+import { useLocation } from "react-router-dom";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -17,10 +18,14 @@ interface LayoutProps {
 
 export function Layout({ children }: LayoutProps) {
   const { user, logout } = useAuth();
+  const location = useLocation();
   
-  // Debug logging to see what's happening
-  console.log("Layout - User:", user);
-  console.log("Layout - User name:", user?.name);
+  const getPageTitle = () => {
+    if (location.pathname === '/assets') {
+      return 'Assets';
+    }
+    return 'Tenmil';
+  };
 
   return (
     <SidebarProvider>
@@ -31,7 +36,7 @@ export function Layout({ children }: LayoutProps) {
           <header className="h-8 flex items-center justify-between border-b bg-primary text-primary-foreground px-3">
             <div className="flex items-center">
               <SidebarTrigger className="mr-4" />
-              <h1 className="text-lg font-semibold">Tenmil</h1>
+              <h1 className="text-lg font-semibold">{getPageTitle()}</h1>
             </div>
             <div className="flex items-center space-x-3">
               <ThemeToggle />
