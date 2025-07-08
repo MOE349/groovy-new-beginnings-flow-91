@@ -337,9 +337,9 @@ const EditAsset = () => {
                   endpoint={`/meter-readings/meter_reading?asset=${id}`}
                   queryKey={["meter_readings", id]}
                   columns={[
-                    { key: 'meter_reading', header: 'Meter Reading', type: 'string' },
-                    { key: 'created_at', header: 'Creation Date', type: 'date' },
-                    { key: 'created_by', header: 'Created By', type: 'object' },
+                    { key: 'meter_reading', header: 'Meter Reading', type: 'string', className: "py-2" },
+                    { key: 'created_at', header: 'Creation Date', type: 'date', className: "py-2" },
+                    { key: 'created_by', header: 'Created By', type: 'object', className: "py-2" },
                     { 
                       key: 'actions', 
                       header: '', 
@@ -351,15 +351,16 @@ const EditAsset = () => {
                             e.stopPropagation();
                             handleDeleteMeterReading(row.id);
                           }}
-                          className="opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8 p-0"
+                          className="opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6 p-0"
                         >
-                          <Trash2 className="h-4 w-4" />
+                          <Trash2 className="h-3 w-3" />
                         </Button>
                       ),
-                      className: "w-12"
+                      className: "w-12 py-2"
                     },
                   ]}
                   emptyMessage="No meter readings found"
+                  className="[&_td]:py-2 [&_th]:py-2 [&_td]:px-3 [&_th]:px-3 text-sm"
                 />
               </div>
             </div>
