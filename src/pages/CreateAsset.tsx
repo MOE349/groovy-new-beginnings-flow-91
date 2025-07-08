@@ -73,156 +73,150 @@ const CreateAsset = () => {
   const currentFields = assetType === "equipment" ? equipmentFields : attachmentFields;
   const assetTypeName = assetType === "equipment" ? "Equipment" : "Attachment";
 
-  return (
+  const customLayout = ({ handleSubmit, formData, handleFieldChange, loading, error, renderField }: any) => (
     <div className="px-6 space-y-0">
-      {/* Top Bar */}
+      {/* Top Bar - Height 3.5rem */}
       <div className="h-14 flex items-center justify-between px-4 py-2 bg-card border-b border-border">
-        <div>
-          <h1 className="text-h3 font-medium text-primary">Create New {assetTypeName}</h1>
-          <p className="text-caption text-muted-foreground">
-            Add a new {assetTypeName.toLowerCase()} to your asset management system
-          </p>
-        </div>
         <Button 
           variant="ghost" 
           onClick={() => setAssetType(null)}
-          className="text-foreground hover:text-accent"
+          className="flex items-center gap-2 text-foreground hover:text-accent"
         >
           Change Type
         </Button>
+        <Button 
+          onClick={handleSubmit} 
+          disabled={loading} 
+          className="bg-secondary text-secondary-foreground hover:bg-secondary/90 px-6"
+        >
+          {loading ? "Loading..." : `Create ${assetTypeName}`}
+        </Button>
       </div>
-
-      <div className="max-w-4xl">
-        <div className="bg-card rounded-md shadow-sm p-4">
-          <ApiForm
-            fields={currentFields}
-            title={`${assetTypeName} Information`}
-            onSubmit={handleSubmit}
-            submitText={`Create ${assetTypeName}`}
-            initialData={{
-              is_online: false,
-            }}
-            customLayout={({ handleSubmit, formData, handleFieldChange, loading, error, renderField }) => (
-              <div className="space-y-4">
-                <h3 className="text-h3 font-medium mb-4 text-primary">{assetTypeName} Information</h3>
-                
-                {/* 2-Column Grid Layout */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-                  {/* Left Column - 35% - Online toggle + image + location */}
-                  <div className="lg:col-span-4 space-y-3 flex flex-col">
+      
+      {/* Equipment Information Card - Compact */}
+      <div className="bg-card rounded-md shadow-sm p-4">
+        <form onSubmit={handleSubmit} className="h-full">
+          <h3 className="text-h3 font-medium mb-4 text-primary">{assetTypeName} Information</h3>
+          
+          {/* 2-Column Grid Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            {/* Left Column - 35% - Online toggle + image + location */}
+            <div className="lg:col-span-4 space-y-3 flex flex-col">
+              <div className="flex items-center space-x-2">
+                <Switch 
+                  checked={formData?.is_online || false} 
+                  onCheckedChange={(checked) => handleFieldChange("is_online", checked)}
+                />
+                <Label className="text-caption font-normal">Online</Label>
+              </div>
+              <div className="w-full h-32 bg-muted rounded border overflow-hidden">
+                <img 
+                  src="/lovable-uploads/cf9d21df-6820-4bea-ae16-54c41a67117e.png" 
+                  alt="Equipment" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="block text-caption font-normal text-right w-24 text-foreground">Location</label>
+                {renderField({ 
+                  name: "location", 
+                  type: "dropdown", 
+                  required: true, 
+                  endpoint: "/company/location", 
+                  queryKey: ["company_location"], 
+                  optionValueKey: "id", 
+                  optionLabelKey: "name"
+                })}
+              </div>
+            </div>
+            
+            {/* Right Column - 65% - Two sub-columns for fields */}
+            <div className="lg:col-span-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3 gap-y-2">
+                {/* First sub-column */}
+                <div className="space-y-2">
+                  <div className="flex items-center space-x-2">
+                    <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Code</label>
+                    <div className="flex-grow">
+                      {renderField({ name: "code", type: "input", required: true, inputType: "text" })}
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Name</label>
+                    <div className="flex-grow">
+                      {renderField({ name: "name", type: "input", required: true, inputType: "text" })}
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-2">
+                    <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0 pt-1">Description</label>
+                    <div className="flex-grow">
+                      {renderField({ name: "description", type: "textarea", rows: 2 })}
+                    </div>
+                  </div>
+                  {assetType === "attachment" && (
                     <div className="flex items-center space-x-2">
-                      <Switch 
-                        checked={formData?.is_online || false} 
-                        onCheckedChange={(checked) => handleFieldChange("is_online", checked)}
-                      />
-                      <Label className="text-caption font-normal">Online</Label>
+                      <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Equipment</label>
+                      <div className="flex-grow">
+                        {renderField({ name: "equipment", type: "dropdown", endpoint: "/assets/equipments", queryKey: ["assets_equipments"], optionValueKey: "id", optionLabelKey: "name" })}
+                      </div>
                     </div>
-                    <div className="w-full h-32 bg-muted rounded border overflow-hidden">
-                      <img 
-                        src="/lovable-uploads/cf9d21df-6820-4bea-ae16-54c41a67117e.png" 
-                        alt="Equipment" 
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <label className="block text-caption font-normal text-right w-24 text-foreground">Location</label>
+                  )}
+                </div>
+                
+                {/* Second sub-column */}
+                <div className="space-y-2">
+                  <div className="flex items-center space-x-2">
+                    <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Category</label>
+                    <div className="flex-grow">
                       {renderField({ 
-                        name: "location", 
+                        name: "category", 
                         type: "dropdown", 
                         required: true, 
-                        endpoint: "/company/location", 
-                        queryKey: ["company_location"], 
+                        endpoint: assetType === "equipment" ? "/assets/equipment_category" : "/assets/attachment_category",
+                        queryKey: assetType === "equipment" ? ["equipment_category"] : ["attachment_category"],
                         optionValueKey: "id", 
                         optionLabelKey: "name"
                       })}
                     </div>
                   </div>
-                  
-                  {/* Right Column - 65% - Two sub-columns for fields */}
-                  <div className="lg:col-span-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3 gap-y-2">
-                      {/* First sub-column */}
-                      <div className="space-y-2">
-                        <div className="flex items-center space-x-2">
-                          <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Code</label>
-                          <div className="flex-grow">
-                            {renderField({ name: "code", type: "input", required: true, inputType: "text" })}
-                          </div>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Name</label>
-                          <div className="flex-grow">
-                            {renderField({ name: "name", type: "input", required: true, inputType: "text" })}
-                          </div>
-                        </div>
-                        <div className="flex items-start space-x-2">
-                          <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0 pt-1">Description</label>
-                          <div className="flex-grow">
-                            {renderField({ name: "description", type: "textarea", rows: 2 })}
-                          </div>
-                        </div>
-                        {assetType === "attachment" && (
-                          <div className="flex items-center space-x-2">
-                            <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Equipment</label>
-                            <div className="flex-grow">
-                              {renderField({ name: "equipment", type: "dropdown", endpoint: "/assets/equipments", queryKey: ["assets_equipments"], optionValueKey: "id", optionLabelKey: "name" })}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                      
-                      {/* Second sub-column */}
-                      <div className="space-y-2">
-                        <div className="flex items-center space-x-2">
-                          <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Category</label>
-                          <div className="flex-grow">
-                            {renderField({ 
-                              name: "category", 
-                              type: "dropdown", 
-                              required: true, 
-                              endpoint: assetType === "equipment" ? "/assets/equipment_category" : "/assets/attachment_category",
-                              queryKey: assetType === "equipment" ? ["equipment_category"] : ["attachment_category"],
-                              optionValueKey: "id", 
-                              optionLabelKey: "name"
-                            })}
-                          </div>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Make</label>
-                          <div className="flex-grow">
-                            {renderField({ name: "make", type: "input", required: true, inputType: "text" })}
-                          </div>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Model</label>
-                          <div className="flex-grow">
-                            {renderField({ name: "model", type: "input", required: true, inputType: "text" })}
-                          </div>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Serial #</label>
-                          <div className="flex-grow">
-                            {renderField({ name: "serial_number", type: "input", required: true, inputType: "text" })}
-                          </div>
-                        </div>
-                      </div>
+                  <div className="flex items-center space-x-2">
+                    <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Make</label>
+                    <div className="flex-grow">
+                      {renderField({ name: "make", type: "input", required: true, inputType: "text" })}
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Model</label>
+                    <div className="flex-grow">
+                      {renderField({ name: "model", type: "input", required: true, inputType: "text" })}
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Serial #</label>
+                    <div className="flex-grow">
+                      {renderField({ name: "serial_number", type: "input", required: true, inputType: "text" })}
                     </div>
                   </div>
                 </div>
-                
-                <div className="pt-4">
-                  <Button 
-                    onClick={handleSubmit} 
-                    disabled={loading} 
-                    className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90"
-                  >
-                    {loading ? "Loading..." : `Create ${assetTypeName}`}
-                  </Button>
-                </div>
               </div>
-            )}
-          />
-        </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <ApiForm
+          fields={currentFields}
+          onSubmit={handleSubmit}
+          initialData={{
+            is_online: false,
+          }}
+          customLayout={customLayout}
+        />
       </div>
     </div>
   );
