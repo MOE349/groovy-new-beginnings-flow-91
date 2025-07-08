@@ -28,7 +28,7 @@ export function Layout({ children }: LayoutProps) {
         <AppSidebar />
         
         <div className="flex-1 flex flex-col">
-          <header className="h-12 flex items-center justify-between border-b bg-background px-4">
+          <header className="h-14 flex items-center justify-between border-b bg-primary text-primary-foreground px-4">
             <div className="flex items-center">
               <SidebarTrigger className="mr-4" />
               <h1 className="text-lg font-semibold">Tenmil</h1>
@@ -38,9 +38,9 @@ export function Layout({ children }: LayoutProps) {
               {user && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="text-sm font-medium hover:bg-muted hover:text-foreground">
-                      {user.name}
-                    </Button>
+                     <Button variant="ghost" className="text-sm font-medium text-primary-foreground hover:bg-secondary hover:text-secondary-foreground">
+                       {user.name}
+                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-48 bg-popover" align="end">
                     <DropdownMenuItem onClick={logout}>
