@@ -26,8 +26,6 @@ export function AppSidebar() {
   const currentPath = location.pathname;
 
   const isActive = (path: string) => currentPath === path;
-  const getNavCls = ({ isActive }: { isActive: boolean }) =>
-    isActive ? "bg-sidebar-primary text-sidebar-primary-foreground font-semibold text-lg hover:bg-sidebar-primary hover:text-sidebar-primary-foreground shadow-sm" : "hover:bg-sidebar-accent/20 text-sidebar-foreground hover:text-sidebar-accent text-lg";
 
   return (
     <Sidebar collapsible="icon">
@@ -38,8 +36,8 @@ export function AppSidebar() {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <NavLink to={item.url} end className={({ isActive }) => getNavCls({ isActive })}>
+                  <SidebarMenuButton asChild isActive={isActive(item.url)}>
+                    <NavLink to={item.url} end>
                       <item.icon className="mr-2 h-4 w-4" />
                       {state === "expanded" && <span>{item.title}</span>}
                     </NavLink>
