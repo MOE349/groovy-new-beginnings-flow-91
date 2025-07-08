@@ -220,7 +220,7 @@ const ApiTable = <T extends Record<string, any>>({
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
       >
-        <div className="overflow-x-auto border border-border/30 rounded-sm">
+        <div className="overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
@@ -289,8 +289,12 @@ const ApiTable = <T extends Record<string, any>>({
   }
 
   return (
-    <Card className={`border-2 border-border ${className}`}>
-      <CardContent className="p-0.5">{content()}</CardContent>
+    <Card className={className}>
+      <CardContent className="p-2">
+        <div className="border border-border rounded-sm p-1">
+          {content()}
+        </div>
+      </CardContent>
     </Card>
   );
 };
