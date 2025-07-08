@@ -89,8 +89,8 @@ const CreateEquipment = () => {
             </div>
             
             {/* Right Column - 65% - Three equal sub-columns for fields */}
-            <div className="lg:col-span-8 w-full">
-              <div className="grid grid-cols-3 gap-x-4 gap-y-2 w-full">
+            <div className="lg:col-span-8 w-full flex justify-center">
+              <div className="grid grid-cols-3 gap-x-8 gap-y-2 max-w-4xl w-full">
                 {/* First sub-column */}
                 <div className="space-y-2">
                   <div className="flex items-center space-x-2">
