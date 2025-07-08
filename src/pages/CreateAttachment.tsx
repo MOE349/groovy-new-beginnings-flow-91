@@ -180,7 +180,7 @@ const CreateAttachment = () => {
         <Tabs defaultValue="parts-bom" className="h-full">
           {/* Compact Pill-Style Tab List */}
           <div className="h-10 overflow-x-auto">
-            <TabsList className="grid w-full grid-cols-5 h-10 bg-card border border-border rounded-md p-0">
+            <TabsList className="grid w-full grid-cols-7 h-10 bg-card border border-border rounded-md p-0">
               <TabsTrigger 
                 value="parts-bom" 
                 className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
@@ -204,6 +204,18 @@ const CreateAttachment = () => {
                 className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
               >
                 Financials
+              </TabsTrigger>
+              <TabsTrigger 
+                value="files"
+                className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
+              >
+                Files
+              </TabsTrigger>
+              <TabsTrigger 
+                value="backlog"
+                className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
+              >
+                Backlog
               </TabsTrigger>
               <TabsTrigger 
                 value="log"
@@ -239,6 +251,18 @@ const CreateAttachment = () => {
             <div className="bg-card rounded-sm shadow-xs p-4 space-y-4">
               <h3 className="text-h3 font-medium text-foreground">Financials</h3>
               <p className="text-caption text-muted-foreground">Financial information content will go here</p>
+            </div>
+          </TabsContent>
+          <TabsContent value="files" className="mt-4">
+            <div className="bg-card rounded-sm shadow-xs p-4 space-y-4">
+              <h3 className="text-h3 font-medium text-foreground">Files</h3>
+              <p className="text-caption text-muted-foreground">File attachments and documents will go here</p>
+            </div>
+          </TabsContent>
+          <TabsContent value="backlog" className="mt-4">
+            <div className="bg-card rounded-sm shadow-xs p-4 space-y-4">
+              <h3 className="text-h3 font-medium text-foreground">Backlog</h3>
+              <p className="text-caption text-muted-foreground">Backlog items and tasks will go here</p>
             </div>
           </TabsContent>
           <TabsContent value="log" className="mt-4">
