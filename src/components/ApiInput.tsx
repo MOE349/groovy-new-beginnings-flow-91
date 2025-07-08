@@ -27,9 +27,26 @@ const ApiInput = ({
   type = "text",
   hideLabel = false,
 }: ApiInputProps) => {
+  // If hideLabel is true, return just the Input component for perfect alignment
+  if (hideLabel) {
+    return (
+      <Input
+        id={name}
+        name={name}
+        type={type}
+        placeholder={placeholder}
+        value={value}
+        onChange={(e) => onChange?.(e.target.value)}
+        disabled={disabled}
+        required={required}
+        className={className}
+      />
+    );
+  }
+
   return (
-    <div className={cn(hideLabel ? "" : "space-y-2", className)}>
-      {label && !hideLabel && (
+    <div className={cn("space-y-2", className)}>
+      {label && (
         <Label htmlFor={name} className={required ? "after:content-['*'] after:text-destructive" : ""}>
           {label}
         </Label>
