@@ -125,7 +125,7 @@ const EditAsset = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="space-y-1">
+              <div className="space-y-1 w-1/2">
                 <label className="block text-caption font-normal text-right w-24 text-foreground">Location</label>
                 {renderField({ 
                   name: "location", 
