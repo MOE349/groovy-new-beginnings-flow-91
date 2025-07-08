@@ -28,7 +28,7 @@ export function Layout({ children }: LayoutProps) {
         <AppSidebar />
         
         <div className="flex-1 flex flex-col">
-          <header className="h-10 flex items-center justify-between border-b bg-primary text-primary-foreground px-4">
+          <header className="h-8 flex items-center justify-between border-b bg-primary text-primary-foreground px-3">
             <div className="flex items-center">
               <SidebarTrigger className="mr-4" />
               <h1 className="text-lg font-semibold">Tenmil</h1>
