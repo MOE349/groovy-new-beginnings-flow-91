@@ -27,7 +27,7 @@ export function AppSidebar() {
 
   const isActive = (path: string) => currentPath === path;
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
-    isActive ? "bg-secondary/10 text-secondary font-medium" : "hover:bg-accent/20 text-accent hover:text-accent";
+    isActive ? "bg-sidebar-primary/10 text-sidebar-primary font-medium text-lg" : "hover:bg-sidebar-accent/20 text-sidebar-foreground hover:text-sidebar-accent text-lg";
 
   return (
     <Sidebar collapsible="icon">

@@ -63,13 +63,13 @@
     --shadow-hover: 0 4px 6px rgba(0, 0, 0, 0.1);
 
     /* TenMil Sidebar colors */
-    --sidebar-background: 0 0% 96%; /* #F5F5F5 - surface color */
-    --sidebar-foreground: 227 45% 19%; /* #252D63 - TenMil Navy */
+    --sidebar-background: 227 45% 19%; /* #252D63 - TenMil Navy (dark blue) */
+    --sidebar-foreground: 46 100% 70%; /* #FFCF64 - TenMil Gold (yellow) */
     --sidebar-primary: 46 100% 70%; /* #FFCF64 - TenMil Gold for active */
     --sidebar-primary-foreground: 227 45% 19%;
-    --sidebar-accent: 202 58% 58%; /* #58A2D2 - TenMil Light Blue */
+    --sidebar-accent: 46 100% 70%; /* #FFCF64 - TenMil Gold for hover */
     --sidebar-accent-foreground: 227 45% 19%;
-    --sidebar-border: 220 13% 91%; /* #E5E7EB */
+    --sidebar-border: 227 45% 25%; /* Slightly lighter navy for borders */
     --sidebar-ring: 202 58% 58%; /* TenMil Light Blue */
   }
 
@@ -103,13 +103,13 @@
     --input: 0 0% 20%;
     --ring: 202 58% 58%; /* TenMil Light Blue */
 
-    --sidebar-background: 227 45% 12%;
-    --sidebar-foreground: 0 0% 85%;
+    --sidebar-background: 227 45% 15%; /* Dark TenMil Navy */
+    --sidebar-foreground: 46 100% 70%; /* TenMil Gold (yellow) */
     --sidebar-primary: 46 100% 70%;
     --sidebar-primary-foreground: 227 45% 19%;
-    --sidebar-accent: 202 58% 58%;
+    --sidebar-accent: 46 100% 70%;
     --sidebar-accent-foreground: 227 45% 19%;
-    --sidebar-border: 0 0% 20%;
+    --sidebar-border: 227 45% 25%;
     --sidebar-ring: 202 58% 58%;
   }
 }
