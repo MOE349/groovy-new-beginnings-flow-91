@@ -12,7 +12,6 @@ interface ApiInputProps {
   required?: boolean;
   disabled?: boolean;
   type?: "text" | "email" | "password" | "number";
-  hideLabel?: boolean;
 }
 
 const ApiInput = ({
@@ -25,25 +24,7 @@ const ApiInput = ({
   required = false,
   disabled = false,
   type = "text",
-  hideLabel = false,
 }: ApiInputProps) => {
-  // If hideLabel is true, return just the Input component for perfect alignment
-  if (hideLabel) {
-    return (
-      <Input
-        id={name}
-        name={name}
-        type={type}
-        placeholder={placeholder}
-        value={value}
-        onChange={(e) => onChange?.(e.target.value)}
-        disabled={disabled}
-        required={required}
-        className={className}
-      />
-    );
-  }
-
   return (
     <div className={cn("space-y-2", className)}>
       {label && (
