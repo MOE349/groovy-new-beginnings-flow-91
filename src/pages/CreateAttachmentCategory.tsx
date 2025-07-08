@@ -25,21 +25,27 @@ const CreateAttachmentCategory = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">Create Attachment Category</h1>
-        <p className="text-muted-foreground">
-          Add a new attachment category
-        </p>
+    <div className="px-6 space-y-0">
+      {/* Top Bar */}
+      <div className="h-14 flex items-center justify-between px-4 py-2 bg-card border-b border-border">
+        <div>
+          <h1 className="text-h3 font-medium text-primary">Create Attachment Category</h1>
+          <p className="text-caption text-muted-foreground">
+            Add a new attachment category
+          </p>
+        </div>
       </div>
       
-      <ApiForm
-        fields={attachmentCategoryFormFields}
-        title="Attachment Category Information"
-        onSubmit={handleSubmit}
-        submitText="Create Attachment Category"
-        className="max-w-2xl"
-      />
+      <div className="max-w-2xl">
+        <div className="bg-card rounded-md shadow-sm p-4">
+          <ApiForm
+            fields={attachmentCategoryFormFields}
+            title="Attachment Category Information"
+            onSubmit={handleSubmit}
+            submitText="Create Attachment Category"
+          />
+        </div>
+      </div>
     </div>
   );
 };
