@@ -33,36 +33,36 @@ const CreateAsset = () => {
 
   if (!assetType) {
     return (
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold">Create New Asset</h1>
-          <p className="text-muted-foreground">
-            Choose the type of asset you want to create
-          </p>
+      <div className="px-6 space-y-4">
+        <div className="h-14 flex items-center justify-between px-4 py-2 bg-card border-b border-border">
+          <div>
+            <h1 className="text-h3 font-medium text-primary">Create New Asset</h1>
+            <p className="text-caption text-muted-foreground">
+              Choose the type of asset you want to create
+            </p>
+          </div>
         </div>
 
-        <div className="max-w-2xl">
-          <Card>
-            <CardHeader>
-              <CardTitle>Select Asset Type</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
+        <div className="max-w-xl">
+          <div className="bg-card rounded-md shadow-sm p-4">
+            <h3 className="text-h3 font-medium mb-4 text-primary">Select Asset Type</h3>
+            <div className="space-y-3">
               <Button 
                 onClick={() => setAssetType("equipment")} 
-                className="w-full"
-                variant="outline"
+                className="w-full h-12 bg-secondary text-secondary-foreground hover:bg-secondary/90"
+                variant="default"
               >
                 Create Equipment
               </Button>
               <Button 
                 onClick={() => setAssetType("attachment")} 
-                className="w-full"
+                className="w-full h-12"
                 variant="outline"
               >
                 Create Attachment
               </Button>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -72,29 +72,36 @@ const CreateAsset = () => {
   const assetTypeName = assetType === "equipment" ? "Equipment" : "Attachment";
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="px-6 space-y-0">
+      {/* Top Bar */}
+      <div className="h-14 flex items-center justify-between px-4 py-2 bg-card border-b border-border">
         <div>
-          <h1 className="text-3xl font-bold">Create New {assetTypeName}</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-h3 font-medium text-primary">Create New {assetTypeName}</h1>
+          <p className="text-caption text-muted-foreground">
             Add a new {assetTypeName.toLowerCase()} to your asset management system
           </p>
         </div>
-        <Button variant="outline" onClick={() => setAssetType(null)}>
+        <Button 
+          variant="ghost" 
+          onClick={() => setAssetType(null)}
+          className="text-foreground hover:text-accent"
+        >
           Change Type
         </Button>
       </div>
 
-      <div className="max-w-2xl">
-        <ApiForm
-          fields={currentFields}
-          title={`${assetTypeName} Information`}
-          onSubmit={handleSubmit}
-          submitText={`Create ${assetTypeName}`}
-          initialData={{
-            is_online: false,
-          }}
-        />
+      <div className="max-w-4xl">
+        <div className="bg-card rounded-md shadow-sm p-4">
+          <ApiForm
+            fields={currentFields}
+            title={`${assetTypeName} Information`}
+            onSubmit={handleSubmit}
+            submitText={`Create ${assetTypeName}`}
+            initialData={{
+              is_online: false,
+            }}
+          />
+        </div>
       </div>
     </div>
   );

@@ -82,13 +82,13 @@ const EditAsset = () => {
   };
 
   const customLayout = ({ handleSubmit, formData, handleFieldChange, loading, error, renderField }: any) => (
-    <div className="space-y-4">
-      {/* Top Action Bar */}
-      <div className="flex items-center gap-3 p-4 border rounded-lg bg-background">
+    <div className="px-6 space-y-0">
+      {/* Top Bar - Height 3.5rem */}
+      <div className="h-14 flex items-center justify-between px-4 py-2 bg-card border-b border-border">
         <Button 
-          variant="outline" 
+          variant="ghost" 
           onClick={() => navigate("/assets")}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 text-foreground hover:text-accent"
         >
           <ArrowLeft className="h-4 w-4" />
           Back
@@ -96,51 +96,100 @@ const EditAsset = () => {
         <Button 
           onClick={handleSubmit} 
           disabled={loading} 
-          className="px-8"
+          className="bg-secondary text-secondary-foreground hover:bg-secondary/90 px-6"
         >
           {loading ? "Loading..." : "Save"}
         </Button>
       </div>
       
-      {/* Asset Information Box */}
-      <div className="border rounded-lg p-4 overflow-hidden">
+      {/* Equipment Information Card - Compact */}
+      <div className="bg-card rounded-md shadow-sm p-4">
         <form onSubmit={handleSubmit} className="h-full">
-          <div className="mb-4">
-            <h2 className="text-xl font-semibold">{assetTypeName} Information</h2>
-          </div>
-        <div className="grid grid-cols-6 gap-6">
-          {/* Left side - Online toggle and photo placeholder */}
-          <div className="col-span-1 space-y-4">
-            {renderField({ name: "is_online", type: "switch", label: "Online", description: "Toggle between Online/Offline status" })}
-            <div className="w-full h-40 bg-red-500 rounded border"></div>
-            {renderField({ name: "location", type: "dropdown", label: "Location", required: true, endpoint: "/company/location", queryKey: ["company_location"], optionValueKey: "id", optionLabelKey: "name" })}
-          </div>
+          <h3 className="text-h3 font-medium mb-4 text-primary">{assetTypeName} Information</h3>
           
-          {/* Middle - Code, Asset name, Description */}
-          <div className="col-span-2 space-y-3">
-            {renderField({ name: "code", type: "input", label: "Code", required: true, inputType: "text" })}
-            {renderField({ name: "name", type: "input", label: `${assetTypeName} Name`, required: true, inputType: "text" })}
-            {renderField({ name: "description", type: "textarea", label: "Description", rows: 4 })}
-            {assetType === "attachment" && renderField({ name: "equipment", type: "dropdown", label: "Equipment", endpoint: "/assets/equipments", queryKey: ["assets_equipments"], optionValueKey: "id", optionLabelKey: "name" })}
+          {/* 2-Column Grid Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            {/* Left Column - 35% - Online toggle + image + location */}
+            <div className="lg:col-span-4 space-y-3 flex flex-col">
+              <div className="flex items-center space-x-2">
+                <Switch 
+                  checked={formData?.is_online || false} 
+                  onCheckedChange={(checked) => handleFieldChange("is_online", checked)}
+                />
+                <Label className="text-caption font-normal">Online</Label>
+              </div>
+              <div className="w-full h-32 bg-muted rounded border flex items-center justify-center text-muted-foreground text-caption">
+                Equipment Photo
+              </div>
+              <div className="space-y-1">
+                <label className="block text-caption font-normal text-right w-24 text-foreground">Location</label>
+                {renderField({ 
+                  name: "location", 
+                  type: "dropdown", 
+                  required: true, 
+                  endpoint: "/company/location", 
+                  queryKey: ["company_location"], 
+                  optionValueKey: "id", 
+                  optionLabelKey: "name"
+                })}
+              </div>
+            </div>
+            
+            {/* Right Column - 65% - Two sub-columns for fields */}
+            <div className="lg:col-span-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-3">
+                {/* First sub-column */}
+                <div className="space-y-3">
+                  <div className="flex items-center space-x-2">
+                    <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Code</label>
+                    {renderField({ name: "code", type: "input", required: true, inputType: "text" })}
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Name</label>
+                    {renderField({ name: "name", type: "input", required: true, inputType: "text" })}
+                  </div>
+                  <div className="flex items-start space-x-2">
+                    <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0 pt-2">Description</label>
+                    {renderField({ name: "description", type: "textarea", rows: 3 })}
+                  </div>
+                  {assetType === "attachment" && (
+                    <div className="flex items-center space-x-2">
+                      <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Equipment</label>
+                      {renderField({ name: "equipment", type: "dropdown", endpoint: "/assets/equipments", queryKey: ["assets_equipments"], optionValueKey: "id", optionLabelKey: "name" })}
+                    </div>
+                  )}
+                </div>
+                
+                {/* Second sub-column */}
+                <div className="space-y-3">
+                  <div className="flex items-center space-x-2">
+                    <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Category</label>
+                    {renderField({ 
+                      name: "category", 
+                      type: "dropdown", 
+                      required: true, 
+                      endpoint: assetType === "equipment" ? "/assets/equipment_category" : "/assets/attachment_category",
+                      queryKey: assetType === "equipment" ? ["equipment_category"] : ["attachment_category"],
+                      optionValueKey: "id", 
+                      optionLabelKey: "name"
+                    })}
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Make</label>
+                    {renderField({ name: "make", type: "input", required: true, inputType: "text" })}
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Model</label>
+                    {renderField({ name: "model", type: "input", required: true, inputType: "text" })}
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Serial #</label>
+                    {renderField({ name: "serial_number", type: "input", required: true, inputType: "text" })}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          
-          {/* Right side - Category, Make, Model, Serial Number */}
-          <div className="col-span-3 space-y-3">
-            {renderField({ 
-              name: "category", 
-              type: "dropdown", 
-              label: "Category", 
-              required: true, 
-              endpoint: assetType === "equipment" ? "/assets/equipment_category" : "/assets/attachment_category",
-              queryKey: assetType === "equipment" ? ["equipment_category"] : ["attachment_category"],
-              optionValueKey: "id", 
-              optionLabelKey: "name" 
-            })}
-            {renderField({ name: "make", type: "input", label: "Make", required: true, inputType: "text" })}
-            {renderField({ name: "model", type: "input", label: "Model", required: true, inputType: "text" })}
-            {renderField({ name: "serial_number", type: "input", label: "Serial Number", required: true, inputType: "text" })}
-          </div>
-        </div>
         </form>
       </div>
     </div>
@@ -157,84 +206,113 @@ const EditAsset = () => {
         />
       </div>
 
-      {/* Tabs Section */}
-      <div className="flex-1">
+      {/* Compact Tabs Section */}
+      <div className="px-6">
         <Tabs defaultValue="parts-bom" className="h-full">
-          <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="parts-bom">Parts/BOM</TabsTrigger>
-            <TabsTrigger value="metering-events">Metering/Events</TabsTrigger>
-            <TabsTrigger value="scheduled-maintenance">Scheduled Maintenance</TabsTrigger>
-            <TabsTrigger value="financials">Financials</TabsTrigger>
-            <TabsTrigger value="log">Log</TabsTrigger>
-          </TabsList>
-          <TabsContent value="parts-bom" className="h-full mt-4">
-            <div className="border rounded-lg p-4 h-full">
-              <h3 className="text-lg font-semibold mb-2">Parts/BOM</h3>
-              <p>Parts and Bill of Materials content will go here</p>
+          {/* Compact Pill-Style Tab List */}
+          <div className="h-10 overflow-x-auto">
+            <TabsList className="grid w-full grid-cols-5 h-10 bg-card border border-border rounded-md p-0">
+              <TabsTrigger 
+                value="parts-bom" 
+                className="px-4 py-1 text-caption font-normal data-[state=active]:text-secondary data-[state=active]:border-b-2 data-[state=active]:border-secondary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
+              >
+                Parts/BOM
+              </TabsTrigger>
+              <TabsTrigger 
+                value="metering-events"
+                className="px-4 py-1 text-caption font-normal data-[state=active]:text-secondary data-[state=active]:border-b-2 data-[state=active]:border-secondary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
+              >
+                Metering/Events
+              </TabsTrigger>
+              <TabsTrigger 
+                value="scheduled-maintenance"
+                className="px-4 py-1 text-caption font-normal data-[state=active]:text-secondary data-[state=active]:border-b-2 data-[state=active]:border-secondary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
+              >
+                Scheduled Maintenance
+              </TabsTrigger>
+              <TabsTrigger 
+                value="financials"
+                className="px-4 py-1 text-caption font-normal data-[state=active]:text-secondary data-[state=active]:border-b-2 data-[state=active]:border-secondary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
+              >
+                Financials
+              </TabsTrigger>
+              <TabsTrigger 
+                value="log"
+                className="px-4 py-1 text-caption font-normal data-[state=active]:text-secondary data-[state=active]:border-b-2 data-[state=active]:border-secondary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
+              >
+                Log
+              </TabsTrigger>
+            </TabsList>
+          </div>
+          
+          {/* Tab Content Panels - Compact */}
+          <TabsContent value="parts-bom" className="mt-4">
+            <div className="bg-card rounded-sm shadow-xs p-4 space-y-4">
+              <h3 className="text-h3 font-medium text-foreground">Parts/BOM</h3>
+              <p className="text-caption text-muted-foreground">Parts and Bill of Materials content will go here</p>
             </div>
           </TabsContent>
-          <TabsContent value="metering-events" className="h-full mt-4">
-            <div className="border rounded-lg p-6 h-full flex flex-col gap-6">
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Metering/Events</h3>
-                
-                {/* Add Meter Reading Form - Horizontal Layout */}
-                <div className="flex items-end gap-4 mb-6">
-                  <div className="w-80">
-                    <label className="block text-sm font-medium mb-2">
-                      Meter Reading <span className="text-red-500">*</span>
-                    </label>
-                    <ApiForm
-                      fields={[
-                        {
-                          name: "meter_reading",
-                          type: "input",
-                          inputType: "text",
-                          required: true
-                        }
-                      ]}
-                      onSubmit={async (data) => {
-                        const submissionData = {
-                          ...data,
-                          asset: id
-                        };
-                        try {
-                          await apiPost("/meter-readings/meter_reading", submissionData);
-                          queryClient.invalidateQueries({ queryKey: ["meter_readings", id] });
-                          toast({
-                            title: "Success",
-                            description: "Meter reading added successfully!",
-                          });
-                        } catch (error: any) {
-                          toast({
-                            title: "Error",
-                            description: error.message || "Failed to add meter reading",
-                            variant: "destructive",
-                          });
-                        }
-                      }}
-                      customLayout={({ handleSubmit, renderField }) => (
-                        <div className="flex items-center gap-4">
-                          <div className="w-60">
-                            {renderField({ 
-                              name: "meter_reading", 
-                              type: "input", 
-                              inputType: "text", 
-                              required: true 
-                            })}
-                          </div>
-                          <Button onClick={handleSubmit} className="px-8">
-                            Save
-                          </Button>
+          
+          <TabsContent value="metering-events" className="mt-4">
+            <div className="bg-card rounded-sm shadow-xs p-4 space-y-4">
+              <h3 className="text-h3 font-medium text-foreground">Metering/Events</h3>
+              
+              {/* Add Meter Reading Form - Compact */}
+              <div className="flex items-end gap-4">
+                <div className="w-80">
+                  <label className="block text-caption font-normal mb-1 text-foreground">
+                    Meter Reading <span className="text-destructive">*</span>
+                  </label>
+                  <ApiForm
+                    fields={[
+                      {
+                        name: "meter_reading",
+                        type: "input",
+                        inputType: "text",
+                        required: true
+                      }
+                    ]}
+                    onSubmit={async (data) => {
+                      const submissionData = {
+                        ...data,
+                        asset: id
+                      };
+                      try {
+                        await apiPost("/meter-readings/meter_reading", submissionData);
+                        queryClient.invalidateQueries({ queryKey: ["meter_readings", id] });
+                        toast({
+                          title: "Success",
+                          description: "Meter reading added successfully!",
+                        });
+                      } catch (error: any) {
+                        toast({
+                          title: "Error",
+                          description: error.message || "Failed to add meter reading",
+                          variant: "destructive",
+                        });
+                      }
+                    }}
+                    customLayout={({ handleSubmit, renderField }) => (
+                      <div className="flex items-center gap-3">
+                        <div className="w-48">
+                          {renderField({ 
+                            name: "meter_reading", 
+                            type: "input", 
+                            inputType: "text", 
+                            required: true
+                          })}
                         </div>
-                      )}
-                    />
-                  </div>
+                        <Button onClick={handleSubmit} className="h-10 px-6 bg-secondary text-secondary-foreground hover:bg-secondary/90">
+                          Save
+                        </Button>
+                      </div>
+                    )}
+                  />
                 </div>
               </div>
 
               {/* Meter Readings Table */}
-              <div className="flex-1">
+              <div className="space-y-2">
                 <ApiTable
                   endpoint={`/meter-readings/meter_reading?asset=${id}`}
                   queryKey={["meter_readings", id]}
@@ -253,7 +331,7 @@ const EditAsset = () => {
                             e.stopPropagation();
                             handleDeleteMeterReading(row.id);
                           }}
-                          className="opacity-0 group-hover:opacity-100 transition-opacity"
+                          className="opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8 p-0"
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
@@ -266,22 +344,25 @@ const EditAsset = () => {
               </div>
             </div>
           </TabsContent>
-          <TabsContent value="scheduled-maintenance" className="h-full mt-4">
-            <div className="border rounded-lg p-4 h-full">
-              <h3 className="text-lg font-semibold mb-2">Scheduled Maintenance</h3>
-              <p>Scheduled maintenance content will go here</p>
+          
+          <TabsContent value="scheduled-maintenance" className="mt-4">
+            <div className="bg-card rounded-sm shadow-xs p-4 space-y-4">
+              <h3 className="text-h3 font-medium text-foreground">Scheduled Maintenance</h3>
+              <p className="text-caption text-muted-foreground">Scheduled maintenance content will go here</p>
             </div>
           </TabsContent>
-          <TabsContent value="financials" className="h-full mt-4">
-            <div className="border rounded-lg p-4 h-full">
-              <h3 className="text-lg font-semibold mb-2">Financials</h3>
-              <p>Financial information content will go here</p>
+          
+          <TabsContent value="financials" className="mt-4">
+            <div className="bg-card rounded-sm shadow-xs p-4 space-y-4">
+              <h3 className="text-h3 font-medium text-foreground">Financials</h3>
+              <p className="text-caption text-muted-foreground">Financial information content will go here</p>
             </div>
           </TabsContent>
-          <TabsContent value="log" className="h-full mt-4">
-            <div className="border rounded-lg p-4 h-full">
-              <h3 className="text-lg font-semibold mb-2">Log</h3>
-              <p>Activity log content will go here</p>
+          
+          <TabsContent value="log" className="mt-4">
+            <div className="bg-card rounded-sm shadow-xs p-4 space-y-4">
+              <h3 className="text-h3 font-medium text-foreground">Log</h3>
+              <p className="text-caption text-muted-foreground">Activity log content will go here</p>
             </div>
           </TabsContent>
         </Tabs>
