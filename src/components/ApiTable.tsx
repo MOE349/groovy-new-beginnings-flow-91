@@ -269,7 +269,7 @@ const ApiTable = <T extends Record<string, any>>({
 
   if (title) {
     return (
-      <Card className={className}>
+      <Card className={`p-0 ${className}`}>
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle>{title}</CardTitle>
@@ -283,13 +283,13 @@ const ApiTable = <T extends Record<string, any>>({
             )}
           </div>
         </CardHeader>
-        <CardContent>{content()}</CardContent>
+        <CardContent className="p-0">{content()}</CardContent>
       </Card>
     );
   }
 
   return (
-    <Card className={className}>
+    <Card className={`p-0 ${className}`}>
       <CardContent className="p-0">
         <div className="border border-border rounded-sm">
           {content()}
