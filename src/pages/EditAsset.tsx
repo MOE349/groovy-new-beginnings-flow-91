@@ -332,7 +332,7 @@ const EditAsset = () => {
               </div>
 
               {/* Meter Readings Table */}
-              <div className="space-y-2">
+              <div className="space-y-2 w-1/2">
                 <ApiTable
                   endpoint={`/meter-readings/meter_reading?asset=${id}`}
                   queryKey={["meter_readings", id]}
