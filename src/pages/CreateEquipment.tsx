@@ -65,7 +65,7 @@ const CreateEquipment = () => {
               borderBottom: '1px solid rgba(0,0,0,0.05)'
             }}
           >
-            <h3 className="text-h3 font-medium text-primary">Equipment Information</h3>
+            <h3 className="text-h3 font-medium text-primary ml-6">Equipment Information</h3>
             {(formData?.code || formData?.name) && (
               <span className="text-h3 font-medium text-muted-foreground ml-16">
                 {formData?.code && `(${formData.code})`} {formData?.name}

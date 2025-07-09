@@ -65,7 +65,7 @@ const CreateAttachment = () => {
               borderBottom: '1px solid rgba(0,0,0,0.05)'
             }}
           >
-            <h3 className="text-h3 font-medium text-primary">Attachment Information</h3>
+            <h3 className="text-h3 font-medium text-primary ml-6">Attachment Information</h3>
           </div>
           
           {/* Layout matching reference image */}
