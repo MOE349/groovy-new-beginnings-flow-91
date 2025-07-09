@@ -114,30 +114,30 @@ const EditAsset = () => {
               {/* Industrial Toggle Switch */}
               <div className="w-48">
                 <div 
-                  className={`relative w-full h-8 rounded-md border-2 cursor-pointer transition-all duration-300 ${
+                  className={`relative w-full h-12 rounded-lg border-2 cursor-pointer transition-all duration-300 ${
                     formData?.is_online 
-                      ? 'bg-gradient-to-r from-gray-700 to-green-600 border-gray-600 shadow-inner' 
-                      : 'bg-gradient-to-r from-red-600 to-gray-700 border-gray-600 shadow-inner'
+                      ? 'bg-green-600 border-green-700 shadow-lg shadow-green-500/30' 
+                      : 'bg-red-600 border-red-700 shadow-lg shadow-red-500/30'
                   }`}
                   onClick={() => handleFieldChange("is_online", !formData?.is_online)}
                 >
                   {/* Background Text Labels */}
-                  <div className="absolute inset-0 flex items-center justify-between px-2 text-white font-semibold text-xs">
-                    <span className={`transition-opacity ${!formData?.is_online ? 'opacity-100' : 'opacity-50'}`}>
-                      OFF
+                  <div className="absolute inset-0 flex items-center justify-between px-3 text-white font-bold text-sm">
+                    <span className={`transition-opacity ${!formData?.is_online ? 'opacity-100' : 'opacity-40'}`}>
+                      OFFLINE
                     </span>
-                    <span className={`transition-opacity ${formData?.is_online ? 'opacity-100' : 'opacity-50'}`}>
-                      ON
+                    <span className={`transition-opacity ${formData?.is_online ? 'opacity-100' : 'opacity-40'}`}>
+                      ONLINE
                     </span>
                   </div>
                   
                   {/* Sliding Switch Handle */}
                   <div 
-                    className={`absolute top-1 w-16 h-6 bg-gradient-to-b from-gray-300 via-gray-100 to-gray-300 rounded-sm shadow-lg border border-gray-400 transition-all duration-300 flex items-center justify-center ${
-                      formData?.is_online ? 'translate-x-[104px]' : 'translate-x-1'
+                    className={`absolute top-1 w-20 h-10 bg-gray-200 rounded-md shadow-lg border border-gray-300 transition-all duration-300 flex items-center justify-center ${
+                      formData?.is_online ? 'translate-x-[136px]' : 'translate-x-1'
                     }`}
                   >
-                    <div className="w-2 h-4 bg-gradient-to-b from-gray-600 to-gray-800 rounded-xs"></div>
+                    <div className="w-3 h-6 bg-gray-500 rounded-sm"></div>
                   </div>
                 </div>
               </div>
