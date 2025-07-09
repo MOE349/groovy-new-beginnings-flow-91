@@ -213,19 +213,6 @@ const CreateAttachment = () => {
                     </div>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Project</label>
-                    <div className="flex-grow">
-                      {renderField({ 
-                        name: "project", 
-                        type: "dropdown", 
-                        endpoint: "/company/projects", 
-                        queryKey: ["company_projects"], 
-                        optionValueKey: "id", 
-                        optionLabelKey: "name"
-                      })}
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-2">
                     <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Account Code</label>
                     <div className="flex-grow">
                       {renderField({ 
@@ -237,6 +224,19 @@ const CreateAttachment = () => {
                           { id: "acc003", name: "ACC-003" },
                           { id: "acc004", name: "ACC-004" }
                         ]
+                      })}
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Project</label>
+                    <div className="flex-grow">
+                      {renderField({ 
+                        name: "project", 
+                        type: "dropdown", 
+                        endpoint: "/company/projects", 
+                        queryKey: ["company_projects"], 
+                        optionValueKey: "id", 
+                        optionLabelKey: "name"
                       })}
                     </div>
                   </div>
