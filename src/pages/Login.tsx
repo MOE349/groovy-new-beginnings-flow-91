@@ -27,11 +27,11 @@ const Login: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-primary p-4">
-      <div className="mb-8 w-full max-w-md">
+      <div className="mb-8">
         <img 
           src="/lovable-uploads/7a6b4ea9-42b9-4df7-a496-013f691bbde6.png" 
           alt="TenMil Fleet Management Logo" 
-          className="w-full h-auto"
+          className="h-16 w-auto"
         />
       </div>
       <Card className="w-full max-w-md">
