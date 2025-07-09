@@ -55,7 +55,7 @@ const CreateWorkOrder = () => {
             className="flex items-center gap-4 mb-4 py-1 -mx-2 bg-muted-foreground/20 border border-border rounded-md"
           >
             <h3 className="text-h3 font-medium text-primary ml-6">Work Order Information</h3>
-            <div className="ml-auto mr-6 text-sm text-muted-foreground">
+            <div className="ml-6 text-sm text-muted-foreground">
               Code: {formData?.code || "Auto-generated"}
             </div>
           </div>
