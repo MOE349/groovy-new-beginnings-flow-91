@@ -93,7 +93,7 @@
     --muted: 227 45% 20%;
     --muted-foreground: 0 0% 60%;
 
-    --accent: 218 42% 49%; /* #4678B9 - Light Blue */
+    --accent: 202 58% 58%; /* TenMil Light Blue */
     --accent-foreground: 0 0% 100%;
 
     --destructive: 4 90% 50%;
@@ -101,7 +101,7 @@
 
     --border: 0 0% 25%;
     --input: 0 0% 20%;
-    --ring: 218 42% 49%; /* #4678B9 - Light Blue */
+    --ring: 202 58% 58%; /* TenMil Light Blue */
 
     --sidebar-background: 227 45% 15%; /* Dark TenMil Navy */
     --sidebar-foreground: 46 100% 70%; /* TenMil Gold (yellow) */
