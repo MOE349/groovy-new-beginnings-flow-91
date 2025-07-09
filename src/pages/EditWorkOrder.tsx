@@ -1,12 +1,10 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
 import ApiForm from "@/components/ApiForm";
 import { apiPost, apiGet, apiPut } from "@/utils/apis";
 import GearSpinner from "@/components/ui/gear-spinner";
-import { AlertTriangle, ArrowLeft } from "lucide-react";
+import { AlertTriangle, ArrowLeft, Check, X } from "lucide-react";
 import { workOrderFields } from "@/data/workOrderFormFields";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -127,12 +125,29 @@ const EditWorkOrder = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 -mt-2">
             {/* Left Column - Online toggle + image + location */}
             <div className="lg:col-span-4 space-y-3 flex flex-col">
-              <div className="flex items-center space-x-2">
-                <Switch 
-                  checked={formData?.is_online || false} 
-                  onCheckedChange={(checked) => handleFieldChange("is_online", checked)}
-                />
-                <Label className="text-caption font-normal">Online</Label>
+              <div className="flex items-center space-x-0">
+                <div 
+                  className={`flex items-center cursor-pointer transition-all duration-300 rounded border w-48 h-8 ${
+                    formData?.is_online 
+                      ? 'bg-green-500 border-green-600' 
+                      : 'bg-red-500 border-red-600'
+                  }`}
+                  onClick={() => handleFieldChange("is_online", !formData?.is_online)}
+                >
+                  {/* Icon section */}
+                  <div className="flex items-center justify-center w-8 h-full text-white">
+                    {formData?.is_online ? (
+                      <Check size={12} />
+                    ) : (
+                      <X size={12} />
+                    )}
+                  </div>
+                  
+                  {/* Status text */}
+                  <div className="flex-1 text-sm font-medium text-white text-center">
+                    {formData?.is_online ? 'Online' : 'Offline'}
+                  </div>
+                </div>
               </div>
               <div className="w-full h-32 bg-muted rounded border overflow-hidden">
                 <img 
