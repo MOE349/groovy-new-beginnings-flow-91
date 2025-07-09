@@ -220,12 +220,6 @@ const CreateWorkOrder = () => {
                 Parts
               </TabsTrigger>
               <TabsTrigger 
-                value="log"
-                className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
-              >
-                Log
-              </TabsTrigger>
-              <TabsTrigger 
                 value="misc-cost"
                 className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
               >
@@ -236,6 +230,12 @@ const CreateWorkOrder = () => {
                 className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
               >
                 Files
+              </TabsTrigger>
+              <TabsTrigger 
+                value="log"
+                className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
+              >
+                Log
               </TabsTrigger>
             </TabsList>
           </div>
@@ -257,12 +257,6 @@ const CreateWorkOrder = () => {
               <p>Parts and materials required will go here</p>
             </div>
           </TabsContent>
-          <TabsContent value="log" className="h-full mt-4">
-            <div className="border rounded-lg p-4 h-full">
-              <h3 className="text-lg font-semibold mb-2">Log</h3>
-              <p>Work order activity log will go here</p>
-            </div>
-          </TabsContent>
           <TabsContent value="misc-cost" className="h-full mt-4">
             <div className="border rounded-lg p-4 h-full">
               <h3 className="text-lg font-semibold mb-2">Misc Cost</h3>
@@ -273,6 +267,12 @@ const CreateWorkOrder = () => {
             <div className="border rounded-lg p-4 h-full">
               <h3 className="text-lg font-semibold mb-2">Files</h3>
               <p>Work order files and attachments will go here</p>
+            </div>
+          </TabsContent>
+          <TabsContent value="log" className="h-full mt-4">
+            <div className="border rounded-lg p-4 h-full">
+              <h3 className="text-lg font-semibold mb-2">Log</h3>
+              <p>Work order activity log will go here</p>
             </div>
           </TabsContent>
         </Tabs>
