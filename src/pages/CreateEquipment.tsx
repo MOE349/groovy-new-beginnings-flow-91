@@ -55,7 +55,7 @@ const CreateEquipment = () => {
       </div>
       
       {/* Equipment Information Card - Compact */}
-      <div className="bg-card rounded-md shadow-sm px-2 py-1">
+      <div className="bg-card rounded-md shadow-sm px-2 py-1 mt-4">
         <form onSubmit={handleSubmit} className="h-full">
           <div 
             className="flex items-center gap-4 mb-4 py-1 px-2" 
