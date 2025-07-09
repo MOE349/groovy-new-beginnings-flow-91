@@ -37,7 +37,7 @@ const CreateEquipment = () => {
         <Button 
           variant="ghost" 
           onClick={() => navigate("/assets")}
-          className="flex items-center gap-2 text-secondary-foreground hover:text-secondary-foreground/80 hover:bg-secondary-foreground/10 px-4 py-1 h-8 text-sm"
+          className="flex items-center gap-2 px-4 py-1 h-8 text-sm"
         >
           <ArrowLeft className="h-4 w-4" />
           Back
