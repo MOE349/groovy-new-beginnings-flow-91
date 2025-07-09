@@ -62,7 +62,7 @@ const CreateWorkOrder = () => {
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 -mt-2">
             {/* Left Column - Online toggle + image + location */}
-            <div className="lg:col-span-2 space-y-3 flex flex-col">
+            <div className="lg:col-span-2 space-y-3 flex flex-col items-center">
               <div className="flex items-center space-x-0">
                 <div 
                   className={`flex items-center cursor-pointer transition-all duration-300 rounded border w-48 h-8 ${
