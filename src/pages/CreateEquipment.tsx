@@ -59,7 +59,7 @@ const CreateEquipment = () => {
           {/* Layout matching reference image */}
           <div className="flex gap-8">
             {/* Left Section - Image, toggle, location */}
-            <div className="flex flex-col space-y-3 w-64">
+            <div className="flex flex-col space-y-3 w-64 p-3">
               <div className="flex items-center space-x-2">
                 <Switch 
                   checked={formData?.is_online || false} 
