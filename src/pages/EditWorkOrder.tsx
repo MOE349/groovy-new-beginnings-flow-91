@@ -96,7 +96,7 @@ const EditWorkOrder = () => {
         <Button 
           variant="outline" 
           onClick={() => navigate("/workorders")}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 px-4 py-1 h-8 text-sm"
         >
           <ArrowLeft className="h-4 w-4" />
           Back
