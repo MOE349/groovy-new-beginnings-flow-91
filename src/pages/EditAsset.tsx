@@ -112,47 +112,47 @@ const EditAsset = () => {
             {/* Left Section - toggle, location, image */}
             <div className="flex flex-col space-y-3 w-64">
               {/* Industrial Toggle Switch */}
-              <div className="w-48">
+              <div className="w-32">
                 <div 
-                  className="relative w-full h-12 cursor-pointer transition-all duration-500 bg-gray-900 border-2 border-gray-800 rounded"
+                  className="relative w-full h-8 cursor-pointer transition-all duration-500 bg-gray-900 border border-gray-800 rounded"
                   onClick={() => handleFieldChange("is_online", !formData?.is_online)}
                   style={{
                     background: formData?.is_online 
                       ? 'linear-gradient(90deg, #1f2937 0%, #1f2937 50%, #065f46 50%, #065f46 100%)'
                       : 'linear-gradient(90deg, #7f1d1d 0%, #7f1d1d 50%, #1f2937 50%, #1f2937 100%)',
-                    boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.6), 0 1px 2px rgba(0,0,0,0.8)'
+                    boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.6), 0 1px 1px rgba(0,0,0,0.8)'
                   }}
                 >
                   {/* Background Text Labels */}
-                  <div className="absolute inset-0 flex items-center justify-between px-4 text-white font-bold text-xs tracking-wider">
+                  <div className="absolute inset-0 flex items-center justify-between px-2 text-white font-bold text-[10px] tracking-wider">
                     <span className="opacity-90">OFF</span>
                     <span className="opacity-90">ON</span>
                   </div>
                   
                   {/* Status Indicator Light */}
                   <div 
-                    className={`absolute top-2 w-2 h-2 rounded-full transition-all duration-500 ${
+                    className={`absolute top-1 w-1.5 h-1.5 rounded-full transition-all duration-500 ${
                       formData?.is_online 
-                        ? 'right-4 bg-green-400 shadow-[0_0_8px_rgba(34,197,94,0.8)]' 
-                        : 'left-4 bg-red-400 shadow-[0_0_8px_rgba(239,68,68,0.8)]'
+                        ? 'right-2 bg-green-400 shadow-[0_0_6px_rgba(34,197,94,0.8)]' 
+                        : 'left-2 bg-red-400 shadow-[0_0_6px_rgba(239,68,68,0.8)]'
                     }`}
                   />
                   
                   {/* Metallic Sliding Handle */}
                   <div 
-                    className={`absolute top-1 bottom-1 w-16 transition-all duration-500 rounded-sm ${
-                      formData?.is_online ? 'translate-x-[128px]' : 'translate-x-1'
+                    className={`absolute top-0.5 bottom-0.5 w-10 transition-all duration-500 rounded-sm ${
+                      formData?.is_online ? 'translate-x-[84px]' : 'translate-x-0.5'
                     }`}
                     style={{
                       background: 'linear-gradient(180deg, #6b7280 0%, #374151 50%, #1f2937 100%)',
-                      boxShadow: '0 2px 4px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1)'
+                      boxShadow: '0 1px 2px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1)'
                     }}
                   >
                     {/* Handle Texture Lines */}
-                    <div className="flex items-center justify-center h-full space-x-1">
-                      <div className="w-0.5 h-6 bg-gray-600 rounded-full opacity-60"></div>
-                      <div className="w-0.5 h-6 bg-gray-600 rounded-full opacity-60"></div>
-                      <div className="w-0.5 h-6 bg-gray-600 rounded-full opacity-60"></div>
+                    <div className="flex items-center justify-center h-full space-x-0.5">
+                      <div className="w-0.5 h-3 bg-gray-600 rounded-full opacity-60"></div>
+                      <div className="w-0.5 h-3 bg-gray-600 rounded-full opacity-60"></div>
+                      <div className="w-0.5 h-3 bg-gray-600 rounded-full opacity-60"></div>
                     </div>
                   </div>
                 </div>
