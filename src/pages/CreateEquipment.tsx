@@ -57,7 +57,14 @@ const CreateEquipment = () => {
       {/* Equipment Information Card - Compact */}
       <div className="bg-card rounded-md shadow-sm px-2 py-1">
         <form onSubmit={handleSubmit} className="h-full">
-          <h3 className="text-h3 font-medium mb-4 text-primary">Equipment Information</h3>
+          <div className="flex items-center gap-4 mb-4">
+            <h3 className="text-h3 font-medium text-primary">Equipment Information</h3>
+            {(formData?.code || formData?.name) && (
+              <span className="text-h3 font-medium text-muted-foreground">
+                {formData?.code && `(${formData.code})`} {formData?.name}
+              </span>
+            )}
+          </div>
           
           {/* Layout matching reference image */}
           <div className="flex gap-8 items-center">
@@ -110,14 +117,6 @@ const CreateEquipment = () => {
             
             {/* Right Section - Form fields in three columns */}
             <div className="flex-1">
-              {/* Dynamic display positioned above first column */}
-              {(formData?.code || formData?.name) && (
-                <div className="mb-2 pl-6">
-                  <span className="text-h3 font-medium text-muted-foreground">
-                    {formData?.code && `(${formData.code})`} {formData?.name}
-                  </span>
-                </div>
-              )}
               <div className="grid grid-cols-3 gap-x-8 gap-y-2">
                 {/* First sub-column */}
                 <div className="p-6 space-y-2 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
