@@ -99,7 +99,7 @@ const CreateAsset = () => {
           <h3 className="text-h3 font-medium mb-4 text-primary">{assetTypeName} Information</h3>
           
           {/* 2-Column Grid Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 -mt-2">
             {/* Left Column - 35% - Online toggle + image + location */}
             <div className="lg:col-span-4 space-y-3 flex flex-col">
               <div className="flex items-center space-x-2">
