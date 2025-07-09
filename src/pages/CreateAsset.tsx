@@ -97,12 +97,7 @@ const CreateAsset = () => {
       <div className="bg-card rounded-md shadow-sm px-2 py-1 mt-4">
         <form onSubmit={handleSubmit} className="h-full">
           <div 
-            className="flex items-center gap-4 mb-4 py-1 -mx-2 bg-card border border-border" 
-            style={{
-              boxShadow: '0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.05)',
-              borderTop: '1px solid rgba(255,255,255,0.15)',
-              borderBottom: '1px solid rgba(0,0,0,0.05)'
-            }}
+            className="flex items-center gap-4 mb-4 py-1 -mx-2 bg-muted border border-border rounded-md" 
           >
             <h3 className="text-h3 font-medium text-primary ml-6">{assetTypeName} Information</h3>
           </div>
