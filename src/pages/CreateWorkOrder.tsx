@@ -30,7 +30,7 @@ const CreateWorkOrder = () => {
   const customLayout = ({ handleSubmit, formData, handleFieldChange, loading, error, renderField }: any) => (
     <div className="space-y-4">
       {/* Top Action Bar */}
-      <div className="h-14 flex items-center justify-between px-4 py-2 bg-gradient-to-r from-yellow-400 to-yellow-500 border-b border-yellow-600/20">
+      <div className="h-12 flex items-center justify-between px-4 py-2 bg-gradient-to-r from-yellow-400 to-yellow-500 border-b border-yellow-600/20">
         <Button 
           variant="ghost" 
           onClick={() => navigate("/workorders")}
