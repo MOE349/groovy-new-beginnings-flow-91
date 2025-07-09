@@ -33,11 +33,11 @@ const CreateAttachment = () => {
   const customLayout = ({ handleSubmit, formData, handleFieldChange, loading, error, renderField }: any) => (
     <div className="space-y-0">
       {/* Top Bar */}
-      <div className="h-10 flex items-center justify-between px-4 py-1 bg-primary border-b border-border">
+      <div className="h-10 flex items-center justify-between px-4 py-1 bg-secondary border-b border-border">
         <Button 
           variant="ghost" 
           onClick={() => navigate("/assets")}
-          className="flex items-center gap-2 text-primary-foreground hover:text-primary-foreground/80 hover:bg-primary-foreground/10"
+          className="flex items-center gap-2 text-secondary-foreground hover:text-secondary-foreground/80 hover:bg-secondary-foreground/10"
         >
           <ArrowLeft className="h-4 w-4" />
           Back
@@ -45,7 +45,7 @@ const CreateAttachment = () => {
         <Button 
           onClick={handleSubmit} 
           disabled={loading} 
-          className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 px-6"
+          className="bg-secondary-foreground text-secondary hover:bg-secondary-foreground/90 px-6"
         >
           {loading ? "Loading..." : "Save"}
         </Button>
