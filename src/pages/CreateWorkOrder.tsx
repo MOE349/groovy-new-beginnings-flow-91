@@ -28,7 +28,7 @@ const CreateWorkOrder = () => {
   };
 
   const customLayout = ({ handleSubmit, formData, handleFieldChange, loading, error, renderField }: any) => (
-    <div className="space-y-4">
+    <div className="space-y-0">
       {/* Top Action Bar */}
       <div className="h-10 flex items-center justify-between px-4 py-1 bg-secondary border-b border-border">
         <Button 
@@ -49,7 +49,7 @@ const CreateWorkOrder = () => {
       </div>
       
       {/* Work Order Information Box */}
-      <div className="bg-card rounded-md shadow-sm px-2 py-1 mt-2">
+      <div className="bg-card rounded-md shadow-sm px-2 py-1 mt-0">
         <form onSubmit={handleSubmit} className="h-full">
           <div 
             className="flex items-center gap-4 mb-4 py-1 -mx-2 bg-muted-foreground/20 border border-border rounded-md"
