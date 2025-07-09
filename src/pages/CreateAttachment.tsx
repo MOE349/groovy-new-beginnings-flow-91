@@ -58,7 +58,7 @@ const CreateAttachment = () => {
       <div className="bg-card rounded-md shadow-sm px-2 py-1 mt-4">
         <form onSubmit={handleSubmit} className="h-full">
           <div 
-            className="flex items-center gap-4 mb-4 py-1 -mx-2" 
+            className="flex items-center gap-4 mb-4 py-1 -mx-2 bg-card border border-border" 
             style={{
               boxShadow: '0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.05)',
               borderTop: '1px solid rgba(255,255,255,0.15)',
