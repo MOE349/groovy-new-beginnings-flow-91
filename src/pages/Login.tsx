@@ -5,7 +5,6 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/contexts/AuthContext';
-import TenMilLogo from '@/components/TenMilLogo';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -29,7 +28,11 @@ const Login: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-primary p-4">
       <div className="mb-8">
-        <TenMilLogo size="lg" />
+        <img 
+          src="/lovable-uploads/7a6b4ea9-42b9-4df7-a496-013f691bbde6.png" 
+          alt="TenMil Fleet Management Logo" 
+          className="h-16 w-auto"
+        />
       </div>
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
