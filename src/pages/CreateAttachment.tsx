@@ -135,12 +135,6 @@ const CreateAttachment = () => {
                       {renderField({ name: "description", type: "textarea", rows: 4 })}
                     </div>
                   </div>
-                  <div className="flex items-center space-x-3">
-                    <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Equipment</label>
-                    <div className="flex-grow">
-                      {renderField({ name: "equipment", type: "dropdown", endpoint: "/assets/equipments", queryKey: ["assets_equipments"], optionValueKey: "id", optionLabelKey: "name" })}
-                    </div>
-                  </div>
                 </div>
                 
                 {/* Second sub-column */}
@@ -225,6 +219,12 @@ const CreateAttachment = () => {
                           { id: "acc004", name: "ACC-004" }
                         ]
                       })}
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Equipment</label>
+                    <div className="flex-grow">
+                      {renderField({ name: "equipment", type: "dropdown", endpoint: "/assets/equipments", queryKey: ["assets_equipments"], optionValueKey: "id", optionLabelKey: "name" })}
                     </div>
                   </div>
                 </div>
