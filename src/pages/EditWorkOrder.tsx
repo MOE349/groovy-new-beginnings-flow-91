@@ -257,15 +257,38 @@ const EditWorkOrder = () => {
         />
       </div>
 
-      {/* Tabs Section */}
-      <div className="flex-1">
+      {/* Compact Tabs Section */}
+      <div>
         <Tabs defaultValue="completion" className="h-full">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="completion">Completion</TabsTrigger>
-            <TabsTrigger value="checklist">Checklist</TabsTrigger>
-            <TabsTrigger value="parts">Parts</TabsTrigger>
-            <TabsTrigger value="log">Log</TabsTrigger>
-          </TabsList>
+          {/* Compact Pill-Style Tab List */}
+          <div className="h-10 overflow-x-auto">
+            <TabsList className="grid w-full grid-cols-4 h-10 bg-card border border-border rounded-md p-0">
+              <TabsTrigger 
+                value="completion" 
+                className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
+              >
+                Completion
+              </TabsTrigger>
+              <TabsTrigger 
+                value="checklist"
+                className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
+              >
+                Checklist
+              </TabsTrigger>
+              <TabsTrigger 
+                value="parts"
+                className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
+              >
+                Parts
+              </TabsTrigger>
+              <TabsTrigger 
+                value="log"
+                className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
+              >
+                Log
+              </TabsTrigger>
+            </TabsList>
+          </div>
           <TabsContent value="completion" className="h-full mt-4">
             <div className="border rounded-lg p-4 h-full">
               <h3 className="text-lg font-semibold mb-2">Completion</h3>
