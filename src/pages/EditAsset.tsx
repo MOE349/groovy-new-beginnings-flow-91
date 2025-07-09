@@ -137,6 +137,17 @@ const EditAsset = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="w-48"
+                onClick={() => {
+                  // TODO: Connect to map endpoint
+                  console.log("Show map clicked");
+                }}
+              >
+                Show Map
+              </Button>
             </div>
             
             {/* Right Section - Form fields in three columns */}
