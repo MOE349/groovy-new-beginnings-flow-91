@@ -60,12 +60,35 @@ const CreateAttachment = () => {
           <div className="flex gap-8">
             {/* Left Section - toggle, location, image */}
             <div className="flex flex-col space-y-3 w-64">
-              <div className="flex items-center space-x-2">
-                <Switch 
-                  checked={formData?.is_online || false} 
-                  onCheckedChange={(checked) => handleFieldChange("is_online", checked)}
-                />
-                <Label className="text-caption font-normal">Online</Label>
+              {/* Industrial Toggle Switch */}
+              <div className="w-48">
+                <div 
+                  className={`relative w-full h-12 rounded-lg border-2 cursor-pointer transition-all duration-300 ${
+                    formData?.is_online 
+                      ? 'bg-green-600 border-green-700 shadow-lg shadow-green-500/30' 
+                      : 'bg-red-600 border-red-700 shadow-lg shadow-red-500/30'
+                  }`}
+                  onClick={() => handleFieldChange("is_online", !formData?.is_online)}
+                >
+                  {/* Background Text Labels */}
+                  <div className="absolute inset-0 flex items-center justify-between px-3 text-white font-bold text-sm">
+                    <span className={`transition-opacity ${!formData?.is_online ? 'opacity-100' : 'opacity-40'}`}>
+                      OFFLINE
+                    </span>
+                    <span className={`transition-opacity ${formData?.is_online ? 'opacity-100' : 'opacity-40'}`}>
+                      ONLINE
+                    </span>
+                  </div>
+                  
+                  {/* Sliding Switch Handle */}
+                  <div 
+                    className={`absolute top-1 w-20 h-10 bg-gray-200 rounded-md shadow-lg border border-gray-300 transition-all duration-300 flex items-center justify-center ${
+                      formData?.is_online ? 'translate-x-[136px]' : 'translate-x-1'
+                    }`}
+                  >
+                    <div className="w-3 h-6 bg-gray-500 rounded-sm"></div>
+                  </div>
+                </div>
               </div>
               <div className="space-y-1 w-48">
                 <label className="block text-caption font-normal text-foreground">Location</label>
