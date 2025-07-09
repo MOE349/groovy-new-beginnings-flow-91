@@ -34,7 +34,7 @@ const CreateWorkOrder = () => {
         <Button 
           variant="ghost" 
           onClick={() => navigate("/workorders")}
-          className="flex items-center gap-2 text-foreground hover:text-accent"
+          className="flex items-center gap-2 text-foreground hover:scale-105 transition-transform"
         >
           <ArrowLeft className="h-4 w-4" />
           Back
