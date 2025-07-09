@@ -197,35 +197,35 @@ const CreateWorkOrder = () => {
 
       {/* Tabs Section */}
       <div className="flex-1">
-        <Tabs defaultValue="tab1" className="h-full">
+        <Tabs defaultValue="completion" className="h-full">
           <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="tab1">1</TabsTrigger>
-            <TabsTrigger value="tab2">2</TabsTrigger>
-            <TabsTrigger value="tab3">3</TabsTrigger>
-            <TabsTrigger value="tab4">4</TabsTrigger>
+            <TabsTrigger value="completion">Completion</TabsTrigger>
+            <TabsTrigger value="checklist">Checklist</TabsTrigger>
+            <TabsTrigger value="parts">Parts</TabsTrigger>
+            <TabsTrigger value="log">Log</TabsTrigger>
           </TabsList>
-          <TabsContent value="tab1" className="h-full mt-4">
+          <TabsContent value="completion" className="h-full mt-4">
             <div className="border rounded-lg p-4 h-full">
-              <h3 className="text-lg font-semibold mb-2">Tab 1</h3>
-              <p>Content for tab 1 will go here</p>
+              <h3 className="text-lg font-semibold mb-2">Completion</h3>
+              <p>Completion tracking and details will go here</p>
             </div>
           </TabsContent>
-          <TabsContent value="tab2" className="h-full mt-4">
+          <TabsContent value="checklist" className="h-full mt-4">
             <div className="border rounded-lg p-4 h-full">
-              <h3 className="text-lg font-semibold mb-2">Tab 2</h3>
-              <p>Content for tab 2 will go here</p>
+              <h3 className="text-lg font-semibold mb-2">Checklist</h3>
+              <p>Work order checklist items will go here</p>
             </div>
           </TabsContent>
-          <TabsContent value="tab3" className="h-full mt-4">
+          <TabsContent value="parts" className="h-full mt-4">
             <div className="border rounded-lg p-4 h-full">
-              <h3 className="text-lg font-semibold mb-2">Tab 3</h3>
-              <p>Content for tab 3 will go here</p>
+              <h3 className="text-lg font-semibold mb-2">Parts</h3>
+              <p>Parts and materials required will go here</p>
             </div>
           </TabsContent>
-          <TabsContent value="tab4" className="h-full mt-4">
+          <TabsContent value="log" className="h-full mt-4">
             <div className="border rounded-lg p-4 h-full">
-              <h3 className="text-lg font-semibold mb-2">Tab 4</h3>
-              <p>Content for tab 4 will go here</p>
+              <h3 className="text-lg font-semibold mb-2">Log</h3>
+              <p>Work order activity log will go here</p>
             </div>
           </TabsContent>
         </Tabs>
