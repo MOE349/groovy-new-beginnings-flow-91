@@ -44,7 +44,7 @@ const CreateWorkOrder = () => {
           disabled={loading} 
           className="bg-yellow-900 text-yellow-50 hover:bg-yellow-800 px-6"
         >
-          {loading ? "Loading..." : "Create Work Order"}
+          {loading ? "Loading..." : "Save"}
         </Button>
       </div>
       
