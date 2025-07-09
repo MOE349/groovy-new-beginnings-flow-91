@@ -90,7 +90,7 @@ const CreateEquipment = () => {
             
             {/* Right Section - Form fields in three columns */}
             <div className="flex-1">
-              <div className="grid grid-cols-3 gap-x-8 gap-y-2">
+              <div className="grid grid-cols-3 gap-x-8 gap-y-2 relative before:absolute before:left-[33.33%] before:top-0 before:bottom-0 before:w-px before:bg-accent before:-translate-x-4 after:absolute after:left-[66.66%] after:top-0 after:bottom-0 after:w-px after:bg-accent after:-translate-x-4">
                 {/* First sub-column */}
                 <div className="space-y-2">
                   <div className="flex items-center space-x-3">
