@@ -84,11 +84,11 @@ const EditAsset = () => {
   const customLayout = ({ handleSubmit, formData, handleFieldChange, loading, error, renderField }: any) => (
     <div className="space-y-0">
       {/* Top Bar - Height 3.5rem */}
-      <div className="h-14 flex items-center justify-between px-4 py-2 bg-card border-b border-border">
+      <div className="h-10 flex items-center justify-between px-4 py-1 bg-secondary border-b border-border">
         <Button 
           variant="ghost" 
           onClick={() => navigate("/assets")}
-          className="flex items-center gap-2 text-foreground hover:text-accent"
+          className="flex items-center gap-2 text-secondary-foreground hover:text-secondary-foreground/80 hover:bg-secondary-foreground/10"
         >
           <ArrowLeft className="h-4 w-4" />
           Back
@@ -96,7 +96,10 @@ const EditAsset = () => {
         <Button 
           onClick={handleSubmit} 
           disabled={loading} 
-          className="bg-secondary text-secondary-foreground hover:bg-secondary/90 px-6"
+          className="bg-secondary-foreground text-secondary hover:bg-secondary-foreground/90 px-4 py-1 h-8 text-sm font-medium shadow-lg border border-secondary-foreground/20 hover:shadow-md transition-all duration-200"
+          style={{
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.2)'
+          }}
         >
           {loading ? "Loading..." : "Save"}
         </Button>
