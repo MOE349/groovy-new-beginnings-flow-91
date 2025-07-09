@@ -56,10 +56,10 @@ const CreateEquipment = () => {
         <form onSubmit={handleSubmit} className="h-full">
           <h3 className="text-h3 font-medium mb-4 text-primary">Equipment Information</h3>
           
-          {/* Layout matching reference image */}
-          <div className="flex gap-8">
-            {/* Left Section - Image, toggle, location */}
-            <div className="flex flex-col space-y-3 w-64 pl-6">
+          {/* Unified Grid Layout for Proper Alignment */}
+          <div className="grid grid-cols-4 gap-x-8 h-44 pl-6">
+            {/* Column 1 - Toggle, Image, Location */}
+            <div className="grid grid-rows-3 gap-y-3 h-full">
               <div className="flex items-center space-x-2">
                 <Switch 
                   checked={formData?.is_online || false} 
@@ -74,146 +74,139 @@ const CreateEquipment = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="space-y-1 w-48 flex flex-col">
-                <label className="block text-caption font-normal text-foreground">Location</label>
-                <div className="flex-1 flex items-end">
+              <div className="flex flex-col justify-end w-48">
+                <label className="block text-caption font-normal text-foreground mb-1">Location</label>
+                {renderField({ 
+                  name: "location", 
+                  type: "dropdown", 
+                  required: true, 
+                  endpoint: "/company/location", 
+                  queryKey: ["company_location"], 
+                  optionValueKey: "id", 
+                  optionLabelKey: "name"
+                })}
+              </div>
+            </div>
+            
+            {/* Column 2 - Code, Name, Description */}
+            <div className="grid grid-rows-3 gap-y-2 h-full">
+              <div className="flex items-center space-x-3">
+                <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Code</label>
+                <div className="flex-grow">
+                  {renderField({ name: "code", type: "input", required: true, inputType: "text" })}
+                </div>
+              </div>
+              <div className="flex items-center space-x-3">
+                <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Name</label>
+                <div className="flex-grow">
+                  {renderField({ name: "name", type: "input", required: true, inputType: "text" })}
+                </div>
+              </div>
+              <div className="flex items-end space-x-3">
+                <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Description</label>
+                <div className="flex-grow">
+                  {renderField({ name: "description", type: "textarea", rows: 4 })}
+                </div>
+              </div>
+            </div>
+            
+            {/* Column 3 - Category, Make, Model, Serial # */}
+            <div className="grid grid-rows-4 gap-y-2 h-full">
+              <div className="flex items-center space-x-3">
+                <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Category</label>
+                <div className="flex-grow">
                   {renderField({ 
-                    name: "location", 
+                    name: "category", 
                     type: "dropdown", 
                     required: true, 
-                    endpoint: "/company/location", 
-                    queryKey: ["company_location"], 
+                    endpoint: "/assets/equipment_category", 
+                    queryKey: ["equipment_category"], 
                     optionValueKey: "id", 
                     optionLabelKey: "name"
                   })}
                 </div>
               </div>
+              <div className="flex items-center space-x-3">
+                <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Make</label>
+                <div className="flex-grow">
+                  {renderField({ name: "make", type: "input", required: true, inputType: "text" })}
+                </div>
+              </div>
+              <div className="flex items-center space-x-3">
+                <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Model</label>
+                <div className="flex-grow">
+                  {renderField({ name: "model", type: "input", required: true, inputType: "text" })}
+                </div>
+              </div>
+              <div className="flex items-center space-x-3">
+                <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Serial #</label>
+                <div className="flex-grow">
+                  {renderField({ name: "serial_number", type: "input", required: true, inputType: "text" })}
+                </div>
+              </div>
             </div>
             
-            {/* Right Section - Form fields in three columns */}
-            <div className="flex-1">
-              <div className="grid grid-cols-3 gap-x-8 gap-y-2">
-                {/* First sub-column */}
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-3">
-                    <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Code</label>
-                    <div className="flex-grow">
-                      {renderField({ name: "code", type: "input", required: true, inputType: "text" })}
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Name</label>
-                    <div className="flex-grow">
-                      {renderField({ name: "name", type: "input", required: true, inputType: "text" })}
-                    </div>
-                  </div>
-                  <div className="flex items-end space-x-3">
-                    <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Description</label>
-                    <div className="flex-grow">
-                      {renderField({ name: "description", type: "textarea", rows: 4 })}
-                    </div>
-                  </div>
+            {/* Column 4 - Status, Job Code, Account Code, Project */}
+            <div className="grid grid-rows-4 gap-y-2 h-full">
+              <div className="flex items-center space-x-3">
+                <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Status</label>
+                <div className="flex-grow">
+                  {renderField({ 
+                    name: "status", 
+                    type: "dropdown",
+                    required: true,
+                    options: [
+                      { id: "active", name: "Active" },
+                      { id: "inactive", name: "Inactive" },
+                      { id: "maintenance", name: "Under Maintenance" },
+                      { id: "retired", name: "Retired" }
+                    ]
+                  })}
                 </div>
-                
-                {/* Second sub-column */}
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-3">
-                    <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Category</label>
-                    <div className="flex-grow">
-                      {renderField({ 
-                        name: "category", 
-                        type: "dropdown", 
-                        required: true, 
-                        endpoint: "/assets/equipment_category", 
-                        queryKey: ["equipment_category"], 
-                        optionValueKey: "id", 
-                        optionLabelKey: "name"
-                      })}
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Make</label>
-                    <div className="flex-grow">
-                      {renderField({ name: "make", type: "input", required: true, inputType: "text" })}
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Model</label>
-                    <div className="flex-grow">
-                      {renderField({ name: "model", type: "input", required: true, inputType: "text" })}
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Serial #</label>
-                    <div className="flex-grow">
-                      {renderField({ name: "serial_number", type: "input", required: true, inputType: "text" })}
-                    </div>
-                  </div>
+              </div>
+              <div className="flex items-center space-x-3">
+                <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Job Code</label>
+                <div className="flex-grow">
+                  {renderField({ 
+                    name: "job_code", 
+                    type: "dropdown",
+                    options: [
+                      { id: "job001", name: "JOB-001" },
+                      { id: "job002", name: "JOB-002" },
+                      { id: "job003", name: "JOB-003" },
+                      { id: "job004", name: "JOB-004" }
+                    ]
+                  })}
                 </div>
-                
-                {/* Third sub-column */}
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-3">
-                    <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Status</label>
-                    <div className="flex-grow">
-                      {renderField({ 
-                        name: "status", 
-                        type: "dropdown",
-                        required: true,
-                        options: [
-                          { id: "active", name: "Active" },
-                          { id: "inactive", name: "Inactive" },
-                          { id: "maintenance", name: "Under Maintenance" },
-                          { id: "retired", name: "Retired" }
-                        ]
-                      })}
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Job Code</label>
-                    <div className="flex-grow">
-                      {renderField({ 
-                        name: "job_code", 
-                        type: "dropdown",
-                        options: [
-                          { id: "job001", name: "JOB-001" },
-                          { id: "job002", name: "JOB-002" },
-                          { id: "job003", name: "JOB-003" },
-                          { id: "job004", name: "JOB-004" }
-                        ]
-                      })}
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Account Code</label>
-                    <div className="flex-grow">
-                      {renderField({ 
-                        name: "account_code", 
-                        type: "dropdown",
-                        options: [
-                          { id: "acc001", name: "ACC-001" },
-                          { id: "acc002", name: "ACC-002" },
-                          { id: "acc003", name: "ACC-003" },
-                          { id: "acc004", name: "ACC-004" }
-                        ]
-                      })}
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Project</label>
-                    <div className="flex-grow">
-                      {renderField({ 
-                        name: "project", 
-                        type: "dropdown",
-                        options: [
-                          { id: "proj001", name: "Project Alpha" },
-                          { id: "proj002", name: "Project Beta" },
-                          { id: "proj003", name: "Project Gamma" },
-                          { id: "proj004", name: "Project Delta" }
-                        ]
-                      })}
-                    </div>
-                  </div>
+              </div>
+              <div className="flex items-center space-x-3">
+                <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Account Code</label>
+                <div className="flex-grow">
+                  {renderField({ 
+                    name: "account_code", 
+                    type: "dropdown",
+                    options: [
+                      { id: "acc001", name: "ACC-001" },
+                      { id: "acc002", name: "ACC-002" },
+                      { id: "acc003", name: "ACC-003" },
+                      { id: "acc004", name: "ACC-004" }
+                    ]
+                  })}
+                </div>
+              </div>
+              <div className="flex items-center space-x-3">
+                <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Project</label>
+                <div className="flex-grow">
+                  {renderField({ 
+                    name: "project", 
+                    type: "dropdown",
+                    options: [
+                      { id: "proj001", name: "Project Alpha" },
+                      { id: "proj002", name: "Project Beta" },
+                      { id: "proj003", name: "Project Gamma" },
+                      { id: "proj004", name: "Project Delta" }
+                    ]
+                  })}
                 </div>
               </div>
             </div>
