@@ -62,7 +62,7 @@ const CreateWorkOrder = () => {
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 -mt-2">
             {/* Left Column - Online toggle + image + location */}
-            <div className="lg:col-span-2 space-y-1 flex flex-col items-center justify-center">
+            <div className="lg:col-span-2 space-y-3 flex flex-col items-center justify-center">
               <div className="flex items-center space-x-0">
                 <div 
                   className={`flex items-center cursor-pointer transition-all duration-300 rounded border w-48 h-8 ${
@@ -94,7 +94,7 @@ const CreateWorkOrder = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="w-48">
+              <div className="space-y-1 w-48">
                 <label className="block text-caption font-normal text-right w-24 text-foreground">Location</label>
                 {renderField({ 
                   name: "location", 
