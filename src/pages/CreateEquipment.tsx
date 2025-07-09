@@ -79,7 +79,7 @@ const CreateEquipment = () => {
                   </div>
                   
                   {/* Status text */}
-                  <div className="flex-1 text-sm font-medium px-2 text-white">
+                  <div className="flex-1 text-sm font-medium text-white text-center">
                     {formData?.is_online ? 'Online' : 'Offline'}
                   </div>
                 </div>
@@ -92,7 +92,7 @@ const CreateEquipment = () => {
                 />
               </div>
               <div className="space-y-1 w-48">
-                <label className="block text-caption font-normal text-foreground">Location</label>
+                <label className="block text-caption font-normal text-foreground text-center">Location</label>
                 {renderField({ 
                   name: "location", 
                   type: "dropdown", 
