@@ -58,10 +58,9 @@ const CreateEquipment = () => {
       <div className="bg-card rounded-md shadow-sm px-2 py-1">
         <form onSubmit={handleSubmit} className="h-full">
           <div 
-            className="flex items-center gap-4 mb-4 p-4 bg-secondary/50 rounded-lg shadow-lg border border-secondary/30 transition-all duration-200" 
+            className="flex items-center gap-4 mb-4" 
             style={{
-              boxShadow: '0 4px 8px rgba(0,0,0,0.1), inset 0 2px 0 rgba(255,255,255,0.2), 0 0 20px rgba(0,0,0,0.05)',
-              background: 'linear-gradient(135deg, hsl(var(--secondary) / 0.6), hsl(var(--secondary) / 0.4))'
+              boxShadow: '0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.2)'
             }}
           >
             <h3 className="text-h3 font-medium text-primary">Equipment Information</h3>
