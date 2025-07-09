@@ -62,21 +62,33 @@ const CreateAttachment = () => {
             <div className="flex flex-col space-y-3 w-64">
               {/* Industrial Toggle Switch */}
               <div className="w-48">
-                <label className="switch">
-                  <input 
-                    type="checkbox" 
-                    checked={formData?.is_online || false}
-                    onChange={(e) => handleFieldChange("is_online", e.target.checked)}
-                  />
-                  <div className="slider">
-                    <div className="slider-btn">
-                      <div className="texture"></div>
-                      <div className="texture"></div>
-                      <div className="texture"></div>
-                      <div className="light"></div>
-                    </div>
+                <div 
+                  className={`relative w-full h-8 rounded-md border-2 cursor-pointer transition-all duration-300 ${
+                    formData?.is_online 
+                      ? 'bg-gradient-to-r from-gray-700 to-green-600 border-gray-600 shadow-inner' 
+                      : 'bg-gradient-to-r from-red-600 to-gray-700 border-gray-600 shadow-inner'
+                  }`}
+                  onClick={() => handleFieldChange("is_online", !formData?.is_online)}
+                >
+                  {/* Background Text Labels */}
+                  <div className="absolute inset-0 flex items-center justify-between px-2 text-white font-semibold text-xs">
+                    <span className={`transition-opacity ${!formData?.is_online ? 'opacity-100' : 'opacity-50'}`}>
+                      OFF
+                    </span>
+                    <span className={`transition-opacity ${formData?.is_online ? 'opacity-100' : 'opacity-50'}`}>
+                      ON
+                    </span>
                   </div>
-                </label>
+                  
+                  {/* Sliding Switch Handle */}
+                  <div 
+                    className={`absolute top-1 w-16 h-6 bg-gradient-to-b from-gray-300 via-gray-100 to-gray-300 rounded-sm shadow-lg border border-gray-400 transition-all duration-300 flex items-center justify-center ${
+                      formData?.is_online ? 'translate-x-[104px]' : 'translate-x-1'
+                    }`}
+                  >
+                    <div className="w-2 h-4 bg-gradient-to-b from-gray-600 to-gray-800 rounded-xs"></div>
+                  </div>
+                </div>
               </div>
               <div className="space-y-1 w-48">
                 <label className="block text-caption font-normal text-foreground">Location</label>
