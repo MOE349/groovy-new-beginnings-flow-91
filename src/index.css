@@ -8,19 +8,19 @@
   :root {
     /* TenMil Fleet Management Color Palette - All HSL values */
     --background: 0 0% 100%; /* #FFFFFF - page background */
-    --foreground: 235 38% 28%; /* #2C3162 - TenMil Navy text */
+    --foreground: 227 45% 19%; /* #252D63 - TenMil Navy text */
 
     --card: 0 0% 96%; /* #F5F5F5 - cards, panels */
-    --card-foreground: 235 38% 28%;
+    --card-foreground: 227 45% 19%;
 
     --popover: 0 0% 96%;
-    --popover-foreground: 235 38% 28%;
+    --popover-foreground: 227 45% 19%;
 
-    --primary: 235 38% 28%; /* #2C3162 - TenMil Navy (nav, headings) */
+    --primary: 227 45% 19%; /* #252D63 - TenMil Navy (nav, headings) */
     --primary-foreground: 0 0% 100%;
 
     --secondary: 46 100% 70%; /* #FFCF64 - TenMil Gold (buttons, highlights) */
-    --secondary-foreground: 235 38% 28%;
+    --secondary-foreground: 227 45% 19%;
 
     --muted: 0 0% 96%; /* #F5F5F5 */
     --muted-foreground: 0 0% 45%;
@@ -63,34 +63,34 @@
     --shadow-hover: 0 4px 6px rgba(0, 0, 0, 0.1);
 
     /* TenMil Sidebar colors */
-    --sidebar-background: 235 38% 28%; /* #2C3162 - TenMil Navy (dark blue) */
+    --sidebar-background: 227 45% 19%; /* #252D63 - TenMil Navy (dark blue) */
     --sidebar-foreground: 46 100% 70%; /* #FFCF64 - TenMil Gold (yellow) */
     --sidebar-primary: 46 100% 70%; /* #FFCF64 - TenMil Gold for active */
-    --sidebar-primary-foreground: 235 38% 28%; /* TenMil Navy - dark text on yellow background */
+    --sidebar-primary-foreground: 227 45% 19%; /* TenMil Navy - dark text on yellow background */
     --sidebar-accent: 46 100% 70%; /* #FFCF64 - TenMil Gold for hover */
-    --sidebar-accent-foreground: 235 38% 28%;
-    --sidebar-border: 235 38% 35%; /* Slightly lighter navy for borders */
+    --sidebar-accent-foreground: 227 45% 19%;
+    --sidebar-border: 227 45% 25%; /* Slightly lighter navy for borders */
     --sidebar-ring: 202 58% 58%; /* TenMil Light Blue */
   }
 
   .dark {
     /* TenMil Dark Mode - Updated HSL values */
-    --background: 235 38% 10%; /* Dark TenMil Navy */
+    --background: 227 45% 10%; /* Dark TenMil Navy */
     --foreground: 0 0% 95%;
 
-    --card: 235 38% 15%;
+    --card: 227 45% 15%;
     --card-foreground: 0 0% 95%;
 
-    --popover: 235 38% 15%;
+    --popover: 227 45% 15%;
     --popover-foreground: 0 0% 95%;
 
-    --primary: 235 38% 28%; /* TenMil Navy */
+    --primary: 227 45% 19%; /* TenMil Navy */
     --primary-foreground: 0 0% 100%;
 
     --secondary: 46 100% 70%; /* TenMil Gold */
-    --secondary-foreground: 235 38% 28%;
+    --secondary-foreground: 227 45% 19%;
 
-    --muted: 235 38% 20%;
+    --muted: 227 45% 20%;
     --muted-foreground: 0 0% 60%;
 
     --accent: 202 58% 58%; /* TenMil Light Blue */
@@ -103,13 +103,13 @@
     --input: 0 0% 20%;
     --ring: 202 58% 58%; /* TenMil Light Blue */
 
-    --sidebar-background: 235 38% 15%; /* Dark TenMil Navy */
+    --sidebar-background: 227 45% 15%; /* Dark TenMil Navy */
     --sidebar-foreground: 46 100% 70%; /* TenMil Gold (yellow) */
     --sidebar-primary: 46 100% 70%;
-    --sidebar-primary-foreground: 235 38% 28%;
+    --sidebar-primary-foreground: 227 45% 19%;
     --sidebar-accent: 46 100% 70%;
-    --sidebar-accent-foreground: 235 38% 28%;
-    --sidebar-border: 235 38% 25%;
+    --sidebar-accent-foreground: 227 45% 19%;
+    --sidebar-border: 227 45% 25%;
     --sidebar-ring: 202 58% 58%;
   }
 }
