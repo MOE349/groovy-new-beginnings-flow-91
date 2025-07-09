@@ -74,18 +74,6 @@ const CreateEquipment = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="space-y-1 w-48">
-                <label className="block text-caption font-normal text-foreground">Location</label>
-                {renderField({ 
-                  name: "location", 
-                  type: "dropdown", 
-                  required: true, 
-                  endpoint: "/company/location", 
-                  queryKey: ["company_location"], 
-                  optionValueKey: "id", 
-                  optionLabelKey: "name"
-                })}
-              </div>
             </div>
             
             {/* Right Section - Form fields in three columns */}
@@ -108,7 +96,21 @@ const CreateEquipment = () => {
                   <div className="flex items-start space-x-3">
                     <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0 pt-2">Description</label>
                     <div className="flex-grow">
-                      {renderField({ name: "description", type: "textarea", rows: 2 })}
+                      {renderField({ name: "description", type: "textarea", rows: 4 })}
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-3 mt-2">
+                    <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Location</label>
+                    <div className="flex-grow">
+                      {renderField({ 
+                        name: "location", 
+                        type: "dropdown", 
+                        required: true, 
+                        endpoint: "/company/location", 
+                        queryKey: ["company_location"], 
+                        optionValueKey: "id", 
+                        optionLabelKey: "name"
+                      })}
                     </div>
                   </div>
                 </div>
