@@ -108,11 +108,10 @@ const EditAsset = () => {
           <h3 className="text-h3 font-medium mb-4 text-primary">{assetTypeName} Information</h3>
           
           {/* Layout matching reference image */}
-          <div className="flex gap-8">
-            {/* Left Section - toggle, location, image */}
-            <div className="flex flex-col space-y-3 w-64">
-              {/* Online Toggle Switch */}
-              <div className="w-48">
+          <div className="flex gap-8 items-center">
+            {/* Left Section - Image, toggle, location */}
+            <div className="flex flex-col space-y-3 w-64 pl-6">
+              <div className="flex items-center space-x-0">
                 <div 
                   className={`flex items-center cursor-pointer transition-all duration-300 rounded border w-48 h-8 ${
                     formData?.is_online 
@@ -136,6 +135,13 @@ const EditAsset = () => {
                   </div>
                 </div>
               </div>
+              <div className="w-48 h-32 bg-muted rounded border overflow-hidden">
+                <img 
+                  src="/lovable-uploads/cf9d21df-6820-4bea-ae16-54c41a67117e.png" 
+                  alt="Equipment" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <div className="space-y-1 w-48">
                 <label className="block text-caption font-normal text-foreground text-center">Location</label>
                 {renderField({ 
@@ -148,24 +154,6 @@ const EditAsset = () => {
                   optionLabelKey: "name"
                 })}
               </div>
-              <div className="w-48 h-32 bg-muted rounded border overflow-hidden">
-                <img 
-                  src="/lovable-uploads/cf9d21df-6820-4bea-ae16-54c41a67117e.png" 
-                  alt="Equipment" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="w-48"
-                onClick={() => {
-                  // TODO: Connect to map endpoint
-                  console.log("Show map clicked");
-                }}
-              >
-                Show Map
-              </Button>
             </div>
             
             {/* Right Section - Form fields in three columns */}
