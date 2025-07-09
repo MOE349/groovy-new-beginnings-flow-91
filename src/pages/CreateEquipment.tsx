@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Check, X } from "lucide-react";
 
 const CreateEquipment = () => {
   const navigate = useNavigate();
@@ -65,31 +65,23 @@ const CreateEquipment = () => {
                   className={`flex items-center cursor-pointer transition-all duration-300 rounded border ${
                     formData?.is_online 
                       ? 'bg-green-500 border-green-600' 
-                      : 'bg-gray-200 border-gray-300'
+                      : 'bg-red-500 border-red-600'
                   }`}
                   onClick={() => handleFieldChange("is_online", !formData?.is_online)}
                   style={{ width: '100px', height: '32px' }}
                 >
-                  {/* Checkmark section */}
-                  <div className={`flex items-center justify-center w-8 h-full ${
-                    formData?.is_online ? 'text-white' : 'text-gray-400'
-                  }`}>
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                      <path 
-                        d="M10 3L4.5 8.5L2 6" 
-                        stroke="currentColor" 
-                        strokeWidth="2" 
-                        strokeLinecap="round" 
-                        strokeLinejoin="round"
-                      />
-                    </svg>
+                  {/* Icon section */}
+                  <div className="flex items-center justify-center w-8 h-full text-white">
+                    {formData?.is_online ? (
+                      <Check size={12} />
+                    ) : (
+                      <X size={12} />
+                    )}
                   </div>
                   
-                  {/* Online text */}
-                  <div className={`flex-1 text-sm font-medium px-2 ${
-                    formData?.is_online ? 'text-white' : 'text-gray-600'
-                  }`}>
-                    Online
+                  {/* Status text */}
+                  <div className="flex-1 text-sm font-medium px-2 text-white">
+                    {formData?.is_online ? 'Online' : 'Offline'}
                   </div>
                 </div>
               </div>
