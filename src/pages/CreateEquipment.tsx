@@ -45,7 +45,7 @@ const CreateEquipment = () => {
         <Button 
           onClick={handleSubmit} 
           disabled={loading} 
-          className="bg-secondary text-primary hover:bg-secondary/90 px-4 py-1 h-8 text-sm font-medium shadow-lg border border-secondary-foreground/20 hover:shadow-md transition-all duration-200"
+          className="bg-secondary-foreground text-secondary hover:bg-secondary-foreground/90 px-4 py-1 h-8 text-sm font-medium shadow-lg border border-secondary-foreground/20 hover:shadow-md transition-all duration-200"
           style={{
             boxShadow: '0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.2)'
           }}
