@@ -256,6 +256,21 @@ const EditAsset = () => {
                       })}
                     </div>
                   </div>
+                  <div className="flex items-center space-x-2">
+                    <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Project</label>
+                    <div className="flex-grow">
+                      {renderField({ 
+                        name: "project", 
+                        type: "dropdown",
+                        options: [
+                          { id: "proj001", name: "Project Alpha" },
+                          { id: "proj002", name: "Project Beta" },
+                          { id: "proj003", name: "Project Gamma" },
+                          { id: "proj004", name: "Project Delta" }
+                        ]
+                      })}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

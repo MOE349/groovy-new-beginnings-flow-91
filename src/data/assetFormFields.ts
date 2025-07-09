@@ -71,6 +71,18 @@ export const equipmentFields: FormField[] = [
     optionLabelKey: "name",
   },
   {
+    name: "project",
+    type: "dropdown",
+    label: "Project",
+    required: false,
+    options: [
+      { value: "proj001", label: "Project Alpha" },
+      { value: "proj002", label: "Project Beta" },
+      { value: "proj003", label: "Project Gamma" },
+      { value: "proj004", label: "Project Delta" }
+    ]
+  },
+  {
     name: "purchase_date",
     type: "datepicker",
     label: "Purchase Date",
@@ -149,6 +161,18 @@ export const attachmentFields: FormField[] = [
     queryKey: ["assets_equipments"],
     optionValueKey: "id",
     optionLabelKey: "name",
+  },
+  {
+    name: "project",
+    type: "dropdown",
+    label: "Project",
+    required: false,
+    options: [
+      { value: "proj001", label: "Project Alpha" },
+      { value: "proj002", label: "Project Beta" },
+      { value: "proj003", label: "Project Gamma" },
+      { value: "proj004", label: "Project Delta" }
+    ]
   },
   {
     name: "purchase_date",
