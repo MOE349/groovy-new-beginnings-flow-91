@@ -222,7 +222,7 @@ const CreateEquipment = () => {
   );
 
   return (
-    <div className="bg-secondary p-6 rounded-lg space-y-6">
+    <div className="space-y-6">
       <div>
         <ApiForm
           fields={equipmentFields}
