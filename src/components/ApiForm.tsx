@@ -65,7 +65,10 @@ const ApiForm = ({
 
   // Update form data when initialData changes (for edit forms with async data)
   useEffect(() => {
-    setFormData(initialData);
+    // Only update if initialData has actual content or if formData is empty
+    if (Object.keys(initialData).length > 0 || Object.keys(formData).length === 0) {
+      setFormData(initialData);
+    }
   }, [initialData]);
 
   const handleFieldChange = (name: string, value: any) => {
