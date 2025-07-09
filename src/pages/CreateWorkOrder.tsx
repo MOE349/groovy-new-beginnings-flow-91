@@ -49,7 +49,7 @@ const CreateWorkOrder = () => {
       </div>
       
       {/* Work Order Information Box */}
-      <div className="bg-card rounded-md shadow-sm px-2 py-1 mt-4">
+      <div className="bg-card rounded-md shadow-sm px-2 py-1 mt-2">
         <form onSubmit={handleSubmit} className="h-full">
           <div 
             className="flex items-center gap-4 mb-4 py-1 -mx-2 bg-muted-foreground/20 border border-border rounded-md"
