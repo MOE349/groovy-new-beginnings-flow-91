@@ -112,15 +112,14 @@ const EditAsset = () => {
             {/* Left Section - toggle, location, image */}
             <div className="flex flex-col space-y-3 w-64">
               {/* Online Toggle Switch */}
-              <div className="w-32">
+              <div className="w-48">
                 <div 
-                  className={`flex items-center cursor-pointer transition-all duration-300 rounded border ${
+                  className={`flex items-center cursor-pointer transition-all duration-300 rounded border w-48 h-8 ${
                     formData?.is_online 
                       ? 'bg-green-500 border-green-600' 
                       : 'bg-red-500 border-red-600'
                   }`}
                   onClick={() => handleFieldChange("is_online", !formData?.is_online)}
-                  style={{ width: '100px', height: '32px' }}
                 >
                   {/* Icon section */}
                   <div className="flex items-center justify-center w-8 h-full text-white">
