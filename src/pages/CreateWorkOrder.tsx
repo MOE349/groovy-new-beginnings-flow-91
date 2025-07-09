@@ -62,7 +62,7 @@ const CreateWorkOrder = () => {
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 -mt-2">
             {/* Left Column - Online toggle + image + location */}
-            <div className="lg:col-span-1 space-y-3 flex flex-col items-center justify-center">
+            <div className="lg:col-span-2 space-y-3 flex flex-col items-center justify-center">
               <div className="flex items-center space-x-0">
                 <div 
                   className={`flex items-center cursor-pointer transition-all duration-300 rounded border w-48 h-8 ${
@@ -109,7 +109,7 @@ const CreateWorkOrder = () => {
             </div>
             
             {/* Right Column - Two sub-columns for form fields */}
-            <div className="lg:col-span-11">
+            <div className="lg:col-span-10">
               <div className="grid grid-cols-1 md:grid-cols-5 gap-x-6 gap-y-2">
                 {/* First sub-column - Asset, Status, Description */}
                 <div className="md:col-span-3 p-6 space-y-2 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex-1 min-w-0">
