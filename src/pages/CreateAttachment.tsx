@@ -225,12 +225,6 @@ const CreateAttachment = () => {
                       })}
                     </div>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Purchase Date</label>
-                    <div className="flex-grow">
-                      {renderField({ name: "purchase_date", type: "datepicker", required: true })}
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
