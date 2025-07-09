@@ -111,49 +111,37 @@ const EditAsset = () => {
           <div className="flex gap-8">
             {/* Left Section - toggle, location, image */}
             <div className="flex flex-col space-y-3 w-64">
-              {/* Industrial Toggle Switch */}
+              {/* Online Toggle Switch */}
               <div className="w-32">
                 <div 
-                  className="relative w-full h-8 cursor-pointer transition-all duration-500 bg-gray-900 border border-gray-800 rounded"
+                  className={`flex items-center cursor-pointer transition-all duration-300 rounded border ${
+                    formData?.is_online 
+                      ? 'bg-green-500 border-green-600' 
+                      : 'bg-gray-200 border-gray-300'
+                  }`}
                   onClick={() => handleFieldChange("is_online", !formData?.is_online)}
-                  style={{
-                    background: formData?.is_online 
-                      ? 'linear-gradient(90deg, #1f2937 0%, #1f2937 50%, #065f46 50%, #065f46 100%)'
-                      : 'linear-gradient(90deg, #7f1d1d 0%, #7f1d1d 50%, #1f2937 50%, #1f2937 100%)',
-                    boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.6), 0 1px 1px rgba(0,0,0,0.8)'
-                  }}
+                  style={{ width: '100px', height: '32px' }}
                 >
-                  {/* Background Text Labels */}
-                  <div className="absolute inset-0 flex items-center justify-between px-2 text-white font-bold text-[10px] tracking-wider">
-                    <span className="opacity-90">OFF</span>
-                    <span className="opacity-90">ON</span>
+                  {/* Checkmark section */}
+                  <div className={`flex items-center justify-center w-8 h-full ${
+                    formData?.is_online ? 'text-white' : 'text-gray-400'
+                  }`}>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path 
+                        d="M10 3L4.5 8.5L2 6" 
+                        stroke="currentColor" 
+                        strokeWidth="2" 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round"
+                      />
+                    </svg>
                   </div>
                   
-                  {/* Status Indicator Light */}
-                  <div 
-                    className={`absolute top-1 w-1.5 h-1.5 rounded-full transition-all duration-500 ${
-                      formData?.is_online 
-                        ? 'right-2 bg-green-400 shadow-[0_0_6px_rgba(34,197,94,0.8)]' 
-                        : 'left-2 bg-red-400 shadow-[0_0_6px_rgba(239,68,68,0.8)]'
-                    }`}
-                  />
-                  
-                  {/* Metallic Sliding Handle */}
-                  <div 
-                    className={`absolute top-0.5 bottom-0.5 w-10 transition-all duration-500 rounded-sm ${
-                      formData?.is_online ? 'translate-x-[84px]' : 'translate-x-0.5'
-                    }`}
-                    style={{
-                      background: 'linear-gradient(180deg, #6b7280 0%, #374151 50%, #1f2937 100%)',
-                      boxShadow: '0 1px 2px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1)'
-                    }}
-                  >
-                    {/* Handle Texture Lines */}
-                    <div className="flex items-center justify-center h-full space-x-0.5">
-                      <div className="w-0.5 h-3 bg-gray-600 rounded-full opacity-60"></div>
-                      <div className="w-0.5 h-3 bg-gray-600 rounded-full opacity-60"></div>
-                      <div className="w-0.5 h-3 bg-gray-600 rounded-full opacity-60"></div>
-                    </div>
+                  {/* Online text */}
+                  <div className={`flex-1 text-sm font-medium px-2 ${
+                    formData?.is_online ? 'text-white' : 'text-gray-600'
+                  }`}>
+                    Online
                   </div>
                 </div>
               </div>

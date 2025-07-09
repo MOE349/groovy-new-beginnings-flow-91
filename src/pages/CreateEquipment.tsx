@@ -60,12 +60,38 @@ const CreateEquipment = () => {
           <div className="flex gap-8 items-center">
             {/* Left Section - Image, toggle, location */}
             <div className="flex flex-col space-y-3 w-64 pl-6">
-              <div className="flex items-center space-x-2">
-                <Switch 
-                  checked={formData?.is_online || false} 
-                  onCheckedChange={(checked) => handleFieldChange("is_online", checked)}
-                />
-                <Label className="text-caption font-normal">Online</Label>
+              <div className="flex items-center space-x-0">
+                <div 
+                  className={`flex items-center cursor-pointer transition-all duration-300 rounded border ${
+                    formData?.is_online 
+                      ? 'bg-green-500 border-green-600' 
+                      : 'bg-gray-200 border-gray-300'
+                  }`}
+                  onClick={() => handleFieldChange("is_online", !formData?.is_online)}
+                  style={{ width: '100px', height: '32px' }}
+                >
+                  {/* Checkmark section */}
+                  <div className={`flex items-center justify-center w-8 h-full ${
+                    formData?.is_online ? 'text-white' : 'text-gray-400'
+                  }`}>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path 
+                        d="M10 3L4.5 8.5L2 6" 
+                        stroke="currentColor" 
+                        strokeWidth="2" 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
+                  
+                  {/* Online text */}
+                  <div className={`flex-1 text-sm font-medium px-2 ${
+                    formData?.is_online ? 'text-white' : 'text-gray-600'
+                  }`}>
+                    Online
+                  </div>
+                </div>
               </div>
               <div className="w-48 h-32 bg-muted rounded border overflow-hidden">
                 <img 
