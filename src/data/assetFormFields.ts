@@ -151,6 +151,15 @@ export const attachmentFields: FormField[] = [
     optionLabelKey: "name",
   },
   {
+    name: "project",
+    type: "dropdown",
+    label: "Project",
+    endpoint: "/company/projects",
+    queryKey: ["company_projects"],
+    optionValueKey: "id",
+    optionLabelKey: "name",
+  },
+  {
     name: "purchase_date",
     type: "datepicker",
     label: "Purchase Date",
