@@ -30,11 +30,11 @@ const CreateWorkOrder = () => {
   const customLayout = ({ handleSubmit, formData, handleFieldChange, loading, error, renderField }: any) => (
     <div className="space-y-4">
       {/* Top Action Bar */}
-      <div className="h-14 flex items-center justify-between px-4 py-2 bg-card border-b border-border">
+      <div className="h-14 flex items-center justify-between px-4 py-2 bg-gradient-to-r from-yellow-400 to-yellow-500 border-b border-yellow-600/20">
         <Button 
-          variant="outline" 
+          variant="ghost" 
           onClick={() => navigate("/workorders")}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 text-yellow-900 hover:text-yellow-800 hover:bg-yellow-300/20"
         >
           <ArrowLeft className="h-4 w-4" />
           Back
@@ -42,7 +42,7 @@ const CreateWorkOrder = () => {
         <Button 
           onClick={handleSubmit} 
           disabled={loading} 
-          className="px-8"
+          className="bg-yellow-900 text-yellow-50 hover:bg-yellow-800 px-6"
         >
           {loading ? "Loading..." : "Create Work Order"}
         </Button>
