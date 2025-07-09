@@ -74,7 +74,7 @@ const CreateEquipment = () => {
           </div>
           
           {/* Layout matching reference image */}
-          <div className="flex gap-8 items-center">
+          <div className="flex gap-8 items-center -mt-2">
             {/* Left Section - Image, toggle, location */}
             <div className="flex flex-col space-y-3 w-64 pl-6">
               <div className="flex items-center space-x-0">
