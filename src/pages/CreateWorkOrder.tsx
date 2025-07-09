@@ -6,44 +6,39 @@ import { workOrderFields } from "@/data/workOrderFormFields";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Check, X } from "lucide-react";
-
 const CreateWorkOrder = () => {
   const navigate = useNavigate();
-
   const handleSubmit = async (data: Record<string, any>) => {
     try {
       await apiPost("/work-orders/work_order", data);
       toast({
         title: "Success",
-        description: "Work order created successfully!",
+        description: "Work order created successfully!"
       });
       navigate("/workorders");
     } catch (error: any) {
       toast({
         title: "Error",
         description: error.message || "Failed to create work order",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
-
-  const customLayout = ({ handleSubmit, formData, handleFieldChange, loading, error, renderField }: any) => (
-    <div className="space-y-4">
+  const customLayout = ({
+    handleSubmit,
+    formData,
+    handleFieldChange,
+    loading,
+    error,
+    renderField
+  }: any) => <div className="space-y-4">
       {/* Top Action Bar */}
       <div className="flex items-center gap-3 p-4 border rounded-lg bg-background">
-        <Button 
-          variant="outline" 
-          onClick={() => navigate("/workorders")}
-          className="flex items-center gap-2"
-        >
+        <Button variant="outline" onClick={() => navigate("/workorders")} className="flex items-center gap-2">
           <ArrowLeft className="h-4 w-4" />
           Back
         </Button>
-        <Button 
-          onClick={handleSubmit} 
-          disabled={loading} 
-          className="px-8"
-        >
+        <Button onClick={handleSubmit} disabled={loading} className="px-8">
           {loading ? "Loading..." : "Create Work Order"}
         </Button>
       </div>
@@ -51,9 +46,7 @@ const CreateWorkOrder = () => {
       {/* Work Order Information Box */}
       <div className="bg-card rounded-md shadow-sm px-2 py-1 mt-4">
         <form onSubmit={handleSubmit} className="h-full">
-          <div 
-            className="flex items-center gap-4 mb-4 py-1 -mx-2 bg-muted-foreground/20 border border-border rounded-md"
-          >
+          <div className="flex items-center gap-4 mb-4 py-1 -mx-2 bg-muted-foreground/20 border border-border rounded-md">
             <h3 className="text-h3 font-medium text-primary ml-6">Work Order Information</h3>
             <div className="ml-auto mr-6 text-sm text-muted-foreground">
               Code: {formData?.code || "Auto-generated"}
@@ -62,23 +55,12 @@ const CreateWorkOrder = () => {
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 -mt-2">
             {/* Left Column - Online toggle + image + location */}
-            <div className="lg:col-span-2 space-y-3 flex flex-col items-center justify-center">
+            <div className="lg:col-span-1 space-y-3 flex flex-col items-center justify-center mx-0 px-[2px] py-[2px]">
               <div className="flex items-center space-x-0">
-                <div 
-                  className={`flex items-center cursor-pointer transition-all duration-300 rounded border w-48 h-8 ${
-                    formData?.is_online 
-                      ? 'bg-green-500 border-green-600' 
-                      : 'bg-red-500 border-red-600'
-                  }`}
-                  onClick={() => handleFieldChange("is_online", !formData?.is_online)}
-                >
+                <div className={`flex items-center cursor-pointer transition-all duration-300 rounded border w-48 h-8 ${formData?.is_online ? 'bg-green-500 border-green-600' : 'bg-red-500 border-red-600'}`} onClick={() => handleFieldChange("is_online", !formData?.is_online)}>
                   {/* Icon section */}
                   <div className="flex items-center justify-center w-8 h-full text-white">
-                    {formData?.is_online ? (
-                      <Check size={12} />
-                    ) : (
-                      <X size={12} />
-                    )}
+                    {formData?.is_online ? <Check size={12} /> : <X size={12} />}
                   </div>
                   
                   {/* Status text */}
@@ -88,61 +70,61 @@ const CreateWorkOrder = () => {
                 </div>
               </div>
               <div className="w-48 h-32 bg-muted rounded border overflow-hidden">
-                <img 
-                  src="/lovable-uploads/cf9d21df-6820-4bea-ae16-54c41a67117e.png" 
-                  alt="Work Order" 
-                  className="w-full h-full object-cover"
-                />
+                <img src="/lovable-uploads/cf9d21df-6820-4bea-ae16-54c41a67117e.png" alt="Work Order" className="w-full h-full object-cover" />
               </div>
               <div className="space-y-1 w-48">
                 <label className="block text-caption font-normal text-right w-24 text-foreground">Location</label>
-                {renderField({ 
-                  name: "location", 
-                  type: "dropdown", 
-                  required: true, 
-                  endpoint: "/company/location", 
-                  queryKey: ["company_location"], 
-                  optionValueKey: "id", 
-                  optionLabelKey: "name"
-                })}
+                {renderField({
+                name: "location",
+                type: "dropdown",
+                required: true,
+                endpoint: "/company/location",
+                queryKey: ["company_location"],
+                optionValueKey: "id",
+                optionLabelKey: "name"
+              })}
               </div>
             </div>
             
             {/* Right Column - Two sub-columns for form fields */}
-            <div className="lg:col-span-10">
+            <div className="lg:col-span-11">
               <div className="grid grid-cols-1 md:grid-cols-5 gap-x-6 gap-y-2">
                 {/* First sub-column - Asset, Status, Description */}
                 <div className="md:col-span-3 p-6 space-y-2 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex-1 min-w-0">
                   <div className="flex items-center space-x-3">
                     <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Asset</label>
                     <div className="flex-grow">
-                      {renderField({ 
-                        name: "asset", 
-                        type: "dropdown", 
-                        required: true, 
-                        endpoint: "/assets/equipments",
-                        optionValueKey: "id", 
-                        optionLabelKey: "name" 
-                      })}
+                      {renderField({
+                      name: "asset",
+                      type: "dropdown",
+                      required: true,
+                      endpoint: "/assets/equipments",
+                      optionValueKey: "id",
+                      optionLabelKey: "name"
+                    })}
                     </div>
                   </div>
                   <div className="flex items-center space-x-3">
                     <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Status</label>
                     <div className="flex-grow">
-                      {renderField({ 
-                        name: "status", 
-                        type: "dropdown", 
-                        required: true, 
-                        endpoint: "/work-orders/status",
-                        optionValueKey: "id", 
-                        optionLabelKey: "name" 
-                      })}
+                      {renderField({
+                      name: "status",
+                      type: "dropdown",
+                      required: true,
+                      endpoint: "/work-orders/status",
+                      optionValueKey: "id",
+                      optionLabelKey: "name"
+                    })}
                     </div>
                   </div>
                   <div className="flex items-start space-x-2">
                     <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0 pt-1">Description</label>
                     <div className="flex-grow">
-                      {renderField({ name: "description", type: "textarea", rows: 4 })}
+                      {renderField({
+                      name: "description",
+                      type: "textarea",
+                      rows: 4
+                    })}
                     </div>
                   </div>
                 </div>
@@ -152,25 +134,39 @@ const CreateWorkOrder = () => {
                   <div className="flex items-center space-x-3">
                     <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Maint Type</label>
                     <div className="flex-grow">
-                      {renderField({ name: "maint_type", type: "input", inputType: "text" })}
+                      {renderField({
+                      name: "maint_type",
+                      type: "input",
+                      inputType: "text"
+                    })}
                     </div>
                   </div>
                   <div className="flex items-center space-x-3">
                     <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Priority</label>
                     <div className="flex-grow">
-                      {renderField({ name: "priority", type: "input", inputType: "text" })}
+                      {renderField({
+                      name: "priority",
+                      type: "input",
+                      inputType: "text"
+                    })}
                     </div>
                   </div>
                   <div className="flex items-center space-x-3">
                     <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Start Date</label>
                     <div className="flex-grow">
-                      {renderField({ name: "suggested_start_date", type: "datepicker" })}
+                      {renderField({
+                      name: "suggested_start_date",
+                      type: "datepicker"
+                    })}
                     </div>
                   </div>
                   <div className="flex items-center space-x-3">
                     <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Completion</label>
                     <div className="flex-grow">
-                      {renderField({ name: "completion_end_date", type: "datepicker" })}
+                      {renderField({
+                      name: "completion_end_date",
+                      type: "datepicker"
+                    })}
                     </div>
                   </div>
                 </div>
@@ -179,20 +175,12 @@ const CreateWorkOrder = () => {
           </div>
         </form>
       </div>
-    </div>
-  );
-
-  return (
-    <div className="space-y-6">
+    </div>;
+  return <div className="space-y-6">
       <div>
-        <ApiForm
-          fields={workOrderFields}
-          onSubmit={handleSubmit}
-          initialData={{
-            is_online: false,
-          }}
-          customLayout={customLayout}
-        />
+        <ApiForm fields={workOrderFields} onSubmit={handleSubmit} initialData={{
+        is_online: false
+      }} customLayout={customLayout} />
       </div>
 
       {/* Compact Tabs Section */}
@@ -201,40 +189,22 @@ const CreateWorkOrder = () => {
           {/* Compact Pill-Style Tab List */}
           <div className="h-10 overflow-x-auto">
             <TabsList className="grid w-full grid-cols-6 h-10 bg-card border border-border rounded-md p-0">
-              <TabsTrigger 
-                value="completion" 
-                className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
-              >
+              <TabsTrigger value="completion" className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none">
                 Completion
               </TabsTrigger>
-              <TabsTrigger 
-                value="checklist"
-                className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
-              >
+              <TabsTrigger value="checklist" className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none">
                 Checklist
               </TabsTrigger>
-              <TabsTrigger 
-                value="parts"
-                className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
-              >
+              <TabsTrigger value="parts" className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none">
                 Parts
               </TabsTrigger>
-              <TabsTrigger 
-                value="log"
-                className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
-              >
+              <TabsTrigger value="log" className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none">
                 Log
               </TabsTrigger>
-              <TabsTrigger 
-                value="misc-cost"
-                className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
-              >
+              <TabsTrigger value="misc-cost" className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none">
                 Misc Cost
               </TabsTrigger>
-              <TabsTrigger 
-                value="files"
-                className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
-              >
+              <TabsTrigger value="files" className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none">
                 Files
               </TabsTrigger>
             </TabsList>
@@ -277,8 +247,6 @@ const CreateWorkOrder = () => {
           </TabsContent>
         </Tabs>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default CreateWorkOrder;
