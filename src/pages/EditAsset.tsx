@@ -111,7 +111,7 @@ const EditAsset = () => {
           <div className="flex items-center gap-4 mb-4">
             <h3 className="text-h3 font-medium text-primary">{assetTypeName} Information</h3>
             {(formData?.code || formData?.name) && (
-              <span className="text-h3 font-medium text-muted-foreground ml-13">
+              <span className="text-h3 font-medium text-muted-foreground ml-16">
                 {formData?.code && `(${formData.code})`} {formData?.name}
               </span>
             )}
