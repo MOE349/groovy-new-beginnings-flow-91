@@ -90,9 +90,9 @@ const CreateEquipment = () => {
             
             {/* Right Section - Form fields in three columns */}
             <div className="flex-1">
-              <div className="grid grid-cols-3 gap-x-8 gap-y-2 relative before:absolute before:left-[33.33%] before:top-0 before:bottom-0 before:w-px before:bg-accent before:-translate-x-4 after:absolute after:left-[66.66%] after:top-0 after:bottom-0 after:w-px after:bg-accent after:-translate-x-4">
+              <div className="grid grid-cols-3 gap-x-8 gap-y-2">
                 {/* First sub-column */}
-                <div className="space-y-2">
+                <div className="p-4 border-2 border-accent rounded-lg space-y-2">
                   <div className="flex items-center space-x-3">
                     <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Code</label>
                     <div className="flex-grow">
@@ -105,16 +105,16 @@ const CreateEquipment = () => {
                       {renderField({ name: "name", type: "input", required: true, inputType: "text" })}
                     </div>
                   </div>
-                   <div className="flex items-start space-x-3">
-                     <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0 pt-2">Description</label>
-                     <div className="flex-grow">
-                       {renderField({ name: "description", type: "textarea", rows: 4 })}
-                     </div>
-                   </div>
+                  <div className="flex items-start space-x-3">
+                    <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0 pt-2">Description</label>
+                    <div className="flex-grow">
+                      {renderField({ name: "description", type: "textarea", rows: 4 })}
+                    </div>
+                  </div>
                 </div>
                 
                 {/* Second sub-column */}
-                <div className="space-y-2">
+                <div className="p-4 border-2 border-accent rounded-lg space-y-2">
                   <div className="flex items-center space-x-3">
                     <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Category</label>
                     <div className="flex-grow">
@@ -150,7 +150,7 @@ const CreateEquipment = () => {
                 </div>
                 
                 {/* Third sub-column */}
-                <div className="space-y-2">
+                <div className="p-4 border-2 border-accent rounded-lg space-y-2">
                   <div className="flex items-center space-x-3">
                     <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Status</label>
                     <div className="flex-grow">
