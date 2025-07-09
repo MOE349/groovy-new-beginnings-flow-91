@@ -55,9 +55,18 @@ const CreateAttachment = () => {
       </div>
       
       {/* Attachment Information Card - Compact */}
-      <div className="bg-card rounded-md shadow-sm px-2 py-1">
+      <div className="bg-card rounded-md shadow-sm px-2 py-1 mt-4">
         <form onSubmit={handleSubmit} className="h-full">
-          <h3 className="text-h3 font-medium mb-4 text-primary">Attachment Information</h3>
+          <div 
+            className="flex items-center gap-4 mb-4 py-2 px-4" 
+            style={{
+              boxShadow: '0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.05)',
+              borderTop: '1px solid rgba(255,255,255,0.15)',
+              borderBottom: '1px solid rgba(0,0,0,0.05)'
+            }}
+          >
+            <h3 className="text-h3 font-medium text-primary">Attachment Information</h3>
+          </div>
           
           {/* Layout matching reference image */}
           <div className="flex gap-8 items-center -mt-2">
