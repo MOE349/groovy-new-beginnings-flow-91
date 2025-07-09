@@ -225,6 +225,21 @@ const CreateAttachment = () => {
                       })}
                     </div>
                   </div>
+                  <div className="flex items-center space-x-2">
+                    <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Account Code</label>
+                    <div className="flex-grow">
+                      {renderField({ 
+                        name: "account_code", 
+                        type: "dropdown",
+                        options: [
+                          { id: "acc001", name: "ACC-001" },
+                          { id: "acc002", name: "ACC-002" },
+                          { id: "acc003", name: "ACC-003" },
+                          { id: "acc004", name: "ACC-004" }
+                        ]
+                      })}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
