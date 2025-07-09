@@ -92,7 +92,7 @@ const CreateEquipment = () => {
             <div className="flex-1">
               <div className="grid grid-cols-3 gap-x-8 gap-y-2">
                 {/* First sub-column */}
-                <div className="p-4 border-2 border-accent rounded-lg space-y-2">
+                <div className="p-4 border-2 border-secondary/30 rounded-lg space-y-2">
                   <div className="flex items-center space-x-3">
                     <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Code</label>
                     <div className="flex-grow">
@@ -114,7 +114,7 @@ const CreateEquipment = () => {
                 </div>
                 
                 {/* Second sub-column */}
-                <div className="p-4 border-2 border-accent rounded-lg space-y-2">
+                <div className="p-4 border-2 border-secondary/30 rounded-lg space-y-2">
                   <div className="flex items-center space-x-3">
                     <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Category</label>
                     <div className="flex-grow">
@@ -150,7 +150,7 @@ const CreateEquipment = () => {
                 </div>
                 
                 {/* Third sub-column */}
-                <div className="p-4 border-2 border-accent rounded-lg space-y-2">
+                <div className="p-4 border-2 border-secondary/30 rounded-lg space-y-2">
                   <div className="flex items-center space-x-3">
                     <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Status</label>
                     <div className="flex-grow">
