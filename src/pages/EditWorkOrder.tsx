@@ -109,50 +109,82 @@ const EditWorkOrder = () => {
       </div>
       
       {/* Work Order Information Box */}
-      <div className="border rounded-lg p-4 overflow-hidden">
+      <div className="bg-card rounded-md shadow-sm px-2 py-1 mt-4">
         <form onSubmit={handleSubmit} className="h-full">
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-xl font-semibold">Work Order Information</h2>
-            <div className="text-sm text-muted-foreground">
+          <div 
+            className="flex items-center gap-4 mb-4 py-1 -mx-2 bg-muted-foreground/20 border border-border rounded-md"
+          >
+            <h3 className="text-h3 font-medium text-primary ml-6">Work Order Information</h3>
+            <div className="ml-auto mr-6 text-sm text-muted-foreground">
               Code: {formData?.code || "Loading..."}
             </div>
           </div>
-          <div className="grid grid-cols-6 gap-3 h-[calc(100%-4rem)]">
-            {/* Left side - Asset, Status, Description */}
-            <div className="col-span-2 space-y-3">
-              {renderField({ 
-                name: "asset", 
-                type: "dropdown", 
-                label: "Asset", 
-                required: true, 
-                endpoint: "/assets/equipments",
-                queryKey: ["assets_equipments"],
-                optionValueKey: "id", 
-                optionLabelKey: "name" 
-              })}
-              {renderField({ 
-                name: "status", 
-                type: "dropdown", 
-                label: "Status", 
-                required: true, 
-                endpoint: "/work-orders/status",
-                queryKey: ["work_orders_status"],
-                optionValueKey: "id", 
-                optionLabelKey: "name" 
-              })}
-              {renderField({ name: "description", type: "textarea", label: "Description", rows: 4 })}
+          
+          <div className="grid grid-cols-5 gap-4 -mt-2">
+            {/* First column - Asset, Status, Description */}
+            <div className="col-span-3 p-6 space-y-2 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
+              <div className="flex items-center space-x-2">
+                <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Asset</label>
+                <div className="flex-grow">
+                  {renderField({ 
+                    name: "asset", 
+                    type: "dropdown", 
+                    required: true, 
+                    endpoint: "/assets/equipments",
+                    queryKey: ["assets_equipments"],
+                    optionValueKey: "id", 
+                    optionLabelKey: "name" 
+                  })}
+                </div>
+              </div>
+              <div className="flex items-center space-x-2">
+                <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Status</label>
+                <div className="flex-grow">
+                  {renderField({ 
+                    name: "status", 
+                    type: "dropdown", 
+                    required: true, 
+                    endpoint: "/work-orders/status",
+                    queryKey: ["work_orders_status"],
+                    optionValueKey: "id", 
+                    optionLabelKey: "name" 
+                  })}
+                </div>
+              </div>
+              <div className="flex items-start space-x-2">
+                <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0 pt-1">Description</label>
+                <div className="flex-grow">
+                  {renderField({ name: "description", type: "textarea", rows: 4 })}
+                </div>
+              </div>
             </div>
             
-            {/* Middle - Type, Priority */}
-            <div className="col-span-2 space-y-3">
-              {renderField({ name: "maint_type", type: "input", label: "Maint Type", inputType: "text" })}
-              {renderField({ name: "priority", type: "input", label: "Priority", inputType: "text" })}
-            </div>
-            
-            {/* Right side - dates */}
-            <div className="col-span-2 space-y-3">
-              {renderField({ name: "suggested_start_date", type: "datepicker", label: "Suggested Start Date" })}
-              {renderField({ name: "completion_end_date", type: "datepicker", label: "Completion Date" })}
+            {/* Second column - Maint Type, Priority, Dates */}
+            <div className="col-span-2 p-6 space-y-2 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
+              <div className="flex items-center space-x-2">
+                <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Maint Type</label>
+                <div className="flex-grow">
+                  {renderField({ name: "maint_type", type: "input", inputType: "text" })}
+                </div>
+              </div>
+              <div className="flex items-center space-x-2">
+                <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Priority</label>
+                <div className="flex-grow">
+                  {renderField({ name: "priority", type: "input", inputType: "text" })}
+                </div>
+              </div>
+              <div className="flex items-center space-x-2">
+                <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Start Date</label>
+                <div className="flex-grow">
+                  {renderField({ name: "suggested_start_date", type: "datepicker" })}
+                </div>
+              </div>
+              <div className="flex items-center space-x-2">
+                <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Completion</label>
+                <div className="flex-grow">
+                  {renderField({ name: "completion_end_date", type: "datepicker" })}
+                </div>
+              </div>
             </div>
           </div>
         </form>
