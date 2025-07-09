@@ -74,19 +74,17 @@ const CreateEquipment = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="space-y-1 w-48 flex flex-col">
+              <div className="space-y-1 w-48">
                 <label className="block text-caption font-normal text-foreground">Location</label>
-                <div className="flex-1 flex items-end">
-                  {renderField({ 
-                    name: "location", 
-                    type: "dropdown", 
-                    required: true, 
-                    endpoint: "/company/location", 
-                    queryKey: ["company_location"], 
-                    optionValueKey: "id", 
-                    optionLabelKey: "name"
-                  })}
-                </div>
+                {renderField({ 
+                  name: "location", 
+                  type: "dropdown", 
+                  required: true, 
+                  endpoint: "/company/location", 
+                  queryKey: ["company_location"], 
+                  optionValueKey: "id", 
+                  optionLabelKey: "name"
+                })}
               </div>
             </div>
             
@@ -107,10 +105,10 @@ const CreateEquipment = () => {
                       {renderField({ name: "name", type: "input", required: true, inputType: "text" })}
                     </div>
                   </div>
-                  <div className="flex items-end space-x-3">
-                    <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0">Description</label>
+                  <div className="flex items-start space-x-3">
+                    <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0 pt-2">Description</label>
                     <div className="flex-grow">
-                      {renderField({ name: "description", type: "textarea", rows: 4 })}
+                      {renderField({ name: "description", type: "textarea", rows: 2 })}
                     </div>
                   </div>
                 </div>
