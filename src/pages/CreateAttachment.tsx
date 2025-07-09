@@ -92,7 +92,7 @@ const CreateAttachment = () => {
             <div className="flex-1">
               <div className="grid grid-cols-3 gap-x-8 gap-y-2">
                 {/* First sub-column */}
-                <div className="space-y-2">
+                <div className="p-6 space-y-2 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
                   <div className="flex items-center space-x-2">
                     <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Code</label>
                     <div className="flex-grow">
@@ -120,7 +120,7 @@ const CreateAttachment = () => {
                 </div>
                 
                 {/* Second sub-column */}
-                <div className="space-y-2">
+                <div className="p-6 space-y-2 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
                   <div className="flex items-center space-x-2">
                     <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Category</label>
                     <div className="flex-grow">
@@ -156,7 +156,7 @@ const CreateAttachment = () => {
                 </div>
                 
                 {/* Third sub-column */}
-                <div className="space-y-2">
+                <div className="p-6 space-y-2 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
                   <div className="flex items-center space-x-2">
                     <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Status</label>
                     <div className="flex-grow">
