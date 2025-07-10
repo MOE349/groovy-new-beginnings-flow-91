@@ -161,7 +161,7 @@ const EditAsset = () => {
           
           <TabsContent value="metering-events" className="mt-4">
             <div className="bg-card rounded-sm shadow-xs p-4 space-y-4">
-              <h3 className="text-h3 font-medium text-foreground">Metering/Events</h3>
+              
               
               {/* Add Meter Reading Form - Compact */}
               <div className="flex items-end gap-4">
