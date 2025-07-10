@@ -194,7 +194,7 @@ const ApiForm = ({
         </Alert>
       )}
       
-      <Button type="submit" disabled={loading} variant="secondary" className="w-full">
+      <Button type="submit" disabled={loading} variant="save-action" className="w-full">
         {loading ? "Loading..." : "Save"}
       </Button>
       

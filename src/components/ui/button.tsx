@@ -9,7 +9,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-secondary !text-secondary-foreground hover:bg-secondary/90 active:shadow-inner rounded-md shadow-sm",
+        default: "bg-secondary text-secondary-foreground hover:bg-secondary/90 active:shadow-inner rounded-md shadow-sm",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90 rounded-md",
         outline:
@@ -18,6 +18,9 @@ const buttonVariants = cva(
           "bg-primary text-secondary hover:bg-primary/90 rounded-md",
         ghost: "hover:bg-accent hover:text-accent-foreground rounded-md",
         link: "text-secondary underline-offset-4 hover:underline",
+        "create-action": "bg-secondary text-secondary-foreground hover:bg-secondary/90 active:shadow-inner rounded-md shadow-sm",
+        "create-outline": "border border-secondary text-secondary bg-transparent hover:bg-secondary/10 rounded-md",
+        "save-action": "bg-primary text-secondary hover:bg-primary/90 rounded-md shadow-sm",
       },
       size: {
         default: "px-6 py-3 text-body",

@@ -42,7 +42,8 @@ const CreateWorkOrder = () => {
         <Button 
           onClick={handleSubmit} 
           disabled={loading} 
-          className="bg-secondary-foreground text-secondary hover:bg-secondary-foreground/90 px-4 py-1 h-8 text-sm font-medium shadow-lg border border-secondary-foreground/20 hover:shadow-md transition-all duration-200"
+          variant="save-action"
+          className="px-4 py-1 h-8 text-sm font-medium"
         >
           {loading ? "Loading..." : "Save"}
         </Button>

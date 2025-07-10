@@ -40,8 +40,8 @@ const AssetFormLayout = ({
         <Button 
           onClick={handleSubmit} 
           disabled={loading} 
-          variant="secondary"
-          className="px-4 py-1 h-8 text-sm font-medium !text-secondary"
+          variant="save-action"
+          className="px-4 py-1 h-8 text-sm font-medium"
         >
           {loading ? "Loading..." : "Save"}
         </Button>
