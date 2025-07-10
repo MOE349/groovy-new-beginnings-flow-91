@@ -31,7 +31,7 @@ export const AttachmentFormLayout = ({
         <Button 
           variant="ghost" 
           onClick={() => navigate("/assets")}
-          className="flex items-center gap-2 px-4 py-1 h-8 text-sm"
+          className="flex items-center gap-2 text-black dark:text-black hover:scale-105 transition-transform px-4 py-1 h-8 text-sm"
         >
           <ArrowLeft className="h-4 w-4" />
           Back
