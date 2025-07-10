@@ -177,7 +177,7 @@ const Settings = () => {
       <Tabs defaultValue="sites" className="w-full mt-8">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="sites">Tables</TabsTrigger>
-          <TabsTrigger value="categories">Categories</TabsTrigger>
+          <TabsTrigger value="categories">Users</TabsTrigger>
           <TabsTrigger value="workorder-settings">WorkOrder Settings</TabsTrigger>
         </TabsList>
         
