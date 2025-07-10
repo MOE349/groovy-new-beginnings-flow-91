@@ -36,7 +36,7 @@ const CreateEquipment = () => {
       <div className="px-2 py-1">
         <form onSubmit={handleSubmit} className="h-full">
           <div 
-            className="flex items-center justify-between gap-4 mb-3 py-1 -mx-2 bg-secondary text-secondary-foreground border border-secondary/30 rounded-md"
+            className="flex items-center justify-between gap-4 mb-3 py-1 -mx-2 bg-secondary text-secondary-foreground border border-secondary/30 border-b-primary rounded-md"
           >
             <div className="flex items-center gap-4">
               <Button 
