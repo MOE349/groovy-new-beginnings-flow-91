@@ -3,7 +3,7 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - main  # or your deployment branch
+      - main
  
 jobs:
   deploy:
@@ -13,19 +13,17 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v3
  
-    - name: Setup SSH key
+    - name: Set up SSH key
       run: |
         mkdir -p ~/.ssh
         echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_ed25519
         chmod 600 ~/.ssh/id_ed25519
         ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
  
-    - name: Deploy via SSH
+    - name: Deploy to Amazon Linux EC2
       run: |
-        ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
-          cd ${{ secrets.EC2_APP_DIR }}
-          git pull origin main
-          docker-compose down
-          docker-compose build --no-cache
-          docker-compose up -d
+        ssh -tt ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+          cd ~/tenmil-deploy
+          docker compose pull
+          docker compose up -d
         EOF
