@@ -90,7 +90,7 @@ const ApiDropDown = ({
         onValueChange={onChange}
         disabled={disabled || isLoading}
       >
-        <SelectTrigger>
+        <SelectTrigger className={value ? "bg-blue-50/70" : ""}>
           <SelectValue placeholder={isLoading ? "Loading..." : placeholder} />
           {isLoading && <GearSpinner />}
         </SelectTrigger>
