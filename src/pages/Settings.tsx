@@ -223,15 +223,7 @@ const Settings = () => {
               ]}
             />
           </div>
-        </TabsContent>
-        
-        <TabsContent value="categories" className="space-y-4">
-          <div className="text-center text-muted-foreground py-8">
-            Equipment and Attachment Categories have been moved to the Sites tab.
-          </div>
-        </TabsContent>
-        
-        <TabsContent value="workorder-settings" className="space-y-4">
+          
           <div className="grid grid-cols-1 gap-6">
             <ApiTable
               title="WorkOrder Status"
@@ -243,6 +235,18 @@ const Settings = () => {
                 { key: 'control', header: 'Control', type: 'object' },
               ]}
             />
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="categories" className="space-y-4">
+          <div className="text-center text-muted-foreground py-8">
+            Equipment and Attachment Categories have been moved to the Sites tab.
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="workorder-settings" className="space-y-4">
+          <div className="text-center text-muted-foreground py-8">
+            WorkOrder Status has been moved to the Sites tab.
           </div>
         </TabsContent>
       </Tabs>
