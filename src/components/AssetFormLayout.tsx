@@ -91,7 +91,7 @@ const AssetFormLayout = ({
                   </div>
                 </div>
               </div>
-              <div className="w-48 h-32 bg-muted rounded border overflow-hidden">
+              <div className="w-48 h-32 bg-muted rounded border-2 border-border overflow-hidden">
                 <img 
                   src="/lovable-uploads/cf9d21df-6820-4bea-ae16-54c41a67117e.png" 
                   alt={assetTypeName} 
