@@ -173,112 +173,113 @@ const EditAsset = () => {
               
               
               {/* Update Reading Button and Table Container */}
-              <div className="space-y-3">
-                <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                <div className="space-y-3">
                   <DialogTrigger asChild>
                     <Button variant="outline" size="sm" className="flex items-center gap-2">
                       <Plus className="h-3 w-3" />
                       Update Reading
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-md">
-                    <DialogHeader>
-                      <DialogTitle>Add Meter Reading</DialogTitle>
-                    </DialogHeader>
-                    <div className="space-y-4">
-                      <ApiForm
-                        fields={[
-                          {
-                            name: "meter_reading",
-                            type: "input",
-                            inputType: "text",
-                            required: true,
-                            label: "Meter Reading"
-                          }
-                        ]}
-                        onSubmit={async (data) => {
-                          const submissionData = {
-                            ...data,
-                            asset: id
-                          };
-                          try {
-                            await apiPost("/meter-readings/meter_reading", submissionData);
-                            queryClient.invalidateQueries({ queryKey: ["meter_readings", id] });
-                            setIsDialogOpen(false);
-                            toast({
-                              title: "Success",
-                              description: "Meter reading added successfully!",
-                            });
-                          } catch (error: any) {
-                            toast({
-                              title: "Error",
-                              description: error.message || "Failed to add meter reading",
-                              variant: "destructive",
-                            });
-                          }
-                        }}
-                        customLayout={({ handleSubmit, renderField }) => (
-                          <div className="space-y-4">
-                            {renderField({ 
-                              name: "meter_reading", 
-                              type: "input", 
-                              inputType: "text", 
-                              required: true,
-                              label: "Meter Reading"
-                            })}
-                            <div className="flex justify-end gap-2">
-                              <Button 
-                                variant="outline" 
-                                onClick={() => setIsDialogOpen(false)}
+
+                  <div className="w-2/5">
+                    <ApiTable
+                      endpoint={`/meter-readings/meter_reading?asset=${id}`}
+                      queryKey={["meter_readings", id]}
+                      columns={[
+                        { key: 'meter_reading', header: 'Meter Reading', type: 'string', className: "py-1 px-2" },
+                        { key: 'created_at', header: 'Creation Date', type: 'date', className: "py-1 px-2" },
+                        { 
+                          key: 'created_by', 
+                          header: 'Created By', 
+                          type: 'object', 
+                          className: "py-1 px-2",
+                          render: (value: any, row: any) => (
+                            <div className="flex items-center justify-between">
+                              <span>{value?.name || value}</span>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleDeleteMeterReading(row.id);
+                                }}
+                                className="opacity-0 group-hover:opacity-100 transition-opacity h-5 w-5 p-0 ml-2"
                               >
-                                Cancel
-                              </Button>
-                              <Button onClick={handleSubmit}>
-                                Save
+                                <Trash2 className="h-3 w-3" />
                               </Button>
                             </div>
-                          </div>
-                        )}
-                      />
-                    </div>
-                  </DialogContent>
-                </Dialog>
+                          )
+                        },
+                      ]}
+                      emptyMessage="No meter readings found"
+                      tableClassName="text-xs [&_td]:py-1 [&_td]:px-2 [&_th]:py-1 [&_th]:px-2 [&_th]:h-8"
+                    />
+                  </div>
+                </div>
 
-                <div className="w-2/5">
-                  <ApiTable
-                    endpoint={`/meter-readings/meter_reading?asset=${id}`}
-                    queryKey={["meter_readings", id]}
-                    columns={[
-                      { key: 'meter_reading', header: 'Meter Reading', type: 'string', className: "py-1 px-2" },
-                      { key: 'created_at', header: 'Creation Date', type: 'date', className: "py-1 px-2" },
-                      { 
-                        key: 'created_by', 
-                        header: 'Created By', 
-                        type: 'object', 
-                        className: "py-1 px-2",
-                        render: (value: any, row: any) => (
-                          <div className="flex items-center justify-between">
-                            <span>{value?.name || value}</span>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleDeleteMeterReading(row.id);
-                              }}
-                              className="opacity-0 group-hover:opacity-100 transition-opacity h-5 w-5 p-0 ml-2"
+                <DialogContent className="sm:max-w-md">
+                  <DialogHeader>
+                    <DialogTitle>Add Meter Reading</DialogTitle>
+                  </DialogHeader>
+                  <div className="space-y-4">
+                    <ApiForm
+                      fields={[
+                        {
+                          name: "meter_reading",
+                          type: "input",
+                          inputType: "text",
+                          required: true,
+                          label: "Meter Reading"
+                        }
+                      ]}
+                      onSubmit={async (data) => {
+                        const submissionData = {
+                          ...data,
+                          asset: id
+                        };
+                        try {
+                          await apiPost("/meter-readings/meter_reading", submissionData);
+                          queryClient.invalidateQueries({ queryKey: ["meter_readings", id] });
+                          setIsDialogOpen(false);
+                          toast({
+                            title: "Success",
+                            description: "Meter reading added successfully!",
+                          });
+                        } catch (error: any) {
+                          toast({
+                            title: "Error",
+                            description: error.message || "Failed to add meter reading",
+                            variant: "destructive",
+                          });
+                        }
+                      }}
+                      customLayout={({ handleSubmit, renderField }) => (
+                        <div className="space-y-4">
+                          {renderField({ 
+                            name: "meter_reading", 
+                            type: "input", 
+                            inputType: "text", 
+                            required: true,
+                            label: "Meter Reading"
+                          })}
+                          <div className="flex justify-end gap-2">
+                            <Button 
+                              variant="outline" 
+                              onClick={() => setIsDialogOpen(false)}
                             >
-                              <Trash2 className="h-3 w-3" />
+                              Cancel
+                            </Button>
+                            <Button onClick={handleSubmit}>
+                              Save
                             </Button>
                           </div>
-                        )
-                      },
-                    ]}
-                    emptyMessage="No meter readings found"
-                    tableClassName="text-xs [&_td]:py-1 [&_td]:px-2 [&_th]:py-1 [&_th]:px-2 [&_th]:h-8"
-                  />
-                </div>
-              </div>
+                        </div>
+                      )}
+                    />
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
           </TabsContent>
           
