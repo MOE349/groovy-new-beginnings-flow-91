@@ -47,7 +47,7 @@ const CreateEquipment = () => {
                 <ArrowLeft className="h-4 w-4" />
                 Back
               </Button>
-              <h3 className="text-sm font-medium ml-2">Equipment Information</h3>
+              <h3 className="text-base font-medium ml-2">Equipment Information</h3>
               {(formData?.code || formData?.name) && (
                 <span className="text-xs font-medium text-secondary-foreground/80 ml-8">
                   {formData?.code && `(${formData.code})`} {formData?.name}
