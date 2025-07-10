@@ -8,7 +8,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { Layout } from "./components/Layout";
 import Dashboard from "./pages/Dashboard";
 import Index from "./pages/Index";
-import Assets from "./pages/Assets";
+import Asset from "./pages/Asset";
 import CreateAsset from "./pages/CreateAsset";
 import CreateEquipment from "./pages/CreateEquipment";
 import CreateAttachment from "./pages/CreateAttachment";
@@ -45,11 +45,11 @@ const App = () => (
             {/* Protected routes with layout */}
             <Route path="/" element={<Layout><Dashboard /></Layout>} />
             <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
-            <Route path="/assets" element={<Layout><Assets /></Layout>} />
-            <Route path="/assets/create" element={<Layout><CreateAsset /></Layout>} />
-            <Route path="/assets/equipment/create" element={<Layout><CreateEquipment /></Layout>} />
-            <Route path="/assets/attachment/create" element={<Layout><CreateAttachment /></Layout>} />
-            <Route path="/assets/edit/:id" element={<Layout><EditAsset /></Layout>} />
+            <Route path="/asset" element={<Layout><Asset /></Layout>} />
+            <Route path="/asset/create" element={<Layout><CreateAsset /></Layout>} />
+            <Route path="/asset/equipment/create" element={<Layout><CreateEquipment /></Layout>} />
+            <Route path="/asset/attachment/create" element={<Layout><CreateAttachment /></Layout>} />
+            <Route path="/asset/edit/:id" element={<Layout><EditAsset /></Layout>} />
             <Route path="/workorders" element={<Layout><Workorders /></Layout>} />
             <Route path="/workorders/create" element={<Layout><CreateWorkOrder /></Layout>} />
             <Route path="/workorders/edit/:id" element={<Layout><EditWorkOrder /></Layout>} />

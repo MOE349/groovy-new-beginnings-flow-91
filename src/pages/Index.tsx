@@ -15,7 +15,7 @@ const Index = () => {
         </div>
         
         <div className="flex justify-center">
-          <Link to="/assets">
+          <Link to="/asset">
             <Button size="lg">
               View Assets
             </Button>

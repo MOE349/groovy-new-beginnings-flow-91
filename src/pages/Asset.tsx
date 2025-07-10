@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import ApiTable, { TableColumn } from "@/components/ApiTable";
 
-const Assets = () => {
+const Asset = () => {
   const columns: TableColumn[] = [
     { key: "name", header: "Name" },
     { key: "description", header: "Description" },
@@ -24,13 +24,13 @@ const Assets = () => {
     <div className="space-y-6">
       <div className="flex gap-4">
         <Button asChild size="sm">
-          <Link to="/assets/equipment/create">
+          <Link to="/asset/equipment/create">
             <Plus className="mr-2 h-4 w-4" />
             New Equipment
           </Link>
         </Button>
         <Button asChild variant="outline" size="sm">
-          <Link to="/assets/attachment/create">
+          <Link to="/asset/attachment/create">
             <Plus className="mr-2 h-4 w-4" />
             New Attachment
           </Link>
@@ -43,11 +43,11 @@ const Assets = () => {
         columns={columns}
         queryKey={["assets", "all"]}
         emptyMessage="No assets found"
-        editRoutePattern="/assets/edit/{id}"
+        editRoutePattern="/asset/edit/{id}"
         className="w-full"
       />
     </div>
   );
 };
 
-export default Assets;
+export default Asset;
