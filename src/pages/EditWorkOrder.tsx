@@ -119,7 +119,7 @@ const EditWorkOrder = () => {
           <div 
             className="flex items-center gap-4 mb-4 py-1 -mx-2 bg-accent/20 border border-accent/30 rounded-md"
           >
-            <h3 className="text-h3 font-medium text-primary ml-6">Work Order Information</h3>
+            <h3 className="text-h3 font-medium text-primary dark:text-secondary ml-6">Work Order Information</h3>
             <div className="ml-6 text-sm text-muted-foreground">
               Code: {formData?.code || "Loading..."}
             </div>
