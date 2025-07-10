@@ -199,9 +199,7 @@ const Settings = () => {
               ]}
             />
           </div>
-        </TabsContent>
-        
-        <TabsContent value="categories" className="space-y-4">
+          
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <ApiTable
               title="Equipment Categories"
@@ -224,6 +222,12 @@ const Settings = () => {
                 { key: 'slug', header: 'Slug' },
               ]}
             />
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="categories" className="space-y-4">
+          <div className="text-center text-muted-foreground py-8">
+            Equipment and Attachment Categories have been moved to the Sites tab.
           </div>
         </TabsContent>
         
