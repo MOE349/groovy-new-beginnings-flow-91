@@ -333,37 +333,37 @@ const EditAsset = () => {
             <TabsList className="grid w-full grid-cols-7 h-14 bg-card border border-border rounded-md p-0">
               <TabsTrigger 
                 value="parts-bom" 
-                className="px-4 py-1 text-base font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
+                className="px-4 py-1 text-base font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none border-r border-border/50"
               >
                 Parts/BOM
               </TabsTrigger>
               <TabsTrigger 
                 value="metering-events"
-                className="px-4 py-1 text-base font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
+                className="px-4 py-1 text-base font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none border-r border-border/50"
               >
                 Metering/Events
               </TabsTrigger>
               <TabsTrigger 
                 value="scheduled-maintenance"
-                className="px-4 py-1 text-base font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
+                className="px-4 py-1 text-base font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none border-r border-border/50"
               >
                 Scheduled Maintenance
               </TabsTrigger>
               <TabsTrigger 
                 value="financials"
-                className="px-4 py-1 text-base font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
+                className="px-4 py-1 text-base font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none border-r border-border/50"
               >
                 Financials
               </TabsTrigger>
               <TabsTrigger 
                 value="files"
-                className="px-4 py-1 text-base font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
+                className="px-4 py-1 text-base font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none border-r border-border/50"
               >
                 Files
               </TabsTrigger>
               <TabsTrigger 
                 value="backlog"
-                className="px-4 py-1 text-base font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
+                className="px-4 py-1 text-base font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none border-r border-border/50"
               >
                 Backlog
               </TabsTrigger>
