@@ -37,6 +37,7 @@ const EditAsset = () => {
   const handleDeleteMeterReading = async (readingId: string) => {
     try {
       await apiDelete(`/meter-readings/meter_reading/${readingId}`);
+      queryClient.invalidateQueries({ queryKey: [`/meter-readings/meter_reading?asset=${id}`] });
       queryClient.invalidateQueries({ queryKey: ["meter_readings", id] });
       toast({
         title: "Success",
@@ -54,6 +55,7 @@ const EditAsset = () => {
   const handleDeleteCode = async (codeId: string) => {
     try {
       await apiDelete(`/codes/code/${codeId}`);
+      queryClient.invalidateQueries({ queryKey: [`/codes/code?asset=${id}`] });
       queryClient.invalidateQueries({ queryKey: ["codes", id] });
       toast({
         title: "Success",
@@ -300,6 +302,7 @@ const EditAsset = () => {
                         };
                         try {
                           await apiPost("/meter-readings/meter_reading", submissionData);
+                          queryClient.invalidateQueries({ queryKey: [`/meter-readings/meter_reading?asset=${id}`] });
                           queryClient.invalidateQueries({ queryKey: ["meter_readings", id] });
                           setIsDialogOpen(false);
                           toast({
@@ -365,6 +368,7 @@ const EditAsset = () => {
                         };
                         try {
                           await apiPost("/codes/code", submissionData);
+                          queryClient.invalidateQueries({ queryKey: [`/codes/code?asset=${id}`] });
                           queryClient.invalidateQueries({ queryKey: ["codes", id] });
                           setIsCodeDialogOpen(false);
                           toast({
