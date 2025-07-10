@@ -7,8 +7,6 @@ import { apiPost, apiDelete } from "@/utils/apis";
 import GearSpinner from "@/components/ui/gear-spinner";
 import { AlertTriangle, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { useAssetData } from "@/hooks/useAssetData";
 import { useAssetSubmit } from "@/hooks/useAssetSubmit";
 import { equipmentFields, attachmentFields } from "@/data/assetFormFields";
@@ -200,23 +198,19 @@ const EditAsset = () => {
                         });
                       }
                     }}
-                    customLayout={({ handleSubmit }) => (
-                      <div>
-                        <Label htmlFor="meter_reading" className="after:content-['*'] after:text-destructive text-sm font-medium">
-                          Meter Reading
-                        </Label>
-                        <div className="flex items-center gap-2 mt-2">
-                          <Input
-                            id="meter_reading"
-                            name="meter_reading"
-                            type="text"
-                            className="h-8 text-sm w-48"
-                            required
-                          />
-                          <Button onClick={handleSubmit} className="h-8 px-4 bg-secondary text-secondary-foreground hover:bg-secondary/90">
-                            Save
-                          </Button>
+                    customLayout={({ handleSubmit, renderField }) => (
+                      <div className="flex items-center gap-3">
+                        <div className="w-48">
+                          {renderField({ 
+                            name: "meter_reading", 
+                            type: "input", 
+                            inputType: "text", 
+                            required: true
+                          })}
                         </div>
+                        <Button onClick={handleSubmit} className="h-10 px-6 bg-secondary text-secondary-foreground hover:bg-secondary/90">
+                          Save
+                        </Button>
                       </div>
                     )}
                   />
