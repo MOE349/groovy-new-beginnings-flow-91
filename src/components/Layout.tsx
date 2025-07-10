@@ -36,17 +36,17 @@ export function Layout({ children }: LayoutProps) {
         <AppSidebar />
         
         <div className="flex-1 flex flex-col">
-          <header className="h-8 flex items-center justify-between border-b bg-primary text-primary-foreground px-3">
+          <header className="h-6 flex items-center justify-between border-b bg-primary text-primary-foreground px-3">
             <div className="flex items-center">
-              <SidebarTrigger className="mr-4" />
-              <h1 className="text-lg font-semibold">{getPageTitle()}</h1>
+              <SidebarTrigger className="mr-3" />
+              <h1 className="text-base font-semibold">{getPageTitle()}</h1>
             </div>
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-2">
               <ThemeToggle />
               {user && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                     <Button variant="ghost" className="text-sm font-medium text-primary-foreground hover:bg-secondary hover:text-secondary-foreground">
+                     <Button variant="ghost" className="text-xs font-medium text-primary-foreground hover:bg-secondary hover:text-secondary-foreground h-5 px-2">
                        {user.name}
                      </Button>
                   </DropdownMenuTrigger>
