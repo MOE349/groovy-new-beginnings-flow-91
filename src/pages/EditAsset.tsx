@@ -169,7 +169,7 @@ const EditAsset = () => {
             </div>
           </TabsContent>
           
-          <TabsContent value="metering-events" className="mt-4">
+          <TabsContent value="metering-events" className="mt-1">
             <div className="bg-card rounded-sm shadow-xs p-4">
               {/* Left side - Meter Readings */}
               <div className="w-1/2">
