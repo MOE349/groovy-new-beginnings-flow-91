@@ -296,7 +296,7 @@ const EditWorkOrder = () => {
                 value="misc-cost"
                 className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary dark:data-[state=active]:text-secondary data-[state=active]:border-b-2 data-[state=active]:border-primary dark:data-[state=active]:border-secondary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
               >
-                Misc Cost
+                Third-party services
               </TabsTrigger>
               <TabsTrigger 
                 value="files"
@@ -332,8 +332,8 @@ const EditWorkOrder = () => {
           </TabsContent>
           <TabsContent value="misc-cost" className="h-full mt-1">
             <div className="border rounded-lg p-4 h-full">
-              <h3 className="text-lg font-semibold mb-2">Misc Cost</h3>
-              <p>Miscellaneous costs and expenses will go here</p>
+              <h3 className="text-lg font-semibold mb-2">Third-party services</h3>
+              <p>Third-party services and expenses will go here</p>
             </div>
           </TabsContent>
           <TabsContent value="files" className="h-full mt-1">
