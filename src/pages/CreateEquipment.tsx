@@ -36,20 +36,20 @@ const CreateEquipment = () => {
       <div className="bg-card rounded-md shadow-sm px-2 py-1">
         <form onSubmit={handleSubmit} className="h-full">
           <div 
-            className="flex items-center justify-between gap-4 mb-3 py-2 -mx-2 bg-primary text-primary-foreground border border-primary/30 rounded-md"
+            className="flex items-center justify-between gap-4 mb-3 py-2 -mx-2 bg-secondary text-secondary-foreground border border-secondary/30 rounded-md"
           >
             <div className="flex items-center gap-4">
               <Button 
                 variant="ghost" 
                 onClick={() => navigate("/assets")}
-                className="flex items-center gap-2 px-3 py-1 h-6 text-xs text-primary-foreground hover:bg-primary-foreground/20"
+                className="flex items-center gap-2 px-4 py-1 h-8 text-sm"
               >
-                <ArrowLeft className="h-3 w-3" />
+                <ArrowLeft className="h-4 w-4" />
                 Back
               </Button>
               <h3 className="text-sm font-medium ml-2">Equipment Information</h3>
               {(formData?.code || formData?.name) && (
-                <span className="text-xs font-medium text-primary-foreground/80 ml-8">
+                <span className="text-xs font-medium text-secondary-foreground/80 ml-8">
                   {formData?.code && `(${formData.code})`} {formData?.name}
                 </span>
               )}
@@ -57,7 +57,7 @@ const CreateEquipment = () => {
             <Button 
               onClick={handleSubmit} 
               disabled={loading} 
-              className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 px-3 py-1 h-6 text-xs font-medium shadow-lg border border-primary-foreground/20 hover:shadow-md transition-all duration-200"
+              className="bg-secondary-foreground text-secondary hover:bg-secondary-foreground/90 px-4 py-1 h-8 text-sm font-medium shadow-lg border border-secondary-foreground/20 hover:shadow-md transition-all duration-200"
               style={{
                 boxShadow: '0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.2)'
               }}
