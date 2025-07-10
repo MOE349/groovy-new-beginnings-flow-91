@@ -12,6 +12,7 @@ import { useAssetData } from "@/hooks/useAssetData";
 import { useAssetSubmit } from "@/hooks/useAssetSubmit";
 import { equipmentFields, attachmentFields } from "@/data/assetFormFields";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useQueryClient } from "@tanstack/react-query";
 import AssetFormLayout from "@/components/AssetFormLayout";
 import { AttachmentFormLayout } from "@/components/AttachmentFormLayout";
@@ -186,39 +187,25 @@ const EditAsset = () => {
                 </div>
 
                 {/* Table */}
-                <div>
-                  <ApiTable
-                    endpoint={`/meter-readings/meter_reading?asset=${id}`}
-                    queryKey={["meter_readings", id]}
-                    columns={[
-                      { key: 'meter_reading', header: 'Meter Reading', type: 'string', className: "py-1 px-2" },
-                      { key: 'created_at', header: 'Creation Date', type: 'date', className: "py-1 px-2" },
-                      { 
-                        key: 'created_by', 
-                        header: 'Created By', 
-                        type: 'object', 
-                        className: "py-1 px-2",
-                        render: (value: any, row: any) => (
-                          <div className="flex items-center justify-between">
-                            <span>{value?.name || value}</span>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleDeleteMeterReading(row.id);
-                              }}
-                              className="opacity-0 group-hover:opacity-100 transition-opacity h-5 w-5 p-0 ml-2"
-                            >
-                              <Trash2 className="h-3 w-3" />
-                            </Button>
-                          </div>
-                        )
-                      },
-                    ]}
-                    emptyMessage="No meter readings found"
-                    tableClassName="text-xs [&_td]:py-1 [&_td]:px-2 [&_th]:py-1 [&_th]:px-2 [&_th]:h-8"
-                  />
+                <div className="w-full">
+                  <div className="border border-border rounded-sm">
+                    <Table className="text-xs [&_td]:py-1 [&_td]:px-2 [&_th]:py-1 [&_th]:px-2 [&_th]:h-8">
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="py-1 px-2">Meter Reading</TableHead>
+                          <TableHead className="py-1 px-2">Creation Date</TableHead>
+                          <TableHead className="py-1 px-2">Created By</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell colSpan={3} className="text-center py-8 text-muted-foreground">
+                            No meter readings found
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </div>
                 </div>
               </div>
 
