@@ -54,6 +54,7 @@ interface ApiTableProps<T = any> {
   emptyMessage?: string;
   createNewHref?: string;
   createNewText?: string;
+  onCreateNew?: () => void; // New callback for handling create action
   editRoutePattern?: string; // e.g., "/assets/edit/{id}"
   onRowClick?: (row: T) => void;
 }
@@ -102,6 +103,7 @@ const ApiTable = <T extends Record<string, any>>({
   emptyMessage = "No data available",
   createNewHref,
   createNewText = "Create New",
+  onCreateNew,
   editRoutePattern,
   onRowClick,
 }: ApiTableProps<T>) => {
@@ -278,12 +280,22 @@ const ApiTable = <T extends Record<string, any>>({
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle>{title}</CardTitle>
-            {createNewHref && (
-              <Button asChild size="sm">
-                <Link to={createNewHref}>
-                  <Plus className="mr-2 h-4 w-4" />
-                  {createNewText}
-                </Link>
+            {(createNewHref || onCreateNew) && (
+              <Button 
+                {...(createNewHref ? { asChild: true } : { onClick: onCreateNew })} 
+                size="sm"
+              >
+                {createNewHref ? (
+                  <Link to={createNewHref}>
+                    <Plus className="mr-2 h-4 w-4" />
+                    {createNewText}
+                  </Link>
+                ) : (
+                  <>
+                    <Plus className="mr-2 h-4 w-4" />
+                    {createNewText}
+                  </>
+                )}
               </Button>
             )}
           </div>

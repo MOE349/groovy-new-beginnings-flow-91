@@ -1,9 +1,97 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 import ApiTable from "@/components/ApiTable";
 import ApiForm from "@/components/ApiForm";
+import { siteFormFields, locationFormFields } from "@/data/siteFormFields";
+import { apiPost } from "@/utils/apis";
 
 const Settings = () => {
+  const [dialogOpen, setDialogOpen] = useState<'site' | 'location' | null>(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSiteSubmit = async (data: Record<string, any>) => {
+    try {
+      setLoading(true);
+      await apiPost("/company/site", data);
+      toast({
+        title: "Success",
+        description: "Site created successfully",
+      });
+      setDialogOpen(null);
+      // The table will automatically refresh due to React Query
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to create site",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLocationSubmit = async (data: Record<string, any>) => {
+    try {
+      setLoading(true);
+      await apiPost("/company/location", data);
+      toast({
+        title: "Success",
+        description: "Location created successfully",
+      });
+      setDialogOpen(null);
+      // The table will automatically refresh due to React Query
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to create location",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const customLayout = useCallback((
+    title: string,
+    onSubmit: (data: Record<string, any>) => Promise<void>,
+    fields: any[]
+  ) => (props: any) => (
+    <div className="space-y-6">
+      <div className="flex items-center gap-4 p-4 border-b">
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          onClick={() => setDialogOpen(null)}
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back
+        </Button>
+        <h2 className="text-lg font-semibold">{title}</h2>
+        <div className="flex-1" />
+        <Button 
+          onClick={(e) => props.handleSubmit(e)} 
+          disabled={props.loading}
+        >
+          {props.loading ? "Saving..." : "Save"}
+        </Button>
+      </div>
+
+      <div className="p-4 space-y-4">
+        {props.error && (
+          <div className="text-red-600 text-sm">{props.error}</div>
+        )}
+        {fields.map(props.renderField)}
+      </div>
+    </div>
+  ), []);
+
   return (
     <div className="space-y-6">
       <Tabs defaultValue="sites" className="w-full mt-8">
@@ -18,7 +106,7 @@ const Settings = () => {
             <ApiTable
               title="Sites"
               endpoint="/company/site"
-              createNewHref="/settings/sites/new"
+              onCreateNew={() => setDialogOpen('site')}
               createNewText="New Site"
               columns={[
                 { key: 'code', header: 'Code' },
@@ -29,7 +117,7 @@ const Settings = () => {
             <ApiTable
               title="Locations"
               endpoint="/company/location"
-              createNewHref="/settings/locations/new"
+              onCreateNew={() => setDialogOpen('location')}
               createNewText="New Location"
               columns={[
                 { key: 'site', header: 'Site', type: 'object' },
@@ -102,6 +190,36 @@ const Settings = () => {
           </div>
         </TabsContent>
       </Tabs>
+
+      {/* Site Dialog */}
+      <Dialog open={dialogOpen === 'site'} onOpenChange={(open) => !open && setDialogOpen(null)}>
+        <DialogContent className="max-w-md max-h-[80vh] overflow-hidden">
+          <DialogHeader>
+            <DialogTitle>Create New Site</DialogTitle>
+          </DialogHeader>
+          <ApiForm
+            fields={siteFormFields}
+            onSubmit={handleSiteSubmit}
+            loading={loading}
+            customLayout={customLayout("Create New Site", handleSiteSubmit, siteFormFields)}
+          />
+        </DialogContent>
+      </Dialog>
+
+      {/* Location Dialog */}
+      <Dialog open={dialogOpen === 'location'} onOpenChange={(open) => !open && setDialogOpen(null)}>
+        <DialogContent className="max-w-md max-h-[80vh] overflow-hidden">
+          <DialogHeader>
+            <DialogTitle>Create New Location</DialogTitle>
+          </DialogHeader>
+          <ApiForm
+            fields={locationFormFields}
+            onSubmit={handleLocationSubmit}
+            loading={loading}
+            customLayout={customLayout("Create New Location", handleLocationSubmit, locationFormFields)}
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
