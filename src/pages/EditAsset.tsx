@@ -34,26 +34,6 @@ const EditAsset = () => {
   const { assetType, assetData, isLoading, isError, error } = useAssetData(id);
   const { handleSubmit } = useAssetSubmit(id, assetType);
 
-  // Fetch meter readings for this asset
-  const { data: meterReadings, isLoading: isLoadingReadings } = useQuery({
-    queryKey: ["meter_readings", id],
-    queryFn: async () => {
-      const response = await apiGet(`/meter-readings/meter_reading?asset=${id}`);
-      return response.data.data || response.data || [];
-    },
-    enabled: !!id,
-  });
-
-  // Fetch codes for this asset
-  const { data: codes, isLoading: isLoadingCodes } = useQuery({
-    queryKey: ["codes", id],
-    queryFn: async () => {
-      const response = await apiGet(`/codes/code?asset=${id}`);
-      return response.data.data || response.data || [];
-    },
-    enabled: !!id,
-  });
-
   const handleDeleteMeterReading = async (readingId: string) => {
     try {
       await apiDelete(`/meter-readings/meter_reading/${readingId}`);
@@ -228,42 +208,27 @@ const EditAsset = () => {
 
                   {/* Table */}
                   <div className="w-5/6">
-                    <div className="border border-border rounded-sm">
-                      <Table className="text-xs [&_td]:py-1 [&_td]:px-2 [&_th]:py-1 [&_th]:px-2 [&_th]:h-8">
-                        <TableHeader>
-                          <TableRow>
-                            <TableHead className="py-1 px-2">Meter Reading</TableHead>
-                            <TableHead className="py-1 px-2">Creation Date</TableHead>
-                            <TableHead className="py-1 px-2">Created By</TableHead>
-                          </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                          {isLoadingReadings ? (
-                            <TableRow>
-                              <TableCell colSpan={3} className="text-center py-8 text-muted-foreground">
-                                Loading meter readings...
-                              </TableCell>
-                            </TableRow>
-                          ) : meterReadings && meterReadings.length > 0 ? (
-                            meterReadings.map((reading: any) => (
-                              <TableRow key={reading.id}>
-                                <TableCell className="py-1 px-2">{reading.meter_reading}</TableCell>
-                                <TableCell className="py-1 px-2">
-                                  {reading.created_at ? new Date(reading.created_at).toLocaleDateString() : '-'}
-                                </TableCell>
-                                <TableCell className="py-1 px-2">{reading.created_by || '-'}</TableCell>
-                              </TableRow>
-                            ))
-                          ) : (
-                            <TableRow>
-                              <TableCell colSpan={3} className="text-center py-8 text-muted-foreground">
-                                No meter readings found
-                              </TableCell>
-                            </TableRow>
-                          )}
-                        </TableBody>
-                      </Table>
-                    </div>
+                    <ApiTable
+                      endpoint={`/meter-readings/meter_reading?asset=${id}`}
+                      columns={[
+                        {
+                          key: "meter_reading",
+                          header: "Meter Reading",
+                          render: (value: any) => value || '-'
+                        },
+                        {
+                          key: "created_at",
+                          header: "Creation Date",
+                          render: (value: any) => value ? new Date(value).toLocaleDateString() : '-'
+                        },
+                        {
+                          key: "created_by",
+                          header: "Created By",
+                          render: (value: any) => value || '-'
+                        }
+                      ]}
+                      tableId={`meter-readings-${id}`}
+                    />
                   </div>
                 </div>
 
@@ -284,42 +249,27 @@ const EditAsset = () => {
 
                   {/* Table */}
                   <div className="w-5/6">
-                    <div className="border border-border rounded-sm">
-                      <Table className="text-xs [&_td]:py-1 [&_td]:px-2 [&_th]:py-1 [&_th]:px-2 [&_th]:h-8">
-                        <TableHeader>
-                          <TableRow>
-                            <TableHead className="py-1 px-2 text-center">Code</TableHead>
-                            <TableHead className="py-1 px-2 text-center">Creation Date</TableHead>
-                            <TableHead className="py-1 px-2 text-center">Created By</TableHead>
-                          </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                          {isLoadingCodes ? (
-                            <TableRow>
-                              <TableCell colSpan={3} className="text-center py-8 text-muted-foreground">
-                                Loading codes...
-                              </TableCell>
-                            </TableRow>
-                          ) : codes && codes.length > 0 ? (
-                            codes.map((code: any) => (
-                              <TableRow key={code.id}>
-                                <TableCell className="py-1 px-2 text-center">{code.code}</TableCell>
-                                <TableCell className="py-1 px-2 text-center">
-                                  {code.created_at ? new Date(code.created_at).toLocaleDateString() : '-'}
-                                </TableCell>
-                                <TableCell className="py-1 px-2 text-center">{code.created_by || '-'}</TableCell>
-                              </TableRow>
-                            ))
-                          ) : (
-                            <TableRow>
-                              <TableCell colSpan={3} className="text-center py-8 text-muted-foreground">
-                                No codes found
-                              </TableCell>
-                            </TableRow>
-                          )}
-                        </TableBody>
-                      </Table>
-                    </div>
+                    <ApiTable
+                      endpoint={`/codes/code?asset=${id}`}
+                      columns={[
+                        {
+                          key: "code",
+                          header: "Code",
+                          render: (value: any) => value || '-'
+                        },
+                        {
+                          key: "created_at",
+                          header: "Creation Date", 
+                          render: (value: any) => value ? new Date(value).toLocaleDateString() : '-'
+                        },
+                        {
+                          key: "created_by",
+                          header: "Created By",
+                          render: (value: any) => value || '-'
+                        }
+                      ]}
+                      tableId={`codes-${id}`}
+                    />
                   </div>
                 </div>
               </div>
