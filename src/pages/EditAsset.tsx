@@ -176,8 +176,8 @@ const EditAsset = () => {
               <div className="flex items-center gap-4">
                 <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                   <DialogTrigger asChild>
-                    <Button variant="outline" className="flex items-center gap-2">
-                      <Plus className="h-4 w-4" />
+                    <Button variant="outline" size="sm" className="flex items-center gap-2">
+                      <Plus className="h-3 w-3" />
                       Update Reading
                     </Button>
                   </DialogTrigger>
