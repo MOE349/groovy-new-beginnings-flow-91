@@ -172,17 +172,17 @@ const EditAsset = () => {
             <div className="bg-card rounded-sm shadow-xs p-4 space-y-4">
               
               
-              {/* Update Reading Button and Table Container */}
-              <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <div className="space-y-3">
-                  <DialogTrigger asChild>
+              {/* Update Reading Button and Table Container - DEBUG */}
+              <div className="border-2 border-red-500 p-2">
+                <div className="space-y-3 border border-blue-500">
+                  <div className="border border-green-500">
                     <Button variant="outline" size="sm" className="flex items-center gap-2">
                       <Plus className="h-3 w-3" />
                       Update Reading
                     </Button>
-                  </DialogTrigger>
+                  </div>
 
-                  <div className="w-2/5">
+                  <div className="w-2/5 border border-purple-500">
                     <ApiTable
                       endpoint={`/meter-readings/meter_reading?asset=${id}`}
                       queryKey={["meter_readings", id]}
@@ -217,7 +217,12 @@ const EditAsset = () => {
                     />
                   </div>
                 </div>
+              </div>
 
+              <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button variant="ghost" className="hidden">Hidden Trigger</Button>
+                </DialogTrigger>
                 <DialogContent className="sm:max-w-md">
                   <DialogHeader>
                     <DialogTitle>Add Meter Reading</DialogTitle>
