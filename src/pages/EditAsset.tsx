@@ -176,9 +176,9 @@ const EditAsset = () => {
                 {/* Button */}
                 <div className="mb-1">
                   <Button 
-                    variant="outline" 
+                    variant="default" 
                     size="sm" 
-                    className="flex items-center gap-2"
+                    className="flex items-center gap-2 px-4 py-2"
                     onClick={() => setIsDialogOpen(true)}
                   >
                     <Plus className="h-3 w-3" />
