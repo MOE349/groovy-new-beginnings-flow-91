@@ -36,7 +36,7 @@ const CreateEquipment = () => {
       <div className="bg-card rounded-md shadow-sm px-2 py-1">
         <form onSubmit={handleSubmit} className="h-full">
           <div 
-            className="flex items-center justify-between gap-4 mb-3 py-2 -mx-2 bg-secondary text-secondary-foreground border border-secondary/30 rounded-md"
+            className="flex items-center justify-between gap-4 mb-3 py-1 -mx-2 bg-secondary text-secondary-foreground border border-secondary/30 rounded-md"
           >
             <div className="flex items-center gap-4">
               <Button 
@@ -57,7 +57,7 @@ const CreateEquipment = () => {
             <Button 
               onClick={handleSubmit} 
               disabled={loading} 
-              className="bg-secondary-foreground text-secondary hover:bg-secondary-foreground/90 px-4 py-1 h-8 text-sm font-medium shadow-lg border border-secondary-foreground/20 hover:shadow-md transition-all duration-200"
+              className="bg-secondary-foreground text-secondary hover:bg-secondary-foreground/90 px-4 py-1 h-8 text-sm font-medium shadow-lg border border-secondary-foreground/20 hover:shadow-md transition-all duration-200 mr-4"
               style={{
                 boxShadow: '0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.2)'
               }}
