@@ -162,8 +162,8 @@ const EditAsset = () => {
           </div>
           
           {/* Tab Content Panels - Compact */}
-          <TabsContent value="parts-bom" className="mt-4">
-            <div className="bg-card rounded-sm shadow-xs p-4 space-y-4">
+          <TabsContent value="parts-bom" className="mt-1">
+            <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
               <h3 className="text-h3 font-medium text-foreground">Parts/BOM</h3>
               <p className="text-caption text-muted-foreground">Parts and Bill of Materials content will go here</p>
             </div>
@@ -276,36 +276,36 @@ const EditAsset = () => {
             </div>
           </TabsContent>
           
-          <TabsContent value="scheduled-maintenance" className="mt-4">
-            <div className="bg-card rounded-sm shadow-xs p-4 space-y-4">
+          <TabsContent value="scheduled-maintenance" className="mt-1">
+            <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
               <h3 className="text-h3 font-medium text-foreground">Scheduled Maintenance</h3>
               <p className="text-caption text-muted-foreground">Scheduled maintenance content will go here</p>
             </div>
           </TabsContent>
           
-          <TabsContent value="financials" className="mt-4">
-            <div className="bg-card rounded-sm shadow-xs p-4 space-y-4">
+          <TabsContent value="financials" className="mt-1">
+            <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
               <h3 className="text-h3 font-medium text-foreground">Financials</h3>
               <p className="text-caption text-muted-foreground">Financial information content will go here</p>
             </div>
           </TabsContent>
           
-          <TabsContent value="files" className="mt-4">
-            <div className="bg-card rounded-sm shadow-xs p-4 space-y-4">
+          <TabsContent value="files" className="mt-1">
+            <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
               <h3 className="text-h3 font-medium text-foreground">Files</h3>
               <p className="text-caption text-muted-foreground">File attachments and documents will go here</p>
             </div>
           </TabsContent>
           
-          <TabsContent value="backlog" className="mt-4">
-            <div className="bg-card rounded-sm shadow-xs p-4 space-y-4">
+          <TabsContent value="backlog" className="mt-1">
+            <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
               <h3 className="text-h3 font-medium text-foreground">Backlog</h3>
               <p className="text-caption text-muted-foreground">Backlog items and tasks will go here</p>
             </div>
           </TabsContent>
           
-          <TabsContent value="log" className="mt-4">
-            <div className="bg-card rounded-sm shadow-xs p-4 space-y-4">
+          <TabsContent value="log" className="mt-1">
+            <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
               <h3 className="text-h3 font-medium text-foreground">Log</h3>
               <p className="text-caption text-muted-foreground">Activity log content will go here</p>
             </div>
