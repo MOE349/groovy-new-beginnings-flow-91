@@ -205,37 +205,37 @@ const CreateWorkOrder = () => {
             <TabsList className="grid w-full grid-cols-6 h-10 bg-card border border-border rounded-md p-0">
               <TabsTrigger 
                 value="completion" 
-                className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
+                className="px-4 py-1 text-caption font-normal data-[state=active]:text-secondary dark:data-[state=active]:text-secondary data-[state=active]:border-b-2 data-[state=active]:border-secondary dark:data-[state=active]:border-secondary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
               >
                 Completion
               </TabsTrigger>
               <TabsTrigger 
                 value="checklist"
-                className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
+                className="px-4 py-1 text-caption font-normal data-[state=active]:text-secondary dark:data-[state=active]:text-secondary data-[state=active]:border-b-2 data-[state=active]:border-secondary dark:data-[state=active]:border-secondary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
               >
                 Checklist
               </TabsTrigger>
               <TabsTrigger 
                 value="parts"
-                className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
+                className="px-4 py-1 text-caption font-normal data-[state=active]:text-secondary dark:data-[state=active]:text-secondary data-[state=active]:border-b-2 data-[state=active]:border-secondary dark:data-[state=active]:border-secondary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
               >
                 Parts
               </TabsTrigger>
               <TabsTrigger 
                 value="misc-cost"
-                className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
+                className="px-4 py-1 text-caption font-normal data-[state=active]:text-secondary dark:data-[state=active]:text-secondary data-[state=active]:border-b-2 data-[state=active]:border-secondary dark:data-[state=active]:border-secondary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
               >
                 Misc Cost
               </TabsTrigger>
               <TabsTrigger 
                 value="files"
-                className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
+                className="px-4 py-1 text-caption font-normal data-[state=active]:text-secondary dark:data-[state=active]:text-secondary data-[state=active]:border-b-2 data-[state=active]:border-secondary dark:data-[state=active]:border-secondary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
               >
                 Files
               </TabsTrigger>
               <TabsTrigger 
                 value="log"
-                className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
+                className="px-4 py-1 text-caption font-normal data-[state=active]:text-secondary dark:data-[state=active]:text-secondary data-[state=active]:border-b-2 data-[state=active]:border-secondary dark:data-[state=active]:border-secondary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
               >
                 Log
               </TabsTrigger>
