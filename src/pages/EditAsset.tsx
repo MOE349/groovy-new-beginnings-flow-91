@@ -279,7 +279,7 @@ const EditAsset = () => {
                      </div>
                    </div>
                    <div className="flex items-start gap-2 h-10">
-                     <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-3">Account Code</label>
+                     <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-0">Account Code</label>
                      <div className="flex-grow">
                        {renderField({ 
                          name: "account_code", 
