@@ -225,24 +225,27 @@ const EditAsset = () => {
                   columns={[
                     { key: 'meter_reading', header: 'Meter Reading', type: 'string', className: "py-1 px-2" },
                     { key: 'created_at', header: 'Creation Date', type: 'date', className: "py-1 px-2" },
-                    { key: 'created_by', header: 'Created By', type: 'object', className: "py-1 px-2" },
                     { 
-                      key: 'actions', 
-                      header: '', 
+                      key: 'created_by', 
+                      header: 'Created By', 
+                      type: 'object', 
+                      className: "py-1 px-2",
                       render: (value: any, row: any) => (
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleDeleteMeterReading(row.id);
-                          }}
-                          className="opacity-0 group-hover:opacity-100 transition-opacity h-5 w-5 p-0"
-                        >
-                          <Trash2 className="h-3 w-3" />
-                        </Button>
-                      ),
-                      className: "w-10 py-1 px-2"
+                        <div className="flex items-center justify-between">
+                          <span>{value?.name || value}</span>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteMeterReading(row.id);
+                            }}
+                            className="opacity-0 group-hover:opacity-100 transition-opacity h-5 w-5 p-0 ml-2"
+                          >
+                            <Trash2 className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      )
                     },
                   ]}
                   emptyMessage="No meter readings found"
