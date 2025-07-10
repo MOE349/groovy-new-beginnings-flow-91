@@ -53,11 +53,7 @@ const AssetFormLayout = ({
       <div className="bg-card rounded-md shadow-sm px-2 py-1 mt-4">
         <form onSubmit={handleSubmit} className="h-full">
           <div 
-            className={`flex items-center gap-4 mb-4 py-1 -mx-2 rounded-md transition-colors duration-200 ${
-              Object.values(formData || {}).some(value => value && value !== '') 
-                ? 'bg-blue-50 border border-blue-200' 
-                : 'bg-accent/20 border border-accent/30'
-            }`}
+            className="flex items-center gap-4 mb-4 py-1 -mx-2 bg-accent/20 border border-accent/30 rounded-md" 
           >
             <h3 className="text-h3 font-medium text-primary ml-6">{assetTypeName} Information</h3>
             {(formData?.code || formData?.name) && (
