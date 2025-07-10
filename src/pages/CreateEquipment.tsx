@@ -249,7 +249,7 @@ const CreateEquipment = () => {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 -mt-1">
       <div>
         <ApiForm
           fields={equipmentFields}

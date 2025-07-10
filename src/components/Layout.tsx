@@ -61,7 +61,7 @@ export function Layout({ children }: LayoutProps) {
             </div>
           </header>
           
-          <main className="flex-1 p-0.5">
+          <main className="flex-1 p-0">
             {children}
           </main>
         </div>
