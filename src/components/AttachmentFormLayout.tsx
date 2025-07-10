@@ -60,7 +60,7 @@ export const AttachmentFormLayout = ({
           {/* Layout matching reference image */}
           <div className="flex gap-8 items-center -mt-2 pb-1">
             {/* Left Section - Image, toggle, location */}
-            <div className="flex flex-col space-y-3 w-64 pl-6">
+            <div className="flex flex-col space-y-4 w-64 pl-6">
               <div className="flex items-center space-x-0">
                 <div 
                   className={`flex items-center cursor-pointer transition-all duration-300 rounded border w-48 h-8 ${
@@ -92,7 +92,7 @@ export const AttachmentFormLayout = ({
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="space-y-1 w-48">
+              <div className="space-y-2 w-48">
                 <label className="block text-caption font-normal text-foreground text-center">Location</label>
                 {renderField({ 
                   name: "location", 
