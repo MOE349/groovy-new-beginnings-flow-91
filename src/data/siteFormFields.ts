@@ -36,13 +36,6 @@ export const locationFormFields: FormField[] = [
     required: true,
   },
   {
-    name: "address",
-    type: "input",
-    label: "Address",
-    inputType: "text",
-    required: false,
-  },
-  {
     name: "slug",
     type: "input",
     label: "Slug",
