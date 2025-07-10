@@ -20,7 +20,7 @@ const buttonVariants = cva(
         link: "text-secondary underline-offset-4 hover:underline",
         "create-action": "bg-secondary text-secondary-foreground hover:bg-secondary/90 active:shadow-inner rounded-md shadow-sm",
         "create-outline": "border border-secondary text-secondary bg-transparent hover:bg-secondary/10 rounded-md",
-        "save-action": "bg-primary text-secondary hover:bg-primary/90 rounded-md shadow-sm",
+        "save-action": "bg-primary text-[#FFCF64] hover:bg-primary/90 rounded-md shadow-sm",
       },
       size: {
         default: "px-6 py-3 text-body",
