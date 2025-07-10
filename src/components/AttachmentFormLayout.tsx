@@ -24,6 +24,19 @@ export const AttachmentFormLayout = ({
 }: AttachmentFormLayoutProps) => {
   const navigate = useNavigate();
 
+  // Helper functions to check if columns have any values
+  const hasColumn1Values = () => {
+    return formData?.code || formData?.name || formData?.description || formData?.equipment;
+  };
+
+  const hasColumn2Values = () => {
+    return formData?.category || formData?.make || formData?.model || formData?.serial_number;
+  };
+
+  const hasColumn3Values = () => {
+    return formData?.status || formData?.job_code || formData?.account_code || formData?.project;
+  };
+
   return (
     <div className="space-y-0">
       {/* Top Bar */}
@@ -110,7 +123,11 @@ export const AttachmentFormLayout = ({
             <div className="flex-1">
               <div className="grid grid-cols-3 gap-x-8 gap-y-2">
                 {/* First sub-column */}
-                <div className="p-6 space-y-2 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
+                <div className={`p-6 space-y-2 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 border border-primary/10 rounded-3xl ${
+                  hasColumn1Values() 
+                    ? 'bg-blue-50/70' 
+                    : 'bg-gradient-to-br from-background via-card to-background'
+                }`}>
                   <div className="flex items-start gap-2 h-10">
                     <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">Code</label>
                     <div className="flex-grow">
@@ -145,7 +162,11 @@ export const AttachmentFormLayout = ({
                 </div>
                 
                 {/* Second sub-column */}
-                <div className="p-6 space-y-2 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
+                <div className={`p-6 space-y-2 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md shadow-xl shadow-primary/5 border border-primary/10 rounded-3xl ${
+                  hasColumn2Values() 
+                    ? 'bg-blue-50/70' 
+                    : 'bg-gradient-to-br from-background via-card to-background'
+                }`}>
                   <div className="flex items-start gap-2 h-10">
                     <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">Category</label>
                     <div className="flex-grow">
@@ -181,7 +202,11 @@ export const AttachmentFormLayout = ({
                 </div>
                 
                 {/* Third sub-column */}
-                <div className="p-6 space-y-2 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
+                <div className={`p-6 space-y-2 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 border border-primary/10 rounded-3xl ${
+                  hasColumn3Values() 
+                    ? 'bg-blue-50/70' 
+                    : 'bg-gradient-to-br from-background via-card to-background'
+                }`}>
                   <div className="flex items-start gap-2 h-10">
                     <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0 pt-0">Asset Status</label>
                     <div className="flex-grow">
