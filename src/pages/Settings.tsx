@@ -6,6 +6,7 @@ import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
 import ApiTable from "@/components/ApiTable";
 import ApiForm from "@/components/ApiForm";
 import { siteFormFields, locationFormFields } from "@/data/siteFormFields";
@@ -35,6 +36,7 @@ const Settings = () => {
   const [dialogOpen, setDialogOpen] = useState<'site' | 'location' | 'equipmentCategory' | 'attachmentCategory' | 'workOrderStatus' | null>(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const handleSiteSubmit = async (data: Record<string, any>) => {
     try {
@@ -44,8 +46,9 @@ const Settings = () => {
         title: "Success",
         description: "Site created successfully",
       });
+      // Invalidate and refetch the sites query
+      await queryClient.invalidateQueries({ queryKey: ["/company/site"] });
       setDialogOpen(null);
-      // The table will automatically refresh due to React Query
     } catch (error: any) {
       toast({
         title: "Error",
@@ -65,8 +68,9 @@ const Settings = () => {
         title: "Success",
         description: "Location created successfully",
       });
+      // Invalidate and refetch the locations query
+      await queryClient.invalidateQueries({ queryKey: ["/company/location"] });
       setDialogOpen(null);
-      // The table will automatically refresh due to React Query
     } catch (error: any) {
       toast({
         title: "Error",
@@ -86,8 +90,9 @@ const Settings = () => {
         title: "Success",
         description: "Equipment category created successfully",
       });
+      // Invalidate and refetch the equipment categories query
+      await queryClient.invalidateQueries({ queryKey: ["/assets/equipment_category"] });
       setDialogOpen(null);
-      // The table will automatically refresh due to React Query
     } catch (error: any) {
       toast({
         title: "Error",
@@ -107,8 +112,9 @@ const Settings = () => {
         title: "Success",
         description: "Attachment category created successfully",
       });
+      // Invalidate and refetch the attachment categories query
+      await queryClient.invalidateQueries({ queryKey: ["/assets/attachment_category"] });
       setDialogOpen(null);
-      // The table will automatically refresh due to React Query
     } catch (error: any) {
       toast({
         title: "Error",
@@ -128,8 +134,9 @@ const Settings = () => {
         title: "Success",
         description: "Work order status created successfully",
       });
+      // Invalidate and refetch the work order status query
+      await queryClient.invalidateQueries({ queryKey: ["/work-orders/status"] });
       setDialogOpen(null);
-      // The table will automatically refresh due to React Query
     } catch (error: any) {
       toast({
         title: "Error",
