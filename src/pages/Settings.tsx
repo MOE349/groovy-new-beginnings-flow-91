@@ -64,17 +64,7 @@ const Settings = () => {
     fields: any[]
   ) => (props: any) => (
     <div className="space-y-6">
-      <div className="flex items-center gap-4 p-4 border-b">
-        <Button 
-          variant="ghost" 
-          size="sm" 
-          onClick={() => setDialogOpen(null)}
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back
-        </Button>
-        <h2 className="text-lg font-semibold">{title}</h2>
-        <div className="flex-1" />
+      <div className="flex items-center justify-end gap-4 p-4 border-b">
         <Button 
           onClick={(e) => props.handleSubmit(e)} 
           disabled={props.loading}
