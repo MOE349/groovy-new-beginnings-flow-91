@@ -6,7 +6,7 @@ import ApiForm from "@/components/ApiForm";
 const Settings = () => {
   return (
     <div className="space-y-6">
-      <Tabs defaultValue="sites" className="w-full">
+      <Tabs defaultValue="sites" className="w-full mt-4">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="sites">Sites</TabsTrigger>
           <TabsTrigger value="categories">Categories</TabsTrigger>
