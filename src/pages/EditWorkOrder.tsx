@@ -287,12 +287,6 @@ const EditWorkOrder = () => {
                 Parts
               </TabsTrigger>
               <TabsTrigger 
-                value="log"
-                className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary dark:data-[state=active]:text-secondary data-[state=active]:border-b-2 data-[state=active]:border-primary dark:data-[state=active]:border-secondary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
-              >
-                Log
-              </TabsTrigger>
-              <TabsTrigger 
                 value="misc-cost"
                 className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary dark:data-[state=active]:text-secondary data-[state=active]:border-b-2 data-[state=active]:border-primary dark:data-[state=active]:border-secondary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
               >
@@ -303,6 +297,12 @@ const EditWorkOrder = () => {
                 className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary dark:data-[state=active]:text-secondary data-[state=active]:border-b-2 data-[state=active]:border-primary dark:data-[state=active]:border-secondary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
               >
                 Files
+              </TabsTrigger>
+              <TabsTrigger 
+                value="log"
+                className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary dark:data-[state=active]:text-secondary data-[state=active]:border-b-2 data-[state=active]:border-primary dark:data-[state=active]:border-secondary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
+              >
+                Log
               </TabsTrigger>
             </TabsList>
           </div>
