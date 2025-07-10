@@ -244,7 +244,7 @@ const EditAsset = () => {
                   </div>
 
                   {/* Table */}
-                  <div className="w-3/4">
+                  <div className="w-5/6">
                     <div className="border border-border rounded-sm">
                       <Table className="text-xs [&_td]:py-1 [&_td]:px-2 [&_th]:py-1 [&_th]:px-2 [&_th]:h-8">
                         <TableHeader>
