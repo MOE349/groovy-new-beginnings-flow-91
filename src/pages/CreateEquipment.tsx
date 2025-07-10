@@ -33,7 +33,7 @@ const CreateEquipment = () => {
   const customLayout = ({ handleSubmit, formData, handleFieldChange, loading, error, renderField }: any) => (
     <div className="space-y-0">
       {/* Equipment Information Card - Compact */}
-      <div className="bg-card rounded-md shadow-sm px-2 py-1">
+      <div className="px-2 py-1">
         <form onSubmit={handleSubmit} className="h-full">
           <div 
             className="flex items-center justify-between gap-4 mb-3 py-1 -mx-2 bg-secondary text-secondary-foreground border border-secondary/30 rounded-md"
