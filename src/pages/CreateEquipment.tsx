@@ -100,46 +100,46 @@ const CreateEquipment = () => {
           </div>
           
           {/* Tab Content Panels - Compact */}
-          <TabsContent value="parts-bom" className="mt-4">
-            <div className="bg-card rounded-sm shadow-xs p-4 space-y-4">
+          <TabsContent value="parts-bom" className="mt-1">
+            <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
               <h3 className="text-h3 font-medium text-foreground">Parts/BOM</h3>
               <p className="text-caption text-muted-foreground">Parts and Bill of Materials content will go here</p>
             </div>
           </TabsContent>
-          <TabsContent value="metering-events" className="mt-4">
-            <div className="bg-card rounded-sm shadow-xs p-4 space-y-4 flex items-center justify-center">
+          <TabsContent value="metering-events" className="mt-1">
+            <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px] flex items-center justify-center">
               <div className="text-center text-muted-foreground">
                 <h3 className="text-h3 font-medium text-foreground">Metering/Events</h3>
                 <p className="text-caption text-muted-foreground">Create the equipment first, then add meter readings in the edit view.</p>
               </div>
             </div>
           </TabsContent>
-          <TabsContent value="scheduled-maintenance" className="mt-4">
-            <div className="bg-card rounded-sm shadow-xs p-4 space-y-4">
+          <TabsContent value="scheduled-maintenance" className="mt-1">
+            <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
               <h3 className="text-h3 font-medium text-foreground">Scheduled Maintenance</h3>
               <p className="text-caption text-muted-foreground">Scheduled maintenance content will go here</p>
             </div>
           </TabsContent>
-          <TabsContent value="financials" className="mt-4">
-            <div className="bg-card rounded-sm shadow-xs p-4 space-y-4">
+          <TabsContent value="financials" className="mt-1">
+            <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
               <h3 className="text-h3 font-medium text-foreground">Financials</h3>
               <p className="text-caption text-muted-foreground">Financial information content will go here</p>
             </div>
           </TabsContent>
-          <TabsContent value="files" className="mt-4">
-            <div className="bg-card rounded-sm shadow-xs p-4 space-y-4">
+          <TabsContent value="files" className="mt-1">
+            <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
               <h3 className="text-h3 font-medium text-foreground">Files</h3>
               <p className="text-caption text-muted-foreground">File attachments and documents will go here</p>
             </div>
           </TabsContent>
-          <TabsContent value="backlog" className="mt-4">
-            <div className="bg-card rounded-sm shadow-xs p-4 space-y-4">
+          <TabsContent value="backlog" className="mt-1">
+            <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
               <h3 className="text-h3 font-medium text-foreground">Backlog</h3>
               <p className="text-caption text-muted-foreground">Backlog items and tasks will go here</p>
             </div>
           </TabsContent>
-          <TabsContent value="log" className="mt-4">
-            <div className="bg-card rounded-sm shadow-xs p-4 space-y-4">
+          <TabsContent value="log" className="mt-1">
+            <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
               <h3 className="text-h3 font-medium text-foreground">Log</h3>
               <p className="text-caption text-muted-foreground">Activity log content will go here</p>
             </div>

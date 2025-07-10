@@ -305,37 +305,37 @@ const EditWorkOrder = () => {
               </TabsTrigger>
             </TabsList>
           </div>
-          <TabsContent value="completion" className="h-full mt-4">
+          <TabsContent value="completion" className="h-full mt-1">
             <div className="border rounded-lg p-4 h-full">
               <h3 className="text-lg font-semibold mb-2">Completion</h3>
               <p>Completion tracking and details will go here</p>
             </div>
           </TabsContent>
-          <TabsContent value="checklist" className="h-full mt-4">
+          <TabsContent value="checklist" className="h-full mt-1">
             <div className="border rounded-lg p-4 h-full">
               <h3 className="text-lg font-semibold mb-2">Checklist</h3>
               <p>Work order checklist items will go here</p>
             </div>
           </TabsContent>
-          <TabsContent value="parts" className="h-full mt-4">
+          <TabsContent value="parts" className="h-full mt-1">
             <div className="border rounded-lg p-4 h-full">
               <h3 className="text-lg font-semibold mb-2">Parts</h3>
               <p>Parts and materials required will go here</p>
             </div>
           </TabsContent>
-          <TabsContent value="log" className="h-full mt-4">
+          <TabsContent value="log" className="h-full mt-1">
             <div className="border rounded-lg p-4 h-full">
               <h3 className="text-lg font-semibold mb-2">Log</h3>
               <p>Work order activity log will go here</p>
             </div>
           </TabsContent>
-          <TabsContent value="misc-cost" className="h-full mt-4">
+          <TabsContent value="misc-cost" className="h-full mt-1">
             <div className="border rounded-lg p-4 h-full">
               <h3 className="text-lg font-semibold mb-2">Misc Cost</h3>
               <p>Miscellaneous costs and expenses will go here</p>
             </div>
           </TabsContent>
-          <TabsContent value="files" className="h-full mt-4">
+          <TabsContent value="files" className="h-full mt-1">
             <div className="border rounded-lg p-4 h-full">
               <h3 className="text-lg font-semibold mb-2">Files</h3>
               <p>Work order files and attachments will go here</p>
