@@ -250,7 +250,10 @@ const ApiTable = <T extends Record<string, any>>({
                   >
                     {orderedColumns.map((column) => (
                       <TableCell key={column.key} className={column.className}>
-                        {renderCell(column, row)}
+                        <div className="flex items-center gap-2">
+                          <div className="w-4"></div>
+                          {renderCell(column, row)}
+                        </div>
                       </TableCell>
                     ))}
                   </TableRow>
