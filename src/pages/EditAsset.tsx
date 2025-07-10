@@ -199,7 +199,7 @@ const EditAsset = () => {
                       }
                     }}
                     customLayout={({ handleSubmit, renderField }) => (
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-start gap-2">
                         <div className="w-48">
                           {renderField({ 
                             name: "meter_reading", 
@@ -208,7 +208,7 @@ const EditAsset = () => {
                             required: true
                           })}
                         </div>
-                        <Button onClick={handleSubmit} className="h-8 px-4 bg-secondary text-secondary-foreground hover:bg-secondary/90">
+                        <Button onClick={handleSubmit} className="h-8 px-4 bg-secondary text-secondary-foreground hover:bg-secondary/90 mt-6">
                           Save
                         </Button>
                       </div>
