@@ -13,7 +13,7 @@ import { equipmentCategoryFormFields, attachmentCategoryFormFields } from "@/dat
 import { apiPost } from "@/utils/apis";
 
 const Settings = () => {
-  const [dialogOpen, setDialogOpen] = useState<'site' | 'location' | 'equipmentCategory' | 'attachmentCategory' | null>(null);
+  const [dialogOpen, setDialogOpen] = useState<'site' | 'location' | 'equipmentCategory' | 'attachmentCategory' | 'workOrderStatus' | null>(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -94,6 +94,27 @@ const Settings = () => {
       toast({
         title: "Error",
         description: error.message || "Failed to create attachment category",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleWorkOrderStatusSubmit = async (data: Record<string, any>) => {
+    try {
+      setLoading(true);
+      await apiPost("/work-orders/status", data);
+      toast({
+        title: "Success",
+        description: "Work order status created successfully",
+      });
+      setDialogOpen(null);
+      // The table will automatically refresh due to React Query
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to create work order status",
         variant: "destructive",
       });
     } finally {
@@ -188,37 +209,16 @@ const Settings = () => {
         </TabsContent>
         
         <TabsContent value="workorder-settings" className="space-y-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6">
             <ApiTable
               title="WorkOrder Status"
               endpoint="/work-orders/status"
+              onCreateNew={() => setDialogOpen('workOrderStatus')}
+              createNewText="Add WorkOrder Status"
               columns={[
                 { key: 'name', header: 'Name' },
                 { key: 'control', header: 'Control', type: 'object' },
               ]}
-            />
-            
-            <ApiForm
-              title="Add WorkOrder Status"
-              fields={[
-                {
-                  name: "control",
-                  type: "dropdown",
-                  label: "Control",
-                  required: true,
-                  endpoint: "/work-orders/controls",
-                  optionValueKey: "id",
-                  optionLabelKey: "name"
-                },
-                {
-                  name: "name",
-                  type: "input",
-                  label: "Name",
-                  required: true,
-                  inputType: "text"
-                }
-              ]}
-              submitText="Add Status"
             />
           </div>
         </TabsContent>
@@ -280,6 +280,38 @@ const Settings = () => {
             onSubmit={handleAttachmentCategorySubmit}
             loading={loading}
             customLayout={customLayout("Create New Attachment Category", handleAttachmentCategorySubmit, attachmentCategoryFormFields)}
+          />
+        </DialogContent>
+      </Dialog>
+
+      {/* Work Order Status Dialog */}
+      <Dialog open={dialogOpen === 'workOrderStatus'} onOpenChange={(open) => !open && setDialogOpen(null)}>
+        <DialogContent className="max-w-md max-h-[80vh] overflow-hidden">
+          <DialogHeader>
+            <DialogTitle>Add WorkOrder Status</DialogTitle>
+          </DialogHeader>
+          <ApiForm
+            fields={[
+              {
+                name: "control",
+                type: "dropdown",
+                label: "Control",
+                required: true,
+                endpoint: "/work-orders/controls",
+                optionValueKey: "id",
+                optionLabelKey: "name"
+              },
+              {
+                name: "name",
+                type: "input",
+                label: "Name",
+                required: true,
+                inputType: "text"
+              }
+            ]}
+            onSubmit={handleWorkOrderStatusSubmit}
+            loading={loading}
+            customLayout={customLayout("Add WorkOrder Status", handleWorkOrderStatusSubmit, [])}
           />
         </DialogContent>
       </Dialog>
