@@ -13,9 +13,10 @@ import { useAssetSubmit } from "@/hooks/useAssetSubmit";
 import { equipmentFields, attachmentFields } from "@/data/assetFormFields";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
 import AssetFormLayout from "@/components/AssetFormLayout";
 import { AttachmentFormLayout } from "@/components/AttachmentFormLayout";
+import { apiGet } from "@/utils/apis";
 import {
   Dialog,
   DialogContent,
@@ -32,6 +33,26 @@ const EditAsset = () => {
   const [isCodeDialogOpen, setIsCodeDialogOpen] = useState(false);
   const { assetType, assetData, isLoading, isError, error } = useAssetData(id);
   const { handleSubmit } = useAssetSubmit(id, assetType);
+
+  // Fetch meter readings for this asset
+  const { data: meterReadings, isLoading: isLoadingReadings } = useQuery({
+    queryKey: ["meter_readings", id],
+    queryFn: async () => {
+      const response = await apiGet(`/meter-readings/meter_reading?asset=${id}`);
+      return response.data.data || response.data || [];
+    },
+    enabled: !!id,
+  });
+
+  // Fetch codes for this asset
+  const { data: codes, isLoading: isLoadingCodes } = useQuery({
+    queryKey: ["codes", id],
+    queryFn: async () => {
+      const response = await apiGet(`/codes/code?asset=${id}`);
+      return response.data.data || response.data || [];
+    },
+    enabled: !!id,
+  });
 
   const handleDeleteMeterReading = async (readingId: string) => {
     try {
@@ -217,11 +238,29 @@ const EditAsset = () => {
                           </TableRow>
                         </TableHeader>
                         <TableBody>
-                          <TableRow>
-                            <TableCell colSpan={3} className="text-center py-8 text-muted-foreground">
-                              No meter readings found
-                            </TableCell>
-                          </TableRow>
+                          {isLoadingReadings ? (
+                            <TableRow>
+                              <TableCell colSpan={3} className="text-center py-8 text-muted-foreground">
+                                Loading meter readings...
+                              </TableCell>
+                            </TableRow>
+                          ) : meterReadings && meterReadings.length > 0 ? (
+                            meterReadings.map((reading: any) => (
+                              <TableRow key={reading.id}>
+                                <TableCell className="py-1 px-2">{reading.meter_reading}</TableCell>
+                                <TableCell className="py-1 px-2">
+                                  {reading.created_at ? new Date(reading.created_at).toLocaleDateString() : '-'}
+                                </TableCell>
+                                <TableCell className="py-1 px-2">{reading.created_by || '-'}</TableCell>
+                              </TableRow>
+                            ))
+                          ) : (
+                            <TableRow>
+                              <TableCell colSpan={3} className="text-center py-8 text-muted-foreground">
+                                No meter readings found
+                              </TableCell>
+                            </TableRow>
+                          )}
                         </TableBody>
                       </Table>
                     </div>
@@ -255,11 +294,29 @@ const EditAsset = () => {
                           </TableRow>
                         </TableHeader>
                         <TableBody>
-                          <TableRow>
-                            <TableCell colSpan={3} className="text-center py-8 text-muted-foreground">
-                              No codes found
-                            </TableCell>
-                          </TableRow>
+                          {isLoadingCodes ? (
+                            <TableRow>
+                              <TableCell colSpan={3} className="text-center py-8 text-muted-foreground">
+                                Loading codes...
+                              </TableCell>
+                            </TableRow>
+                          ) : codes && codes.length > 0 ? (
+                            codes.map((code: any) => (
+                              <TableRow key={code.id}>
+                                <TableCell className="py-1 px-2 text-center">{code.code}</TableCell>
+                                <TableCell className="py-1 px-2 text-center">
+                                  {code.created_at ? new Date(code.created_at).toLocaleDateString() : '-'}
+                                </TableCell>
+                                <TableCell className="py-1 px-2 text-center">{code.created_by || '-'}</TableCell>
+                              </TableRow>
+                            ))
+                          ) : (
+                            <TableRow>
+                              <TableCell colSpan={3} className="text-center py-8 text-muted-foreground">
+                                No codes found
+                              </TableCell>
+                            </TableRow>
+                          )}
                         </TableBody>
                       </Table>
                     </div>
