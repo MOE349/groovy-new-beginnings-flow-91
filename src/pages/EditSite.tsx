@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { toast } from "@/hooks/use-toast";
 import { apiGet, apiPut } from "@/utils/apis";
 import ApiForm from "@/components/ApiForm";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
 import { siteFormFields } from "@/data/siteFormFields";
 
 const EditSite = () => {
@@ -41,22 +43,57 @@ const EditSite = () => {
     return <div>Loading...</div>;
   }
 
-  return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">Edit Site</h1>
-        <p className="text-muted-foreground">
-          Update site information
-        </p>
+  const customLayout = ({ handleSubmit, formData, handleFieldChange, loading, error, renderField }: any) => (
+    <div className="space-y-0">
+      {/* Top Bar */}
+      <div className="h-10 flex items-center justify-between px-4 py-1 bg-secondary border-b border-border">
+        <Button 
+          variant="ghost" 
+          onClick={() => navigate("/settings")}
+          className="flex items-center gap-2 px-4 py-1 h-8 text-sm"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back
+        </Button>
+        <Button 
+          onClick={handleSubmit} 
+          disabled={loading} 
+          className="bg-secondary-foreground text-secondary hover:bg-secondary-foreground/90 px-4 py-1 h-8 text-sm font-medium shadow-lg border border-secondary-foreground/20 hover:shadow-md transition-all duration-200"
+          style={{
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.2)'
+          }}
+        >
+          {loading ? "Loading..." : "Save"}
+        </Button>
       </div>
       
+      {/* Form Card */}
+      <div className="bg-card rounded-md shadow-sm px-2 py-1 mt-4 max-w-2xl">
+        <form onSubmit={handleSubmit} className="h-full">
+          <div 
+            className="flex items-center gap-4 mb-4 py-1 -mx-2 bg-accent/20 border border-accent/30 rounded-md" 
+          >
+            <h3 className="text-h3 font-medium text-primary ml-6">Site Information</h3>
+          </div>
+          <div className="space-y-4">
+            {siteFormFields.map(renderField)}
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div className="space-y-6">
       <ApiForm
         fields={siteFormFields}
-        title="Site Information"
         onSubmit={handleSubmit}
-        submitText="Update Site"
-        className="max-w-2xl"
         initialData={site}
+        customLayout={customLayout}
       />
     </div>
   );
