@@ -179,7 +179,7 @@ const EditWorkOrder = () => {
                 {/* First sub-column - Asset, Status, Description */}
                 <div className="md:col-span-3 p-6 space-y-2 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex-1 min-w-0">
                   <div className="flex items-start gap-2 h-10">
-                    <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0 pt-0">Asset</label>
+                    <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0 pt-1.5">Asset</label>
                     <div className="flex-grow">
                       {renderField({ 
                         name: "asset", 
@@ -193,7 +193,7 @@ const EditWorkOrder = () => {
                     </div>
                   </div>
                   <div className="flex items-start gap-2 h-10">
-                    <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0 pt-0">Status</label>
+                    <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0 pt-1.5">Status</label>
                     <div className="flex-grow">
                       {renderField({ 
                         name: "status", 
