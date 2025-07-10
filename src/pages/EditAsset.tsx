@@ -170,7 +170,7 @@ const EditAsset = () => {
           </TabsContent>
           
           <TabsContent value="metering-events" className="mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4">
+            <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
               {/* Left side - Meter Readings */}
               <div className="w-1/2">
                 {/* Button */}
