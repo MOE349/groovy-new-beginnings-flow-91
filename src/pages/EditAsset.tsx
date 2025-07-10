@@ -182,7 +182,7 @@ const EditAsset = () => {
                     </Button>
                   </div>
 
-                  <div className="w-2/5 border border-purple-500">
+                  <div className="w-2/5 border border-purple-500 flex justify-start">
                     <ApiTable
                       endpoint={`/meter-readings/meter_reading?asset=${id}`}
                       queryKey={["meter_readings", id]}
