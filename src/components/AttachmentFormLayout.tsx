@@ -104,17 +104,6 @@ export const AttachmentFormLayout = ({
                   optionLabelKey: "name"
                 })}
               </div>
-              <div className="space-y-1 w-48">
-                <label className="block text-caption font-normal text-foreground text-center">Equipment</label>
-                {renderField({ 
-                  name: "equipment", 
-                  type: "dropdown", 
-                  endpoint: "/assets/equipments", 
-                  queryKey: ["assets_equipments"], 
-                  optionValueKey: "id", 
-                  optionLabelKey: "name"
-                })}
-              </div>
             </div>
             
             {/* Right Section - Form fields in three columns */}
@@ -138,6 +127,19 @@ export const AttachmentFormLayout = ({
                     <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0 pt-1">Description</label>
                     <div className="flex-grow">
                       {renderField({ name: "description", type: "textarea", rows: 2 })}
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2 h-10">
+                    <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">Equipment</label>
+                    <div className="flex-grow">
+                      {renderField({ 
+                        name: "equipment", 
+                        type: "dropdown", 
+                        endpoint: "/assets/equipments", 
+                        queryKey: ["assets_equipments"], 
+                        optionValueKey: "id", 
+                        optionLabelKey: "name"
+                      })}
                     </div>
                   </div>
                 </div>
