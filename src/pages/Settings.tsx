@@ -12,6 +12,25 @@ import { siteFormFields, locationFormFields } from "@/data/siteFormFields";
 import { equipmentCategoryFormFields, attachmentCategoryFormFields } from "@/data/categoryFormFields";
 import { apiPost } from "@/utils/apis";
 
+const workOrderStatusFormFields = [
+  {
+    name: "control",
+    type: "dropdown" as const,
+    label: "Control",
+    required: true,
+    endpoint: "/work-orders/controls",
+    optionValueKey: "id",
+    optionLabelKey: "name"
+  },
+  {
+    name: "name",
+    type: "input" as const,
+    label: "Name",
+    required: true,
+    inputType: "text" as const
+  }
+];
+
 const Settings = () => {
   const [dialogOpen, setDialogOpen] = useState<'site' | 'location' | 'equipmentCategory' | 'attachmentCategory' | 'workOrderStatus' | null>(null);
   const [loading, setLoading] = useState(false);
@@ -291,27 +310,10 @@ const Settings = () => {
             <DialogTitle>Add WorkOrder Status</DialogTitle>
           </DialogHeader>
           <ApiForm
-            fields={[
-              {
-                name: "control",
-                type: "dropdown",
-                label: "Control",
-                required: true,
-                endpoint: "/work-orders/controls",
-                optionValueKey: "id",
-                optionLabelKey: "name"
-              },
-              {
-                name: "name",
-                type: "input",
-                label: "Name",
-                required: true,
-                inputType: "text"
-              }
-            ]}
+            fields={workOrderStatusFormFields}
             onSubmit={handleWorkOrderStatusSubmit}
             loading={loading}
-            customLayout={customLayout("Add WorkOrder Status", handleWorkOrderStatusSubmit, [])}
+            customLayout={customLayout("Add WorkOrder Status", handleWorkOrderStatusSubmit, workOrderStatusFormFields)}
           />
         </DialogContent>
       </Dialog>
