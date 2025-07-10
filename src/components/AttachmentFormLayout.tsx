@@ -60,7 +60,7 @@ export const AttachmentFormLayout = ({
           {/* Layout matching reference image */}
           <div className="flex gap-8 items-center -mt-2 pb-1">
             {/* Left Section - Image, toggle, location */}
-            <div className="flex flex-col space-y-0.5 w-64 pl-6">
+            <div className="flex flex-col space-y-1 w-64 pl-6">
               <div className="flex items-center space-x-0">
                 <div 
                   className={`flex items-center cursor-pointer transition-all duration-300 rounded border w-48 h-8 ${
