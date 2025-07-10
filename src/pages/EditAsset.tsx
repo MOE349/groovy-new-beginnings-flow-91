@@ -246,7 +246,7 @@ const EditAsset = () => {
                  {/* Third sub-column */}
                  <div className="p-6 space-y-3 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 before:via-primary/80 before:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
                    <div className="flex items-start gap-2 h-10">
-                     <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">Asset Status</label>
+                     <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-3">Asset Status</label>
                      <div className="flex-grow">
                        {renderField({ 
                          name: "status", 
@@ -279,7 +279,7 @@ const EditAsset = () => {
                      </div>
                    </div>
                    <div className="flex items-start gap-2 h-10">
-                     <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">Account Code</label>
+                     <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-3">Account Code</label>
                      <div className="flex-grow">
                        {renderField({ 
                          name: "account_code", 
