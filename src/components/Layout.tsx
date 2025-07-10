@@ -30,6 +30,9 @@ export function Layout({ children }: LayoutProps) {
     if (location.pathname === '/settings') {
       return 'Settings';
     }
+    if (location.pathname === '/dashboard') {
+      return 'Dashboard';
+    }
     return 'Tenmil';
   };
 
