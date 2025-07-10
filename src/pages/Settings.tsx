@@ -64,20 +64,20 @@ const Settings = () => {
     fields: any[]
   ) => (props: any) => (
     <div className="space-y-6">
-      <div className="flex items-center justify-end gap-4 p-4 border-b">
+      <div className="p-4 space-y-4">
+        {props.error && (
+          <div className="text-red-600 text-sm">{props.error}</div>
+        )}
+        {fields.map(props.renderField)}
+      </div>
+      
+      <div className="flex justify-end p-4 border-t">
         <Button 
           onClick={(e) => props.handleSubmit(e)} 
           disabled={props.loading}
         >
           {props.loading ? "Saving..." : "Save"}
         </Button>
-      </div>
-
-      <div className="p-4 space-y-4">
-        {props.error && (
-          <div className="text-red-600 text-sm">{props.error}</div>
-        )}
-        {fields.map(props.renderField)}
       </div>
     </div>
   ), []);
