@@ -9,10 +9,11 @@ import { toast } from "@/hooks/use-toast";
 import ApiTable from "@/components/ApiTable";
 import ApiForm from "@/components/ApiForm";
 import { siteFormFields, locationFormFields } from "@/data/siteFormFields";
+import { equipmentCategoryFormFields, attachmentCategoryFormFields } from "@/data/categoryFormFields";
 import { apiPost } from "@/utils/apis";
 
 const Settings = () => {
-  const [dialogOpen, setDialogOpen] = useState<'site' | 'location' | null>(null);
+  const [dialogOpen, setDialogOpen] = useState<'site' | 'location' | 'equipmentCategory' | 'attachmentCategory' | null>(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -51,6 +52,48 @@ const Settings = () => {
       toast({
         title: "Error",
         description: error.message || "Failed to create location",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleEquipmentCategorySubmit = async (data: Record<string, any>) => {
+    try {
+      setLoading(true);
+      await apiPost("/assets/equipment_category", data);
+      toast({
+        title: "Success",
+        description: "Equipment category created successfully",
+      });
+      setDialogOpen(null);
+      // The table will automatically refresh due to React Query
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to create equipment category",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAttachmentCategorySubmit = async (data: Record<string, any>) => {
+    try {
+      setLoading(true);
+      await apiPost("/assets/attachment_category", data);
+      toast({
+        title: "Success",
+        description: "Attachment category created successfully",
+      });
+      setDialogOpen(null);
+      // The table will automatically refresh due to React Query
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to create attachment category",
         variant: "destructive",
       });
     } finally {
@@ -123,7 +166,7 @@ const Settings = () => {
             <ApiTable
               title="Equipment Categories"
               endpoint="/assets/equipment_category"
-              createNewHref="/settings/equipment-categories/new"
+              onCreateNew={() => setDialogOpen('equipmentCategory')}
               createNewText="New Equipment Category"
               columns={[
                 { key: 'name', header: 'Name' },
@@ -134,7 +177,7 @@ const Settings = () => {
             <ApiTable
               title="Attachment Categories"
               endpoint="/assets/attachment_category"
-              createNewHref="/settings/attachment-categories/new"
+              onCreateNew={() => setDialogOpen('attachmentCategory')}
               createNewText="New Attachment Category"
               columns={[
                 { key: 'name', header: 'Name' },
@@ -207,6 +250,36 @@ const Settings = () => {
             onSubmit={handleLocationSubmit}
             loading={loading}
             customLayout={customLayout("Create New Location", handleLocationSubmit, locationFormFields)}
+          />
+        </DialogContent>
+      </Dialog>
+
+      {/* Equipment Category Dialog */}
+      <Dialog open={dialogOpen === 'equipmentCategory'} onOpenChange={(open) => !open && setDialogOpen(null)}>
+        <DialogContent className="max-w-md max-h-[80vh] overflow-hidden">
+          <DialogHeader>
+            <DialogTitle>Create New Equipment Category</DialogTitle>
+          </DialogHeader>
+          <ApiForm
+            fields={equipmentCategoryFormFields}
+            onSubmit={handleEquipmentCategorySubmit}
+            loading={loading}
+            customLayout={customLayout("Create New Equipment Category", handleEquipmentCategorySubmit, equipmentCategoryFormFields)}
+          />
+        </DialogContent>
+      </Dialog>
+
+      {/* Attachment Category Dialog */}
+      <Dialog open={dialogOpen === 'attachmentCategory'} onOpenChange={(open) => !open && setDialogOpen(null)}>
+        <DialogContent className="max-w-md max-h-[80vh] overflow-hidden">
+          <DialogHeader>
+            <DialogTitle>Create New Attachment Category</DialogTitle>
+          </DialogHeader>
+          <ApiForm
+            fields={attachmentCategoryFormFields}
+            onSubmit={handleAttachmentCategorySubmit}
+            loading={loading}
+            customLayout={customLayout("Create New Attachment Category", handleAttachmentCategorySubmit, attachmentCategoryFormFields)}
           />
         </DialogContent>
       </Dialog>
