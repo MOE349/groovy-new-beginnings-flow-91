@@ -169,60 +169,61 @@ const EditAsset = () => {
           </TabsContent>
           
           <TabsContent value="metering-events" className="mt-4">
-            <div className="bg-card rounded-sm shadow-xs p-4 space-y-4">
-              
-              
-              {/* Update Reading Button and Table Container - DEBUG */}
-              <div className="border-2 border-red-500 p-2">
-                <div className="space-y-3 border border-blue-500">
-                  <div className="border border-green-500">
-                    <Button variant="outline" size="sm" className="flex items-center gap-2">
-                      <Plus className="h-3 w-3" />
-                      Update Reading
-                    </Button>
-                  </div>
+            <div className="bg-card rounded-sm shadow-xs p-4">
+              {/* Left side - Meter Readings */}
+              <div className="w-1/2">
+                {/* Button */}
+                <div className="mb-3">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="flex items-center gap-2"
+                    onClick={() => setIsDialogOpen(true)}
+                  >
+                    <Plus className="h-3 w-3" />
+                    Update Reading
+                  </Button>
+                </div>
 
-                  <div className="w-2/5 border border-purple-500 flex justify-start">
-                    <ApiTable
-                      endpoint={`/meter-readings/meter_reading?asset=${id}`}
-                      queryKey={["meter_readings", id]}
-                      columns={[
-                        { key: 'meter_reading', header: 'Meter Reading', type: 'string', className: "py-1 px-2" },
-                        { key: 'created_at', header: 'Creation Date', type: 'date', className: "py-1 px-2" },
-                        { 
-                          key: 'created_by', 
-                          header: 'Created By', 
-                          type: 'object', 
-                          className: "py-1 px-2",
-                          render: (value: any, row: any) => (
-                            <div className="flex items-center justify-between">
-                              <span>{value?.name || value}</span>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleDeleteMeterReading(row.id);
-                                }}
-                                className="opacity-0 group-hover:opacity-100 transition-opacity h-5 w-5 p-0 ml-2"
-                              >
-                                <Trash2 className="h-3 w-3" />
-                              </Button>
-                            </div>
-                          )
-                        },
-                      ]}
-                      emptyMessage="No meter readings found"
-                      tableClassName="text-xs [&_td]:py-1 [&_td]:px-2 [&_th]:py-1 [&_th]:px-2 [&_th]:h-8"
-                    />
-                  </div>
+                {/* Table */}
+                <div>
+                  <ApiTable
+                    endpoint={`/meter-readings/meter_reading?asset=${id}`}
+                    queryKey={["meter_readings", id]}
+                    columns={[
+                      { key: 'meter_reading', header: 'Meter Reading', type: 'string', className: "py-1 px-2" },
+                      { key: 'created_at', header: 'Creation Date', type: 'date', className: "py-1 px-2" },
+                      { 
+                        key: 'created_by', 
+                        header: 'Created By', 
+                        type: 'object', 
+                        className: "py-1 px-2",
+                        render: (value: any, row: any) => (
+                          <div className="flex items-center justify-between">
+                            <span>{value?.name || value}</span>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteMeterReading(row.id);
+                              }}
+                              className="opacity-0 group-hover:opacity-100 transition-opacity h-5 w-5 p-0 ml-2"
+                            >
+                              <Trash2 className="h-3 w-3" />
+                            </Button>
+                          </div>
+                        )
+                      },
+                    ]}
+                    emptyMessage="No meter readings found"
+                    tableClassName="text-xs [&_td]:py-1 [&_td]:px-2 [&_th]:py-1 [&_th]:px-2 [&_th]:h-8"
+                  />
                 </div>
               </div>
 
+              {/* Dialog for adding readings */}
               <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <DialogTrigger asChild>
-                  <Button variant="ghost" className="hidden">Hidden Trigger</Button>
-                </DialogTrigger>
                 <DialogContent className="sm:max-w-md">
                   <DialogHeader>
                     <DialogTitle>Add Meter Reading</DialogTitle>
