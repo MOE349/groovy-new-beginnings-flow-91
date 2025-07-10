@@ -173,7 +173,7 @@ const EditAsset = () => {
               
               
               {/* Update Reading Button */}
-              <div className="flex items-center gap-4">
+              <div className="space-y-3">
                 <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                   <DialogTrigger asChild>
                     <Button variant="outline" size="sm" className="flex items-center gap-2">
@@ -245,8 +245,8 @@ const EditAsset = () => {
                 </Dialog>
               </div>
 
-              {/* Meter Readings Table */}
-              <div className="space-y-2 w-2/5">
+                {/* Meter Readings Table */}
+                <div className="space-y-2 w-2/5">
                 <ApiTable
                   endpoint={`/meter-readings/meter_reading?asset=${id}`}
                   queryKey={["meter_readings", id]}
