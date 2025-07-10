@@ -211,21 +211,22 @@ const EditAsset = () => {
                     <ApiTable
                       endpoint={`/meter-readings/meter_reading?asset=${id}`}
                       columns={[
-                        {
-                          key: "meter_reading",
-                          header: "Meter Reading",
-                          render: (value: any) => value || '-'
-                        },
-                        {
-                          key: "created_at",
-                          header: "Creation Date",
+                        { key: 'meter_reading', header: 'Meter Reading' },
+                        { 
+                          key: 'created_at', 
+                          header: 'Creation Date',
                           render: (value: any) => value ? new Date(value).toLocaleDateString() : '-'
                         },
-                        {
-                          key: "created_by",
-                          header: "Created By",
-                          render: (value: any) => value || '-'
-                        }
+                        { 
+                          key: 'created_by', 
+                          header: 'Created By',
+                          render: (value: any) => {
+                            if (typeof value === 'object' && value) {
+                              return value.name || value.email || value.id || '-';
+                            }
+                            return value || '-';
+                          }
+                        },
                       ]}
                       tableId={`meter-readings-${id}`}
                     />
@@ -252,21 +253,22 @@ const EditAsset = () => {
                     <ApiTable
                       endpoint={`/codes/code?asset=${id}`}
                       columns={[
-                        {
-                          key: "code",
-                          header: "Code",
-                          render: (value: any) => value || '-'
-                        },
-                        {
-                          key: "created_at",
-                          header: "Creation Date", 
+                        { key: 'code', header: 'Code' },
+                        { 
+                          key: 'created_at', 
+                          header: 'Creation Date',
                           render: (value: any) => value ? new Date(value).toLocaleDateString() : '-'
                         },
-                        {
-                          key: "created_by",
-                          header: "Created By",
-                          render: (value: any) => value || '-'
-                        }
+                        { 
+                          key: 'created_by', 
+                          header: 'Created By',
+                          render: (value: any) => {
+                            if (typeof value === 'object' && value) {
+                              return value.name || value.email || value.id || '-';
+                            }
+                            return value || '-';
+                          }
+                        },
                       ]}
                       tableId={`codes-${id}`}
                     />
