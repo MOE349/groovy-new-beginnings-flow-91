@@ -249,9 +249,9 @@ const EditAsset = () => {
                       <Table className="text-xs [&_td]:py-1 [&_td]:px-2 [&_th]:py-1 [&_th]:px-2 [&_th]:h-8">
                         <TableHeader>
                           <TableRow>
-                            <TableHead className="py-1 px-2">Code</TableHead>
-                            <TableHead className="py-1 px-2">Creation Date</TableHead>
-                            <TableHead className="py-1 px-2">Created By</TableHead>
+                            <TableHead className="py-1 px-2 text-center">Code</TableHead>
+                            <TableHead className="py-1 px-2 text-center">Creation Date</TableHead>
+                            <TableHead className="py-1 px-2 text-center">Created By</TableHead>
                           </TableRow>
                         </TableHeader>
                         <TableBody>
