@@ -174,7 +174,7 @@ const EditAsset = () => {
               {/* Left side - Meter Readings */}
               <div className="w-1/2">
                 {/* Button */}
-                <div className="mb-3">
+                <div className="mb-2">
                   <Button 
                     variant="outline" 
                     size="sm" 
