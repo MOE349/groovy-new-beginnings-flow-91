@@ -13,6 +13,7 @@ import { equipmentFields, attachmentFields } from "@/data/assetFormFields";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useQueryClient } from "@tanstack/react-query";
 import AssetFormLayout from "@/components/AssetFormLayout";
+import { AttachmentFormLayout } from "@/components/AttachmentFormLayout";
 
 const EditAsset = () => {
   const { id } = useParams();
@@ -80,7 +81,7 @@ const EditAsset = () => {
     equipment: assetData?.equipment?.id || assetData?.equipment || "",
   };
 
-  const customLayout = (props: any) => (
+  const customLayout = assetType === "attachment" ? AttachmentFormLayout : (props: any) => (
     <AssetFormLayout 
       {...props} 
       assetType={assetType}
