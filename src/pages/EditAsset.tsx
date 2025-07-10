@@ -229,7 +229,7 @@ const EditAsset = () => {
                 </div>
 
                 {/* Right side - Codes */}
-                <div className="w-1/2 ml-4">
+                <div className="w-1/2 ml-8">
                   {/* Button */}
                   <div className="mb-1">
                     <Button 
