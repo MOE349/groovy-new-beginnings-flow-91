@@ -166,6 +166,19 @@ const EditAsset = () => {
                   optionLabelKey: "name"
                 })}
               </div>
+              {assetType === "attachment" && (
+                <div className="space-y-1 w-48">
+                  <label className="block text-caption font-normal text-foreground text-center">Equipment</label>
+                  {renderField({ 
+                    name: "equipment", 
+                    type: "dropdown", 
+                    endpoint: "/assets/equipments", 
+                    queryKey: ["assets_equipments"], 
+                    optionValueKey: "id", 
+                    optionLabelKey: "name"
+                  })}
+                </div>
+              )}
             </div>
             
             {/* Right Section - Form fields in three columns */}
@@ -191,14 +204,6 @@ const EditAsset = () => {
                       {renderField({ name: "description", type: "textarea", rows: 2 })}
                     </div>
                   </div>
-                  {assetType === "attachment" && (
-                    <div className="flex items-center space-x-2">
-                      <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0">Equipment</label>
-                      <div className="flex-grow">
-                        {renderField({ name: "equipment", type: "dropdown", endpoint: "/assets/equipments", queryKey: ["assets_equipments"], optionValueKey: "id", optionLabelKey: "name" })}
-                      </div>
-                    </div>
-                  )}
                 </div>
                 
                 {/* Second sub-column */}
