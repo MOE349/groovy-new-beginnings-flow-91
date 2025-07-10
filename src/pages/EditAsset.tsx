@@ -186,20 +186,20 @@ const EditAsset = () => {
                 <div className="grid grid-cols-3 gap-x-8 gap-y-3">
                  {/* First sub-column */}
                  <div className="p-6 space-y-3 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 before:via-primary/80 before:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
-                   <div className="flex items-center gap-2 h-10">
-                     <label className="text-caption font-normal text-right w-20 text-foreground shrink-0">Code</label>
+                   <div className="flex items-start gap-2 h-10">
+                     <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">Code</label>
                      <div className="flex-grow">
                        {renderField({ name: "code", type: "input", required: true, inputType: "text", label: "" })}
                      </div>
                    </div>
-                   <div className="flex items-center gap-2 h-10">
-                     <label className="text-caption font-normal text-right w-20 text-foreground shrink-0">Name</label>
+                   <div className="flex items-start gap-2 h-10">
+                     <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">Name</label>
                      <div className="flex-grow">
                        {renderField({ name: "name", type: "input", required: true, inputType: "text", label: "" })}
                      </div>
                    </div>
                    <div className="flex items-start gap-2 h-16">
-                     <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2">Description</label>
+                     <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">Description</label>
                      <div className="flex-grow">
                        {renderField({ name: "description", type: "textarea", rows: 2, label: "" })}
                      </div>
@@ -208,106 +208,106 @@ const EditAsset = () => {
                 
                  {/* Second sub-column */}
                  <div className="p-6 space-y-3 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
-                   <div className="flex items-center gap-2 h-10">
-                     <label className="text-caption font-normal text-right w-20 text-foreground shrink-0">Category</label>
+                   <div className="flex items-start gap-2 h-10">
+                     <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">Category</label>
                      <div className="flex-grow">
-                        {renderField({ 
-                          name: "category", 
-                          type: "dropdown", 
-                          required: true, 
-                          endpoint: assetType === "equipment" ? "/assets/equipment_category" : "/assets/attachment_category",
-                          queryKey: assetType === "equipment" ? ["equipment_category"] : ["attachment_category"],
-                          optionValueKey: "id", 
-                          optionLabelKey: "name",
-                          label: ""
-                        })}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 h-10">
-                      <label className="text-caption font-normal text-right w-20 text-foreground shrink-0">Make</label>
-                      <div className="flex-grow">
-                        {renderField({ name: "make", type: "input", required: true, inputType: "text", label: "" })}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 h-10">
-                      <label className="text-caption font-normal text-right w-20 text-foreground shrink-0">Model</label>
-                      <div className="flex-grow">
-                        {renderField({ name: "model", type: "input", required: true, inputType: "text", label: "" })}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 h-10">
-                      <label className="text-caption font-normal text-right w-20 text-foreground shrink-0">Serial #</label>
-                      <div className="flex-grow">
-                        {renderField({ name: "serial_number", type: "input", required: true, inputType: "text", label: "" })}
+                       {renderField({ 
+                         name: "category", 
+                         type: "dropdown", 
+                         required: true, 
+                         endpoint: assetType === "equipment" ? "/assets/equipment_category" : "/assets/attachment_category",
+                         queryKey: assetType === "equipment" ? ["equipment_category"] : ["attachment_category"],
+                         optionValueKey: "id", 
+                         optionLabelKey: "name",
+                         label: ""
+                       })}
+                     </div>
+                   </div>
+                   <div className="flex items-start gap-2 h-10">
+                     <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">Make</label>
+                     <div className="flex-grow">
+                       {renderField({ name: "make", type: "input", required: true, inputType: "text", label: "" })}
+                     </div>
+                   </div>
+                   <div className="flex items-start gap-2 h-10">
+                     <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">Model</label>
+                     <div className="flex-grow">
+                       {renderField({ name: "model", type: "input", required: true, inputType: "text", label: "" })}
+                     </div>
+                   </div>
+                   <div className="flex items-start gap-2 h-10">
+                     <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">Serial #</label>
+                     <div className="flex-grow">
+                       {renderField({ name: "serial_number", type: "input", required: true, inputType: "text", label: "" })}
                      </div>
                    </div>
                  </div>
                 
                  {/* Third sub-column */}
                  <div className="p-6 space-y-3 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 before:via-primary/80 before:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
-                   <div className="flex items-center gap-2 h-10">
-                     <label className="text-caption font-normal text-right w-20 text-foreground shrink-0">Asset Status</label>
+                   <div className="flex items-start gap-2 h-10">
+                     <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">Asset Status</label>
                      <div className="flex-grow">
-                        {renderField({ 
-                          name: "status", 
-                          type: "dropdown",
-                          required: true,
-                          options: [
-                            { id: "active", name: "Active" },
-                            { id: "inactive", name: "Inactive" },
-                            { id: "maintenance", name: "Under Maintenance" },
-                            { id: "retired", name: "Retired" }
-                          ],
-                          label: ""
-                        })}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 h-10">
-                      <label className="text-caption font-normal text-right w-20 text-foreground shrink-0">Job Code</label>
-                      <div className="flex-grow">
-                        {renderField({ 
-                          name: "job_code", 
-                          type: "dropdown",
-                          options: [
-                            { id: "job001", name: "JOB-001" },
-                            { id: "job002", name: "JOB-002" },
-                            { id: "job003", name: "JOB-003" },
-                            { id: "job004", name: "JOB-004" }
-                          ],
-                          label: ""
-                        })}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 h-10">
-                      <label className="text-caption font-normal text-right w-20 text-foreground shrink-0">Account Code</label>
-                      <div className="flex-grow">
-                        {renderField({ 
-                          name: "account_code", 
-                          type: "dropdown",
-                          options: [
-                            { id: "acc001", name: "ACC-001" },
-                            { id: "acc002", name: "ACC-002" },
-                            { id: "acc003", name: "ACC-003" },
-                            { id: "acc004", name: "ACC-004" }
-                          ],
-                          label: ""
-                        })}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 h-10">
-                      <label className="text-caption font-normal text-right w-20 text-foreground shrink-0">Project</label>
-                      <div className="flex-grow">
-                        {renderField({ 
-                          name: "project", 
-                          type: "dropdown",
-                          options: [
-                            { id: "proj001", name: "Project Alpha" },
-                            { id: "proj002", name: "Project Beta" },
-                            { id: "proj003", name: "Project Gamma" },
-                            { id: "proj004", name: "Project Delta" }
-                          ],
-                          label: ""
-                        })}
+                       {renderField({ 
+                         name: "status", 
+                         type: "dropdown",
+                         required: true,
+                         options: [
+                           { id: "active", name: "Active" },
+                           { id: "inactive", name: "Inactive" },
+                           { id: "maintenance", name: "Under Maintenance" },
+                           { id: "retired", name: "Retired" }
+                         ],
+                         label: ""
+                       })}
+                     </div>
+                   </div>
+                   <div className="flex items-start gap-2 h-10">
+                     <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">Job Code</label>
+                     <div className="flex-grow">
+                       {renderField({ 
+                         name: "job_code", 
+                         type: "dropdown",
+                         options: [
+                           { id: "job001", name: "JOB-001" },
+                           { id: "job002", name: "JOB-002" },
+                           { id: "job003", name: "JOB-003" },
+                           { id: "job004", name: "JOB-004" }
+                         ],
+                         label: ""
+                       })}
+                     </div>
+                   </div>
+                   <div className="flex items-start gap-2 h-10">
+                     <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">Account Code</label>
+                     <div className="flex-grow">
+                       {renderField({ 
+                         name: "account_code", 
+                         type: "dropdown",
+                         options: [
+                           { id: "acc001", name: "ACC-001" },
+                           { id: "acc002", name: "ACC-002" },
+                           { id: "acc003", name: "ACC-003" },
+                           { id: "acc004", name: "ACC-004" }
+                         ],
+                         label: ""
+                       })}
+                     </div>
+                   </div>
+                   <div className="flex items-start gap-2 h-10">
+                     <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">Project</label>
+                     <div className="flex-grow">
+                       {renderField({ 
+                         name: "project", 
+                         type: "dropdown",
+                         options: [
+                           { id: "proj001", name: "Project Alpha" },
+                           { id: "proj002", name: "Project Beta" },
+                           { id: "proj003", name: "Project Gamma" },
+                           { id: "proj004", name: "Project Delta" }
+                         ],
+                         label: ""
+                       })}
                      </div>
                    </div>
                  </div>
