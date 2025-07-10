@@ -69,21 +69,22 @@ export const AttachmentFormLayout = ({
                       : 'bg-red-500 border-red-600'
                   }`}
                   onClick={() => handleFieldChange("is_online", !formData?.is_online)}
-                >
-                  {/* Icon section */}
-                  <div className="flex items-center justify-center w-8 h-full text-white">
-                    {formData?.is_online ? (
-                      <Check size={12} />
-                    ) : (
-                      <X size={12} />
-                    )}
-                  </div>
-                  
-                  {/* Status text */}
-                  <div className="flex-1 text-sm font-medium text-white text-center">
-                    {formData?.is_online ? 'Online' : 'Offline'}
-                  </div>
-                </div>
+                 >
+                   {/* Status text with icon */}
+                   <div className="flex items-center justify-center gap-1 text-sm font-medium text-white w-full">
+                     {formData?.is_online ? (
+                       <>
+                         <Check size={12} />
+                         Online
+                       </>
+                     ) : (
+                       <>
+                         <X size={12} />
+                         Offline
+                       </>
+                     )}
+                   </div>
+                 </div>
               </div>
               <div className="w-48 h-32 bg-muted rounded border-2 border-border overflow-hidden">
                 <img 
