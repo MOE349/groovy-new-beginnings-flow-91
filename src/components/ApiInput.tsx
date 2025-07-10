@@ -41,6 +41,7 @@ const ApiInput = ({
         onChange={(e) => onChange?.(e.target.value)}
         disabled={disabled}
         required={required}
+        className={value ? "bg-blue-50/70" : ""}
       />
     </div>
   );
