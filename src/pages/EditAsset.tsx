@@ -29,6 +29,7 @@ const EditAsset = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isCodeDialogOpen, setIsCodeDialogOpen] = useState(false);
   const { assetType, assetData, isLoading, isError, error } = useAssetData(id);
   const { handleSubmit } = useAssetSubmit(id, assetType);
 
@@ -44,6 +45,23 @@ const EditAsset = () => {
       toast({
         title: "Error",
         description: error.message || "Failed to delete meter reading",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleDeleteCode = async (codeId: string) => {
+    try {
+      await apiDelete(`/codes/code/${codeId}`);
+      queryClient.invalidateQueries({ queryKey: ["codes", id] });
+      toast({
+        title: "Success",
+        description: "Code deleted successfully!",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to delete code",
         variant: "destructive",
       });
     }
@@ -171,40 +189,94 @@ const EditAsset = () => {
           
           <TabsContent value="metering-events" className="mt-1">
             <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
-              {/* Left side - Meter Readings */}
-              <div className="w-1/2">
-                {/* Button */}
-                <div className="mb-1">
-                  <Button 
-                    variant="default" 
-                    size="sm" 
-                    className="flex items-center gap-2 px-3 py-1"
-                    onClick={() => setIsDialogOpen(true)}
-                  >
-                    <Plus className="h-3 w-3" />
-                    Update Reading
-                  </Button>
+              <div className="flex gap-6">
+                {/* Left side - Meter Readings */}
+                <div className="w-1/2">
+                  {/* Button */}
+                  <div className="mb-1">
+                    <Button 
+                      variant="default" 
+                      size="sm" 
+                      className="flex items-center gap-2 px-3 py-1"
+                      onClick={() => setIsDialogOpen(true)}
+                    >
+                      <Plus className="h-3 w-3" />
+                      Update Reading
+                    </Button>
+                  </div>
+
+                  {/* Table */}
+                  <div className="w-3/4">
+                    <div className="border border-border rounded-sm">
+                      <Table className="text-xs [&_td]:py-1 [&_td]:px-2 [&_th]:py-1 [&_th]:px-2 [&_th]:h-8">
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead className="py-1 px-2">Meter Reading</TableHead>
+                            <TableHead className="py-1 px-2">Creation Date</TableHead>
+                            <TableHead className="py-1 px-2">Created By</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          <TableRow>
+                            <TableCell colSpan={3} className="text-center py-8 text-muted-foreground">
+                              No meter readings found
+                            </TableCell>
+                          </TableRow>
+                        </TableBody>
+                      </Table>
+                    </div>
+                  </div>
                 </div>
 
-                {/* Table */}
-                <div className="w-3/4">
-                  <div className="border border-border rounded-sm">
-                    <Table className="text-xs [&_td]:py-1 [&_td]:px-2 [&_th]:py-1 [&_th]:px-2 [&_th]:h-8">
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead className="py-1 px-2">Meter Reading</TableHead>
-                          <TableHead className="py-1 px-2">Creation Date</TableHead>
-                          <TableHead className="py-1 px-2">Created By</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        <TableRow>
-                          <TableCell colSpan={3} className="text-center py-8 text-muted-foreground">
-                            No meter readings found
-                          </TableCell>
-                        </TableRow>
-                      </TableBody>
-                    </Table>
+                {/* Right side - Codes */}
+                <div className="w-1/2">
+                  {/* Button */}
+                  <div className="mb-1">
+                    <Button 
+                      variant="default" 
+                      size="sm" 
+                      className="flex items-center gap-2 px-3 py-1"
+                      onClick={() => setIsCodeDialogOpen(true)}
+                    >
+                      <Plus className="h-3 w-3" />
+                      Update Code
+                    </Button>
+                  </div>
+
+                  {/* Table */}
+                  <div className="w-3/4">
+                    <ApiTable
+                      endpoint={`/codes/code?asset=${id}`}
+                      queryKey={["codes", id]}
+                      columns={[
+                        { key: 'code', header: 'Code', type: 'string', className: "py-1 px-2" },
+                        { key: 'created_at', header: 'Creation Date', type: 'date', className: "py-1 px-2" },
+                        { 
+                          key: 'created_by', 
+                          header: 'Created By', 
+                          type: 'object', 
+                          className: "py-1 px-2",
+                          render: (value: any, row: any) => (
+                            <div className="flex items-center justify-between">
+                              <span>{value?.name || value}</span>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleDeleteCode(row.id);
+                                }}
+                                className="opacity-0 group-hover:opacity-100 transition-opacity h-5 w-5 p-0 ml-2"
+                              >
+                                <Trash2 className="h-3 w-3" />
+                              </Button>
+                            </div>
+                          )
+                        },
+                      ]}
+                      emptyMessage="No codes found"
+                      tableClassName="text-xs [&_td]:py-1 [&_td]:px-2 [&_th]:py-1 [&_th]:px-2 [&_th]:h-8"
+                    />
                   </div>
                 </div>
               </div>
@@ -260,6 +332,71 @@ const EditAsset = () => {
                             <Button 
                               variant="outline" 
                               onClick={() => setIsDialogOpen(false)}
+                            >
+                              Cancel
+                            </Button>
+                            <Button onClick={handleSubmit}>
+                              Save
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                    />
+                  </div>
+                </DialogContent>
+              </Dialog>
+
+              {/* Dialog for adding codes */}
+              <Dialog open={isCodeDialogOpen} onOpenChange={setIsCodeDialogOpen}>
+                <DialogContent className="sm:max-w-md">
+                  <DialogHeader>
+                    <DialogTitle>Add Code</DialogTitle>
+                  </DialogHeader>
+                  <div className="space-y-4">
+                    <ApiForm
+                      fields={[
+                        {
+                          name: "code",
+                          type: "input",
+                          inputType: "text",
+                          required: true,
+                          label: "Code"
+                        }
+                      ]}
+                      onSubmit={async (data) => {
+                        const submissionData = {
+                          ...data,
+                          asset: id
+                        };
+                        try {
+                          await apiPost("/codes/code", submissionData);
+                          queryClient.invalidateQueries({ queryKey: ["codes", id] });
+                          setIsCodeDialogOpen(false);
+                          toast({
+                            title: "Success",
+                            description: "Code added successfully!",
+                          });
+                        } catch (error: any) {
+                          toast({
+                            title: "Error",
+                            description: error.message || "Failed to add code",
+                            variant: "destructive",
+                          });
+                        }
+                      }}
+                      customLayout={({ handleSubmit, renderField }) => (
+                        <div className="space-y-4">
+                          {renderField({ 
+                            name: "code", 
+                            type: "input", 
+                            inputType: "text", 
+                            required: true,
+                            label: "Code"
+                          })}
+                          <div className="flex justify-end gap-2">
+                            <Button 
+                              variant="outline" 
+                              onClick={() => setIsCodeDialogOpen(false)}
                             >
                               Cancel
                             </Button>
