@@ -27,6 +27,9 @@ export function Layout({ children }: LayoutProps) {
     if (location.pathname === '/workorders') {
       return 'Work Orders';
     }
+    if (location.pathname === '/settings') {
+      return 'Settings';
+    }
     return 'Tenmil';
   };
 

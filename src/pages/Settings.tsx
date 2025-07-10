@@ -6,13 +6,6 @@ import ApiForm from "@/components/ApiForm";
 const Settings = () => {
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">Settings</h1>
-        <p className="text-muted-foreground">
-          Configure your application settings
-        </p>
-      </div>
-      
       <Tabs defaultValue="sites" className="w-full">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="sites">Sites</TabsTrigger>
