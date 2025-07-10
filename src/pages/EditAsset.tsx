@@ -1,11 +1,12 @@
 import { useParams, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { toast } from "@/hooks/use-toast";
 import ApiForm from "@/components/ApiForm";
 import ApiTable from "@/components/ApiTable";
 import { apiPost, apiDelete } from "@/utils/apis";
 import GearSpinner from "@/components/ui/gear-spinner";
-import { AlertTriangle, Trash2 } from "lucide-react";
+import { AlertTriangle, Trash2, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAssetData } from "@/hooks/useAssetData";
 import { useAssetSubmit } from "@/hooks/useAssetSubmit";
@@ -14,11 +15,19 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useQueryClient } from "@tanstack/react-query";
 import AssetFormLayout from "@/components/AssetFormLayout";
 import { AttachmentFormLayout } from "@/components/AttachmentFormLayout";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const EditAsset = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { assetType, assetData, isLoading, isError, error } = useAssetData(id);
   const { handleSubmit } = useAssetSubmit(id, assetType);
 
@@ -163,58 +172,77 @@ const EditAsset = () => {
             <div className="bg-card rounded-sm shadow-xs p-4 space-y-4">
               
               
-              {/* Add Meter Reading Form - Compact */}
-              <div className="flex items-end gap-4">
-                <div className="w-80">
-                  <label className="block text-caption font-normal mb-1 text-foreground">
-                    Meter Reading <span className="text-destructive">*</span>
-                  </label>
-                  <ApiForm
-                    fields={[
-                      {
-                        name: "meter_reading",
-                        type: "input",
-                        inputType: "text",
-                        required: true
-                      }
-                    ]}
-                    onSubmit={async (data) => {
-                      const submissionData = {
-                        ...data,
-                        asset: id
-                      };
-                      try {
-                        await apiPost("/meter-readings/meter_reading", submissionData);
-                        queryClient.invalidateQueries({ queryKey: ["meter_readings", id] });
-                        toast({
-                          title: "Success",
-                          description: "Meter reading added successfully!",
-                        });
-                      } catch (error: any) {
-                        toast({
-                          title: "Error",
-                          description: error.message || "Failed to add meter reading",
-                          variant: "destructive",
-                        });
-                      }
-                    }}
-                    customLayout={({ handleSubmit, renderField }) => (
-                      <div className="flex items-center gap-3">
-                        <div className="w-48">
-                          {renderField({ 
-                            name: "meter_reading", 
-                            type: "input", 
-                            inputType: "text", 
-                            required: true
-                          })}
-                        </div>
-                        <Button onClick={handleSubmit} className="h-10 px-6 bg-secondary text-secondary-foreground hover:bg-secondary/90">
-                          Save
-                        </Button>
-                      </div>
-                    )}
-                  />
-                </div>
+              {/* Update Reading Button */}
+              <div className="flex items-center gap-4">
+                <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                  <DialogTrigger asChild>
+                    <Button variant="outline" className="flex items-center gap-2">
+                      <Plus className="h-4 w-4" />
+                      Update Reading
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                      <DialogTitle>Add Meter Reading</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-4">
+                      <ApiForm
+                        fields={[
+                          {
+                            name: "meter_reading",
+                            type: "input",
+                            inputType: "text",
+                            required: true,
+                            label: "Meter Reading"
+                          }
+                        ]}
+                        onSubmit={async (data) => {
+                          const submissionData = {
+                            ...data,
+                            asset: id
+                          };
+                          try {
+                            await apiPost("/meter-readings/meter_reading", submissionData);
+                            queryClient.invalidateQueries({ queryKey: ["meter_readings", id] });
+                            setIsDialogOpen(false);
+                            toast({
+                              title: "Success",
+                              description: "Meter reading added successfully!",
+                            });
+                          } catch (error: any) {
+                            toast({
+                              title: "Error",
+                              description: error.message || "Failed to add meter reading",
+                              variant: "destructive",
+                            });
+                          }
+                        }}
+                        customLayout={({ handleSubmit, renderField }) => (
+                          <div className="space-y-4">
+                            {renderField({ 
+                              name: "meter_reading", 
+                              type: "input", 
+                              inputType: "text", 
+                              required: true,
+                              label: "Meter Reading"
+                            })}
+                            <div className="flex justify-end gap-2">
+                              <Button 
+                                variant="outline" 
+                                onClick={() => setIsDialogOpen(false)}
+                              >
+                                Cancel
+                              </Button>
+                              <Button onClick={handleSubmit}>
+                                Save
+                              </Button>
+                            </div>
+                          </div>
+                        )}
+                      />
+                    </div>
+                  </DialogContent>
+                </Dialog>
               </div>
 
               {/* Meter Readings Table */}
