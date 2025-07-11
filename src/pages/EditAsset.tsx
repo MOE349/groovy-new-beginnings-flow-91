@@ -496,12 +496,6 @@ const EditAsset = () => {
                                   <span className="text-sm text-muted-foreground">before trigger</span>
                                 </div>
                               </div>
-                              
-                              <div className="flex justify-end pt-6">
-                                <Button size="sm">
-                                  Save Settings
-                                </Button>
-                              </div>
                             </div>
                           </TabsContent>
                           
@@ -541,12 +535,6 @@ const EditAsset = () => {
                                   />
                                   <span className="text-sm text-muted-foreground">days before due</span>
                                 </div>
-                              </div>
-                              
-                              <div className="flex justify-end pt-6">
-                                <Button size="sm">
-                                  Save Settings
-                                </Button>
                               </div>
                             </div>
                           </TabsContent>
