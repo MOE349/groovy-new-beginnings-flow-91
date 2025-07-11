@@ -81,7 +81,12 @@ const EditWorkOrder = () => {
 
   const customLayout = ({ handleSubmit, formData, handleFieldChange, loading, error, renderField }: any) => (
     <FormLayout      
-      {...props} 
+      handleSubmit={handleSubmit}
+      formData={formData}
+      handleFieldChange={handleFieldChange}
+      loading={loading}
+      error={error}
+      renderField={renderField}
       config={workOrderFormConfig}
     />
   );
