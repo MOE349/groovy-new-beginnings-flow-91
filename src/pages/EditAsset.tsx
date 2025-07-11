@@ -443,102 +443,113 @@ const EditAsset = () => {
                           <h4 className="text-h3 font-medium text-primary dark:text-secondary ml-6">Trigger</h4>
                         </div>
                         
-                        <Tabs defaultValue="meter-reading-trigger" className="w-full bg-card/50 border border-border/30 rounded-lg p-4 shadow-sm">
-                          <TabsList className="grid w-full grid-cols-2 mb-6">
-                            <TabsTrigger value="meter-reading-trigger">meter reading trigger</TabsTrigger>
-                            <TabsTrigger value="time-trigger">time trigger</TabsTrigger>
-                          </TabsList>
-                          
-                          <TabsContent value="meter-reading-trigger" className="mt-6">
-                            <div className="space-y-4">
-                              {/* Every field */}
-                              <div className="flex items-start gap-2 h-12">
-                                <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-3">Every</label>
-                                <div className="flex items-center gap-2 flex-grow">
-                                  <input
-                                    type="number"
-                                    defaultValue="500"
-                                    className="w-20 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
-                                  />
-                                  <select className="px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background">
-                                    <option value="hours">Hours</option>
-                                    <option value="days">Days</option>
-                                    <option value="weeks">Weeks</option>
-                                    <option value="months">Months</option>
-                                    <option value="years">Years</option>
-                                    <option value="miles">Miles</option>
-                                    <option value="kilometers">Kilometers</option>
-                                  </select>
-                                </div>
+                        <div className="flex gap-4 h-full">
+                          {/* Meter Reading Trigger Container */}
+                          <div className="w-1/2">
+                            <div className="bg-card/50 border border-border/30 rounded-lg p-4 shadow-sm h-full">
+                              <div className="flex items-center gap-4 mb-4 py-1 -mx-2 -mt-2 bg-accent/20 border border-accent/30 rounded-md">
+                                <h5 className="text-sm font-medium text-primary dark:text-secondary ml-4">Meter Reading Trigger</h5>
                               </div>
                               
-                              {/* Starting at field */}
-                              <div className="flex items-start gap-2 h-12">
-                                <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-3">Starting at</label>
-                                <div className="flex-grow">
-                                  <input
-                                    type="number"
-                                    defaultValue="250"
-                                    className="w-20 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
-                                  />
+                              <div className="space-y-4">
+                                {/* Every field */}
+                                <div className="flex items-start gap-2 h-12">
+                                  <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-3">Every</label>
+                                  <div className="flex items-center gap-2 flex-grow">
+                                    <input
+                                      type="number"
+                                      defaultValue="500"
+                                      className="w-20 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
+                                    />
+                                    <select className="px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background">
+                                      <option value="hours">Hours</option>
+                                      <option value="days">Days</option>
+                                      <option value="weeks">Weeks</option>
+                                      <option value="months">Months</option>
+                                      <option value="years">Years</option>
+                                      <option value="miles">Miles</option>
+                                      <option value="kilometers">Kilometers</option>
+                                    </select>
+                                  </div>
                                 </div>
-                              </div>
-                              
-                              {/* Create WO field */}
-                              <div className="flex items-start gap-2 h-12">
-                                <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-3">Create WO</label>
-                                <div className="flex items-center gap-2 flex-grow">
-                                  <input
-                                    type="number"
-                                    defaultValue="50"
-                                    className="w-16 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
-                                  />
-                                  <span className="text-sm text-muted-foreground">before trigger</span>
+                                
+                                {/* Starting at field */}
+                                <div className="flex items-start gap-2 h-12">
+                                  <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-3">Starting at</label>
+                                  <div className="flex-grow">
+                                    <input
+                                      type="number"
+                                      defaultValue="250"
+                                      className="w-20 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
+                                    />
+                                  </div>
+                                </div>
+                                
+                                {/* Create WO field */}
+                                <div className="flex items-start gap-2 h-12">
+                                  <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-3">Create WO</label>
+                                  <div className="flex items-center gap-2 flex-grow">
+                                    <input
+                                      type="number"
+                                      defaultValue="50"
+                                      className="w-16 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
+                                    />
+                                    <span className="text-sm text-muted-foreground">before trigger</span>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </TabsContent>
-                          
-                          <TabsContent value="time-trigger" className="mt-6">
-                            <div className="space-y-4">
-                              {/* Time-based trigger fields */}
-                              <div className="flex items-start gap-2 h-12">
-                                <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-3">Frequency</label>
-                                <div className="flex-grow">
-                                  <select className="w-full px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background">
-                                    <option value="daily">Daily</option>
-                                    <option value="weekly">Weekly</option>
-                                    <option value="monthly">Monthly</option>
-                                    <option value="quarterly">Quarterly</option>
-                                    <option value="annually">Annually</option>
-                                  </select>
-                                </div>
+                          </div>
+
+                          {/* Time Trigger Container */}
+                          <div className="w-1/2">
+                            <div className="bg-card/50 border border-border/30 rounded-lg p-4 shadow-sm h-full">
+                              <div className="flex items-center gap-4 mb-4 py-1 -mx-2 -mt-2 bg-accent/20 border border-accent/30 rounded-md">
+                                <h5 className="text-sm font-medium text-primary dark:text-secondary ml-4">Time Trigger</h5>
                               </div>
                               
-                              <div className="flex items-start gap-2 h-12">
-                                <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-3">Start Date</label>
-                                <div className="flex-grow">
-                                  <input
-                                    type="date"
-                                    className="w-full px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
-                                  />
+                              <div className="space-y-4">
+                                {/* Frequency field */}
+                                <div className="flex items-start gap-2 h-12">
+                                  <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-3">Frequency</label>
+                                  <div className="flex-grow">
+                                    <select className="w-full px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background">
+                                      <option value="daily">Daily</option>
+                                      <option value="weekly">Weekly</option>
+                                      <option value="monthly">Monthly</option>
+                                      <option value="quarterly">Quarterly</option>
+                                      <option value="annually">Annually</option>
+                                    </select>
+                                  </div>
                                 </div>
-                              </div>
-                              
-                              <div className="flex items-start gap-2 h-12">
-                                <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-3">Create WO</label>
-                                <div className="flex items-center gap-2 flex-grow">
-                                  <input
-                                    type="number"
-                                    defaultValue="1"
-                                    className="w-16 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
-                                  />
-                                  <span className="text-sm text-muted-foreground">days before due</span>
+                                
+                                {/* Start Date field */}
+                                <div className="flex items-start gap-2 h-12">
+                                  <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-3">Start Date</label>
+                                  <div className="flex-grow">
+                                    <input
+                                      type="date"
+                                      className="w-full px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
+                                    />
+                                  </div>
+                                </div>
+                                
+                                {/* Create WO field */}
+                                <div className="flex items-start gap-2 h-12">
+                                  <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-3">Create WO</label>
+                                  <div className="flex items-center gap-2 flex-grow">
+                                    <input
+                                      type="number"
+                                      defaultValue="1"
+                                      className="w-16 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
+                                    />
+                                    <span className="text-sm text-muted-foreground">days before due</span>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </TabsContent>
-                        </Tabs>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     
