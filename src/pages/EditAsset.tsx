@@ -626,11 +626,11 @@ const EditAsset = () => {
                               <Table className="w-full caption-bottom text-sm">
                                 <TableHeader>
                                   <TableRow className="border-b">
-                                    <TableHead className="h-12 px-4 text-left align-middle font-medium !text-primary-foreground !bg-primary">Work Order #</TableHead>
-                                    <TableHead className="h-12 px-4 text-left align-middle font-medium !text-primary-foreground !bg-primary">Status</TableHead>
-                                    <TableHead className="h-12 px-4 text-left align-middle font-medium !text-primary-foreground !bg-primary">Maintenance Type</TableHead>
-                                    <TableHead className="h-12 px-4 text-left align-middle font-medium !text-primary-foreground !bg-primary">Date Opened</TableHead>
-                                    <TableHead className="h-12 px-4 text-left align-middle font-medium !text-primary-foreground !bg-primary">Date Closed</TableHead>
+                                    <TableHead className="h-8 px-4 text-left align-middle font-medium !text-primary-foreground !bg-primary">Work Order #</TableHead>
+                                    <TableHead className="h-8 px-4 text-left align-middle font-medium !text-primary-foreground !bg-primary">Status</TableHead>
+                                    <TableHead className="h-8 px-4 text-left align-middle font-medium !text-primary-foreground !bg-primary">Maintenance Type</TableHead>
+                                    <TableHead className="h-8 px-4 text-left align-middle font-medium !text-primary-foreground !bg-primary">Date Opened</TableHead>
+                                    <TableHead className="h-8 px-4 text-left align-middle font-medium !text-primary-foreground !bg-primary">Date Closed</TableHead>
                                   </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -664,9 +664,9 @@ const EditAsset = () => {
                               <Table className="w-full caption-bottom text-sm">
                                 <TableHeader>
                                   <TableRow className="border-b">
-                                    <TableHead className="h-12 px-4 text-left align-middle font-medium !text-primary-foreground !bg-primary">Date</TableHead>
-                                    <TableHead className="h-12 px-4 text-left align-middle font-medium !text-primary-foreground !bg-primary">Log Type</TableHead>
-                                    <TableHead className="h-12 px-4 text-left align-middle font-medium !text-primary-foreground !bg-primary">Notes</TableHead>
+                                     <TableHead className="h-8 px-4 text-left align-middle font-medium !text-primary-foreground !bg-primary">Date</TableHead>
+                                     <TableHead className="h-8 px-4 text-left align-middle font-medium !text-primary-foreground !bg-primary">Log Type</TableHead>
+                                     <TableHead className="h-8 px-4 text-left align-middle font-medium !text-primary-foreground !bg-primary">Notes</TableHead>
                                   </TableRow>
                                 </TableHeader>
                                 <TableBody>
