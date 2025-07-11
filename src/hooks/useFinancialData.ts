@@ -25,7 +25,16 @@ export const useFinancialData = (assetId: string) => {
     
     try {
       const response = await apiCall(`/financial-reports/${assetId}`);
-      setData(response.data);
+      
+      // Add detailed logging to debug data structure
+      console.log('Full API response (right side):', response);
+      console.log('Response data (right side):', response.data);
+      
+      // Check if data is nested under response.data.data
+      const actualData = response.data?.data || response.data;
+      console.log('Actual data to use (right side):', actualData);
+      
+      setData(actualData);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch financial data');
     } finally {
