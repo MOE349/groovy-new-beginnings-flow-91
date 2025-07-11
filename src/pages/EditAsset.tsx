@@ -615,65 +615,39 @@ const EditAsset = () => {
                         </button>
                         
                         <div className="absolute top-1 left-8 right-8 flex items-center justify-center gap-4 py-1 bg-accent/20 border border-accent/30 rounded-md z-10">
-                          <h4 className="text-h3 font-medium text-primary dark:text-secondary">PM Work Orders</h4>
+                          <h4 className="text-h3 font-medium text-primary dark:text-secondary">Log</h4>
                         </div>
                         
                          <div className="pt-8 overflow-auto max-h-[500px]">
-                           {/* PM Work Orders Table */}
+                           {/* Activity Log Table */}
                            <div className="space-y-2 mt-10">
-                            <div className="flex items-center justify-between mb-3">
-                              <h6 className="text-sm font-medium text-foreground">PM Work Orders</h6>
-                              <Button
-                                variant="default"
-                                size="sm"
-                                className="flex items-center gap-2"
-                              >
-                                <Plus className="h-4 w-4" />
-                                New Work Order
-                              </Button>
-                            </div>
-                            <div className="w-full">
-                              <ApiTable
-                                endpoint={`/work-orders/work_order?asset=${id}`}
-                                columns={[
-                                  { key: 'work_order_number', header: 'Work Order #' },
-                                  { key: 'description', header: 'Description' },
-                                  { 
-                                    key: 'status', 
-                                    header: 'Status',
-                                    render: (value: any) => (
-                                      <span className={`px-2 py-1 rounded-sm text-xs font-medium ${
-                                        value === 'completed' ? 'bg-green-100 text-green-800' :
-                                        value === 'in_progress' ? 'bg-blue-100 text-blue-800' :
-                                        value === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                                        'bg-gray-100 text-gray-800'
-                                      }`}>
-                                        {value || 'Unknown'}
-                                      </span>
-                                    )
-                                  },
-                                  { 
-                                    key: 'priority', 
-                                    header: 'Priority',
-                                    render: (value: any) => (
-                                      <span className={`px-2 py-1 rounded-sm text-xs font-medium ${
-                                        value === 'high' ? 'bg-red-100 text-red-800' :
-                                        value === 'medium' ? 'bg-orange-100 text-orange-800' :
-                                        value === 'low' ? 'bg-green-100 text-green-800' :
-                                        'bg-gray-100 text-gray-800'
-                                      }`}>
-                                        {value || 'Normal'}
-                                      </span>
-                                    )
-                                  },
-                                  { 
-                                    key: 'created_at', 
-                                    header: 'Created',
-                                    render: (value: any) => value ? new Date(value).toLocaleDateString() : '-'
-                                  },
-                                ]}
-                                 tableId={`pm-work-orders-${id}`}
-                              />
+                            <h6 className="text-sm font-medium text-foreground">Activity Log</h6>
+                            <div className="border border-border rounded-md overflow-hidden">
+                              <table className="w-full text-sm">
+                                <thead className="bg-muted">
+                                  <tr>
+                                    <th className="px-3 py-2 text-left font-medium">Date</th>
+                                    <th className="px-3 py-2 text-left font-medium">Log Type</th>
+                                    <th className="px-3 py-2 text-left font-medium">Notes</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr className="border-t border-border">
+                                    <td className="px-3 py-2">01/22/2024</td>
+                                    <td className="px-3 py-2">
+                                      <span className="px-1.5 py-0.5 text-xs bg-blue-100 text-blue-800 rounded">Inspection</span>
+                                    </td>
+                                    <td className="px-3 py-2">Routine inspection completed</td>
+                                  </tr>
+                                  <tr className="border-t border-border">
+                                    <td className="px-3 py-2">01/20/2024</td>
+                                    <td className="px-3 py-2">
+                                      <span className="px-1.5 py-0.5 text-xs bg-orange-100 text-orange-800 rounded">Maintenance</span>
+                                    </td>
+                                    <td className="px-3 py-2">Oil change performed</td>
+                                  </tr>
+                                </tbody>
+                              </table>
                             </div>
                           </div>
                         </div>
