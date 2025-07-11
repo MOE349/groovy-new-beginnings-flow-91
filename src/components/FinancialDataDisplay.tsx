@@ -116,10 +116,10 @@ const FinancialDataDisplay: React.FC<FinancialDataDisplayProps> = ({
       <CardContent className="space-y-4">
         <div className="grid grid-cols-1 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="totalCostHr">Total Cost/Hr</Label>
+            <Label htmlFor="expectedHours">Expected Hours</Label>
             <Input
-              id="totalCostHr"
-              value={formatCurrency(getTableValue('Total Cost/Hr'))}
+              id="expectedHours"
+              value={getTableValue('expected_hours')}
               disabled
               className="bg-muted"
             />
@@ -129,67 +129,77 @@ const FinancialDataDisplay: React.FC<FinancialDataDisplayProps> = ({
             <Label htmlFor="monthlyPayment">Monthly Payment</Label>
             <Input
               id="monthlyPayment"
-              value={formatCurrency(getTableValue('Monthly payment'))}
+              value={formatCurrency(getTableValue('monthly_payment'))}
               disabled
               className="bg-muted"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="interestRate">Interest Rate</Label>
+            <Label htmlFor="interestAmount">Interest Amount</Label>
             <Input
-              id="interestRate"
-              value={`${getTableValue('Interest rate')}%`}
+              id="interestAmount"
+              value={formatCurrency(getTableValue('interst_amount'))}
               disabled
               className="bg-muted"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="maintenanceCost">Maintenance Cost</Label>
+            <Label htmlFor="operationalCostPerYear">Operational Cost Per Year</Label>
             <Input
-              id="maintenanceCost"
-              value={formatCurrency(getTableValue('Maintenance Cost'))}
+              id="operationalCostPerYear"
+              value={formatCurrency(getTableValue('operational_cost_per_year'))}
               disabled
               className="bg-muted"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="depreciation">Depreciation</Label>
+            <Label htmlFor="yearlyHours">Yearly Hours</Label>
             <Input
-              id="depreciation"
-              value={formatCurrency(getTableValue('Depreciation'))}
+              id="yearlyHours"
+              value={getTableValue('yearly_hours')}
               disabled
               className="bg-muted"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="utilisation">Utilisation Rate</Label>
+            <Label htmlFor="capitalCostPerHr">Capital Cost/Hr</Label>
             <Input
-              id="utilisation"
-              value={`${getTableValue('Utilisation')}%`}
+              id="capitalCostPerHr"
+              value={formatCurrency(getTableValue('capital_cost_per_hr'))}
               disabled
               className="bg-muted"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="totalOperationalCost">Total Operational Cost</Label>
+            <Label htmlFor="maintenanceCostPerHr">Maintenance Cost/Hr</Label>
             <Input
-              id="totalOperationalCost"
-              value={formatCurrency(getTableValue('Total Operational Cost'))}
+              id="maintenanceCostPerHr"
+              value={formatCurrency(getTableValue('maintnance_cost_per_hr'))}
               disabled
               className="bg-muted"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="assetValue">Asset Value</Label>
+            <Label htmlFor="operationalCostPerHr">Operational Cost/Hr</Label>
             <Input
-              id="assetValue"
-              value={formatCurrency(getTableValue('Asset Value'))}
+              id="operationalCostPerHr"
+              value={formatCurrency(getTableValue('operational_cost_per_hr'))}
+              disabled
+              className="bg-muted"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="totalCostPerHr">Total Cost/Hr</Label>
+            <Input
+              id="totalCostPerHr"
+              value={formatCurrency(getTableValue('total_cost_per_hr'))}
               disabled
               className="bg-muted"
             />
