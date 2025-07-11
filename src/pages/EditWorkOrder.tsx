@@ -14,20 +14,13 @@ const EditWorkOrder = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  console.log("EditWorkOrder - ID from URL:", id);
-
   const { data: workOrderResponse, isLoading, isError, error } = useQuery({
     queryKey: ["work_order", id],
-    queryFn: () => {
-      console.log("API call being made for work order:", id);
-      return apiGet(`/work-orders/work_order/${id}`);
-    },
+    queryFn: () => apiGet(`/work-orders/work_order/${id}`),
     enabled: !!id,
   });
 
-  console.log("Query state:", { workOrderResponse, isLoading, isError, error });
   const workOrderData = workOrderResponse?.data;
-  console.log("Work Order Data:", workOrderData);
 
   const handleSubmit = async (data: Record<string, any>) => {
     try {
@@ -75,27 +68,26 @@ const EditWorkOrder = () => {
     );
   }
 
-  console.log("Work Order Data:", workOrderData);
-
   // Transform date strings to Date objects and object values to IDs for dropdowns
   const initialData = workOrderData ? {
     ...workOrderData,
+    // Date transformations
     suggested_start_date: workOrderData?.suggested_start_date ? new Date(workOrderData.suggested_start_date) : undefined,
     completion_end_date: workOrderData?.completion_end_date ? new Date(workOrderData.completion_end_date) : undefined,
-    // Transform object values to their IDs for dropdown compatibility
+    // Transform nested object values to their IDs for dropdown compatibility
     asset: workOrderData?.asset?.id || workOrderData?.asset || "",
     status: workOrderData?.status?.id || workOrderData?.status || "",
-    // Fix: Work order doesn't have a direct location field - asset has location
-    location: workOrderData?.asset?.location?.id || "",
-    is_online: workOrderData?.asset?.is_online || false,
+    // Handle location - work order doesn't have direct location, get from asset
+    location: workOrderData?.asset?.location?.id || workOrderData?.location?.id || workOrderData?.location || "",
+    // Handle boolean values
+    is_online: workOrderData?.asset?.is_online || workOrderData?.is_online || false,
+    // Ensure all form fields have values
+    maint_type: workOrderData?.maint_type || "",
+    priority: workOrderData?.priority || "",
+    starting_meter_reading: workOrderData?.starting_meter_reading || "",
+    completion_meter_reading: workOrderData?.completion_meter_reading || "",
+    description: workOrderData?.description || "",
   } : {};
-
-  console.log("EditWorkOrder: Initial data transformation", {
-    workOrderData,
-    initialData,
-    assetLocation: workOrderData?.asset?.location,
-    statusId: workOrderData?.status?.id
-  });
 
   const customLayout = ({ handleSubmit, formData, handleFieldChange, loading, error, renderField }: any) => (
     <div className="space-y-0">

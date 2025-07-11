@@ -16,6 +16,9 @@ export interface FormField {
   placeholder?: string;
   required?: boolean;
   disabled?: boolean;
+  // Layout properties
+  size?: "half" | "full" | "third" | "quarter";
+  component?: string;
   // Input specific
   inputType?: "text" | "email" | "password" | "number";
   // TextArea specific
@@ -65,11 +68,8 @@ const ApiForm = ({
 
   // Update form data when initialData changes (for edit forms with async data)
   useEffect(() => {
-    console.log("ApiForm: useEffect triggered", { initialData, formData });
-    
     // Only update if initialData has actual content
     if (Object.keys(initialData).length > 0) {
-      console.log("ApiForm: Setting form data to:", initialData);
       setFormData(initialData);
     }
   }, [initialData]);
@@ -96,12 +96,22 @@ const ApiForm = ({
   };
 
   const renderField = (field: FormField) => {
+    const getSizeClass = (size?: string) => {
+      switch (size) {
+        case "half": return "w-1/2";
+        case "third": return "w-1/3";
+        case "quarter": return "w-1/4";
+        case "full":
+        default: return "w-full";
+      }
+    };
+
     const commonProps = {
       name: field.name,
       label: field.label,
       required: field.required,
       disabled: field.disabled || loading,
-      className: "mb-4",
+      className: `mb-4 ${getSizeClass(field.size)}`,
     };
 
     switch (field.type) {
@@ -201,8 +211,10 @@ const ApiForm = ({
         {loading ? "Loading..." : "Save"}
       </Button>
       
-      <div className="flex-1 overflow-y-auto space-y-4">
-        {fields.map(renderField)}
+      <div className="flex-1 overflow-y-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {fields.map(renderField)}
+        </div>
       </div>
     </form>
   );
