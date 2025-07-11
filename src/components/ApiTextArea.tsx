@@ -40,8 +40,11 @@ const ApiTextArea = ({
         onChange={(e) => onChange?.(e.target.value)}
         disabled={disabled}
         required={required}
-        rows={rows}
-        className={value ? "bg-blue-50/70" : ""}
+        rows={1}
+        className={cn(
+          "h-10 min-h-10 resize-none",
+          value ? "bg-blue-50/70" : ""
+        )}
       />
     </div>
   );
