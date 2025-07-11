@@ -17,13 +17,13 @@ const EditWorkOrder = () => {
 
   const { data: workOrderData, isLoading, isError, error } = useQuery({
     queryKey: ["work_order", id],
-    queryFn: () => apiGet(`/work-orders/${id}`),
+    queryFn: () => apiGet(`/work-orders/work_order/${id}`),
     enabled: !!id,
   });
 
   const handleSubmit = async (data: Record<string, any>) => {
     try {
-      await apiPut(`/work-orders/${id}`, data);
+      await apiPut(`/work-orders/work_order/${id}`, data);
       toast({
         title: "Success",
         description: "Work order updated successfully!",

@@ -11,7 +11,7 @@ const CreateWorkOrder = () => {
 
   const handleSubmit = async (data: Record<string, any>) => {
     try {
-      await apiPost("/work-orders", data);
+      await apiPost("/work-orders/work_order", data);
       toast({
         title: "Success",
         description: "Work order created successfully!",
