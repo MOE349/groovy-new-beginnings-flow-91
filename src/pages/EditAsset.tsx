@@ -422,7 +422,7 @@ const EditAsset = () => {
                       <h4 className="text-h3 font-medium text-primary dark:text-secondary ml-6">Settings</h4>
                     </div>
                     
-                    <Tabs defaultValue="meter-reading-trigger" className="w-full bg-card/50 border border-border/30 rounded-lg p-18 shadow-lg">
+                    <Tabs defaultValue="meter-reading-trigger" className="w-full bg-card/50 border border-border/30 rounded-lg p-4 shadow-sm">
                       <TabsList className="grid w-full grid-cols-2 mb-6">
                         <TabsTrigger value="meter-reading-trigger">meter reading trigger</TabsTrigger>
                         <TabsTrigger value="time-trigger">time trigger</TabsTrigger>
