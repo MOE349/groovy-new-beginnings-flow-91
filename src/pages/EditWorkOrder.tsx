@@ -173,13 +173,30 @@ const EditWorkOrder = () => {
           <TabsContent value="log" className="mt-1">
             <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
               <ApiTable
-                endpoint="/work-orders/work_order_log"
+                endpoint={`/work-orders/work_order_log?work_order_id=${id}`}
                 columns={[
                   { key: 'user', header: 'User', type: 'object' },
                   { key: 'amount', header: 'Amount', type: 'string' },
                   { key: 'log_type', header: 'Log Type', type: 'string' },
                   { key: 'description', header: 'Description', type: 'string' },
-                  { key: 'created_at', header: 'Date', type: 'date' },
+                  { 
+                    key: 'created_at', 
+                    header: 'Date', 
+                    type: 'date',
+                    render: (value: any) => {
+                      if (!value) return '';
+                      const date = new Date(value);
+                      return date.toLocaleString('en-US', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        hour12: false
+                      });
+                    }
+                  },
                 ]}
                 queryKey={["work_order_log", id]}
                 emptyMessage="No log entries found"
