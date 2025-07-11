@@ -70,8 +70,8 @@ const EditAsset = () => {
 
   const handleDeleteCode = async (codeId: string) => {
     try {
-      await apiCall(`/codes/code/${codeId}`, { method: 'DELETE' });
-      queryClient.invalidateQueries({ queryKey: [`/codes/code?asset=${id}`] });
+      await apiCall(`/fault-codes/codes/${codeId}`, { method: 'DELETE' });
+      queryClient.invalidateQueries({ queryKey: [`/fault-codes/codes?asset=${id}`] });
       queryClient.invalidateQueries({ queryKey: ["codes", id] });
       toast({
         title: "Success",
@@ -268,7 +268,7 @@ const EditAsset = () => {
                   {/* Table */}
                   <div className="w-5/6">
                     <ApiTable
-                      endpoint={`/codes/code?asset=${id}`}
+                      endpoint={`/fault-codes/codes?asset=${id}`}
                       columns={[
                         { key: 'code', header: 'Code' },
                         { 
@@ -382,8 +382,8 @@ const EditAsset = () => {
                           asset: id
                         };
                         try {
-                          await apiCall("/codes/code", { method: 'POST', body: submissionData });
-                          queryClient.invalidateQueries({ queryKey: [`/codes/code?asset=${id}`] });
+                          await apiCall("/fault-codes/codes", { method: 'POST', body: submissionData });
+                          queryClient.invalidateQueries({ queryKey: [`/fault-codes/codes?asset=${id}`] });
                           queryClient.invalidateQueries({ queryKey: ["codes", id] });
                           setIsCodeDialogOpen(false);
                           toast({
