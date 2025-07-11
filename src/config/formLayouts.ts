@@ -176,10 +176,14 @@ export const attachmentFormConfig: FormLayoutConfig = {
 export const workOrderFormConfig: FormLayoutConfig = {
   title: "Work Order Information",
   backRoute: "/workorders",
+  showImage: true,
+  showOnlineToggle: true,
+  showSpecialSections: {
+    location: true,
+  },
   columns: [
     {
       fields: [
-        { name: "code", label: "Code", type: "input", required: false, inputType: "text" },
         { 
           name: "asset", 
           label: "Asset", 
@@ -200,6 +204,7 @@ export const workOrderFormConfig: FormLayoutConfig = {
           optionValueKey: "id",
           optionLabelKey: "name"
         },
+        { name: "description", label: "Description", type: "textarea", required: false, rows: 3 },
       ]
     },
     {
@@ -208,12 +213,6 @@ export const workOrderFormConfig: FormLayoutConfig = {
         { name: "priority", label: "Priority", type: "input", required: false, inputType: "text" },
         { name: "suggested_start_date", label: "Suggested Start Date", type: "datepicker", required: false },
         { name: "completion_end_date", label: "Completion Date", type: "datepicker", required: false },
-      ]
-    },
-    {
-      fields: [
-        { name: "description", label: "Description", type: "textarea", required: false, rows: 3 },
-        { name: "asset.location", label: "Location", type: "input", required: false, inputType: "text" },
       ]
     }
   ]

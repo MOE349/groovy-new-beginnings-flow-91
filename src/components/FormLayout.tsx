@@ -83,8 +83,13 @@ const FormLayout = ({
           <div 
             className="flex items-center gap-4 mb-4 py-1 -mx-2 bg-accent/20 border border-accent/30 rounded-md" 
           >
-            <h3 className="text-h3 font-medium text-primary dark:text-secondary ml-6">{config.title}</h3>
-            {(formData?.code || formData?.name) && (
+            <h3 className="text-h3 font-medium text-primary dark:text-secondary ml-6">
+              {config.title}
+              {config.title.includes("Work Order") && formData?.code && (
+                <span className="ml-4 text-muted-foreground">Code: {formData.code}</span>
+              )}
+            </h3>
+            {!config.title.includes("Work Order") && (formData?.code || formData?.name) && (
               <span className="text-h3 font-medium text-muted-foreground ml-16">
                 {formData?.code && `(${formData.code})`} {formData?.name}
               </span>
@@ -164,7 +169,15 @@ const FormLayout = ({
             
             {/* Right Section - Form fields in columns */}
             <div className="flex-1">
-              <div className={`grid gap-x-8 gap-y-2 ${config.columns.length === 1 ? 'grid-cols-1' : config.columns.length === 2 ? 'grid-cols-2' : 'grid-cols-3'}`}>
+              <div className={`grid gap-x-8 gap-y-2 ${
+                config.columns.length === 1 
+                  ? 'grid-cols-1' 
+                  : config.columns.length === 2 && config.title.includes("Work Order")
+                    ? 'grid-cols-[2fr_1fr]' 
+                    : config.columns.length === 2 
+                      ? 'grid-cols-2' 
+                      : 'grid-cols-3'
+              }`}>
                 {config.columns.map((column, colIndex) => (
                   <div key={colIndex} className="p-6 space-y-2 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
                     {column.fields.map((field) => (
