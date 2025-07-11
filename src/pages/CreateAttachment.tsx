@@ -17,7 +17,7 @@ const CreateAttachment = () => {
         title: "Success",
         description: "Attachment created successfully!",
       });
-      navigate("/assets");
+      navigate("/asset");
     } catch (error: any) {
       toast({
         title: "Error",

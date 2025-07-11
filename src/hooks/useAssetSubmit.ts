@@ -16,7 +16,7 @@ export const useAssetSubmit = (id: string | undefined, assetType: AssetType | nu
         title: "Success",
         description: `${assetType === "equipment" ? "Equipment" : "Attachment"} updated successfully!`,
       });
-      navigate("/assets");
+      navigate("/asset");
     } catch (error: any) {
       toast({
         title: "Error",
