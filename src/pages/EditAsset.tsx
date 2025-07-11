@@ -618,7 +618,7 @@ const EditAsset = () => {
                           <h4 className="text-h3 font-medium text-primary dark:text-secondary">Log</h4>
                         </div>
                         
-                        <div className="pt-12 space-y-4 overflow-auto max-h-[400px]">
+                        <div className="pt-8 space-y-4 overflow-auto max-h-[400px]">
                           {/* PM Work Orders Table */}
                           <div className="space-y-2">
                             <h6 className="text-base font-medium text-foreground">PM Work Orders</h6>
