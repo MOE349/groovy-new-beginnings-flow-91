@@ -4,7 +4,8 @@ import ApiForm from "@/components/ApiForm";
 import { apiPost } from "@/utils/apis";
 import { attachmentFields } from "@/data/assetFormFields";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { AttachmentFormLayout } from "@/components/AttachmentFormLayout";
+import FormLayout from "@/components/FormLayout";
+import { attachmentFormConfig } from "@/config/formLayouts";
 
 const CreateAttachment = () => {
   const navigate = useNavigate();
@@ -36,7 +37,12 @@ const CreateAttachment = () => {
           initialData={{
             is_online: false,
           }}
-          customLayout={AttachmentFormLayout}
+          customLayout={(props: any) => (
+            <FormLayout 
+              {...props} 
+              config={attachmentFormConfig}
+            />
+          )}
         />
       </div>
 

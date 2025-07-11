@@ -15,8 +15,8 @@ import { equipmentFields, attachmentFields } from "@/data/assetFormFields";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
-import AssetFormLayout from "@/components/AssetFormLayout";
-import { AttachmentFormLayout } from "@/components/AttachmentFormLayout";
+import FormLayout from "@/components/FormLayout";
+import { equipmentFormConfig, attachmentFormConfig } from "@/config/formLayouts";
 import { apiGet } from "@/utils/apis";
 import {
   Dialog,
@@ -128,11 +128,10 @@ const EditAsset = () => {
     equipment: assetData?.equipment?.id || assetData?.equipment || "",
   };
 
-  const customLayout = assetType === "attachment" ? AttachmentFormLayout : (props: any) => (
-    <AssetFormLayout 
+  const customLayout = (props: any) => (
+    <FormLayout 
       {...props} 
-      assetType={assetType}
-      assetTypeName={assetTypeName}
+      config={assetType === "attachment" ? attachmentFormConfig : equipmentFormConfig}
     />
   );
 

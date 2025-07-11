@@ -5,7 +5,8 @@ import ApiTable from "@/components/ApiTable";
 import { apiPost } from "@/utils/apis";
 import { equipmentFields } from "@/data/assetFormFields";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import AssetFormLayout from "@/components/AssetFormLayout";
+import FormLayout from "@/components/FormLayout";
+import { equipmentFormConfig } from "@/config/formLayouts";
 
 const CreateEquipment = () => {
   const navigate = useNavigate();
@@ -28,10 +29,9 @@ const CreateEquipment = () => {
   };
 
   const customLayout = (props: any) => (
-    <AssetFormLayout 
+    <FormLayout 
       {...props} 
-      assetType="equipment"
-      assetTypeName="Equipment"
+      config={equipmentFormConfig}
     />
   );
 
