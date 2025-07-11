@@ -70,6 +70,7 @@ const ApiForm = ({
   useEffect(() => {
     // Only update if initialData has actual content
     if (Object.keys(initialData).length > 0) {
+      console.log("ApiForm: Setting form data", { initialData });
       setFormData(initialData);
     }
   }, [initialData]);

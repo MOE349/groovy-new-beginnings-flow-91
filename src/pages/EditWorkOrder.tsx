@@ -163,15 +163,14 @@ const EditWorkOrder = () => {
               </div>
               <div className="space-y-1 w-48">
                 <label className="block text-caption font-normal text-foreground text-center">Location</label>
-                {renderField({ 
-                  name: "location", 
-                  type: "dropdown", 
-                  required: true, 
-                  endpoint: "/company/location", 
-                  queryKey: ["company_location"], 
-                  optionValueKey: "id", 
-                  optionLabelKey: "name"
-                })}
+                <div className="w-full">
+                  <input 
+                    type="text"
+                    value={workOrderData?.asset?.location?.name || "Not assigned"}
+                    disabled
+                    className="w-full h-8 px-3 border border-border rounded-md bg-muted text-muted-foreground text-sm"
+                  />
+                </div>
               </div>
             </div>
             
