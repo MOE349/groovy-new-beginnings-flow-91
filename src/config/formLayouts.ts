@@ -93,6 +93,7 @@ export const attachmentFormConfig: FormLayoutConfig = {
   showOnlineToggle: true,
   showSpecialSections: {
     location: true,
+    equipment: true,
   },
   columns: [
     {
@@ -100,15 +101,6 @@ export const attachmentFormConfig: FormLayoutConfig = {
         { name: "code", label: "Code", type: "input", required: true, inputType: "text" },
         { name: "name", label: "Name", type: "input", required: true, inputType: "text" },
         { name: "description", label: "Description", type: "textarea", rows: 2 },
-        { 
-          name: "equipment", 
-          label: "Equipment", 
-          type: "dropdown", 
-          endpoint: "/assets/equipments",
-          queryKey: ["assets_equipments"],
-          optionValueKey: "id", 
-          optionLabelKey: "name"
-        },
       ]
     },
     {

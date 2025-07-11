@@ -23,7 +23,7 @@ const ApiTextArea = ({
   className,
   required = false,
   disabled = false,
-  rows = 1,
+  rows = 4,
 }: ApiTextAreaProps) => {
   return (
     <div className={cn("space-y-2", className)}>
@@ -41,7 +41,7 @@ const ApiTextArea = ({
         disabled={disabled}
         required={required}
         rows={rows}
-        className={`h-10 resize-none ${value ? "bg-blue-50/70" : ""}`}
+        className={value ? "bg-blue-50/70" : ""}
       />
     </div>
   );
