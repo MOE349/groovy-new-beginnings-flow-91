@@ -17,6 +17,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { useQueryClient, useQuery } from "@tanstack/react-query";
 import FormLayout from "@/components/FormLayout";
 import { equipmentFormConfig, attachmentFormConfig } from "@/config/formLayouts";
+import FinancialsTabContent from "@/components/FinancialsTabContent";
 
 import {
   Dialog,
@@ -698,10 +699,7 @@ const EditAsset = () => {
           </TabsContent>
           
           <TabsContent value="financials" className="mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
-              <h3 className="text-h3 font-medium text-foreground">Financials</h3>
-              <p className="text-caption text-muted-foreground">Financial information content will go here</p>
-            </div>
+            <FinancialsTabContent assetId={id} />
           </TabsContent>
           
           <TabsContent value="files" className="mt-1">
