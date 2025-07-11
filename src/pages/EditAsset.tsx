@@ -498,7 +498,7 @@ const EditAsset = () => {
                                 </div>
                                 
                                 {/* Status Toggle Button */}
-                                <div className="flex justify-center mt-12">
+                                <div className="flex justify-center mt-5">
                                   <div 
                                     className={`flex items-center cursor-pointer transition-all duration-300 rounded border w-48 h-8 ${
                                       isMeterTriggerActive 
