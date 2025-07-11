@@ -1,5 +1,7 @@
 import React from 'react';
 import ApiForm from '@/components/ApiForm';
+import { apiPost } from '@/utils/apis';
+import { useToast } from '@/hooks/use-toast';
 
 interface FinancialReportFormProps {
   assetId: string;
@@ -83,15 +85,35 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
       placeholder: `Enter ${field.label.toLowerCase()}`
     }));
 
+  const { toast } = useToast();
+
   const handleSubmit = async (data: Record<string, any>) => {
     try {
-      // The ApiForm will handle the actual submission
-      // When successful, call onSuccess to refresh the right-side data
+      // Add the asset ID to the submission data
+      const submissionData = {
+        ...data,
+        asset: assetId
+      };
+
+      // Submit to the same endpoint as the right side
+      await apiPost(`/financial-reports/${assetId}`, submissionData);
+      
+      toast({
+        title: "Success",
+        description: "Financial data saved successfully",
+      });
+
+      // Call onSuccess to refresh the right-side data
       if (onSuccess) {
         onSuccess();
       }
     } catch (error) {
-      console.error('Failed to submit financial report:', error);
+      console.error('Failed to submit financial data:', error);
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to save financial data",
+        variant: "destructive",
+      });
     }
   };
 
