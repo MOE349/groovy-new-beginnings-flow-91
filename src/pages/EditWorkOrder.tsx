@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { toast } from "@/hooks/use-toast";
 import ApiForm from "@/components/ApiForm";
+import ApiTable from "@/components/ApiTable";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { apiCall } from "@/utils/apis";
 import { workOrderFields } from "@/data/workOrderFormFields";
@@ -171,8 +172,18 @@ const EditWorkOrder = () => {
           
           <TabsContent value="log" className="mt-1">
             <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
-              <h3 className="text-h3 font-medium text-foreground">Log</h3>
-              <p className="text-caption text-muted-foreground">Work order activity log will go here</p>
+              <ApiTable
+                endpoint="/work-orders/work_order_log"
+                columns={[
+                  { key: 'user', header: 'User', type: 'object' },
+                  { key: 'amount', header: 'Amount', type: 'string' },
+                  { key: 'log_type', header: 'Log Type', type: 'string' },
+                  { key: 'description', header: 'Description', type: 'string' },
+                  { key: 'created_at', header: 'Date', type: 'date' },
+                ]}
+                queryKey={["work_order_log", id]}
+                emptyMessage="No log entries found"
+              />
             </div>
           </TabsContent>
         </Tabs>
