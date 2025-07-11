@@ -622,7 +622,7 @@ const EditAsset = () => {
                           {/* PM Work Orders Table */}
                           <div className="space-y-2">
                             <h6 className="text-xs font-medium text-foreground">PM Work Orders</h6>
-                            <div className="relative w-full overflow-auto border border-border rounded-md">
+                            <div className="relative w-full overflow-auto border-2 border-border rounded-md">
                               <Table className="w-full caption-bottom text-sm">
                                 <TableHeader>
                                   <TableRow className="border-b">
@@ -660,7 +660,7 @@ const EditAsset = () => {
                           {/* Activity Log Table */}
                           <div className="space-y-2">
                             <h6 className="text-xs font-medium text-foreground">Activity Log</h6>
-                            <div className="relative w-full overflow-auto border border-border rounded-md">
+                            <div className="relative w-full overflow-auto border-2 border-border rounded-md">
                               <Table className="w-full caption-bottom text-sm">
                                 <TableHeader>
                                   <TableRow className="border-b">
