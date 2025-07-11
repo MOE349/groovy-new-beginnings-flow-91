@@ -34,6 +34,8 @@ const EditAsset = () => {
   const [isCodeDialogOpen, setIsCodeDialogOpen] = useState(false);
   const [currentView, setCurrentView] = useState(0); // 0 for View 1, 1 for View 2
   const [activeTab, setActiveTab] = useState("");
+  const [meterTriggerActive, setMeterTriggerActive] = useState(true);
+  const [timeTriggerActive, setTimeTriggerActive] = useState(false);
   const { assetType, assetData, isLoading, isError, error } = useAssetData(id);
   const { handleSubmit } = useAssetSubmit(id, assetType);
 
@@ -495,8 +497,21 @@ const EditAsset = () => {
                                     <span className="text-sm text-muted-foreground">before trigger</span>
                                   </div>
                                 </div>
+                                
+                                {/* Active/Inactive Toggle Button */}
+                                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
+                                  <button
+                                    onClick={() => setMeterTriggerActive(!meterTriggerActive)}
+                                    className={`inline-flex h-6 w-16 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background text-xs font-medium ${
+                                      meterTriggerActive 
+                                        ? 'bg-primary text-primary-foreground' 
+                                        : 'bg-input text-muted-foreground'
+                                    }`}
+                                  >
+                                    {meterTriggerActive ? 'Active' : 'Inactive'}
+                                  </button>
+                                </div>
                               </div>
-                            </div>
                           </div>
 
                           {/* Time Trigger Container */}
@@ -542,8 +557,23 @@ const EditAsset = () => {
                                     <span className="text-sm text-muted-foreground">days before due</span>
                                   </div>
                                 </div>
+                                
+                                {/* Active/Inactive Toggle Button */}
+                                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
+                                  <button
+                                    onClick={() => setTimeTriggerActive(!timeTriggerActive)}
+                                    className={`inline-flex h-6 w-16 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background text-xs font-medium ${
+                                      timeTriggerActive 
+                                        ? 'bg-primary text-primary-foreground' 
+                                        : 'bg-input text-muted-foreground'
+                                    }`}
+                                  >
+                                    {timeTriggerActive ? 'Active' : 'Inactive'}
+                                  </button>
+                                </div>
                               </div>
                             </div>
+                          </div>
                           </div>
                         </div>
                       </div>
