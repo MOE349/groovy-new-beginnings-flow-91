@@ -28,7 +28,7 @@ const WorkOrders = () => {
       </div>
 
       <ApiTable
-        endpoint="/work-orders"
+        endpoint="/work-orders/work_order"
         columns={columns}
         queryKey={["work_orders"]}
         emptyMessage="No work orders found"
