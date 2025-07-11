@@ -573,7 +573,7 @@ const EditAsset = () => {
                               </div>
                               
                               {/* Status Toggle Button - positioned at the bottom */}
-                              <div className="flex justify-center pb-4">
+                              <div className="flex justify-center pb-0">
                                 <div 
                                   className={`flex items-center cursor-pointer transition-all duration-300 rounded border w-48 h-8 ${
                                     isTimeTriggerActive 
