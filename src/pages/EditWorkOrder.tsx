@@ -58,7 +58,7 @@ const EditWorkOrder = () => {
     );
   }
 
-  if (!workOrderData || !workOrderData.data) {
+    if (!workOrderData || !workOrderData.data || !workOrderData.data.data) {
     return (
       <div className="flex justify-center items-center min-h-[400px]">
         <GearSpinner fullscreen />
@@ -67,7 +67,7 @@ const EditWorkOrder = () => {
   }
 
   // Transform date strings to Date objects and object values to IDs for dropdowns
-  const workOrder = workOrderData as any;
+  const workOrder = workOrderData.data.data as any;
   console.log("workOrderData", workOrderData)
   console.log("workOrder", workOrder)
   const initialData = {
