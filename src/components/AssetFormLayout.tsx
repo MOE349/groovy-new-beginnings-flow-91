@@ -31,7 +31,7 @@ const AssetFormLayout = ({
       <div className="h-10 flex items-center justify-between px-4 py-1 bg-secondary border-b border-border">
         <Button 
           variant="ghost" 
-          onClick={() => navigate("/assets")}
+          onClick={() => navigate("/asset")}
           className="flex items-center gap-2 text-black dark:text-black hover:scale-105 transition-transform px-4 py-1 h-8 text-sm"
         >
           <ArrowLeft className="h-4 w-4" />
