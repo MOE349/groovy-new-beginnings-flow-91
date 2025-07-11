@@ -89,7 +89,7 @@ const EditWorkOrder = () => {
     description: workOrderData?.description || "",
   } : {};
 
-  const customLayout = ({ handleSubmit, formData, handleFieldChange, loading, error, renderField }: any) => (
+  const customLayout = ({ handleSubmit, formData, handleFieldChange, loading, error, renderField, fields }: any) => (
     <div className="space-y-0">
       {/* Top Bar */}
       <div className="h-10 flex items-center justify-between px-4 py-1 bg-secondary border-b border-border">
@@ -182,35 +182,19 @@ const EditWorkOrder = () => {
                   <div className="flex items-start gap-2 h-10">
                     <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0 pt-2">Asset</label>
                     <div className="flex-grow">
-                      {renderField({ 
-                        name: "asset", 
-                        type: "dropdown", 
-                        required: true, 
-                        endpoint: "/assets/equipments",
-                        queryKey: ["assets_equipments"],
-                        optionValueKey: "id", 
-                        optionLabelKey: "name" 
-                      })}
+                      {renderField(fields.find((f: any) => f.name === "asset"))}
                     </div>
                   </div>
                   <div className="flex items-start gap-2 h-10">
                     <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0 pt-2">Status</label>
                     <div className="flex-grow">
-                      {renderField({ 
-                        name: "status", 
-                        type: "dropdown", 
-                        required: true, 
-                        endpoint: "/work-orders/status",
-                        queryKey: ["work_orders_status"],
-                        optionValueKey: "id", 
-                        optionLabelKey: "name" 
-                      })}
+                      {renderField(fields.find((f: any) => f.name === "status"))}
                     </div>
                   </div>
                   <div className="flex items-start space-x-2">
                     <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0 pt-1">Description</label>
                     <div className="flex-grow">
-                      {renderField({ name: "description", type: "textarea", rows: 4 })}
+                      {renderField(fields.find((f: any) => f.name === "description"))}
                     </div>
                   </div>
                 </div>
@@ -220,25 +204,25 @@ const EditWorkOrder = () => {
                   <div className="flex items-start gap-2 h-10">
                     <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0 pt-2.5">Maint Type</label>
                     <div className="flex-grow">
-                      {renderField({ name: "maint_type", type: "input", inputType: "text" })}
+                      {renderField(fields.find((f: any) => f.name === "maint_type"))}
                     </div>
                   </div>
                   <div className="flex items-start gap-2 h-10">
                     <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0 pt-2.5">Priority</label>
                     <div className="flex-grow">
-                      {renderField({ name: "priority", type: "input", inputType: "text" })}
+                      {renderField(fields.find((f: any) => f.name === "priority"))}
                     </div>
                   </div>
                   <div className="flex items-start gap-2 h-10">
                     <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0 pt-2.5">Start Date</label>
                     <div className="flex-grow">
-                      {renderField({ name: "suggested_start_date", type: "datepicker" })}
+                      {renderField(fields.find((f: any) => f.name === "suggested_start_date"))}
                     </div>
                   </div>
                   <div className="flex items-start gap-2 h-10">
                     <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0 pt-2.5">Completion</label>
                     <div className="flex-grow">
-                      {renderField({ name: "completion_end_date", type: "datepicker" })}
+                      {renderField(fields.find((f: any) => f.name === "completion_end_date"))}
                     </div>
                   </div>
                 </div>
