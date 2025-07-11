@@ -225,19 +225,21 @@ const EditAsset = () => {
                   </div>
 
                   {/* Table */}
-                  <div className="w-5/6">
+                  <div className="w-full">
                     <ApiTable
                       endpoint={`/meter-readings/meter_reading?asset=${id}`}
                       columns={[
-                        { key: 'meter_reading', header: 'Meter Reading' },
+                        { key: 'meter_reading', header: 'Meter Reading', className: 'text-base' },
                         { 
                           key: 'created_at', 
                           header: 'Creation Date',
+                          className: 'text-base',
                           render: (value: any) => value ? new Date(value).toLocaleDateString() : '-'
                         },
                         { 
                           key: 'created_by', 
                           header: 'Created By',
+                          className: 'text-base',
                           render: (value: any) => {
                             if (typeof value === 'object' && value) {
                               return value.name || value.email || value.id || '-';
@@ -267,19 +269,21 @@ const EditAsset = () => {
                   </div>
 
                   {/* Table */}
-                  <div className="w-5/6">
+                  <div className="w-full">
                     <ApiTable
                       endpoint={`/codes/code?asset=${id}`}
                       columns={[
-                        { key: 'code', header: 'Code' },
+                        { key: 'code', header: 'Code', className: 'text-base' },
                         { 
                           key: 'created_at', 
                           header: 'Creation Date',
+                          className: 'text-base',
                           render: (value: any) => value ? new Date(value).toLocaleDateString() : '-'
                         },
                         { 
                           key: 'created_by', 
                           header: 'Created By',
+                          className: 'text-base',
                           render: (value: any) => {
                             if (typeof value === 'object' && value) {
                               return value.name || value.email || value.id || '-';
