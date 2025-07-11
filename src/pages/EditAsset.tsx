@@ -441,13 +441,6 @@ const EditAsset = () => {
                     {/* Log Container with Right Arrow */}
                     <div className="w-full md:w-1/2 pr-3">
                       <div className="p-10 space-y-4 h-[474px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
-                        {/* Right Arrow Navigation */}
-                        <button
-                          onClick={() => handleViewChange(1)}
-                          className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-primary/10 hover:bg-primary/20 border border-primary/30 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
-                        >
-                          <ChevronRight className="w-4 h-4 text-primary" />
-                        </button>
                         
                         <div className="absolute top-1 left-8 right-8 flex items-center justify-center gap-4 py-1 bg-accent/20 border border-accent/30 rounded-md z-10">
                           <h4 className="text-h3 font-medium text-primary dark:text-secondary">Log</h4>
@@ -537,6 +530,14 @@ const EditAsset = () => {
                     {/* Trigger Container */}
                     <div className="w-full md:w-1/2 pl-3">
                       <div className="p-10 space-y-4 h-[474px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b before:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
+                        {/* Right Arrow Navigation */}
+                        <button
+                          onClick={() => handleViewChange(1)}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-primary/10 hover:bg-primary/20 border border-primary/30 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+                        >
+                          <ChevronRight className="w-4 h-4 text-primary" />
+                        </button>
+                        
                         <div className="flex items-center justify-center gap-4 mb-6 py-1 -mx-2 -mt-5 bg-accent/20 border border-accent/30 rounded-md">
                           <h4 className="text-h3 font-medium text-primary dark:text-secondary">Trigger</h4>
                         </div>
