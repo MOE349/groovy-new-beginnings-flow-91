@@ -15,49 +15,31 @@ interface UseAssetDataResult {
 export const useAssetData = (id: string | undefined): UseAssetDataResult => {
   const [assetType, setAssetType] = useState<AssetType | null>(null);
 
-  // Try to fetch from equipment endpoint
+  // Fetch from unified assets endpoint
   const {
-    data: equipmentData,
-    isLoading: isLoadingEquipment,
-    error: equipmentError,
+    data: assetData,
+    isLoading,
+    error,
   } = useQuery({
-    queryKey: ["equipment", id],
+    queryKey: ["asset", id],
     queryFn: async () => {
-      const response = await apiCall(`/assets/equipments/${id}`);
+      const response = await apiCall(`/assets/assets/${id}`);
       return response.data.data || response.data;
     },
     enabled: !!id,
     retry: false,
   });
 
-  // Try to fetch from attachment endpoint
-  const {
-    data: attachmentData,
-    isLoading: isLoadingAttachment,
-    error: attachmentError,
-  } = useQuery({
-    queryKey: ["attachment", id],
-    queryFn: async () => {
-      const response = await apiCall(`/assets/attachments/${id}`);
-      return response.data.data || response.data;
-    },
-    enabled: !!id,
-    retry: false,
-  });
-
-  // Determine asset type based on successful query
+  // Determine asset type based on asset data
   useEffect(() => {
-    if (equipmentData && !equipmentError) {
-      setAssetType("equipment");
-    } else if (attachmentData && !attachmentError) {
-      setAssetType("attachment");
+    if (assetData && !error) {
+      // Determine type based on asset data structure or type field
+      // You may need to adjust this logic based on how the API returns the type
+      setAssetType(assetData.type || "equipment");
     }
-  }, [equipmentData, attachmentData, equipmentError, attachmentError]);
+  }, [assetData, error]);
 
-  const assetData = assetType === "equipment" ? equipmentData : attachmentData;
-  const isLoading = isLoadingEquipment || isLoadingAttachment;
-  const isError = Boolean(equipmentError && attachmentError);
-  const error = equipmentError || attachmentError;
+  const isError = Boolean(error);
 
   return {
     assetType,
