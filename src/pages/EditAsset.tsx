@@ -707,7 +707,7 @@ const EditAsset = () => {
                         </button>
                         
                         <div className="absolute top-1 left-8 right-8 flex items-center gap-4 py-1 bg-accent/20 border border-accent/30 rounded-md z-10">
-                          <h4 className="text-h3 font-medium text-primary dark:text-secondary ml-6">PM Checklist</h4>
+                          <h4 className="text-h3 font-medium text-primary dark:text-secondary ml-6">PM Checklist/Parts</h4>
                         </div>
                         <p className="text-caption text-muted-foreground text-center pt-12">
                           PM Checklist items will be added here
