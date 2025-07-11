@@ -447,7 +447,7 @@ const EditAsset = () => {
                         <div className="flex gap-4 h-full">
                           {/* Meter Reading Trigger Container */}
                           <div className="w-1/2">
-                            <div className="p-10 space-y-4 h-[410px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
+                            <div className="p-10 space-y-4 h-[380px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
                               <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary dark:text-secondary">Meter Reading Trigger</h5>
                               
                               <div className="space-y-4 pt-8">
@@ -498,7 +498,7 @@ const EditAsset = () => {
                                 </div>
                                 
                                 {/* Status Toggle Button */}
-                                <div className="flex justify-center mt-5">
+                                <div className="flex justify-center mt-10">
                                   <div 
                                     className={`flex items-center cursor-pointer transition-all duration-300 rounded border w-48 h-8 ${
                                       isMeterTriggerActive 
