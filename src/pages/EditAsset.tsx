@@ -617,9 +617,78 @@ const EditAsset = () => {
                         <div className="absolute top-1 left-8 right-8 flex items-center justify-center gap-4 py-1 bg-accent/20 border border-accent/30 rounded-md z-10">
                           <h4 className="text-h3 font-medium text-primary dark:text-secondary">Log</h4>
                         </div>
-                        <p className="text-caption text-muted-foreground text-center pt-12">
-                          Log configuration options will be added here
-                        </p>
+                        
+                        <div className="pt-12 space-y-4 overflow-auto max-h-[400px]">
+                          {/* PM Work Orders Table */}
+                          <div className="space-y-2">
+                            <h6 className="text-xs font-medium text-foreground">PM Work Orders</h6>
+                            <div className="border border-border rounded-md overflow-hidden">
+                              <table className="w-full text-xs">
+                                <thead className="bg-muted">
+                                  <tr>
+                                    <th className="px-2 py-1 text-left font-medium">Work Order #</th>
+                                    <th className="px-2 py-1 text-left font-medium">Status</th>
+                                    <th className="px-2 py-1 text-left font-medium">Maintenance Type</th>
+                                    <th className="px-2 py-1 text-left font-medium">Date Opened</th>
+                                    <th className="px-2 py-1 text-left font-medium">Date Closed</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr className="border-t border-border">
+                                    <td className="px-2 py-1">WO-001</td>
+                                    <td className="px-2 py-1">
+                                      <span className="px-1 py-0.5 text-xs bg-green-100 text-green-800 rounded">Complete</span>
+                                    </td>
+                                    <td className="px-2 py-1">Preventive</td>
+                                    <td className="px-2 py-1">01/15/2024</td>
+                                    <td className="px-2 py-1">01/16/2024</td>
+                                  </tr>
+                                  <tr className="border-t border-border">
+                                    <td className="px-2 py-1">WO-002</td>
+                                    <td className="px-2 py-1">
+                                      <span className="px-1 py-0.5 text-xs bg-yellow-100 text-yellow-800 rounded">In Progress</span>
+                                    </td>
+                                    <td className="px-2 py-1">Corrective</td>
+                                    <td className="px-2 py-1">01/20/2024</td>
+                                    <td className="px-2 py-1">-</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+
+                          {/* Activity Log Table */}
+                          <div className="space-y-2">
+                            <h6 className="text-xs font-medium text-foreground">Activity Log</h6>
+                            <div className="border border-border rounded-md overflow-hidden">
+                              <table className="w-full text-xs">
+                                <thead className="bg-muted">
+                                  <tr>
+                                    <th className="px-2 py-1 text-left font-medium">Date</th>
+                                    <th className="px-2 py-1 text-left font-medium">Log Type</th>
+                                    <th className="px-2 py-1 text-left font-medium">Notes</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr className="border-t border-border">
+                                    <td className="px-2 py-1">01/22/2024</td>
+                                    <td className="px-2 py-1">
+                                      <span className="px-1 py-0.5 text-xs bg-blue-100 text-blue-800 rounded">Inspection</span>
+                                    </td>
+                                    <td className="px-2 py-1">Routine inspection completed</td>
+                                  </tr>
+                                  <tr className="border-t border-border">
+                                    <td className="px-2 py-1">01/20/2024</td>
+                                    <td className="px-2 py-1">
+                                      <span className="px-1 py-0.5 text-xs bg-orange-100 text-orange-800 rounded">Maintenance</span>
+                                    </td>
+                                    <td className="px-2 py-1">Oil change performed</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
