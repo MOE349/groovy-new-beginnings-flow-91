@@ -328,7 +328,7 @@ const ApiTable = <T extends Record<string, any>>({
   if (title) {
     return (
       <Card className={`p-2 ${className}`}>
-        <CardHeader className="py-3 px-4">
+        <CardHeader className="py-2 px-3">
           <div className="flex items-center justify-between">
             <CardTitle>{title}</CardTitle>
             {(createNewHref || onCreateNew) && (
