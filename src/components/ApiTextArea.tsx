@@ -41,7 +41,7 @@ const ApiTextArea = ({
         disabled={disabled}
         required={required}
         rows={rows}
-        className={value ? "bg-blue-50/70" : ""}
+        className={`h-10 resize-none ${value ? "bg-blue-50/70" : ""}`}
       />
     </div>
   );
