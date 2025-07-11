@@ -7,20 +7,7 @@ export const workOrderFields: FormField[] = [
     label: "Code",
     inputType: "text",
     required: false,
-    disabled: true,
-    size: "full",
-    component: "readonly_field"
-  },
-  {
-    name: "location",
-    type: "dropdown", 
-    label: "Location",
-    required: false,
-    endpoint: "/company/location",
-    optionValueKey: "id",
-    optionLabelKey: "name",
-    size: "full",
-    component: "location_field"
+    disabled: true
   },
   {
     name: "asset",
@@ -29,9 +16,7 @@ export const workOrderFields: FormField[] = [
     required: true,
     endpoint: "/assets/equipments",
     optionValueKey: "id",
-    optionLabelKey: "name",
-    size: "full",
-    component: "asset_field"
+    optionLabelKey: "name"
   },
   {
     name: "status",
@@ -40,77 +25,53 @@ export const workOrderFields: FormField[] = [
     required: true,
     endpoint: "/work-orders/status",
     optionValueKey: "id",
-    optionLabelKey: "name",
-    size: "full",
-    component: "status_field"
+    optionLabelKey: "name"
   },
   {
     name: "maint_type",
     type: "input",
     label: "Maint Type",
     inputType: "text",
-    required: false,
-    size: "half",
-    component: "maint_type_field"
+    required: false
   },
   {
     name: "priority",
     type: "input",
     label: "Priority",
     inputType: "text",
-    required: false,
-    size: "half",
-    component: "priority_field"
+    required: false
   },
   {
     name: "starting_meter_reading",
     type: "input",
     label: "Starting Meter Reading",
     inputType: "number",
-    required: false,
-    size: "half",
-    component: "meter_reading_field"
+    required: false
   },
   {
     name: "completion_meter_reading",
     type: "input",
     label: "Completion Meter Reading",
     inputType: "number",
-    required: false,
-    size: "half",
-    component: "meter_reading_field"
+    required: false
   },
   {
     name: "suggested_start_date",
     type: "datepicker",
     label: "Suggested Start Date",
-    required: false,
-    size: "half",
-    component: "date_field"
+    required: false
   },
   {
     name: "completion_end_date",
     type: "datepicker",
     label: "Completion Date",
-    required: false,
-    size: "half",
-    component: "date_field"
+    required: false
   },
   {
     name: "description",
     type: "textarea",
     label: "Description",
     required: false,
-    rows: 4,
-    size: "full",
-    component: "description_field"
-  },
-  {
-    name: "is_online",
-    type: "switch",
-    label: "Online Status",
-    required: false,
-    size: "half",
-    component: "status_toggle"
+    rows: 4
   }
 ];

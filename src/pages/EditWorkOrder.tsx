@@ -14,13 +14,20 @@ const EditWorkOrder = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  console.log("EditWorkOrder - ID from URL:", id);
+
   const { data: workOrderResponse, isLoading, isError, error } = useQuery({
     queryKey: ["work_order", id],
-    queryFn: () => apiGet(`/work-orders/work_order/${id}`),
+    queryFn: () => {
+      console.log("API call being made for work order:", id);
+      return apiGet(`/work-orders/work_order/${id}`);
+    },
     enabled: !!id,
   });
 
+  console.log("Query state:", { workOrderResponse, isLoading, isError, error });
   const workOrderData = workOrderResponse?.data;
+  console.log("Work Order Data:", workOrderData);
 
   const handleSubmit = async (data: Record<string, any>) => {
     try {
@@ -68,28 +75,21 @@ const EditWorkOrder = () => {
     );
   }
 
+  console.log("Work Order Data:", workOrderData);
+
   // Transform date strings to Date objects and object values to IDs for dropdowns
   const initialData = workOrderData ? {
     ...workOrderData,
-    // Date transformations
     suggested_start_date: workOrderData?.suggested_start_date ? new Date(workOrderData.suggested_start_date) : undefined,
     completion_end_date: workOrderData?.completion_end_date ? new Date(workOrderData.completion_end_date) : undefined,
-    // Transform nested object values to their IDs for dropdown compatibility
+    // Transform object values to their IDs for dropdown compatibility
     asset: workOrderData?.asset?.id || workOrderData?.asset || "",
     status: workOrderData?.status?.id || workOrderData?.status || "",
-    // Handle location - work order doesn't have direct location, get from asset
-    location: workOrderData?.asset?.location?.id || workOrderData?.location?.id || workOrderData?.location || "",
-    // Handle boolean values
-    is_online: workOrderData?.asset?.is_online || workOrderData?.is_online || false,
-    // Ensure all form fields have values
-    maint_type: workOrderData?.maint_type || "",
-    priority: workOrderData?.priority || "",
-    starting_meter_reading: workOrderData?.starting_meter_reading || "",
-    completion_meter_reading: workOrderData?.completion_meter_reading || "",
-    description: workOrderData?.description || "",
+    location: workOrderData?.location?.id || workOrderData?.location || "",
+    is_online: workOrderData?.is_online || false,
   } : {};
 
-  const customLayout = ({ handleSubmit, formData, handleFieldChange, loading, error, renderField, fields }: any) => (
+  const customLayout = ({ handleSubmit, formData, handleFieldChange, loading, error, renderField }: any) => (
     <div className="space-y-0">
       {/* Top Bar */}
       <div className="h-10 flex items-center justify-between px-4 py-1 bg-secondary border-b border-border">
@@ -163,14 +163,15 @@ const EditWorkOrder = () => {
               </div>
               <div className="space-y-1 w-48">
                 <label className="block text-caption font-normal text-foreground text-center">Location</label>
-                <div className="w-full">
-                  <input 
-                    type="text"
-                    value={workOrderData?.asset?.location?.name || "Not assigned"}
-                    disabled
-                    className="w-full h-8 px-3 border border-border rounded-md bg-muted text-muted-foreground text-sm"
-                  />
-                </div>
+                {renderField({ 
+                  name: "location", 
+                  type: "dropdown", 
+                  required: true, 
+                  endpoint: "/company/location", 
+                  queryKey: ["company_location"], 
+                  optionValueKey: "id", 
+                  optionLabelKey: "name"
+                })}
               </div>
             </div>
             
@@ -182,19 +183,35 @@ const EditWorkOrder = () => {
                   <div className="flex items-start gap-2 h-10">
                     <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0 pt-2">Asset</label>
                     <div className="flex-grow">
-                      {renderField(fields.find((f: any) => f.name === "asset"))}
+                      {renderField({ 
+                        name: "asset", 
+                        type: "dropdown", 
+                        required: true, 
+                        endpoint: "/assets/equipments",
+                        queryKey: ["assets_equipments"],
+                        optionValueKey: "id", 
+                        optionLabelKey: "name" 
+                      })}
                     </div>
                   </div>
                   <div className="flex items-start gap-2 h-10">
                     <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0 pt-2">Status</label>
                     <div className="flex-grow">
-                      {renderField(fields.find((f: any) => f.name === "status"))}
+                      {renderField({ 
+                        name: "status", 
+                        type: "dropdown", 
+                        required: true, 
+                        endpoint: "/work-orders/status",
+                        queryKey: ["work_orders_status"],
+                        optionValueKey: "id", 
+                        optionLabelKey: "name" 
+                      })}
                     </div>
                   </div>
                   <div className="flex items-start space-x-2">
                     <label className="block text-caption font-normal text-right w-20 text-foreground shrink-0 pt-1">Description</label>
                     <div className="flex-grow">
-                      {renderField(fields.find((f: any) => f.name === "description"))}
+                      {renderField({ name: "description", type: "textarea", rows: 4 })}
                     </div>
                   </div>
                 </div>
@@ -204,25 +221,25 @@ const EditWorkOrder = () => {
                   <div className="flex items-start gap-2 h-10">
                     <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0 pt-2.5">Maint Type</label>
                     <div className="flex-grow">
-                      {renderField(fields.find((f: any) => f.name === "maint_type"))}
+                      {renderField({ name: "maint_type", type: "input", inputType: "text" })}
                     </div>
                   </div>
                   <div className="flex items-start gap-2 h-10">
                     <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0 pt-2.5">Priority</label>
                     <div className="flex-grow">
-                      {renderField(fields.find((f: any) => f.name === "priority"))}
+                      {renderField({ name: "priority", type: "input", inputType: "text" })}
                     </div>
                   </div>
                   <div className="flex items-start gap-2 h-10">
                     <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0 pt-2.5">Start Date</label>
                     <div className="flex-grow">
-                      {renderField(fields.find((f: any) => f.name === "suggested_start_date"))}
+                      {renderField({ name: "suggested_start_date", type: "datepicker" })}
                     </div>
                   </div>
                   <div className="flex items-start gap-2 h-10">
                     <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0 pt-2.5">Completion</label>
                     <div className="flex-grow">
-                      {renderField(fields.find((f: any) => f.name === "completion_end_date"))}
+                      {renderField({ name: "completion_end_date", type: "datepicker" })}
                     </div>
                   </div>
                 </div>
