@@ -414,8 +414,96 @@ const EditAsset = () => {
           
           <TabsContent value="scheduled-maintenance" className="mt-1">
             <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
-              <h3 className="text-h3 font-medium text-foreground">Scheduled Maintenance</h3>
-              <p className="text-caption text-muted-foreground">Scheduled maintenance content will go here</p>
+              <h3 className="text-h3 font-medium text-foreground mb-4">Scheduled Maintenance</h3>
+              
+              {/* Settings Box with Tabs */}
+              <div className="bg-background border rounded-lg p-4 mb-6">
+                <h4 className="text-lg font-medium mb-3">Settings</h4>
+                <Tabs defaultValue="meter-reading-trigger" className="w-full">
+                  <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="meter-reading-trigger">meter reading trigger</TabsTrigger>
+                    <TabsTrigger value="time-trigger">time trigger</TabsTrigger>
+                  </TabsList>
+                  
+                  <TabsContent value="meter-reading-trigger" className="mt-4">
+                    <div className="space-y-4">
+                      {/* Meter Reading Trigger Form */}
+                      <ApiForm
+                        fields={[]}
+                        onSubmit={async (data) => {
+                          console.log("Meter reading trigger data:", data);
+                          toast({
+                            title: "Success",
+                            description: "Meter reading trigger saved successfully!",
+                          });
+                        }}
+                        customLayout={({ handleSubmit, renderField }) => (
+                          <div className="space-y-4">
+                            <div className="flex items-center gap-4 flex-wrap">
+                              {/* Every field */}
+                              <div className="flex items-center gap-2">
+                                <label className="text-sm font-medium">every</label>
+                                <input
+                                  type="number"
+                                  defaultValue="500"
+                                  className="w-20 px-2 py-1 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
+                                />
+                              </div>
+                              
+                              {/* UOM Dropdown (hidden label) */}
+                              <div className="flex items-center">
+                                <select className="px-3 py-1 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background">
+                                  <option value="hours">Hours</option>
+                                  <option value="days">Days</option>
+                                  <option value="weeks">Weeks</option>
+                                  <option value="months">Months</option>
+                                  <option value="years">Years</option>
+                                  <option value="miles">Miles</option>
+                                  <option value="kilometers">Kilometers</option>
+                                </select>
+                              </div>
+                              
+                              {/* Starting at field */}
+                              <div className="flex items-center gap-2 ml-8">
+                                <label className="text-sm font-medium">starting at</label>
+                                <input
+                                  type="number"
+                                  defaultValue="250"
+                                  className="w-20 px-2 py-1 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
+                                />
+                              </div>
+                              
+                              {/* Create WO field */}
+                              <div className="flex items-center gap-2 ml-8">
+                                <label className="text-sm font-medium">create WO</label>
+                                <input
+                                  type="number"
+                                  defaultValue="50"
+                                  className="w-16 px-2 py-1 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
+                                />
+                                <span className="text-sm">before trigger</span>
+                              </div>
+                            </div>
+                            
+                            <div className="flex justify-end">
+                              <Button onClick={handleSubmit} size="sm">
+                                Save Settings
+                              </Button>
+                            </div>
+                          </div>
+                        )}
+                      />
+                      
+                    </div>
+                  </TabsContent>
+                  
+                  <TabsContent value="time-trigger" className="mt-4">
+                    <div className="space-y-4">
+                      <p className="text-sm text-muted-foreground">Time trigger settings will be implemented here</p>
+                    </div>
+                  </TabsContent>
+                </Tabs>
+              </div>
             </div>
           </TabsContent>
           
