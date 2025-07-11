@@ -20,6 +20,9 @@ import CreateLocation from "./pages/CreateLocation";
 import EditLocation from "./pages/EditLocation";
 import CreateEquipmentCategory from "./pages/CreateEquipmentCategory";
 import CreateAttachmentCategory from "./pages/CreateAttachmentCategory";
+import WorkOrders from "./pages/WorkOrders";
+import CreateWorkOrder from "./pages/CreateWorkOrder";
+import EditWorkOrder from "./pages/EditWorkOrder";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
@@ -54,6 +57,9 @@ const App = () => (
             <Route path="/settings/locations/edit/:id" element={<Layout><EditLocation /></Layout>} />
             <Route path="/settings/equipment-categories/new" element={<Layout><CreateEquipmentCategory /></Layout>} />
             <Route path="/settings/attachment-categories/new" element={<Layout><CreateAttachmentCategory /></Layout>} />
+            <Route path="/workorders" element={<Layout><WorkOrders /></Layout>} />
+            <Route path="/workorders/create" element={<Layout><CreateWorkOrder /></Layout>} />
+            <Route path="/workorders/edit/:id" element={<Layout><EditWorkOrder /></Layout>} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
