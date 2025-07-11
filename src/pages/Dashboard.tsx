@@ -17,7 +17,8 @@ import {
   TrendingDown,
   Users,
   Calendar,
-  MapPin
+  MapPin,
+  Settings
 } from "lucide-react";
 
 const Dashboard = () => {
@@ -73,7 +74,7 @@ const Dashboard = () => {
       color: "text-blue-600"
     },
     {
-      title: "Active Work Orders",
+      title: "Maintenance Tasks",
       value: stats.activeWorkorders || workorders.active || 0,
       change: stats.workordersChange || "-5%",
       trend: "down",
@@ -100,10 +101,10 @@ const Dashboard = () => {
 
   // Quick Actions
   const quickActions = [
-    { title: "New Work Order", icon: FileText, color: "bg-blue-500" },
     { title: "Add Asset", icon: Truck, color: "bg-green-500" },
     { title: "Schedule Maintenance", icon: Calendar, color: "bg-orange-500" },
-    { title: "View Reports", icon: Activity, color: "bg-purple-500" }
+    { title: "View Reports", icon: Activity, color: "bg-purple-500" },
+    { title: "Manage Settings", icon: Settings, color: "bg-blue-500" }
   ];
 
   return (
@@ -227,7 +228,7 @@ const Dashboard = () => {
                 // Fallback activities
                 [
                   { title: "Vehicle maintenance completed", time: "2 hours ago" },
-                  { title: "New work order assigned", time: "4 hours ago" },
+                  { title: "Asset status updated", time: "4 hours ago" },
                   { title: "Driver check-in completed", time: "6 hours ago" },
                   { title: "Route optimization updated", time: "1 day ago" },
                 ].map((activity, index) => (

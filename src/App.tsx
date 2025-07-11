@@ -13,7 +13,6 @@ import CreateAsset from "./pages/CreateAsset";
 import CreateEquipment from "./pages/CreateEquipment";
 import CreateAttachment from "./pages/CreateAttachment";
 import EditAsset from "./pages/EditAsset";
-import Workorders from "./pages/Workorders";
 import Settings from "./pages/Settings";
 import CreateSite from "./pages/CreateSite";
 import EditSite from "./pages/EditSite";
@@ -21,8 +20,6 @@ import CreateLocation from "./pages/CreateLocation";
 import EditLocation from "./pages/EditLocation";
 import CreateEquipmentCategory from "./pages/CreateEquipmentCategory";
 import CreateAttachmentCategory from "./pages/CreateAttachmentCategory";
-import CreateWorkOrder from "./pages/CreateWorkOrder";
-import EditWorkOrder from "./pages/EditWorkOrder";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
@@ -50,9 +47,6 @@ const App = () => (
             <Route path="/asset/equipment/create" element={<Layout><CreateEquipment /></Layout>} />
             <Route path="/asset/attachment/create" element={<Layout><CreateAttachment /></Layout>} />
             <Route path="/asset/edit/:id" element={<Layout><EditAsset /></Layout>} />
-            <Route path="/workorders" element={<Layout><Workorders /></Layout>} />
-            <Route path="/workorders/create" element={<Layout><CreateWorkOrder /></Layout>} />
-            <Route path="/workorders/edit/:id" element={<Layout><EditWorkOrder /></Layout>} />
             <Route path="/settings" element={<Layout><Settings /></Layout>} />
             <Route path="/settings/sites/new" element={<Layout><CreateSite /></Layout>} />
             <Route path="/settings/sites/edit/:id" element={<Layout><EditSite /></Layout>} />

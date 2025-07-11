@@ -618,46 +618,8 @@ const EditAsset = () => {
                           <h4 className="text-h3 font-medium text-primary dark:text-secondary">Log</h4>
                         </div>
                         
-                        <div className="pt-8 overflow-auto max-h-[500px]">
-                          {/* PM Work Orders Table */}
-                          <div className="space-y-2 mb-8">
-                            <h6 className="text-sm font-medium text-foreground">PM Work Orders</h6>
-                            <div className="border border-border rounded-md overflow-hidden">
-                              <table className="w-full text-sm">
-                                <thead className="bg-muted">
-                                  <tr>
-                                    <th className="px-3 py-2 text-left font-medium">Work Order #</th>
-                                    <th className="px-3 py-2 text-left font-medium">Status</th>
-                                    <th className="px-3 py-2 text-left font-medium">Maintenance Type</th>
-                                    <th className="px-3 py-2 text-left font-medium">Date Opened</th>
-                                    <th className="px-3 py-2 text-left font-medium">Date Closed</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr className="border-t border-border">
-                                    <td className="px-3 py-2">WO-001</td>
-                                    <td className="px-3 py-2">
-                                      <span className="px-1.5 py-0.5 text-xs bg-green-100 text-green-800 rounded">Complete</span>
-                                    </td>
-                                    <td className="px-3 py-2">Preventive</td>
-                                    <td className="px-3 py-2">01/15/2024</td>
-                                    <td className="px-3 py-2">01/16/2024</td>
-                                  </tr>
-                                  <tr className="border-t border-border">
-                                    <td className="px-3 py-2">WO-002</td>
-                                    <td className="px-3 py-2">
-                                      <span className="px-1.5 py-0.5 text-xs bg-yellow-100 text-yellow-800 rounded">In Progress</span>
-                                    </td>
-                                    <td className="px-3 py-2">Corrective</td>
-                                    <td className="px-3 py-2">01/20/2024</td>
-                                    <td className="px-3 py-2">-</td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                          </div>
-
-                          {/* Activity Log Table */}
+                         <div className="pt-8 overflow-auto max-h-[500px]">
+                           {/* Activity Log Table */}
                            <div className="space-y-2 mt-10">
                             <h6 className="text-sm font-medium text-foreground">Activity Log</h6>
                             <div className="border border-border rounded-md overflow-hidden">
