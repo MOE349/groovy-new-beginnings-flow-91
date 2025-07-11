@@ -22,7 +22,17 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
       try {
         setLoading(true);
         const response = await apiGet(`/financial-reports/${assetId}`);
-        setExistingData(response.data);
+        
+        // Add detailed logging to debug data structure
+        console.log('Full API response:', response);
+        console.log('Response data:', response.data);
+        console.log('Response data type:', typeof response.data);
+        
+        // Check if data is nested under response.data.data
+        const actualData = response.data?.data || response.data;
+        console.log('Actual data to use:', actualData);
+        
+        setExistingData(actualData);
       } catch (error) {
         console.error('Failed to fetch existing financial data:', error);
         // If no data exists, that's fine - it will be a create operation
