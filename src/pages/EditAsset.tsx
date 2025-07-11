@@ -414,93 +414,136 @@ const EditAsset = () => {
           
           <TabsContent value="scheduled-maintenance" className="mt-1">
             <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
-              {/* Settings Box with Tabs */}
-              <div className="bg-background border rounded-lg p-4 mb-6">
-                <h4 className="text-lg font-medium mb-3">Settings</h4>
-                <Tabs defaultValue="meter-reading-trigger" className="w-full">
-                  <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="meter-reading-trigger">meter reading trigger</TabsTrigger>
-                    <TabsTrigger value="time-trigger">time trigger</TabsTrigger>
-                  </TabsList>
-                  
-                  <TabsContent value="meter-reading-trigger" className="mt-4">
-                    <div className="space-y-4">
-                      {/* Meter Reading Trigger Form */}
-                      <ApiForm
-                        fields={[]}
-                        onSubmit={async (data) => {
-                          console.log("Meter reading trigger data:", data);
-                          toast({
-                            title: "Success",
-                            description: "Meter reading trigger saved successfully!",
-                          });
-                        }}
-                        customLayout={({ handleSubmit, renderField }) => (
-                          <div className="space-y-4">
-                            <div className="flex items-center gap-4 flex-wrap">
-                              {/* Every field */}
-                              <div className="flex items-center gap-2">
-                                <label className="text-sm font-medium">every</label>
-                                <input
-                                  type="number"
-                                  defaultValue="500"
-                                  className="w-20 px-2 py-1 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
-                                />
-                              </div>
-                              
-                              {/* UOM Dropdown (hidden label) */}
-                              <div className="flex items-center">
-                                <select className="px-3 py-1 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background">
-                                  <option value="hours">Hours</option>
-                                  <option value="days">Days</option>
-                                  <option value="weeks">Weeks</option>
-                                  <option value="months">Months</option>
-                                  <option value="years">Years</option>
-                                  <option value="miles">Miles</option>
-                                  <option value="kilometers">Kilometers</option>
-                                </select>
-                              </div>
-                              
-                              {/* Starting at field */}
-                              <div className="flex items-center gap-2 ml-8">
-                                <label className="text-sm font-medium">starting at</label>
-                                <input
-                                  type="number"
-                                  defaultValue="250"
-                                  className="w-20 px-2 py-1 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
-                                />
-                              </div>
-                              
-                              {/* Create WO field */}
-                              <div className="flex items-center gap-2 ml-8">
-                                <label className="text-sm font-medium">create WO</label>
-                                <input
-                                  type="number"
-                                  defaultValue="50"
-                                  className="w-16 px-2 py-1 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
-                                />
-                                <span className="text-sm">before trigger</span>
-                              </div>
-                            </div>
-                            
-                            <div className="flex justify-end">
-                              <Button onClick={handleSubmit} size="sm">
-                                Save Settings
-                              </Button>
+              <div className="flex gap-6">
+                {/* Left side - Settings (half width) */}
+                <div className="w-1/2">
+                  <div className="p-6 space-y-3 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
+                    <div className="flex items-center gap-4 mb-4 py-1 -mx-2 bg-accent/20 border border-accent/30 rounded-md">
+                      <h4 className="text-h3 font-medium text-primary dark:text-secondary ml-6">Settings</h4>
+                    </div>
+                    
+                    <Tabs defaultValue="meter-reading-trigger" className="w-full">
+                      <TabsList className="grid w-full grid-cols-2 mb-4">
+                        <TabsTrigger value="meter-reading-trigger">meter reading trigger</TabsTrigger>
+                        <TabsTrigger value="time-trigger">time trigger</TabsTrigger>
+                      </TabsList>
+                      
+                      <TabsContent value="meter-reading-trigger" className="mt-4">
+                        <div className="space-y-3">
+                          {/* Every field */}
+                          <div className="flex items-start gap-2 h-10">
+                            <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">Every</label>
+                            <div className="flex items-center gap-2 flex-grow">
+                              <input
+                                type="number"
+                                defaultValue="500"
+                                className="w-20 px-2 py-1 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
+                              />
+                              <select className="px-3 py-1 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background">
+                                <option value="hours">Hours</option>
+                                <option value="days">Days</option>
+                                <option value="weeks">Weeks</option>
+                                <option value="months">Months</option>
+                                <option value="years">Years</option>
+                                <option value="miles">Miles</option>
+                                <option value="kilometers">Kilometers</option>
+                              </select>
                             </div>
                           </div>
-                        )}
-                      />
+                          
+                          {/* Starting at field */}
+                          <div className="flex items-start gap-2 h-10">
+                            <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">Starting at</label>
+                            <div className="flex-grow">
+                              <input
+                                type="number"
+                                defaultValue="250"
+                                className="w-20 px-2 py-1 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
+                              />
+                            </div>
+                          </div>
+                          
+                          {/* Create WO field */}
+                          <div className="flex items-start gap-2 h-10">
+                            <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">Create WO</label>
+                            <div className="flex items-center gap-2 flex-grow">
+                              <input
+                                type="number"
+                                defaultValue="50"
+                                className="w-16 px-2 py-1 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
+                              />
+                              <span className="text-sm text-muted-foreground">before trigger</span>
+                            </div>
+                          </div>
+                          
+                          <div className="flex justify-end pt-4">
+                            <Button size="sm">
+                              Save Settings
+                            </Button>
+                          </div>
+                        </div>
+                      </TabsContent>
                       
+                      <TabsContent value="time-trigger" className="mt-4">
+                        <div className="space-y-3">
+                          {/* Time-based trigger fields */}
+                          <div className="flex items-start gap-2 h-10">
+                            <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">Frequency</label>
+                            <div className="flex-grow">
+                              <select className="w-full px-3 py-1 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background">
+                                <option value="daily">Daily</option>
+                                <option value="weekly">Weekly</option>
+                                <option value="monthly">Monthly</option>
+                                <option value="quarterly">Quarterly</option>
+                                <option value="annually">Annually</option>
+                              </select>
+                            </div>
+                          </div>
+                          
+                          <div className="flex items-start gap-2 h-10">
+                            <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">Start Date</label>
+                            <div className="flex-grow">
+                              <input
+                                type="date"
+                                className="w-full px-2 py-1 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
+                              />
+                            </div>
+                          </div>
+                          
+                          <div className="flex items-start gap-2 h-10">
+                            <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">Create WO</label>
+                            <div className="flex items-center gap-2 flex-grow">
+                              <input
+                                type="number"
+                                defaultValue="1"
+                                className="w-16 px-2 py-1 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
+                              />
+                              <span className="text-sm text-muted-foreground">days before due</span>
+                            </div>
+                          </div>
+                          
+                          <div className="flex justify-end pt-4">
+                            <Button size="sm">
+                              Save Settings
+                            </Button>
+                          </div>
+                        </div>
+                      </TabsContent>
+                    </Tabs>
+                  </div>
+                </div>
+                
+                {/* Right side - Reserved for future content */}
+                <div className="w-1/2">
+                  <div className="p-6 space-y-3 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 before:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
+                    <div className="flex items-center gap-4 mb-4 py-1 -mx-2 bg-accent/20 border border-accent/30 rounded-md">
+                      <h4 className="text-h3 font-medium text-primary dark:text-secondary ml-6">Additional Settings</h4>
                     </div>
-                  </TabsContent>
-                  
-                  <TabsContent value="time-trigger" className="mt-4">
-                    <div className="space-y-4">
-                      <p className="text-sm text-muted-foreground">Time trigger settings will be implemented here</p>
-                    </div>
-                  </TabsContent>
-                </Tabs>
+                    <p className="text-caption text-muted-foreground text-center pt-8">
+                      Additional configuration options will be added here
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </TabsContent>
