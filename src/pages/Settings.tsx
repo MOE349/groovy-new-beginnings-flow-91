@@ -241,7 +241,7 @@ const Settings = () => {
               endpoint="/work-orders/status"
               onCreateNew={() => setDialogOpen('workOrderStatus')}
               createNewText="Add WorkOrder Status"
-              className="h-fit xl:col-span-2"
+              className="h-fit"
               tableClassName="text-xs"
               columns={[
                 { key: 'name', header: 'Name' },
