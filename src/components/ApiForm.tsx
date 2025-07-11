@@ -47,6 +47,7 @@ interface ApiFormProps {
     loading: boolean;
     error?: string;
     renderField: (field: FormField) => React.ReactNode;
+    initialData?: Record<string, any>;
   }) => React.ReactNode;
 }
 
@@ -181,6 +182,7 @@ const ApiForm = ({
           loading,
           error,
           renderField,
+          initialData,
         })}
       </div>
     );

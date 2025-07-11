@@ -85,6 +85,7 @@ const EditWorkOrder = () => {
       <FormLayout 
         {...props} 
         config={workOrderFormConfig}
+        initialData={initialData}
       />
       
       {/* Tabs Section */}
