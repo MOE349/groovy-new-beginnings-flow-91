@@ -658,7 +658,7 @@ const EditAsset = () => {
                           </div>
 
                           {/* Activity Log Table */}
-                          <div className="space-y-2">
+                          <div className="space-y-0">
                             <h6 className="text-base font-medium text-foreground">Activity Log</h6>
                             <div className="relative w-full overflow-auto border-2 border-border rounded-md">
                               <Table className="w-full caption-bottom text-sm">
