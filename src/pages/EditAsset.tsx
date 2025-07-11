@@ -652,7 +652,7 @@ const EditAsset = () => {
           </TabsContent>
           
           <TabsContent value="log" className="mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
+            <div className="bg-card rounded-sm shadow-xs p-4 h-[500px]">
               <h3 className="text-h3 font-medium text-foreground">Log</h3>
               <p className="text-caption text-muted-foreground">Activity log content will go here</p>
             </div>
