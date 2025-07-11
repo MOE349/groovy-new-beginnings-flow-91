@@ -142,7 +142,7 @@ const FormLayout = ({
                     <label className="block text-caption font-normal text-foreground text-center">Location</label>
                     {config.title.includes("Work Order") ? (
                       <div className="w-full p-2 bg-muted rounded border text-sm text-foreground text-center">
-                        {formData?.asset?.location || "No location assigned"}
+                        {formData?.asset?.location?.name || "No location assigned"}
                       </div>
                     ) : (
                       renderField({ 
