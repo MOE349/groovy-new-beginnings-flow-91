@@ -23,7 +23,7 @@ const ApiTextArea = ({
   className,
   required = false,
   disabled = false,
-  rows = 4,
+  rows = 1,
 }: ApiTextAreaProps) => {
   return (
     <div className={cn("space-y-2", className)}>
