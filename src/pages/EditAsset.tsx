@@ -431,7 +431,7 @@ const EditAsset = () => {
               {/* Sliding Container Wrapper */}
               <div className="relative w-full h-full">
                 <div 
-                  className="flex w-[200%] h-full transition-transform duration-300 ease-in-out"
+                  className="flex w-[200%] h-full transition-transform duration-300 ease-in-out gap-6"
                   style={{ transform: `translateX(-${currentView * 50}%)` }}
                 >
                   {/* View 1: Trigger + Log */}
