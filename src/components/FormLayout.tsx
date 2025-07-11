@@ -159,19 +159,6 @@ const FormLayout = ({
                     )}
                   </div>
                 )}
-                {config.showSpecialSections?.equipment && (
-                  <div className="space-y-1 w-48">
-                    <label className="block text-caption font-normal text-foreground text-center">Equipment</label>
-                    {renderField({ 
-                      name: "equipment", 
-                      type: "dropdown", 
-                      endpoint: "/assets/equipments", 
-                      queryKey: ["assets_equipments"], 
-                      optionValueKey: "id", 
-                      optionLabelKey: "name"
-                    })}
-                  </div>
-                )}
               </div>
             )}
             
