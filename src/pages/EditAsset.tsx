@@ -414,8 +414,6 @@ const EditAsset = () => {
           
           <TabsContent value="scheduled-maintenance" className="mt-1">
             <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
-              <h3 className="text-h3 font-medium text-foreground mb-4">Scheduled Maintenance</h3>
-              
               {/* Settings Box with Tabs */}
               <div className="bg-background border rounded-lg p-4 mb-6">
                 <h4 className="text-lg font-medium mb-3">Settings</h4>
