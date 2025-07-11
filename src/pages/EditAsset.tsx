@@ -538,9 +538,9 @@ const EditAsset = () => {
                           <ChevronRight className="w-4 h-4 text-primary" />
                         </button>
                         
-                        <div className="flex items-center justify-center gap-4 mb-6 py-1 -mx-2 -mt-5 bg-accent/20 border border-accent/30 rounded-md">
-                          <h4 className="text-h3 font-medium text-primary dark:text-secondary">Trigger</h4>
-                        </div>
+                         <div className="absolute top-1 left-8 right-8 flex items-center justify-center gap-4 py-1 bg-accent/20 border border-accent/30 rounded-md z-10">
+                           <h4 className="text-h3 font-medium text-primary dark:text-secondary">Trigger</h4>
+                         </div>
                         
                         <div className="flex gap-4 h-full">
                           {/* Meter Reading Trigger Container */}
