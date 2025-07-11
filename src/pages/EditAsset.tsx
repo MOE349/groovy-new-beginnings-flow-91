@@ -7,7 +7,7 @@ import ApiForm from "@/components/ApiForm";
 import ApiTable from "@/components/ApiTable";
 import { apiPost, apiDelete } from "@/utils/apis";
 import GearSpinner from "@/components/ui/gear-spinner";
-import { AlertTriangle, Trash2, Plus } from "lucide-react";
+import { AlertTriangle, Trash2, Plus, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAssetData } from "@/hooks/useAssetData";
 import { useAssetSubmit } from "@/hooks/useAssetSubmit";
@@ -493,6 +493,18 @@ const EditAsset = () => {
                                       className="w-16 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
                                     />
                                     <span className="text-sm text-muted-foreground">before trigger</span>
+                                  </div>
+                                </div>
+                                
+                                {/* Status Toggle Button */}
+                                <div className="flex justify-center mt-8">
+                                  <div 
+                                    className="flex items-center cursor-pointer transition-all duration-300 rounded border w-48 h-8 bg-green-500 border-green-600"
+                                  >
+                                    <div className="flex items-center justify-center gap-1 text-sm font-medium text-white w-full">
+                                      <Check size={12} />
+                                      Active
+                                    </div>
                                   </div>
                                 </div>
                               </div>
