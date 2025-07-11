@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import FinancialReportForm from './FinancialReportForm';
-import FinancialDataDisplay from './FinancialDataDisplay';
 
 interface FinancialsTabContentProps {
   assetId: string;
@@ -16,23 +15,10 @@ const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({ assetId }) 
 
   return (
     <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
-      <div className="flex gap-6 h-full">
-        {/* Left side - Financial Report Form */}
-        <div className="w-1/2">
-          <FinancialReportForm 
-            assetId={assetId} 
-            onSuccess={handleFormSuccess}
-          />
-        </div>
-
-        {/* Right side - Financial Data Display */}
-        <div className="w-1/2">
-          <FinancialDataDisplay 
-            assetId={assetId}
-            refreshTrigger={refreshTrigger}
-          />
-        </div>
-      </div>
+      <FinancialReportForm 
+        assetId={assetId} 
+        onSuccess={handleFormSuccess}
+      />
     </div>
   );
 };

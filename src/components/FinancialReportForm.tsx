@@ -58,49 +58,113 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
       name: "purchase_cost",
       size: "1",
       component: "InputGroup",
-      required: true
+      required: true,
+      editable: true
     },
     {
       label: "Resale Cost",
       name: "resale_cost",
       size: "1",
       component: "InputGroup",
-      required: true
+      required: true,
+      editable: true
     },
     {
       label: "Finance Years",
       name: "finance_years",
       size: "1",
       component: "InputGroup",
-      required: true
+      required: true,
+      editable: true
     },
     {
       label: "Interest Rate",
       name: "interest_rate",
       size: "1",
       component: "InputGroup",
-      required: true
+      required: true,
+      editable: true
     },
     {
       label: "Expected Hours",
       name: "expected_hours",
       size: "1",
       component: "InputGroup",
-      required: true
+      required: true,
+      editable: true
     },
     {
       label: "Operational Cost Per Year",
       name: "operational_cost_per_year",
       size: "1",
       component: "InputGroup",
-      required: true
+      required: true,
+      editable: true
     },
     {
       label: "Capital Work Cost",
       name: "capital_work_cost",
       size: "1",
       component: "InputGroup",
-      required: true
+      required: true,
+      editable: true
+    },
+    // Calculated fields - displayed as disabled
+    {
+      label: "Monthly Payment",
+      name: "monthly_payment",
+      size: "1",
+      component: "InputGroup",
+      required: false,
+      editable: false
+    },
+    {
+      label: "Interest Amount",
+      name: "interst_amount",
+      size: "1",
+      component: "InputGroup",
+      required: false,
+      editable: false
+    },
+    {
+      label: "Yearly Hours",
+      name: "yearly_hours",
+      size: "1",
+      component: "InputGroup",
+      required: false,
+      editable: false
+    },
+    {
+      label: "Capital Cost Per Hour",
+      name: "capital_cost_per_hr",
+      size: "1",
+      component: "InputGroup",
+      required: false,
+      editable: false
+    },
+    {
+      label: "Maintenance Cost Per Hour",
+      name: "maintnance_cost_per_hr",
+      size: "1",
+      component: "InputGroup",
+      required: false,
+      editable: false
+    },
+    {
+      label: "Operational Cost Per Hour",
+      name: "operational_cost_per_hr",
+      size: "1",
+      component: "InputGroup",
+      required: false,
+      editable: false
+    },
+    {
+      label: "Total Cost Per Hour",
+      name: "total_cost_per_hr",
+      size: "1",
+      component: "InputGroup",
+      required: false,
+      editable: false
     }
   ];
 
@@ -112,8 +176,9 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
       type: 'input' as const,
       inputType: 'number' as const,
       label: field.label,
-      required: field.required,
-      placeholder: `Enter ${field.label.toLowerCase()}`
+      required: field.required && field.editable !== false,
+      disabled: field.editable === false,
+      placeholder: field.editable === false ? '' : `Enter ${field.label.toLowerCase()}`
     }));
 
 
