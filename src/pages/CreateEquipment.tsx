@@ -13,7 +13,7 @@ const CreateEquipment = () => {
 
   const handleSubmit = async (data: Record<string, any>) => {
     try {
-      await apiCall("/assets/equipments", { method: 'POST', body: data });
+      await apiCall("/assets/assets", { method: 'POST', body: data });
       toast({
         title: "Success",
         description: "Equipment created successfully!",
