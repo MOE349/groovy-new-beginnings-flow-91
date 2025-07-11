@@ -10,6 +10,15 @@ export const workOrderFields: FormField[] = [
     disabled: true
   },
   {
+    name: "location",
+    type: "dropdown", 
+    label: "Location",
+    required: false,
+    endpoint: "/company/location",
+    optionValueKey: "id",
+    optionLabelKey: "name"
+  },
+  {
     name: "asset",
     type: "dropdown",
     label: "Asset",

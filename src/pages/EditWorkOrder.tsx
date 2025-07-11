@@ -85,9 +85,17 @@ const EditWorkOrder = () => {
     // Transform object values to their IDs for dropdown compatibility
     asset: workOrderData?.asset?.id || workOrderData?.asset || "",
     status: workOrderData?.status?.id || workOrderData?.status || "",
-    location: workOrderData?.location?.id || workOrderData?.location || "",
-    is_online: workOrderData?.is_online || false,
+    // Fix: Work order doesn't have a direct location field - asset has location
+    location: workOrderData?.asset?.location?.id || "",
+    is_online: workOrderData?.asset?.is_online || false,
   } : {};
+
+  console.log("EditWorkOrder: Initial data transformation", {
+    workOrderData,
+    initialData,
+    assetLocation: workOrderData?.asset?.location,
+    statusId: workOrderData?.status?.id
+  });
 
   const customLayout = ({ handleSubmit, formData, handleFieldChange, loading, error, renderField }: any) => (
     <div className="space-y-0">
