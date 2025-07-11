@@ -181,13 +181,15 @@ const Settings = () => {
           <TabsTrigger value="workorder-settings">WorkOrder Settings</TabsTrigger>
         </TabsList>
         
-        <TabsContent value="sites" className="space-y-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <TabsContent value="sites" className="space-y-3">
+          <div className="grid grid-cols-1 xl:grid-cols-3 lg:grid-cols-2 gap-4">
             <ApiTable
               title="Sites"
               endpoint="/company/site"
               onCreateNew={() => setDialogOpen('site')}
               createNewText="New Site"
+              className="h-fit"
+              tableClassName="text-xs"
               columns={[
                 { key: 'code', header: 'Code' },
                 { key: 'name', header: 'Name' },
@@ -199,20 +201,22 @@ const Settings = () => {
               endpoint="/company/location"
               onCreateNew={() => setDialogOpen('location')}
               createNewText="New Location"
+              className="h-fit"
+              tableClassName="text-xs"
               columns={[
                 { key: 'site', header: 'Site', type: 'object' },
                 { key: 'name', header: 'Name' },
                 { key: 'slug', header: 'Slug' },
               ]}
             />
-          </div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
             <ApiTable
               title="Equipment Categories"
               endpoint="/assets/equipment_category"
               onCreateNew={() => setDialogOpen('equipmentCategory')}
               createNewText="New Equipment Category"
+              className="h-fit"
+              tableClassName="text-xs"
               columns={[
                 { key: 'name', header: 'Name' },
                 { key: 'slug', header: 'Slug' },
@@ -224,19 +228,21 @@ const Settings = () => {
               endpoint="/assets/attachment_category"
               onCreateNew={() => setDialogOpen('attachmentCategory')}
               createNewText="New Attachment Category"
+              className="h-fit"
+              tableClassName="text-xs"
               columns={[
                 { key: 'name', header: 'Name' },
                 { key: 'slug', header: 'Slug' },
               ]}
             />
-          </div>
-          
-          <div className="grid grid-cols-1 gap-6">
+            
             <ApiTable
               title="WorkOrder Status"
               endpoint="/work-orders/status"
               onCreateNew={() => setDialogOpen('workOrderStatus')}
               createNewText="Add WorkOrder Status"
+              className="h-fit xl:col-span-2"
+              tableClassName="text-xs"
               columns={[
                 { key: 'name', header: 'Name' },
                 { key: 'control', header: 'Control', type: 'object' },
