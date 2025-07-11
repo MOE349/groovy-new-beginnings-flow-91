@@ -99,7 +99,7 @@ export const attachmentFormConfig: FormLayoutConfig = {
       fields: [
         { name: "code", label: "Code", type: "input", required: true, inputType: "text" },
         { name: "name", label: "Name", type: "input", required: true, inputType: "text" },
-        { name: "description", label: "Description", type: "textarea", rows: 2 },
+        { name: "description", label: "Description", type: "textarea", rows: 1 },
         { 
           name: "equipment", 
           label: "Equipment", 
