@@ -78,7 +78,7 @@ const ApiDropDown = ({
   })) : []);
 
   return (
-    <div className={cn(label ? "space-y-2" : "", className)}>
+    <div className={cn("space-y-2", className)}>
       {label && (
         <Label htmlFor={name} className={required ? "after:content-['*'] after:text-destructive" : ""}>
           {label}
