@@ -42,7 +42,7 @@ export function Layout({ children }: LayoutProps) {
         <AppSidebar />
         
         <div className="flex-1 flex flex-col">
-          <header className="h-4 flex items-center justify-between border-b bg-primary text-primary-foreground px-3">
+          <header className="h-6 flex items-center justify-between border-b bg-primary text-primary-foreground px-3">
             <div className="flex items-center">
               <SidebarTrigger className="mr-3" />
               <h1 className="text-base font-semibold">{getPageTitle()}</h1>
