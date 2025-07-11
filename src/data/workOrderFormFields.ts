@@ -15,7 +15,6 @@ export const workOrderFields: FormField[] = [
     label: "Asset",
     required: true,
     endpoint: "/assets/equipments",
-    queryKey: ["assets_equipments"],
     optionValueKey: "id",
     optionLabelKey: "name"
   },
@@ -25,17 +24,6 @@ export const workOrderFields: FormField[] = [
     label: "Status",
     required: true,
     endpoint: "/work-orders/status",
-    queryKey: ["work_orders_status"],
-    optionValueKey: "id",
-    optionLabelKey: "name"
-  },
-  {
-    name: "location",
-    type: "dropdown",
-    label: "Location",
-    required: false,
-    endpoint: "/company/location",
-    queryKey: ["company_location"],
     optionValueKey: "id",
     optionLabelKey: "name"
   },
