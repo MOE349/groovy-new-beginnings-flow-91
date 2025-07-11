@@ -706,35 +706,12 @@ const EditAsset = () => {
                           <ChevronLeft className="w-4 h-4 text-primary" />
                         </button>
                         
-                         <div className="absolute top-1 left-8 right-8 py-1 bg-accent/20 border border-accent/30 rounded-md z-10">
-                           <div className="flex items-center gap-4 ml-6 mb-3">
-                             <h4 className="text-h3 font-medium text-primary dark:text-secondary">PM Checklist/Parts</h4>
-                           </div>
-                           
-                           {/* Tabs */}
-                           <div className="flex items-center gap-1 px-6">
-                             <div className="flex">
-                               <button className="px-4 py-2 text-sm font-medium text-white bg-red-500 hover:bg-red-600 rounded-l-md border-r border-red-400 transition-colors">
-                                 Checklist
-                               </button>
-                               <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 hover:bg-gray-300 border-r border-gray-400 transition-colors">
-                                 Parts
-                               </button>
-                               <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 hover:bg-gray-300 rounded-r-md transition-colors">
-                                 Notes
-                               </button>
-                             </div>
-                             <button className="ml-2 w-6 h-6 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded transition-colors">
-                               <Plus className="w-4 h-4" />
-                             </button>
-                           </div>
-                         </div>
-                         
-                         <div className="pt-24 px-8">
-                           <p className="text-caption text-muted-foreground text-center">
-                             PM Checklist items will be added here
-                           </p>
-                         </div>
+                        <div className="absolute top-1 left-8 right-8 flex items-center gap-4 py-1 bg-accent/20 border border-accent/30 rounded-md z-10">
+                          <h4 className="text-h3 font-medium text-primary dark:text-secondary ml-6">PM Checklist/Parts</h4>
+                        </div>
+                        <p className="text-caption text-muted-foreground text-center pt-12">
+                          PM Checklist items will be added here
+                        </p>
                       </div>
                     </div>
                   </div>
