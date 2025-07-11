@@ -81,7 +81,7 @@ const EditWorkOrder = () => {
   };
 
   const customLayout = ({ handleSubmit, formData, handleFieldChange, loading, error, renderField }: any) => (
-    <div className="space-y-0 min-h-screen bg-background">
+    <div className="min-h-screen bg-background">
       {/* Top Header Bar */}
       <div className="h-14 flex items-center justify-between px-4 py-2 bg-warning text-warning-foreground">
         <Button 
@@ -107,7 +107,7 @@ const EditWorkOrder = () => {
         <p className="text-sm text-muted-foreground">Code: {formData?.code || "Loading..."}</p>
       </div>
 
-      <div className="flex min-h-screen">
+      <div className="flex">
         {/* Left Sidebar */}
         <div className="w-72 bg-card border-r border-border p-4 space-y-4">
           {/* Offline Status */}
@@ -137,9 +137,9 @@ const EditWorkOrder = () => {
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1">
           {/* Form Section */}
-          <div className="flex-1 p-6">
+          <div className="p-6 bg-background border-b">
             <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-2 gap-6 max-w-4xl">
                 {/* Left Column */}
@@ -221,7 +221,7 @@ const EditWorkOrder = () => {
           </div>
 
           {/* Bottom Tabs */}
-          <div className="border-t bg-card">
+          <div className="bg-card">
             <Tabs defaultValue="completion" className="w-full">
               <TabsList className="h-12 w-full justify-start rounded-none bg-transparent border-b">
                 <TabsTrigger value="completion" className="border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent rounded-none">
@@ -246,8 +246,9 @@ const EditWorkOrder = () => {
               
               <div className="p-6">
                 <TabsContent value="completion">
-                  <div className="text-muted-foreground">
-                    Completion tracking and details will go here
+                  <div>
+                    <h3 className="text-lg font-medium mb-2">Completion</h3>
+                    <p className="text-muted-foreground">Completion tracking and details will go here</p>
                   </div>
                 </TabsContent>
                 <TabsContent value="checklist">
