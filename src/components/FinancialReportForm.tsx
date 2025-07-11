@@ -10,59 +10,78 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
   assetId,
   onSuccess
 }) => {
-  const formFields = [
+  const formTemplate = [
     {
-      name: 'assetId',
-      type: 'input' as const,
-      inputType: 'text' as const,
-      label: 'Asset ID',
-      disabled: true
+      label: "Asset",
+      name: "asset",
+      size: "1",
+      component: "InputGroup",
+      required: false,
+      value: assetId,
+      hidden: true
     },
     {
-      name: 'reportType',
-      type: 'dropdown' as const,
-      label: 'Report Type',
-      required: true,
-      options: [
-        { value: 'depreciation', label: 'Depreciation' },
-        { value: 'maintenance', label: 'Maintenance Cost' },
-        { value: 'utilization', label: 'Utilization Report' },
-        { value: 'roi', label: 'ROI Analysis' }
-      ]
-    },
-    {
-      name: 'amount',
-      type: 'input' as const,
-      inputType: 'number' as const,
-      label: 'Amount',
-      required: true,
-      placeholder: 'Enter amount'
-    },
-    {
-      name: 'date',
-      type: 'datepicker' as const,
-      label: 'Report Date',
+      label: "Purchase Cost",
+      name: "purchase_cost",
+      size: "1",
+      component: "InputGroup",
       required: true
     },
     {
-      name: 'description',
-      type: 'textarea' as const,
-      label: 'Description',
-      placeholder: 'Enter report description',
-      rows: 3
+      label: "Resale Cost",
+      name: "resale_cost",
+      size: "1",
+      component: "InputGroup",
+      required: true
     },
     {
-      name: 'category',
-      type: 'dropdown' as const,
-      label: 'Category',
-      options: [
-        { value: 'operational', label: 'Operational' },
-        { value: 'maintenance', label: 'Maintenance' },
-        { value: 'capital', label: 'Capital' },
-        { value: 'insurance', label: 'Insurance' }
-      ]
+      label: "Finance Years",
+      name: "finance_years",
+      size: "1",
+      component: "InputGroup",
+      required: true
+    },
+    {
+      label: "Interest Rate",
+      name: "interest_rate",
+      size: "1",
+      component: "InputGroup",
+      required: true
+    },
+    {
+      label: "Expected Hours",
+      name: "expected_hours",
+      size: "1",
+      component: "InputGroup",
+      required: true
+    },
+    {
+      label: "Operational Cost Per Year",
+      name: "operational_cost_per_year",
+      size: "1",
+      component: "InputGroup",
+      required: true
+    },
+    {
+      label: "Capital Work Cost",
+      name: "capital_work_cost",
+      size: "1",
+      component: "InputGroup",
+      required: true
     }
   ];
+
+  // Convert template to ApiForm fields
+  const formFields = formTemplate
+    .filter(field => !field.hidden)
+    .map(field => ({
+      name: field.name,
+      type: 'input' as const,
+      inputType: 'number' as const,
+      label: field.label,
+      required: field.required,
+      placeholder: `Enter ${field.label.toLowerCase()}`
+    }));
 
   const handleSubmit = async (data: Record<string, any>) => {
     try {
@@ -76,17 +95,21 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
     }
   };
 
-  const initialData = {
-    assetId: assetId
-  };
+  // Create initial data from template
+  const initialData = formTemplate.reduce((acc, field) => {
+    if (field.value !== undefined) {
+      acc[field.name] = field.value;
+    }
+    return acc;
+  }, {} as Record<string, any>);
 
   return (
     <div className="h-full">
       <ApiForm
         fields={formFields}
-        title="Create Financial Report"
+        title="Financial Data Entry"
         onSubmit={handleSubmit}
-        submitText="Create Report"
+        submitText="Save Financial Data"
         initialData={initialData}
         className="h-full"
       />
