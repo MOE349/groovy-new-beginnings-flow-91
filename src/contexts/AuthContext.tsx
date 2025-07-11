@@ -54,8 +54,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           const { email, name, tenant_id } = response.data.data;
           setUser({ tenant_id, email, name });
         } catch (error) {
-          localStorage.removeItem('access_token');
-          localStorage.removeItem('refresh_token');
+          console.error('Auth check failed:', error);
+          // Only clear tokens if it's actually an auth error, not a network error
+          if (error instanceof Error && error.message.includes('Unauthorized')) {
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('refresh_token');
+          }
         }
       }
       setIsLoading(false);

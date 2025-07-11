@@ -50,6 +50,59 @@ const getApiUrl = (endpoint: string): string => {
 };
 
 /**
+ * Token refresh promise to prevent multiple simultaneous refresh attempts
+ */
+let refreshPromise: Promise<string | null> | null = null;
+
+/**
+ * Refresh the access token using the refresh token
+ */
+const refreshAccessToken = async (): Promise<string | null> => {
+  if (refreshPromise) {
+    return refreshPromise;
+  }
+
+  refreshPromise = (async () => {
+    const refreshToken = localStorage.getItem('refresh_token');
+    
+    if (!refreshToken) {
+      return null;
+    }
+
+    try {
+      const refreshResponse = await fetch(getApiUrl('/auth/refresh'), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ refresh: refreshToken }),
+      });
+      
+      if (refreshResponse.ok) {
+        const refreshData = await refreshResponse.json();
+        const newAccessToken = refreshData.data?.access || refreshData.access;
+        
+        if (newAccessToken) {
+          localStorage.setItem('access_token', newAccessToken);
+          return newAccessToken;
+        }
+      }
+    } catch (error) {
+      console.error('Token refresh failed:', error);
+    }
+    
+    return null;
+  })();
+
+  // Reset the promise after completion
+  refreshPromise.finally(() => {
+    refreshPromise = null;
+  });
+
+  return refreshPromise;
+};
+
+/**
  * Generic API call function that handles tenant-based routing
  */
 export const apiCall = async <T = any>(
@@ -83,64 +136,46 @@ export const apiCall = async <T = any>(
     const response = await fetch(url, config);
     
     // Handle 401 unauthorized - try to refresh token first
-    if (response.status === 401) {
-      const refreshToken = localStorage.getItem('refresh_token');
+    if (response.status === 401 && !endpoint.includes('/auth/refresh') && !endpoint.includes('/users/login')) {
+      const newToken = await refreshAccessToken();
       
-      if (refreshToken && !endpoint.includes('/auth/refresh')) {
-        try {
-          // Try to refresh the token
-          const refreshResponse = await fetch(getApiUrl('/auth/refresh'), {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ refresh: refreshToken }),
-          });
+      if (newToken) {
+        // Retry the original request with new token
+        const retryConfig = {
+          ...config,
+          headers: {
+            ...config.headers,
+            'Authorization': `Bearer ${newToken}`,
+          },
+        };
+        
+        const retryResponse = await fetch(url, retryConfig);
+        
+        if (retryResponse.ok) {
+          let retryData: T;
+          const retryContentType = retryResponse.headers.get('content-type');
           
-          if (refreshResponse.ok) {
-            const refreshData = await refreshResponse.json();
-            const newAccessToken = refreshData.data?.access || refreshData.access;
-            
-            if (newAccessToken) {
-              localStorage.setItem('access_token', newAccessToken);
-              
-              // Retry the original request with new token
-              const retryConfig = {
-                ...config,
-                headers: {
-                  ...config.headers,
-                  'Authorization': `Bearer ${newAccessToken}`,
-                },
-              };
-              
-              const retryResponse = await fetch(url, retryConfig);
-              if (retryResponse.ok) {
-                let retryData: T;
-                const retryContentType = retryResponse.headers.get('content-type');
-                
-                if (retryContentType && retryContentType.includes('application/json')) {
-                  retryData = await retryResponse.json();
-                } else {
-                  retryData = (await retryResponse.text()) as T;
-                }
-                
-                return {
-                  data: retryData,
-                  status: retryResponse.status,
-                  statusText: retryResponse.statusText,
-                };
-              }
-            }
+          if (retryContentType && retryContentType.includes('application/json')) {
+            retryData = await retryResponse.json();
+          } else {
+            retryData = (await retryResponse.text()) as T;
           }
-        } catch (refreshError) {
-          console.error('Token refresh failed:', refreshError);
+          
+          return {
+            data: retryData,
+            status: retryResponse.status,
+            statusText: retryResponse.statusText,
+          };
         }
       }
       
-      // If refresh failed or no refresh token, clear tokens and redirect
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('refresh_token');
-      window.location.href = '/login';
+      // If refresh failed, only clear tokens and redirect for auth-related endpoints
+      if (endpoint.includes('/auth/me') || endpoint.includes('/auth/')) {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        window.location.href = '/login';
+      }
+      
       throw new Error('Unauthorized - redirecting to login');
     }
     
