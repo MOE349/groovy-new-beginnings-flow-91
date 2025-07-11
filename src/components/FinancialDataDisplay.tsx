@@ -26,15 +26,22 @@ const FinancialDataDisplay: React.FC<FinancialDataDisplayProps> = ({
     }
   }, [refreshTrigger, refreshData]);
 
-  const formatCurrency = (value: number) => {
+  const formatCurrency = (value: string | number) => {
+    const numValue = typeof value === 'string' ? parseFloat(value) || 0 : value;
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD'
-    }).format(value);
+    }).format(numValue);
   };
 
-  const formatPercentage = (value: number) => {
-    return `${(value * 100).toFixed(2)}%`;
+  const formatPercentage = (value: string | number) => {
+    const numValue = typeof value === 'string' ? parseFloat(value) || 0 : value;
+    return `${(numValue * 100).toFixed(2)}%`;
+  };
+
+  const getTableValue = (key: string): string => {
+    if (!data?.table) return '0';
+    return data.table[key]?.toString() || '0';
   };
 
   if (loading) {
@@ -109,80 +116,80 @@ const FinancialDataDisplay: React.FC<FinancialDataDisplayProps> = ({
       <CardContent className="space-y-4">
         <div className="grid grid-cols-1 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="totalCost">Total Cost</Label>
+            <Label htmlFor="totalCostHr">Total Cost/Hr</Label>
             <Input
-              id="totalCost"
-              value={data ? formatCurrency(data.totalCost) : '$0.00'}
+              id="totalCostHr"
+              value={formatCurrency(getTableValue('Total Cost/Hr'))}
               disabled
               className="bg-muted"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="totalDepreciation">Total Depreciation</Label>
+            <Label htmlFor="monthlyPayment">Monthly Payment</Label>
             <Input
-              id="totalDepreciation"
-              value={data ? formatCurrency(data.totalDepreciation) : '$0.00'}
+              id="monthlyPayment"
+              value={formatCurrency(getTableValue('Monthly payment'))}
               disabled
               className="bg-muted"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="currentValue">Current Value</Label>
+            <Label htmlFor="interestRate">Interest Rate</Label>
             <Input
-              id="currentValue"
-              value={data ? formatCurrency(data.currentValue) : '$0.00'}
+              id="interestRate"
+              value={`${getTableValue('Interest rate')}%`}
               disabled
               className="bg-muted"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="totalMaintenance">Total Maintenance Cost</Label>
+            <Label htmlFor="maintenanceCost">Maintenance Cost</Label>
             <Input
-              id="totalMaintenance"
-              value={data ? formatCurrency(data.totalMaintenance) : '$0.00'}
+              id="maintenanceCost"
+              value={formatCurrency(getTableValue('Maintenance Cost'))}
               disabled
               className="bg-muted"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="totalDowntime">Total Downtime Hours</Label>
+            <Label htmlFor="depreciation">Depreciation</Label>
             <Input
-              id="totalDowntime"
-              value={data ? `${data.totalDowntime} hrs` : '0 hrs'}
+              id="depreciation"
+              value={formatCurrency(getTableValue('Depreciation'))}
               disabled
               className="bg-muted"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="utilizationRate">Utilization Rate</Label>
+            <Label htmlFor="utilisation">Utilisation Rate</Label>
             <Input
-              id="utilizationRate"
-              value={data ? formatPercentage(data.utilizationRate) : '0%'}
+              id="utilisation"
+              value={`${getTableValue('Utilisation')}%`}
               disabled
               className="bg-muted"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="costPerHour">Cost Per Hour</Label>
+            <Label htmlFor="totalOperationalCost">Total Operational Cost</Label>
             <Input
-              id="costPerHour"
-              value={data ? formatCurrency(data.costPerHour) : '$0.00'}
+              id="totalOperationalCost"
+              value={formatCurrency(getTableValue('Total Operational Cost'))}
               disabled
               className="bg-muted"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="roi">Return on Investment</Label>
+            <Label htmlFor="assetValue">Asset Value</Label>
             <Input
-              id="roi"
-              value={data ? formatPercentage(data.roi) : '0%'}
+              id="assetValue"
+              value={formatCurrency(getTableValue('Asset Value'))}
               disabled
               className="bg-muted"
             />

@@ -2,14 +2,21 @@ import { useState, useEffect, useCallback } from 'react';
 import { apiCall } from '@/utils/apis';
 
 interface FinancialData {
-  totalCost: number;
-  totalDepreciation: number;
-  currentValue: number;
-  totalMaintenance: number;
-  totalDowntime: number;
-  utilizationRate: number;
-  costPerHour: number;
-  roi: number;
+  // Raw financial data fields
+  assetId: string;
+  assetValue: number;
+  interestRate: number;
+  loanTerm: number;
+  monthlyPayment: number;
+  maintenanceCost: number;
+  depreciation: number;
+  utilisationRate: number;
+  totalOperationalCost: number;
+  
+  // Calculated table with financial metrics
+  table?: {
+    [key: string]: string | number;
+  };
 }
 
 export const useFinancialData = (assetId: string) => {
@@ -33,6 +40,12 @@ export const useFinancialData = (assetId: string) => {
       // Check if data is nested under response.data.data
       const actualData = response.data?.data || response.data;
       console.log('Actual data to use (right side):', actualData);
+      
+      // Log the table object specifically
+      if (actualData?.table) {
+        console.log('Table object (right side):', actualData.table);
+        console.log('Table keys (right side):', Object.keys(actualData.table));
+      }
       
       setData(actualData);
     } catch (err) {
