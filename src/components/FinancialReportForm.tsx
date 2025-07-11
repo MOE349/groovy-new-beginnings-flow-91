@@ -137,6 +137,15 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
         description: existingData ? "Financial data updated successfully" : "Financial data saved successfully",
       });
 
+      // Refetch the updated data to refresh the form
+      try {
+        const response = await apiGet(`/financial-reports/${assetId}`);
+        const actualData = response.data?.data || response.data;
+        setExistingData(actualData);
+      } catch (error) {
+        console.error('Failed to refetch data after save:', error);
+      }
+
       // Call onSuccess to refresh the right-side data
       if (onSuccess) {
         onSuccess();
