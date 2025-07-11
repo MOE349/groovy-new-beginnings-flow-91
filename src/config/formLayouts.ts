@@ -175,7 +175,7 @@ export const attachmentFormConfig: FormLayoutConfig = {
 // Work order form configuration
 export const workOrderFormConfig: FormLayoutConfig = {
   title: "Work Order Information",
-  backRoute: "/work-orders",
+  backRoute: "/workorders",
   columns: [
     {
       fields: [
