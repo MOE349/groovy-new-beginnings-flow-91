@@ -622,70 +622,70 @@ const EditAsset = () => {
                           {/* PM Work Orders Table */}
                           <div className="space-y-2">
                             <h6 className="text-xs font-medium text-foreground">PM Work Orders</h6>
-                            <div className="border border-border rounded-md overflow-hidden">
-                              <table className="w-full text-xs">
-                                <thead className="bg-muted">
-                                  <tr>
-                                    <th className="px-2 py-1 text-left font-medium">Work Order #</th>
-                                    <th className="px-2 py-1 text-left font-medium">Status</th>
-                                    <th className="px-2 py-1 text-left font-medium">Maintenance Type</th>
-                                    <th className="px-2 py-1 text-left font-medium">Date Opened</th>
-                                    <th className="px-2 py-1 text-left font-medium">Date Closed</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr className="border-t border-border">
-                                    <td className="px-2 py-1">WO-001</td>
-                                    <td className="px-2 py-1">
+                            <div className="relative w-full overflow-auto">
+                              <Table className="w-full caption-bottom text-sm">
+                                <TableHeader>
+                                  <TableRow className="border-b">
+                                    <TableHead className="h-12 px-4 text-left align-middle font-medium !text-primary-foreground !bg-primary">Work Order #</TableHead>
+                                    <TableHead className="h-12 px-4 text-left align-middle font-medium !text-primary-foreground !bg-primary">Status</TableHead>
+                                    <TableHead className="h-12 px-4 text-left align-middle font-medium !text-primary-foreground !bg-primary">Maintenance Type</TableHead>
+                                    <TableHead className="h-12 px-4 text-left align-middle font-medium !text-primary-foreground !bg-primary">Date Opened</TableHead>
+                                    <TableHead className="h-12 px-4 text-left align-middle font-medium !text-primary-foreground !bg-primary">Date Closed</TableHead>
+                                  </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                  <TableRow className="border-b transition-colors hover:bg-muted/50">
+                                    <TableCell className="p-4 text-left align-middle">WO-001</TableCell>
+                                    <TableCell className="p-4 text-left align-middle">
                                       <span className="px-1 py-0.5 text-xs bg-green-100 text-green-800 rounded">Complete</span>
-                                    </td>
-                                    <td className="px-2 py-1">Preventive</td>
-                                    <td className="px-2 py-1">01/15/2024</td>
-                                    <td className="px-2 py-1">01/16/2024</td>
-                                  </tr>
-                                  <tr className="border-t border-border">
-                                    <td className="px-2 py-1">WO-002</td>
-                                    <td className="px-2 py-1">
+                                    </TableCell>
+                                    <TableCell className="p-4 text-left align-middle">Preventive</TableCell>
+                                    <TableCell className="p-4 text-left align-middle">01/15/2024</TableCell>
+                                    <TableCell className="p-4 text-left align-middle">01/16/2024</TableCell>
+                                  </TableRow>
+                                  <TableRow className="border-b transition-colors hover:bg-muted/50">
+                                    <TableCell className="p-4 text-left align-middle">WO-002</TableCell>
+                                    <TableCell className="p-4 text-left align-middle">
                                       <span className="px-1 py-0.5 text-xs bg-yellow-100 text-yellow-800 rounded">In Progress</span>
-                                    </td>
-                                    <td className="px-2 py-1">Corrective</td>
-                                    <td className="px-2 py-1">01/20/2024</td>
-                                    <td className="px-2 py-1">-</td>
-                                  </tr>
-                                </tbody>
-                              </table>
+                                    </TableCell>
+                                    <TableCell className="p-4 text-left align-middle">Corrective</TableCell>
+                                    <TableCell className="p-4 text-left align-middle">01/20/2024</TableCell>
+                                    <TableCell className="p-4 text-left align-middle">-</TableCell>
+                                  </TableRow>
+                                </TableBody>
+                              </Table>
                             </div>
                           </div>
 
                           {/* Activity Log Table */}
                           <div className="space-y-2">
                             <h6 className="text-xs font-medium text-foreground">Activity Log</h6>
-                            <div className="border border-border rounded-md overflow-hidden">
-                              <table className="w-full text-xs">
-                                <thead className="bg-muted">
-                                  <tr>
-                                    <th className="px-2 py-1 text-left font-medium">Date</th>
-                                    <th className="px-2 py-1 text-left font-medium">Log Type</th>
-                                    <th className="px-2 py-1 text-left font-medium">Notes</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr className="border-t border-border">
-                                    <td className="px-2 py-1">01/22/2024</td>
-                                    <td className="px-2 py-1">
+                            <div className="relative w-full overflow-auto">
+                              <Table className="w-full caption-bottom text-sm">
+                                <TableHeader>
+                                  <TableRow className="border-b">
+                                    <TableHead className="h-12 px-4 text-left align-middle font-medium !text-primary-foreground !bg-primary">Date</TableHead>
+                                    <TableHead className="h-12 px-4 text-left align-middle font-medium !text-primary-foreground !bg-primary">Log Type</TableHead>
+                                    <TableHead className="h-12 px-4 text-left align-middle font-medium !text-primary-foreground !bg-primary">Notes</TableHead>
+                                  </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                  <TableRow className="border-b transition-colors hover:bg-muted/50">
+                                    <TableCell className="p-4 text-left align-middle">01/22/2024</TableCell>
+                                    <TableCell className="p-4 text-left align-middle">
                                       <span className="px-1 py-0.5 text-xs bg-blue-100 text-blue-800 rounded">Inspection</span>
-                                    </td>
-                                    <td className="px-2 py-1">Routine inspection completed</td>
-                                  </tr>
-                                  <tr className="border-t border-border">
-                                    <td className="px-2 py-1">01/20/2024</td>
-                                    <td className="px-2 py-1">
+                                    </TableCell>
+                                    <TableCell className="p-4 text-left align-middle">Routine inspection completed</TableCell>
+                                  </TableRow>
+                                  <TableRow className="border-b transition-colors hover:bg-muted/50">
+                                    <TableCell className="p-4 text-left align-middle">01/20/2024</TableCell>
+                                    <TableCell className="p-4 text-left align-middle">
                                       <span className="px-1 py-0.5 text-xs bg-orange-100 text-orange-800 rounded">Maintenance</span>
-                                    </td>
-                                    <td className="px-2 py-1">Oil change performed</td>
-                                  </tr>
-                                </tbody>
-                              </table>
+                                    </TableCell>
+                                    <TableCell className="p-4 text-left align-middle">Oil change performed</TableCell>
+                                  </TableRow>
+                                </TableBody>
+                              </Table>
                             </div>
                           </div>
                         </div>
