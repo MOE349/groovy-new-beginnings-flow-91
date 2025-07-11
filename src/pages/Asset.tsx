@@ -1,9 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import ApiTable, { TableColumn } from "@/components/ApiTable";
 
 const Asset = () => {
+  const navigate = useNavigate();
+
+  const handleRowClick = (row: any) => {
+    const assetType = row.equipment ? "attachments" : "equipments";
+    navigate(`/assets/${assetType}/${row.id}`);
+  };
+
   const columns: TableColumn[] = [
     { key: "name", header: "Name" },
     { key: "description", header: "Description" },
@@ -42,7 +49,7 @@ const Asset = () => {
         columns={columns}
         queryKey={["assets", "all"]}
         emptyMessage="No assets found"
-        editRoutePattern="/asset/edit/{id}"
+        onRowClick={handleRowClick}
         className="w-full"
       />
     </div>
