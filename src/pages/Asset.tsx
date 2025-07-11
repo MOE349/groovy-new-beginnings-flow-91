@@ -38,8 +38,7 @@ const Asset = () => {
       </div>
 
       <ApiTable
-        endpoint="/assets/equipments"
-        secondaryEndpoint="/assets/attachments"
+        endpoint="/assets/assets"
         columns={columns}
         queryKey={["assets", "all"]}
         emptyMessage="No assets found"
