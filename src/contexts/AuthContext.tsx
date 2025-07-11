@@ -40,26 +40,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Check if user is already logged in on app start
   useEffect(() => {
-    const checkAuth = async () => {
+    const checkAuth = () => {
       const token = localStorage.getItem('access_token');
-      if (token) {
+      const userData = localStorage.getItem('user_data');
+      
+      if (token && userData) {
         try {
-          const response = await apiCall<{
-            data: {
-              email: string;
-              name: string;
-              tenant_id: string;
-            };
-          }>('/auth/me');
-          const { email, name, tenant_id } = response.data.data;
-          setUser({ tenant_id, email, name });
+          const user = JSON.parse(userData);
+          setUser(user);
         } catch (error) {
-          console.error('Auth check failed:', error);
-          // Only clear tokens if it's actually an auth error, not a network error
-          if (error instanceof Error && error.message.includes('Unauthorized')) {
-            localStorage.removeItem('access_token');
-            localStorage.removeItem('refresh_token');
-          }
+          console.error('Failed to parse user data:', error);
+          localStorage.removeItem('access_token');
+          localStorage.removeItem('refresh_token');
+          localStorage.removeItem('user_data');
         }
       }
       setIsLoading(false);
@@ -89,10 +82,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       });
 
       const { access, refresh, email: userEmail, name, tenant_id } = response.data.data;
+      const userData = { tenant_id, email: userEmail, name };
       
       localStorage.setItem('access_token', access);
       localStorage.setItem('refresh_token', refresh);
-      setUser({ tenant_id, email: userEmail, name });
+      localStorage.setItem('user_data', JSON.stringify(userData));
+      setUser(userData);
       
       toast({
         title: 'Welcome back!',
@@ -131,10 +126,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       });
 
       const { access, refresh, email: userEmail, name: userName, tenant_id } = response.data.data;
+      const userData = { tenant_id, email: userEmail, name: userName };
       
       localStorage.setItem('access_token', access);
       localStorage.setItem('refresh_token', refresh);
-      setUser({ tenant_id, email: userEmail, name: userName });
+      localStorage.setItem('user_data', JSON.stringify(userData));
+      setUser(userData);
       
       toast({
         title: 'Account created!',
@@ -155,6 +152,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const logout = () => {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
+    localStorage.removeItem('user_data');
     setUser(null);
     toast({
       title: 'Logged out',
