@@ -79,14 +79,9 @@ const EditWorkOrder = () => {
     "asset.location": workOrder?.asset?.location?.name || workOrder?.asset?.location || "",
   };
 
-  const customLayout = ({ handleSubmit, formData, handleFieldChange, loading, error, renderField }: any) => (
+  const customLayout = (props: any) => (
     <FormLayout      
-      handleSubmit={handleSubmit}
-      formData={formData}
-      handleFieldChange={handleFieldChange}
-      loading={loading}
-      error={error}
-      renderField={renderField}
+        {...props}
       config={workOrderFormConfig}
     />
   );
