@@ -494,39 +494,6 @@ const EditAsset = () => {
                         )}
                       />
                       
-                      {/* Table for existing triggers */}
-                      <div className="mt-6">
-                        <h5 className="text-sm font-medium mb-2">Active Triggers</h5>
-                        <div className="border rounded-lg">
-                          <Table>
-                            <TableHeader>
-                              <TableRow>
-                                <TableHead>Every</TableHead>
-                                <TableHead>UOM</TableHead>
-                                <TableHead>Starting At</TableHead>
-                                <TableHead>Create WO Before</TableHead>
-                                <TableHead>Status</TableHead>
-                              </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                              <TableRow>
-                                <TableCell>500</TableCell>
-                                <TableCell>Hours</TableCell>
-                                <TableCell>250</TableCell>
-                                <TableCell>50 before trigger</TableCell>
-                                <TableCell>Active</TableCell>
-                              </TableRow>
-                              <TableRow>
-                                <TableCell>1000</TableCell>
-                                <TableCell>Miles</TableCell>
-                                <TableCell>500</TableCell>
-                                <TableCell>100 before trigger</TableCell>
-                                <TableCell>Active</TableCell>
-                              </TableRow>
-                            </TableBody>
-                          </Table>
-                        </div>
-                      </div>
                     </div>
                   </TabsContent>
                   
