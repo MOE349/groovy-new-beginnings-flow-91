@@ -174,7 +174,7 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
     .map(field => ({
       name: field.name,
       type: 'input' as const,
-      inputType: 'number' as const,
+      inputType: field.editable === false ? 'text' as const : 'number' as const,
       label: field.label,
       required: field.required && field.editable !== false,
       disabled: field.editable === false,
@@ -230,10 +230,20 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
     if (field.value !== undefined) {
       acc[field.name] = field.value;
     } else if (existingData && existingData[field.name] !== undefined) {
-      acc[field.name] = existingData[field.name];
+      // Handle values that might have currency symbols or be strings
+      let value = existingData[field.name];
+      if (typeof value === 'string' && value.includes('$')) {
+        // Keep the original string value for display fields
+        acc[field.name] = value;
+      } else {
+        acc[field.name] = value;
+      }
     }
     return acc;
   }, {} as Record<string, any>);
+
+  console.log('Form initial data:', initialData);
+  console.log('Existing data:', existingData);
 
   return (
     <div className="h-full">
