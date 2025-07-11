@@ -35,6 +35,7 @@ const EditAsset = () => {
   const [currentView, setCurrentView] = useState(0); // 0 for View 1, 1 for View 2
   const [activeTab, setActiveTab] = useState("");
   const [isMeterTriggerActive, setIsMeterTriggerActive] = useState(true);
+  const [isTimeTriggerActive, setIsTimeTriggerActive] = useState(true);
   const { assetType, assetData, isLoading, isError, error } = useAssetData(id);
   const { handleSubmit } = useAssetSubmit(id, assetType);
 
@@ -528,10 +529,10 @@ const EditAsset = () => {
 
                           {/* Time Trigger Container */}
                           <div className="w-1/2">
-                            <div className="p-10 space-y-4 h-[380px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
+                            <div className="p-10 h-[380px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
                               <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary dark:text-secondary">Time Trigger</h5>
                               
-                              <div className="space-y-4 pt-8">
+                              <div className="space-y-4 pt-8 flex-grow">
                                 {/* Frequency field */}
                                 <div className="flex items-start gap-2 h-12">
                                   <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-3">Frequency</label>
@@ -567,6 +568,32 @@ const EditAsset = () => {
                                       className="w-16 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
                                     />
                                     <span className="text-sm text-muted-foreground">days before due</span>
+                                  </div>
+                                </div>
+                              </div>
+                              
+                              {/* Status Toggle Button - positioned at the bottom */}
+                              <div className="flex justify-center pb-4">
+                                <div 
+                                  className={`flex items-center cursor-pointer transition-all duration-300 rounded border w-48 h-8 ${
+                                    isTimeTriggerActive 
+                                      ? 'bg-green-500 border-green-600' 
+                                      : 'bg-red-500 border-red-600'
+                                  }`}
+                                  onClick={() => setIsTimeTriggerActive(!isTimeTriggerActive)}
+                                >
+                                  <div className="flex items-center justify-center gap-1 text-sm font-medium text-white w-full">
+                                    {isTimeTriggerActive ? (
+                                      <>
+                                        <Check size={12} />
+                                        Active
+                                      </>
+                                    ) : (
+                                      <>
+                                        <X size={12} />
+                                        Inactive
+                                      </>
+                                    )}
                                   </div>
                                 </div>
                               </div>
