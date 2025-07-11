@@ -14,9 +14,9 @@ const Asset = () => {
     { key: "location", header: "Location", type: "object" },
     { key: "is_online", header: "Online Status", render: (value) => value ? "Online" : "Offline" },
     { 
-      key: "_dataSource", 
+      key: "equipment", 
       header: "Type", 
-      render: (value) => value === "primary" ? "Equipment" : "Attachment" 
+      render: (value, row) => row.equipment ? "Attachment" : "Equipment" 
     },
   ];
 
