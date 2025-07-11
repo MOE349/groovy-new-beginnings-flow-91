@@ -69,7 +69,6 @@ const EditWorkOrder = () => {
 
   // Transform date strings to Date objects and object values to IDs for dropdowns
   const workOrder = workOrderData.data.data as any;
-  console.log("location: ", workOrder?.asset?.location.name)
   const initialData = {
     ...workOrder,
     suggested_start_date: workOrder?.suggested_start_date ? new Date(workOrder.suggested_start_date) : undefined,
