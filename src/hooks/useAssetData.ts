@@ -23,7 +23,7 @@ export const useAssetData = (id: string | undefined): UseAssetDataResult => {
   } = useQuery({
     queryKey: ["equipment", id],
     queryFn: async () => {
-      const response = await apiCall(`/assets/assets/${id}`);
+      const response = await apiCall(`/assets/equipments/${id}`);
       return response.data.data || response.data;
     },
     enabled: !!id,

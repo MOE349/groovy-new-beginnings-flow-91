@@ -38,7 +38,7 @@ const Asset = () => {
       </div>
 
       <ApiTable
-        endpoint="/assets/assets"
+        endpoint="/assets/equipments"
         secondaryEndpoint="/assets/attachments"
         columns={columns}
         queryKey={["assets", "all"]}

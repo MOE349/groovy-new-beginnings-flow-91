@@ -17,7 +17,7 @@ const CreateAsset = () => {
     if (!assetType) return;
     
     try {
-      const endpoint = assetType === "equipment" ? "/assets/assets" : "/assets/attachments";
+      const endpoint = assetType === "equipment" ? "/assets/equipments" : "/assets/attachments";
       await apiCall(endpoint, { method: 'POST', body: data });
       toast({
         title: "Success",
@@ -161,7 +161,7 @@ const CreateAsset = () => {
                     <div className="flex items-start gap-2 h-10">
                       <label className="block text-caption font-normal text-right w-24 text-foreground shrink-0 pt-0">Equipment</label>
                       <div className="flex-grow">
-                        {renderField({ name: "equipment", type: "dropdown", endpoint: "/assets/assets", queryKey: ["assets_assets"], optionValueKey: "id", optionLabelKey: "name" })}
+                        {renderField({ name: "equipment", type: "dropdown", endpoint: "/assets/equipments", queryKey: ["assets_equipments"], optionValueKey: "id", optionLabelKey: "name" })}
                       </div>
                     </div>
                   )}

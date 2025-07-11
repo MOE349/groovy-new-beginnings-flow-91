@@ -10,7 +10,7 @@ export const useAssetSubmit = (id: string | undefined, assetType: AssetType | nu
     if (!assetType || !id) return;
     
     try {
-      const endpoint = assetType === "equipment" ? `/assets/assets/${id}` : `/assets/attachments/${id}`;
+      const endpoint = assetType === "equipment" ? `/assets/equipments/${id}` : `/assets/attachments/${id}`;
       await apiCall(endpoint, { method: 'PUT', body: data });
       toast({
         title: "Success",

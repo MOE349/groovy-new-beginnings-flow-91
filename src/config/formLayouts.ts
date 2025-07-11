@@ -104,8 +104,8 @@ export const attachmentFormConfig: FormLayoutConfig = {
           name: "equipment", 
           label: "Equipment", 
           type: "dropdown", 
-          endpoint: "/assets/assets",
-          queryKey: ["assets_assets"],
+          endpoint: "/assets/equipments",
+          queryKey: ["assets_equipments"],
           optionValueKey: "id", 
           optionLabelKey: "name"
         },
@@ -197,8 +197,8 @@ export const workOrderFormConfig: FormLayoutConfig = {
           label: "Asset", 
           type: "dropdown", 
           required: true, 
-          endpoint: "/assets/assets",
-          queryKey: ["assets_assets"],
+          endpoint: "/assets/equipments",
+          queryKey: ["assets_equipments"],
           optionValueKey: "id",
           optionLabelKey: "name"
         },
