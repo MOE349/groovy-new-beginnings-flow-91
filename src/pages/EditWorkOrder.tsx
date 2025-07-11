@@ -59,7 +59,7 @@ const EditWorkOrder = () => {
     );
   }
 
-  if (!workOrderData) {
+  if (!workOrderData || !workOrderData.data) {
     return (
       <div className="flex justify-center items-center min-h-[400px]">
         <GearSpinner fullscreen />
@@ -68,7 +68,7 @@ const EditWorkOrder = () => {
   }
 
   // Transform date strings to Date objects and object values to IDs for dropdowns
-  const workOrder = workOrderData as any;
+  const workOrder = workOrderData.data as any;
   const initialData = {
     ...workOrder,
     suggested_start_date: workOrder?.suggested_start_date ? new Date(workOrder.suggested_start_date) : undefined,
@@ -76,6 +76,8 @@ const EditWorkOrder = () => {
     // Transform object values to their IDs for dropdown compatibility
     asset: typeof workOrder?.asset === 'object' ? workOrder?.asset?.id : workOrder?.asset || "",
     status: typeof workOrder?.status === 'object' ? workOrder?.status?.id : workOrder?.status || "",
+    // Handle asset.location field - extract location name from nested object
+    "asset.location": workOrder?.asset?.location?.name || workOrder?.asset?.location || "",
   };
 
   const customLayout = ({ handleSubmit, formData, handleFieldChange, loading, error, renderField }: any) => (
