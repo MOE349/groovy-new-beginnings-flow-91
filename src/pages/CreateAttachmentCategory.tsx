@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
-import { apiPost } from "@/utils/apis";
+import { apiCall } from "@/utils/apis";
 import ApiForm from "@/components/ApiForm";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
@@ -11,7 +11,7 @@ const CreateAttachmentCategory = () => {
 
   const handleSubmit = async (data: Record<string, any>) => {
     try {
-      await apiPost("/assets/attachment_category", data);
+      await apiCall("/assets/attachment_category", { method: 'POST', body: data });
       toast({
         title: "Success",
         description: "Attachment category created successfully!",

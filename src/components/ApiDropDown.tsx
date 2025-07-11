@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { apiGet } from "@/utils/apis";
+import { apiCall } from "@/utils/apis";
 import { cn } from "@/lib/utils";
 import GearSpinner from "@/components/ui/gear-spinner";
 
@@ -60,7 +60,7 @@ const ApiDropDown = ({
       if (!endpoint) return [];
       console.log('ApiDropDown: Fetching from endpoint:', endpoint);
       try {
-        const response = await apiGet(endpoint);
+        const response = await apiCall(endpoint);
         console.log('ApiDropDown: API response:', response);
         return response.data.data || response.data;
       } catch (err) {

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
 import ApiForm from "@/components/ApiForm";
-import { apiPost } from "@/utils/apis";
+import { apiCall } from "@/utils/apis";
 import { attachmentFields } from "@/data/assetFormFields";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import FormLayout from "@/components/FormLayout";
@@ -12,7 +12,7 @@ const CreateAttachment = () => {
 
   const handleSubmit = async (data: Record<string, any>) => {
     try {
-      await apiPost("/assets/attachments", data);
+      await apiCall("/assets/attachments", { method: 'POST', body: data });
       toast({
         title: "Success",
         description: "Attachment created successfully!",

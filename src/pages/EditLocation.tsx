@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "@/hooks/use-toast";
-import { apiGet, apiPut } from "@/utils/apis";
+import { apiCall } from "@/utils/apis";
 import ApiForm from "@/components/ApiForm";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
@@ -14,7 +14,7 @@ const EditLocation = () => {
   const { data: location, isLoading } = useQuery({
     queryKey: ["location", id],
     queryFn: async () => {
-      const response = await apiGet(`/company/location/${id}`);
+      const response = await apiCall(`/company/location/${id}`);
       return response.data.data || response.data;
     },
     enabled: !!id,
@@ -24,7 +24,7 @@ const EditLocation = () => {
     if (!id) return;
     
     try {
-      await apiPut(`/company/location/${id}`, data);
+      await apiCall(`/company/location/${id}`, { method: 'PUT', body: data });
       toast({
         title: "Success",
         description: "Location updated successfully!",

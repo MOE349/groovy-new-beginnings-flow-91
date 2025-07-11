@@ -3,7 +3,7 @@ import { toast } from "@/hooks/use-toast";
 import ApiForm from "@/components/ApiForm";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
-import { apiPost } from "@/utils/apis";
+import { apiCall } from "@/utils/apis";
 import { workOrderFields } from "@/data/workOrderFormFields";
 
 const CreateWorkOrder = () => {
@@ -11,7 +11,7 @@ const CreateWorkOrder = () => {
 
   const handleSubmit = async (data: Record<string, any>) => {
     try {
-      await apiPost("/work-orders/work_order", data);
+      await apiCall("/work-orders/work_order", { method: 'POST', body: data });
       toast({
         title: "Success",
         description: "Work order created successfully!",

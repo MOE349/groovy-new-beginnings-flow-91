@@ -13,7 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Plus, GripVertical } from "lucide-react";
-import { apiGet } from "@/utils/apis";
+import { apiCall } from "@/utils/apis";
 import GearSpinner from "@/components/ui/gear-spinner";
 import {
   DndContext,
@@ -194,11 +194,11 @@ const ApiTable = <T extends Record<string, any>>({
   } = useQuery({
     queryKey: queryKey || (secondaryEndpoint ? [endpoint, secondaryEndpoint] : [endpoint]),
     queryFn: async () => {
-      const promises = [apiGet(endpoint)];
+      const promises = [apiCall(endpoint)];
       
       // Add secondary endpoint if provided
       if (secondaryEndpoint) {
-        promises.push(apiGet(secondaryEndpoint));
+        promises.push(apiCall(secondaryEndpoint));
       }
       
       const responses = await Promise.all(promises);

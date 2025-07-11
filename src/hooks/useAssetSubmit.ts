@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
-import { apiPut } from "@/utils/apis";
+import { apiCall } from "@/utils/apis";
 import { AssetType } from "./useAssetData";
 
 export const useAssetSubmit = (id: string | undefined, assetType: AssetType | null) => {
@@ -11,7 +11,7 @@ export const useAssetSubmit = (id: string | undefined, assetType: AssetType | nu
     
     try {
       const endpoint = assetType === "equipment" ? `/assets/equipments/${id}` : `/assets/attachments/${id}`;
-      await apiPut(endpoint, data);
+      await apiCall(endpoint, { method: 'PUT', body: data });
       toast({
         title: "Success",
         description: `${assetType === "equipment" ? "Equipment" : "Attachment"} updated successfully!`,

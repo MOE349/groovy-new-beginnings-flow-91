@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
-import { apiPost } from "@/utils/apis";
+import { apiCall } from "@/utils/apis";
 import ApiForm from "@/components/ApiForm";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
@@ -11,7 +11,7 @@ const CreateSite = () => {
 
   const handleSubmit = async (data: Record<string, any>) => {
     try {
-      await apiPost("/company/site", data);
+      await apiCall("/company/site", { method: 'POST', body: data });
       toast({
         title: "Success",
         description: "Site created successfully!",

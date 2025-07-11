@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { apiGet } from "@/utils/apis";
+import { apiCall } from "@/utils/apis";
 
 export type AssetType = "equipment" | "attachment";
 
@@ -23,7 +23,7 @@ export const useAssetData = (id: string | undefined): UseAssetDataResult => {
   } = useQuery({
     queryKey: ["equipment", id],
     queryFn: async () => {
-      const response = await apiGet(`/assets/equipments/${id}`);
+      const response = await apiCall(`/assets/equipments/${id}`);
       return response.data.data || response.data;
     },
     enabled: !!id,
@@ -38,7 +38,7 @@ export const useAssetData = (id: string | undefined): UseAssetDataResult => {
   } = useQuery({
     queryKey: ["attachment", id],
     queryFn: async () => {
-      const response = await apiGet(`/assets/attachments/${id}`);
+      const response = await apiCall(`/assets/attachments/${id}`);
       return response.data.data || response.data;
     },
     enabled: !!id,

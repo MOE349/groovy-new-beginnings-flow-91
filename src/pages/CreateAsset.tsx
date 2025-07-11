@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { apiPost } from "@/utils/apis";
+import { apiCall } from "@/utils/apis";
 import { equipmentFields, attachmentFields } from "@/data/assetFormFields";
 
 const CreateAsset = () => {
@@ -18,7 +18,7 @@ const CreateAsset = () => {
     
     try {
       const endpoint = assetType === "equipment" ? "/assets/equipments" : "/assets/attachments";
-      await apiPost(endpoint, data);
+      await apiCall(endpoint, { method: 'POST', body: data });
       toast({
         title: "Success",
         description: `${assetType === "equipment" ? "Equipment" : "Attachment"} created successfully!`,

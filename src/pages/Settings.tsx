@@ -11,7 +11,7 @@ import ApiTable from "@/components/ApiTable";
 import ApiForm from "@/components/ApiForm";
 import { siteFormFields, locationFormFields } from "@/data/siteFormFields";
 import { equipmentCategoryFormFields, attachmentCategoryFormFields } from "@/data/categoryFormFields";
-import { apiPost } from "@/utils/apis";
+import { apiCall } from "@/utils/apis";
 
 const workOrderStatusFormFields = [
   {
@@ -41,7 +41,7 @@ const Settings = () => {
   const handleSiteSubmit = async (data: Record<string, any>) => {
     try {
       setLoading(true);
-      await apiPost("/company/site", data);
+      await apiCall("/company/site", { method: 'POST', body: data });
       toast({
         title: "Success",
         description: "Site created successfully",
@@ -63,7 +63,7 @@ const Settings = () => {
   const handleLocationSubmit = async (data: Record<string, any>) => {
     try {
       setLoading(true);
-      await apiPost("/company/location", data);
+      await apiCall("/company/location", { method: 'POST', body: data });
       toast({
         title: "Success",
         description: "Location created successfully",
@@ -85,7 +85,7 @@ const Settings = () => {
   const handleEquipmentCategorySubmit = async (data: Record<string, any>) => {
     try {
       setLoading(true);
-      await apiPost("/assets/equipment_category", data);
+      await apiCall("/assets/equipment_category", { method: 'POST', body: data });
       toast({
         title: "Success",
         description: "Equipment category created successfully",
@@ -107,7 +107,7 @@ const Settings = () => {
   const handleAttachmentCategorySubmit = async (data: Record<string, any>) => {
     try {
       setLoading(true);
-      await apiPost("/assets/attachment_category", data);
+      await apiCall("/assets/attachment_category", { method: 'POST', body: data });
       toast({
         title: "Success",
         description: "Attachment category created successfully",
@@ -129,7 +129,7 @@ const Settings = () => {
   const handleWorkOrderStatusSubmit = async (data: Record<string, any>) => {
     try {
       setLoading(true);
-      await apiPost("/work-orders/status", data);
+      await apiCall("/work-orders/status", { method: 'POST', body: data });
       toast({
         title: "Success",
         description: "Work order status created successfully",

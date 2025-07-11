@@ -4,7 +4,7 @@ import { toast } from "@/hooks/use-toast";
 import ApiForm from "@/components/ApiForm";
 import FormLayout from "@/components/FormLayout";
 import { workOrderFormConfig } from "@/config/formLayouts";
-import { apiPut, apiGet } from "@/utils/apis";
+import { apiCall } from "@/utils/apis";
 import { workOrderFields } from "@/data/workOrderFormFields";
 import GearSpinner from "@/components/ui/gear-spinner";
 import { AlertTriangle } from "lucide-react";
@@ -16,13 +16,13 @@ const EditWorkOrder = () => {
 
   const { data: workOrderData, isLoading, isError, error } = useQuery({
     queryKey: ["work_order", id],
-    queryFn: () => apiGet(`/work-orders/work_order/${id}`),
+    queryFn: () => apiCall(`/work-orders/work_order/${id}`),
     enabled: !!id,
   });
 
   const handleSubmit = async (data: Record<string, any>) => {
     try {
-      await apiPut(`/work-orders/work_order/${id}`, data);
+      await apiCall(`/work-orders/work_order/${id}`, { method: 'PUT', body: data });
       toast({
         title: "Success",
         description: "Work order updated successfully!",

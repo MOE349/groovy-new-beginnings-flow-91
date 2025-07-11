@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { apiGet } from "@/utils/apis";
+import { apiCall } from "@/utils/apis";
 import GearSpinner from "@/components/ui/gear-spinner";
 import { 
   Activity, 

@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "@/hooks/use-toast";
-import { apiGet, apiPut } from "@/utils/apis";
+import { apiCall } from "@/utils/apis";
 import ApiForm from "@/components/ApiForm";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
@@ -14,7 +14,7 @@ const EditSite = () => {
   const { data: site, isLoading } = useQuery({
     queryKey: ["site", id],
     queryFn: async () => {
-      const response = await apiGet(`/company/site/${id}`);
+      const response = await apiCall(`/company/site/${id}`);
       return response.data.data || response.data;
     },
     enabled: !!id,
@@ -24,7 +24,7 @@ const EditSite = () => {
     if (!id) return;
     
     try {
-      await apiPut(`/company/site/${id}`, data);
+      await apiCall(`/company/site/${id}`, { method: 'PUT', body: data });
       toast({
         title: "Success",
         description: "Site updated successfully!",
