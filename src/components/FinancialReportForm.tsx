@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ApiForm from '@/components/ApiForm';
-import { apiPost } from '@/utils/apis';
+import { apiPost, apiPut, apiGet } from '@/utils/apis';
 import { useToast } from '@/hooks/use-toast';
 
 interface FinancialReportFormProps {
@@ -12,6 +12,27 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
   assetId,
   onSuccess
 }) => {
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
+  const [existingData, setExistingData] = useState<Record<string, any> | null>(null);
+
+  // Fetch existing financial data
+  useEffect(() => {
+    const fetchExistingData = async () => {
+      try {
+        setLoading(true);
+        const response = await apiGet(`/financial-reports/${assetId}`);
+        setExistingData(response.data);
+      } catch (error) {
+        console.error('Failed to fetch existing financial data:', error);
+        // If no data exists, that's fine - it will be a create operation
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchExistingData();
+  }, [assetId]);
   const formTemplate = [
     {
       label: "Asset",
@@ -85,7 +106,6 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
       placeholder: `Enter ${field.label.toLowerCase()}`
     }));
 
-  const { toast } = useToast();
 
   const handleSubmit = async (data: Record<string, any>) => {
     try {
@@ -95,12 +115,16 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
         asset: assetId
       };
 
-      // Submit to the same endpoint as the right side
-      await apiPost(`/financial-reports/${assetId}`, submissionData);
+      // Use PUT for updates if data exists, POST for new records
+      if (existingData) {
+        await apiPut(`/financial-reports/${assetId}`, submissionData);
+      } else {
+        await apiPost(`/financial-reports/${assetId}`, submissionData);
+      }
       
       toast({
         title: "Success",
-        description: "Financial data saved successfully",
+        description: existingData ? "Financial data updated successfully" : "Financial data saved successfully",
       });
 
       // Call onSuccess to refresh the right-side data
@@ -117,10 +141,12 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
     }
   };
 
-  // Create initial data from template
+  // Create initial data from template and existing data
   const initialData = formTemplate.reduce((acc, field) => {
     if (field.value !== undefined) {
       acc[field.name] = field.value;
+    } else if (existingData && existingData[field.name] !== undefined) {
+      acc[field.name] = existingData[field.name];
     }
     return acc;
   }, {} as Record<string, any>);
@@ -129,10 +155,11 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
     <div className="h-full">
       <ApiForm
         fields={formFields}
-        title="Financial Data Entry"
+        title={existingData ? "Update Financial Data" : "Create Financial Data"}
         onSubmit={handleSubmit}
-        submitText="Save Financial Data"
+        submitText={existingData ? "Update Financial Data" : "Save Financial Data"}
         initialData={initialData}
+        loading={loading}
         className="h-full"
       />
     </div>
