@@ -435,9 +435,9 @@ const EditAsset = () => {
                   style={{ transform: `translateX(-${currentView * 50}%)` }}
                 >
                   {/* View 1: Trigger + Log */}
-                  <div className="flex gap-6 w-1/2 h-full flex-shrink-0">
+                  <div className="flex w-1/2 h-full flex-shrink-0">
                     {/* Trigger Container */}
-                    <div className="w-full md:w-1/2">
+                    <div className="w-full md:w-1/2 mr-3">
                       <div className="p-10 space-y-4 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
                         <div className="flex items-center gap-4 mb-6 py-1 -mx-2 -mt-5 bg-accent/20 border border-accent/30 rounded-md">
                           <h4 className="text-h3 font-medium text-primary dark:text-secondary ml-6">Trigger</h4>
@@ -555,7 +555,7 @@ const EditAsset = () => {
                     </div>
                     
                     {/* Log Container with Right Arrow */}
-                    <div className="w-full md:w-1/2">
+                    <div className="w-full md:w-1/2 ml-3">
                       <div className="p-10 space-y-4 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
                         {/* Right Arrow Navigation */}
                         <button
@@ -576,9 +576,9 @@ const EditAsset = () => {
                   </div>
 
                   {/* View 2: PM Checklist + PM Parts */}
-                  <div className="flex gap-6 w-1/2 h-full flex-shrink-0">
+                  <div className="flex w-1/2 h-full flex-shrink-0">
                     {/* PM Checklist Container with Left Arrow */}
-                    <div className="w-full md:w-1/2">
+                    <div className="w-full md:w-1/2 mr-3">
                       <div className="p-10 space-y-4 h-[474px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
                         {/* Left Arrow Navigation */}
                         <button
@@ -598,7 +598,7 @@ const EditAsset = () => {
                     </div>
                     
                     {/* PM Parts Container */}
-                    <div className="w-full md:w-1/2">
+                    <div className="w-full md:w-1/2 ml-3">
                       <div className="p-10 space-y-4 h-[474px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
                         <div className="flex items-center gap-4 mb-6 py-1 -mx-2 -mt-5 bg-accent/20 border border-accent/30 rounded-md">
                           <h4 className="text-h3 font-medium text-primary dark:text-secondary ml-6">PM Parts</h4>
