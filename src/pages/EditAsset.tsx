@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { toast } from "@/hooks/use-toast";
 import ApiForm from "@/components/ApiForm";
@@ -31,8 +32,21 @@ const EditAsset = () => {
   const queryClient = useQueryClient();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isCodeDialogOpen, setIsCodeDialogOpen] = useState(false);
+  const [currentView, setCurrentView] = useState(0); // 0 for View 1, 1 for View 2
+  const [activeTab, setActiveTab] = useState("");
   const { assetType, assetData, isLoading, isError, error } = useAssetData(id);
   const { handleSubmit } = useAssetSubmit(id, assetType);
+
+  // Reset to View 1 when switching away from scheduled-maintenance tab
+  useEffect(() => {
+    if (activeTab !== "scheduled-maintenance") {
+      setCurrentView(0);
+    }
+  }, [activeTab]);
+
+  const handleViewChange = (viewIndex: number) => {
+    setCurrentView(viewIndex);
+  };
 
   const handleDeleteMeterReading = async (readingId: string) => {
     try {
@@ -133,7 +147,7 @@ const EditAsset = () => {
 
       {/* Compact Tabs Section */}
       <div>
-        <Tabs defaultValue="parts-bom" className="h-full">
+        <Tabs defaultValue="parts-bom" className="h-full" onValueChange={setActiveTab}>
           {/* Compact Pill-Style Tab List */}
           <div className="h-10 overflow-x-auto">
             <TabsList className="grid w-full grid-cols-7 h-10 bg-card border border-border rounded-md p-0">
@@ -413,136 +427,204 @@ const EditAsset = () => {
           </TabsContent>
           
           <TabsContent value="scheduled-maintenance" className="mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-2 h-full min-h-[500px]">
-              <div className="flex gap-4 h-full">
-                {/* Left side - Settings (half width) */}
-                <div className="w-1/2">
-                  <div className="p-10 space-y-4 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
-                    <div className="flex items-center gap-4 mb-6 py-1 -mx-2 -mt-5 bg-accent/20 border border-accent/30 rounded-md">
-                      <h4 className="text-h3 font-medium text-primary dark:text-secondary ml-6">Trigger</h4>
+            <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px] overflow-hidden">
+              {/* Sliding Container Wrapper */}
+              <div className="relative w-full h-full">
+                <div 
+                  className="flex w-[200%] h-full transition-transform duration-300 ease-in-out"
+                  style={{ transform: `translateX(-${currentView * 50}%)` }}
+                >
+                  {/* View 1: Trigger + Log */}
+                  <div className="flex gap-6 w-full h-full min-w-[50%]">
+                    {/* Trigger Container */}
+                    <div className="w-full md:w-1/2">
+                      <div className="p-10 space-y-4 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
+                        <div className="flex items-center gap-4 mb-6 py-1 -mx-2 -mt-5 bg-accent/20 border border-accent/30 rounded-md">
+                          <h4 className="text-h3 font-medium text-primary dark:text-secondary ml-6">Trigger</h4>
+                        </div>
+                        
+                        <Tabs defaultValue="meter-reading-trigger" className="w-full bg-card/50 border border-border/30 rounded-lg p-4 shadow-sm">
+                          <TabsList className="grid w-full grid-cols-2 mb-6">
+                            <TabsTrigger value="meter-reading-trigger">meter reading trigger</TabsTrigger>
+                            <TabsTrigger value="time-trigger">time trigger</TabsTrigger>
+                          </TabsList>
+                          
+                          <TabsContent value="meter-reading-trigger" className="mt-6">
+                            <div className="space-y-4">
+                              {/* Every field */}
+                              <div className="flex items-start gap-2 h-12">
+                                <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-3">Every</label>
+                                <div className="flex items-center gap-2 flex-grow">
+                                  <input
+                                    type="number"
+                                    defaultValue="500"
+                                    className="w-20 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
+                                  />
+                                  <select className="px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background">
+                                    <option value="hours">Hours</option>
+                                    <option value="days">Days</option>
+                                    <option value="weeks">Weeks</option>
+                                    <option value="months">Months</option>
+                                    <option value="years">Years</option>
+                                    <option value="miles">Miles</option>
+                                    <option value="kilometers">Kilometers</option>
+                                  </select>
+                                </div>
+                              </div>
+                              
+                              {/* Starting at field */}
+                              <div className="flex items-start gap-2 h-12">
+                                <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-3">Starting at</label>
+                                <div className="flex-grow">
+                                  <input
+                                    type="number"
+                                    defaultValue="250"
+                                    className="w-20 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
+                                  />
+                                </div>
+                              </div>
+                              
+                              {/* Create WO field */}
+                              <div className="flex items-start gap-2 h-12">
+                                <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-3">Create WO</label>
+                                <div className="flex items-center gap-2 flex-grow">
+                                  <input
+                                    type="number"
+                                    defaultValue="50"
+                                    className="w-16 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
+                                  />
+                                  <span className="text-sm text-muted-foreground">before trigger</span>
+                                </div>
+                              </div>
+                              
+                              <div className="flex justify-end pt-6">
+                                <Button size="sm">
+                                  Save Settings
+                                </Button>
+                              </div>
+                            </div>
+                          </TabsContent>
+                          
+                          <TabsContent value="time-trigger" className="mt-6">
+                            <div className="space-y-4">
+                              {/* Time-based trigger fields */}
+                              <div className="flex items-start gap-2 h-12">
+                                <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-3">Frequency</label>
+                                <div className="flex-grow">
+                                  <select className="w-full px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background">
+                                    <option value="daily">Daily</option>
+                                    <option value="weekly">Weekly</option>
+                                    <option value="monthly">Monthly</option>
+                                    <option value="quarterly">Quarterly</option>
+                                    <option value="annually">Annually</option>
+                                  </select>
+                                </div>
+                              </div>
+                              
+                              <div className="flex items-start gap-2 h-12">
+                                <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-3">Start Date</label>
+                                <div className="flex-grow">
+                                  <input
+                                    type="date"
+                                    className="w-full px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
+                                  />
+                                </div>
+                              </div>
+                              
+                              <div className="flex items-start gap-2 h-12">
+                                <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-3">Create WO</label>
+                                <div className="flex items-center gap-2 flex-grow">
+                                  <input
+                                    type="number"
+                                    defaultValue="1"
+                                    className="w-16 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
+                                  />
+                                  <span className="text-sm text-muted-foreground">days before due</span>
+                                </div>
+                              </div>
+                              
+                              <div className="flex justify-end pt-6">
+                                <Button size="sm">
+                                  Save Settings
+                                </Button>
+                              </div>
+                            </div>
+                          </TabsContent>
+                        </Tabs>
+                      </div>
                     </div>
                     
-                    <Tabs defaultValue="meter-reading-trigger" className="w-full bg-card/50 border border-border/30 rounded-lg p-4 shadow-sm">
-                      <TabsList className="grid w-full grid-cols-2 mb-6">
-                        <TabsTrigger value="meter-reading-trigger">meter reading trigger</TabsTrigger>
-                        <TabsTrigger value="time-trigger">time trigger</TabsTrigger>
-                      </TabsList>
-                      
-                      <TabsContent value="meter-reading-trigger" className="mt-6">
-                        <div className="space-y-4">
-                          {/* Every field */}
-                          <div className="flex items-start gap-2 h-12">
-                            <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-3">Every</label>
-                            <div className="flex items-center gap-2 flex-grow">
-                              <input
-                                type="number"
-                                defaultValue="500"
-                                className="w-20 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
-                              />
-                              <select className="px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background">
-                                <option value="hours">Hours</option>
-                                <option value="days">Days</option>
-                                <option value="weeks">Weeks</option>
-                                <option value="months">Months</option>
-                                <option value="years">Years</option>
-                                <option value="miles">Miles</option>
-                                <option value="kilometers">Kilometers</option>
-                              </select>
-                            </div>
-                          </div>
-                          
-                          {/* Starting at field */}
-                          <div className="flex items-start gap-2 h-12">
-                            <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-3">Starting at</label>
-                            <div className="flex-grow">
-                              <input
-                                type="number"
-                                defaultValue="250"
-                                className="w-20 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
-                              />
-                            </div>
-                          </div>
-                          
-                          {/* Create WO field */}
-                          <div className="flex items-start gap-2 h-12">
-                            <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-3">Create WO</label>
-                            <div className="flex items-center gap-2 flex-grow">
-                              <input
-                                type="number"
-                                defaultValue="50"
-                                className="w-16 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
-                              />
-                              <span className="text-sm text-muted-foreground">before trigger</span>
-                            </div>
-                          </div>
-                          
-                          <div className="flex justify-end pt-6">
-                            <Button size="sm">
-                              Save Settings
-                            </Button>
-                          </div>
+                    {/* Log Container with Right Arrow */}
+                    <div className="w-full md:w-1/2">
+                      <div className="p-10 space-y-4 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
+                        {/* Right Arrow Navigation */}
+                        <button
+                          onClick={() => handleViewChange(1)}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-primary/10 hover:bg-primary/20 border border-primary/30 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+                        >
+                          <ChevronRight className="w-4 h-4 text-primary" />
+                        </button>
+                        
+                        <div className="flex items-center gap-4 mb-6 py-1 -mx-2 -mt-5 bg-accent/20 border border-accent/30 rounded-md">
+                          <h4 className="text-h3 font-medium text-primary dark:text-secondary ml-6">Log</h4>
                         </div>
-                      </TabsContent>
-                      
-                      <TabsContent value="time-trigger" className="mt-6">
-                        <div className="space-y-4">
-                          {/* Time-based trigger fields */}
-                          <div className="flex items-start gap-2 h-12">
-                            <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-3">Frequency</label>
-                            <div className="flex-grow">
-                              <select className="w-full px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background">
-                                <option value="daily">Daily</option>
-                                <option value="weekly">Weekly</option>
-                                <option value="monthly">Monthly</option>
-                                <option value="quarterly">Quarterly</option>
-                                <option value="annually">Annually</option>
-                              </select>
-                            </div>
-                          </div>
-                          
-                          <div className="flex items-start gap-2 h-12">
-                            <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-3">Start Date</label>
-                            <div className="flex-grow">
-                              <input
-                                type="date"
-                                className="w-full px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
-                              />
-                            </div>
-                          </div>
-                          
-                          <div className="flex items-start gap-2 h-12">
-                            <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-3">Create WO</label>
-                            <div className="flex items-center gap-2 flex-grow">
-                              <input
-                                type="number"
-                                defaultValue="1"
-                                className="w-16 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
-                              />
-                              <span className="text-sm text-muted-foreground">days before due</span>
-                            </div>
-                          </div>
-                          
-                          <div className="flex justify-end pt-6">
-                            <Button size="sm">
-                              Save Settings
-                            </Button>
-                          </div>
+                        <p className="text-caption text-muted-foreground text-center pt-12">
+                          Log configuration options will be added here
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* View 2: PM Checklist + PM Parts */}
+                  <div className="flex gap-6 w-full h-full min-w-[50%]">
+                    {/* PM Checklist Container with Left Arrow */}
+                    <div className="w-full md:w-1/2">
+                      <div className="p-10 space-y-4 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
+                        {/* Left Arrow Navigation */}
+                        <button
+                          onClick={() => handleViewChange(0)}
+                          className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-primary/10 hover:bg-primary/20 border border-primary/30 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+                        >
+                          <ChevronLeft className="w-4 h-4 text-primary" />
+                        </button>
+                        
+                        <div className="flex items-center gap-4 mb-6 py-1 -mx-2 -mt-5 bg-accent/20 border border-accent/30 rounded-md">
+                          <h4 className="text-h3 font-medium text-primary dark:text-secondary ml-6">PM Checklist</h4>
                         </div>
-                      </TabsContent>
-                    </Tabs>
+                        <p className="text-caption text-muted-foreground text-center pt-12">
+                          PM Checklist items will be added here
+                        </p>
+                      </div>
+                    </div>
+                    
+                    {/* PM Parts Container */}
+                    <div className="w-full md:w-1/2">
+                      <div className="p-10 space-y-4 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
+                        <div className="flex items-center gap-4 mb-6 py-1 -mx-2 -mt-5 bg-accent/20 border border-accent/30 rounded-md">
+                          <h4 className="text-h3 font-medium text-primary dark:text-secondary ml-6">PM Parts</h4>
+                        </div>
+                        <p className="text-caption text-muted-foreground text-center pt-12">
+                          PM Parts information will be added here
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                
-                {/* Right side - Reserved for future content */}
-                <div className="w-1/2">
-                  <div className="p-10 space-y-4 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
-                    <div className="flex items-center gap-4 mb-6 py-1 -mx-2 -mt-5 bg-accent/20 border border-accent/30 rounded-md">
-                      <h4 className="text-h3 font-medium text-primary dark:text-secondary ml-6">Log</h4>
-                    </div>
-                    <p className="text-caption text-muted-foreground text-center pt-12">
-                      Additional configuration options will be added here
-                    </p>
-                  </div>
+
+                {/* Mobile Navigation Dots */}
+                <div className="md:hidden absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                  <button
+                    onClick={() => handleViewChange(0)}
+                    className={`w-2 h-2 rounded-full transition-all duration-200 ${
+                      currentView === 0 ? 'bg-primary' : 'bg-primary/30'
+                    }`}
+                  />
+                  <button
+                    onClick={() => handleViewChange(1)}
+                    className={`w-2 h-2 rounded-full transition-all duration-200 ${
+                      currentView === 1 ? 'bg-primary' : 'bg-primary/30'
+                    }`}
+                  />
                 </div>
               </div>
             </div>
