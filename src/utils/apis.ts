@@ -82,8 +82,62 @@ export const apiCall = async <T = any>(
   try {
     const response = await fetch(url, config);
     
-    // Handle 401 unauthorized - redirect to login
+    // Handle 401 unauthorized - try to refresh token first
     if (response.status === 401) {
+      const refreshToken = localStorage.getItem('refresh_token');
+      
+      if (refreshToken && !endpoint.includes('/auth/refresh')) {
+        try {
+          // Try to refresh the token
+          const refreshResponse = await fetch(getApiUrl('/auth/refresh'), {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ refresh: refreshToken }),
+          });
+          
+          if (refreshResponse.ok) {
+            const refreshData = await refreshResponse.json();
+            const newAccessToken = refreshData.data?.access || refreshData.access;
+            
+            if (newAccessToken) {
+              localStorage.setItem('access_token', newAccessToken);
+              
+              // Retry the original request with new token
+              const retryConfig = {
+                ...config,
+                headers: {
+                  ...config.headers,
+                  'Authorization': `Bearer ${newAccessToken}`,
+                },
+              };
+              
+              const retryResponse = await fetch(url, retryConfig);
+              if (retryResponse.ok) {
+                let retryData: T;
+                const retryContentType = retryResponse.headers.get('content-type');
+                
+                if (retryContentType && retryContentType.includes('application/json')) {
+                  retryData = await retryResponse.json();
+                } else {
+                  retryData = (await retryResponse.text()) as T;
+                }
+                
+                return {
+                  data: retryData,
+                  status: retryResponse.status,
+                  statusText: retryResponse.statusText,
+                };
+              }
+            }
+          }
+        } catch (refreshError) {
+          console.error('Token refresh failed:', refreshError);
+        }
+      }
+      
+      // If refresh failed or no refresh token, clear tokens and redirect
       localStorage.removeItem('access_token');
       localStorage.removeItem('refresh_token');
       window.location.href = '/login';
