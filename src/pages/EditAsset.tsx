@@ -7,7 +7,7 @@ import ApiForm from "@/components/ApiForm";
 import ApiTable from "@/components/ApiTable";
 import { apiPost, apiDelete } from "@/utils/apis";
 import GearSpinner from "@/components/ui/gear-spinner";
-import { AlertTriangle, Trash2, Plus, Check } from "lucide-react";
+import { AlertTriangle, Trash2, Plus, Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAssetData } from "@/hooks/useAssetData";
 import { useAssetSubmit } from "@/hooks/useAssetSubmit";
@@ -34,6 +34,7 @@ const EditAsset = () => {
   const [isCodeDialogOpen, setIsCodeDialogOpen] = useState(false);
   const [currentView, setCurrentView] = useState(0); // 0 for View 1, 1 for View 2
   const [activeTab, setActiveTab] = useState("");
+  const [isMeterTriggerActive, setIsMeterTriggerActive] = useState(true);
   const { assetType, assetData, isLoading, isError, error } = useAssetData(id);
   const { handleSubmit } = useAssetSubmit(id, assetType);
 
@@ -499,11 +500,25 @@ const EditAsset = () => {
                                 {/* Status Toggle Button */}
                                 <div className="flex justify-center mt-8">
                                   <div 
-                                    className="flex items-center cursor-pointer transition-all duration-300 rounded border w-48 h-8 bg-green-500 border-green-600"
+                                    className={`flex items-center cursor-pointer transition-all duration-300 rounded border w-48 h-8 ${
+                                      isMeterTriggerActive 
+                                        ? 'bg-green-500 border-green-600' 
+                                        : 'bg-red-500 border-red-600'
+                                    }`}
+                                    onClick={() => setIsMeterTriggerActive(!isMeterTriggerActive)}
                                   >
                                     <div className="flex items-center justify-center gap-1 text-sm font-medium text-white w-full">
-                                      <Check size={12} />
-                                      Active
+                                      {isMeterTriggerActive ? (
+                                        <>
+                                          <Check size={12} />
+                                          Active
+                                        </>
+                                      ) : (
+                                        <>
+                                          <X size={12} />
+                                          Inactive
+                                        </>
+                                      )}
                                     </div>
                                   </div>
                                 </div>
