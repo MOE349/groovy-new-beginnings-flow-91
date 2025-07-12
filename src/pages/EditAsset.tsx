@@ -437,19 +437,19 @@ const EditAsset = () => {
                   style={{ transform: `translateX(-${currentView * 50}%)` }}
                 >
                   {/* View 1: Trigger + Log */}
-                  <div className="flex w-1/2 h-full flex-shrink-0">
+                  <div className="flex flex-col lg:flex-row w-1/2 h-full flex-shrink-0 gap-3">
                     {/* Trigger Container */}
-                    <div className="w-full md:w-1/2 pr-3">
-                      <div className="p-10 space-y-4 h-[474px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b before:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
-                        <div className="flex items-center justify-center gap-4 mb-6 py-1 -mx-2 -mt-5 bg-accent/20 border border-accent/30 rounded-md">
-                          <h4 className="text-h3 font-medium text-primary dark:text-secondary">Trigger</h4>
+                    <div className="w-full lg:w-1/2">
+                      <div className="p-4 md:p-6 lg:p-10 space-y-4 h-auto lg:h-[474px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b before:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
+                        <div className="flex items-center justify-center gap-4 mb-4 lg:mb-6 py-1 -mx-2 -mt-5 bg-accent/20 border border-accent/30 rounded-md">
+                          <h4 className="text-sm md:text-h3 font-medium text-primary dark:text-secondary">Trigger</h4>
                         </div>
                         
-                        <div className="flex gap-4 h-full">
+                        <div className="flex flex-col lg:flex-row gap-2 lg:gap-4 h-full">
                           {/* Meter Reading Trigger Container */}
-                          <div className="w-1/2">
-                            <div className="p-10 h-[380px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 before:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
-                              <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary dark:text-secondary">Meter Reading Trigger</h5>
+                          <div className="w-full lg:w-1/2">
+                            <div className="p-4 md:p-6 lg:p-10 h-auto lg:h-[380px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 before:top-4 before:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
+                              <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-xs md:text-sm font-medium text-primary dark:text-secondary">Meter Reading Trigger</h5>
                               
                               {/* Maintenance Table */}
                               <div className="mt-4 mb-4">
@@ -457,26 +457,26 @@ const EditAsset = () => {
                                   <table className="w-full text-xs">
                                     <thead className="bg-muted">
                                       <tr>
-                                        <th className="px-2 py-1 text-left font-medium">Maint Name</th>
-                                        <th className="px-2 py-1 text-left font-medium">Status</th>
+                                        <th className="px-1 md:px-2 py-1 text-left font-medium text-xs">Maint Name</th>
+                                        <th className="px-1 md:px-2 py-1 text-left font-medium text-xs">Status</th>
                                       </tr>
                                     </thead>
                                     <tbody>
                                       <tr className="border-t border-border">
-                                        <td className="px-2 py-1">Engine Service</td>
-                                        <td className="px-2 py-1">
+                                        <td className="px-1 md:px-2 py-1 text-xs">Engine Service</td>
+                                        <td className="px-1 md:px-2 py-1">
                                           <span className="px-1 py-0.5 text-xs bg-green-100 text-green-800 rounded">Active</span>
                                         </td>
                                       </tr>
                                       <tr className="border-t border-border">
-                                        <td className="px-2 py-1">Oil Change</td>
-                                        <td className="px-2 py-1">
+                                        <td className="px-1 md:px-2 py-1 text-xs">Oil Change</td>
+                                        <td className="px-1 md:px-2 py-1">
                                           <span className="px-1 py-0.5 text-xs bg-yellow-100 text-yellow-800 rounded">Pending</span>
                                         </td>
                                       </tr>
                                       <tr className="border-t border-border">
-                                        <td className="px-2 py-1">Filter Replace</td>
-                                        <td className="px-2 py-1">
+                                        <td className="px-1 md:px-2 py-1 text-xs">Filter Replace</td>
+                                        <td className="px-1 md:px-2 py-1">
                                           <span className="px-1 py-0.5 text-xs bg-blue-100 text-blue-800 rounded">Scheduled</span>
                                         </td>
                                       </tr>
@@ -489,17 +489,17 @@ const EditAsset = () => {
                               <div className="flex-grow min-h-[20px]"></div>
                                   
                               {/* Form fields positioned in lower portion */}
-                              <div className="space-y-0 pb-4 p-4 mb-4 border-2 border-dashed border-primary/30 rounded-xl bg-gradient-to-br from-card/50 to-background/30 shadow-inner backdrop-blur-sm">
+                              <div className="space-y-1 md:space-y-2 pb-2 md:pb-4 p-2 md:p-4 mb-2 md:mb-4 border-2 border-dashed border-primary/30 rounded-xl bg-gradient-to-br from-card/50 to-background/30 shadow-inner backdrop-blur-sm">
                                    {/* Every field */}
-                                   <div className="flex items-baseline gap-2">
-                                     <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Every</label>
-                                    <div className="flex items-center gap-2 flex-grow">
+                                   <div className="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-2">
+                                     <label className="text-xs md:text-caption font-normal text-left w-full md:w-20 text-foreground md:shrink-0 md:pt-1">Every</label>
+                                    <div className="flex items-center gap-1 md:gap-2 w-full md:flex-grow">
                                        <input
                                          type="number"
                                          defaultValue="500"
-                                         className="w-20 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                         className="flex-1 md:w-20 px-2 py-1 pb-0 text-xs md:text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                        />
-                                       <select className="px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 appearance-none cursor-pointer">
+                                       <select className="flex-1 md:flex-grow px-2 py-1 pb-0 text-xs md:text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 appearance-none cursor-pointer">
                                         <option value="hours">Hours</option>
                                         <option value="days">Days</option>
                                         <option value="weeks">Weeks</option>
@@ -512,27 +512,27 @@ const EditAsset = () => {
                                   </div>
                                   
                                    {/* Starting at field */}
-                                   <div className="flex items-baseline gap-2">
-                                     <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Starting at</label>
-                                    <div className="flex-grow">
+                                   <div className="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-2">
+                                     <label className="text-xs md:text-caption font-normal text-left w-full md:w-20 text-foreground md:shrink-0 md:pt-1">Starting at</label>
+                                    <div className="w-full md:flex-grow">
                                        <input
                                          type="number"
                                          defaultValue="250"
-                                         className="w-20 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                         className="w-full md:w-20 px-2 py-1 pb-0 text-xs md:text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                        />
                                     </div>
                                   </div>
                                   
                                    {/* Create WO field */}
-                                   <div className="flex items-baseline gap-2">
-                                     <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Create WO</label>
-                                    <div className="flex items-center gap-2 flex-grow">
+                                   <div className="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-2">
+                                     <label className="text-xs md:text-caption font-normal text-left w-full md:w-20 text-foreground md:shrink-0 md:pt-1">Create WO</label>
+                                    <div className="flex items-center gap-1 md:gap-2 w-full md:flex-grow">
                                        <input
                                          type="number"
                                          defaultValue="50"
-                                         className="w-16 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                         className="w-16 px-2 py-1 pb-0 text-xs md:text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                        />
-                                      <span className="text-sm text-muted-foreground">before trigger</span>
+                                      <span className="text-xs md:text-sm text-muted-foreground">before trigger</span>
                                     </div>
                                   </div>
                               </div>
@@ -540,14 +540,14 @@ const EditAsset = () => {
                               {/* Status Toggle Button - positioned at the bottom */}
                               <div className="flex justify-center pb-0">
                                 <div 
-                                  className={`flex items-center cursor-pointer transition-all duration-300 rounded border w-48 h-8 ${
+                                  className={`flex items-center cursor-pointer transition-all duration-300 rounded border w-32 md:w-48 h-6 md:h-8 ${
                                     isMeterTriggerActive 
                                       ? 'bg-green-500 border-green-600' 
                                       : 'bg-red-500 border-red-600'
                                   }`}
                                   onClick={() => setIsMeterTriggerActive(!isMeterTriggerActive)}
                                 >
-                                  <div className="flex items-center justify-center gap-1 text-sm font-medium text-white w-full">
+                                  <div className="flex items-center justify-center gap-1 text-xs md:text-sm font-medium text-white w-full">
                                     {isMeterTriggerActive ? (
                                       <>
                                         <Check size={12} />
@@ -566,9 +566,9 @@ const EditAsset = () => {
                           </div>
 
                           {/* Time Trigger Container */}
-                          <div className="w-1/2">
-                            <div className="p-10 h-[380px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
-                              <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary dark:text-secondary">Time Trigger</h5>
+                          <div className="w-full lg:w-1/2">
+                            <div className="p-4 md:p-6 lg:p-10 h-auto lg:h-[380px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 before:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
+                              <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-xs md:text-sm font-medium text-primary dark:text-secondary">Time Trigger</h5>
                               
                               {/* Maintenance Table */}
                               <div className="mt-4 mb-4">
@@ -576,26 +576,26 @@ const EditAsset = () => {
                                   <table className="w-full text-xs">
                                     <thead className="bg-muted">
                                       <tr>
-                                        <th className="px-2 py-1 text-left font-medium">Maint Name</th>
-                                        <th className="px-2 py-1 text-left font-medium">Status</th>
+                                        <th className="px-1 md:px-2 py-1 text-left font-medium text-xs">Maint Name</th>
+                                        <th className="px-1 md:px-2 py-1 text-left font-medium text-xs">Status</th>
                                       </tr>
                                     </thead>
                                     <tbody>
                                       <tr className="border-t border-border">
-                                        <td className="px-2 py-1">Hydraulic Check</td>
-                                        <td className="px-2 py-1">
+                                        <td className="px-1 md:px-2 py-1 text-xs">Hydraulic Check</td>
+                                        <td className="px-1 md:px-2 py-1">
                                           <span className="px-1 py-0.5 text-xs bg-green-100 text-green-800 rounded">Complete</span>
                                         </td>
                                       </tr>
                                       <tr className="border-t border-border">
-                                        <td className="px-2 py-1">Brake Service</td>
-                                        <td className="px-2 py-1">
+                                        <td className="px-1 md:px-2 py-1 text-xs">Brake Service</td>
+                                        <td className="px-1 md:px-2 py-1">
                                           <span className="px-1 py-0.5 text-xs bg-red-100 text-red-800 rounded">Overdue</span>
                                         </td>
                                       </tr>
                                       <tr className="border-t border-border">
-                                        <td className="px-2 py-1">Tire Rotation</td>
-                                        <td className="px-2 py-1">
+                                        <td className="px-1 md:px-2 py-1 text-xs">Tire Rotation</td>
+                                        <td className="px-1 md:px-2 py-1">
                                           <span className="px-1 py-0.5 text-xs bg-blue-100 text-blue-800 rounded">Upcoming</span>
                                         </td>
                                       </tr>
@@ -608,12 +608,12 @@ const EditAsset = () => {
                               <div className="flex-grow min-h-[20px]"></div>
                               
                               {/* Form fields positioned in lower portion */}
-                               <div className="space-y-0 pb-4 p-4 mb-4 border-2 border-dashed border-primary/30 rounded-xl bg-gradient-to-br from-card/50 to-background/30 shadow-inner backdrop-blur-sm">
+                               <div className="space-y-1 md:space-y-2 pb-2 md:pb-4 p-2 md:p-4 mb-2 md:mb-4 border-2 border-dashed border-primary/30 rounded-xl bg-gradient-to-br from-card/50 to-background/30 shadow-inner backdrop-blur-sm">
                                  {/* Frequency field */}
-                                 <div className="flex items-baseline gap-2">
-                                   <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Frequency</label>
-                                  <div className="flex-grow">
-                                    <select className="w-full px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 appearance-none cursor-pointer">
+                                 <div className="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-2">
+                                   <label className="text-xs md:text-caption font-normal text-left w-full md:w-20 text-foreground md:shrink-0 md:pt-1">Frequency</label>
+                                  <div className="w-full md:flex-grow">
+                                    <select className="w-full px-2 py-1 pb-0 text-xs md:text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 appearance-none cursor-pointer">
                                       <option value="daily">Daily</option>
                                       <option value="weekly">Weekly</option>
                                       <option value="monthly">Monthly</option>
@@ -624,26 +624,26 @@ const EditAsset = () => {
                                 </div>
                                 
                                  {/* Start Date field */}
-                                 <div className="flex items-baseline gap-2">
-                                   <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Start Date</label>
-                                  <div className="flex-grow">
+                                 <div className="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-2">
+                                   <label className="text-xs md:text-caption font-normal text-left w-full md:w-20 text-foreground md:shrink-0 md:pt-1">Start Date</label>
+                                  <div className="w-full md:flex-grow">
                                      <input
                                        type="date"
-                                       className="w-full px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200"
+                                       className="w-full px-2 py-1 pb-0 text-xs md:text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200"
                                      />
                                   </div>
                                 </div>
                                 
                                  {/* Create WO field */}
-                                 <div className="flex items-baseline gap-2">
-                                   <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Create WO</label>
-                                  <div className="flex items-center gap-2 flex-grow">
+                                 <div className="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-2">
+                                   <label className="text-xs md:text-caption font-normal text-left w-full md:w-20 text-foreground md:shrink-0 md:pt-1">Create WO</label>
+                                  <div className="flex items-center gap-1 md:gap-2 w-full md:flex-grow">
                                      <input
                                        type="number"
                                        defaultValue="1"
-                                       className="w-16 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                       className="w-16 px-2 py-1 pb-0 text-xs md:text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                      />
-                                    <span className="text-sm text-muted-foreground">days before due</span>
+                                    <span className="text-xs md:text-sm text-muted-foreground">days before due</span>
                                   </div>
                                 </div>
                               </div>
@@ -651,14 +651,14 @@ const EditAsset = () => {
                               {/* Status Toggle Button - positioned at the bottom */}
                               <div className="flex justify-center pb-0">
                                 <div 
-                                  className={`flex items-center cursor-pointer transition-all duration-300 rounded border w-48 h-8 ${
+                                  className={`flex items-center cursor-pointer transition-all duration-300 rounded border w-32 md:w-48 h-6 md:h-8 ${
                                     isTimeTriggerActive 
                                       ? 'bg-green-500 border-green-600' 
                                       : 'bg-red-500 border-red-600'
                                   }`}
                                   onClick={() => setIsTimeTriggerActive(!isTimeTriggerActive)}
                                 >
-                                  <div className="flex items-center justify-center gap-1 text-sm font-medium text-white w-full">
+                                  <div className="flex items-center justify-center gap-1 text-xs md:text-sm font-medium text-white w-full">
                                     {isTimeTriggerActive ? (
                                       <>
                                         <Check size={12} />
@@ -680,8 +680,8 @@ const EditAsset = () => {
                     </div>
                     
                     {/* Log Container with Right Arrow */}
-                    <div className="w-full md:w-1/2 pl-3">
-                      <div className="p-10 space-y-4 h-[474px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
+                    <div className="w-full lg:w-1/2 pl-0 lg:pl-3">
+                      <div className="p-4 md:p-6 lg:p-10 space-y-4 h-auto lg:h-[474px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
                         {/* Right Arrow Navigation */}
                         <button
                           onClick={() => handleViewChange(1)}
