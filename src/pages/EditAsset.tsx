@@ -458,28 +458,24 @@ const EditAsset = () => {
                                     <thead className="bg-muted">
                                       <tr>
                                         <th className="px-2 py-1 text-left font-medium">Maint Name</th>
-                                        <th className="px-2 py-1 text-left font-medium">Type</th>
                                         <th className="px-2 py-1 text-left font-medium">Status</th>
                                       </tr>
                                     </thead>
                                     <tbody>
                                       <tr className="border-t border-border">
                                         <td className="px-2 py-1">Engine Service</td>
-                                        <td className="px-2 py-1">Preventive</td>
                                         <td className="px-2 py-1">
                                           <span className="px-1 py-0.5 text-xs bg-green-100 text-green-800 rounded">Active</span>
                                         </td>
                                       </tr>
                                       <tr className="border-t border-border">
                                         <td className="px-2 py-1">Oil Change</td>
-                                        <td className="px-2 py-1">Routine</td>
                                         <td className="px-2 py-1">
                                           <span className="px-1 py-0.5 text-xs bg-yellow-100 text-yellow-800 rounded">Pending</span>
                                         </td>
                                       </tr>
                                       <tr className="border-t border-border">
                                         <td className="px-2 py-1">Filter Replace</td>
-                                        <td className="px-2 py-1">Preventive</td>
                                         <td className="px-2 py-1">
                                           <span className="px-1 py-0.5 text-xs bg-blue-100 text-blue-800 rounded">Scheduled</span>
                                         </td>
@@ -581,28 +577,24 @@ const EditAsset = () => {
                                     <thead className="bg-muted">
                                       <tr>
                                         <th className="px-2 py-1 text-left font-medium">Maint Name</th>
-                                        <th className="px-2 py-1 text-left font-medium">Type</th>
                                         <th className="px-2 py-1 text-left font-medium">Status</th>
                                       </tr>
                                     </thead>
                                     <tbody>
                                       <tr className="border-t border-border">
                                         <td className="px-2 py-1">Hydraulic Check</td>
-                                        <td className="px-2 py-1">Inspection</td>
                                         <td className="px-2 py-1">
                                           <span className="px-1 py-0.5 text-xs bg-green-100 text-green-800 rounded">Complete</span>
                                         </td>
                                       </tr>
                                       <tr className="border-t border-border">
                                         <td className="px-2 py-1">Brake Service</td>
-                                        <td className="px-2 py-1">Safety</td>
                                         <td className="px-2 py-1">
                                           <span className="px-1 py-0.5 text-xs bg-red-100 text-red-800 rounded">Overdue</span>
                                         </td>
                                       </tr>
                                       <tr className="border-t border-border">
                                         <td className="px-2 py-1">Tire Rotation</td>
-                                        <td className="px-2 py-1">Routine</td>
                                         <td className="px-2 py-1">
                                           <span className="px-1 py-0.5 text-xs bg-blue-100 text-blue-800 rounded">Upcoming</span>
                                         </td>
