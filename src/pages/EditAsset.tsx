@@ -461,7 +461,7 @@ const EditAsset = () => {
                                           defaultValue="500"
                                           className="w-20 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b-2 border-primary focus:outline-none focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
-                                       <select className="px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 appearance-none cursor-pointer">
+                                       <select className="px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b-2 border-primary focus:outline-none focus:border-primary transition-all duration-200 appearance-none cursor-pointer">
                                         <option value="hours">Hours</option>
                                         <option value="days">Days</option>
                                         <option value="weeks">Weeks</option>
@@ -477,11 +477,11 @@ const EditAsset = () => {
                                    <div className="flex items-baseline gap-2">
                                      <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Starting at</label>
                                     <div className="flex-grow">
-                                       <input
-                                         type="number"
-                                         defaultValue="250"
-                                         className="w-20 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                       />
+                                        <input
+                                          type="number"
+                                          defaultValue="250"
+                                          className="w-20 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b-2 border-primary focus:outline-none focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        />
                                     </div>
                                   </div>
                                   
@@ -489,11 +489,11 @@ const EditAsset = () => {
                                    <div className="flex items-baseline gap-2">
                                      <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Create WO</label>
                                     <div className="flex items-center gap-2 flex-grow">
-                                       <input
-                                         type="number"
-                                         defaultValue="50"
-                                         className="w-16 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                       />
+                                        <input
+                                          type="number"
+                                          defaultValue="50"
+                                          className="w-16 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b-2 border-primary focus:outline-none focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        />
                                       <span className="text-sm text-muted-foreground">before trigger</span>
                                     </div>
                                   </div>
@@ -537,7 +537,7 @@ const EditAsset = () => {
                                  <div className="flex items-baseline gap-2">
                                    <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Frequency</label>
                                   <div className="flex-grow">
-                                    <select className="w-full px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 appearance-none cursor-pointer">
+                                    <select className="w-full px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b-2 border-primary focus:outline-none focus:border-primary transition-all duration-200 appearance-none cursor-pointer">
                                       <option value="daily">Daily</option>
                                       <option value="weekly">Weekly</option>
                                       <option value="monthly">Monthly</option>
@@ -551,10 +551,10 @@ const EditAsset = () => {
                                  <div className="flex items-baseline gap-2">
                                    <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Start Date</label>
                                   <div className="flex-grow">
-                                     <input
-                                       type="date"
-                                       className="w-full px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200"
-                                     />
+                                      <input
+                                        type="date"
+                                        className="w-full px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b-2 border-primary focus:outline-none focus:border-primary transition-all duration-200"
+                                      />
                                   </div>
                                 </div>
                                 
@@ -562,11 +562,11 @@ const EditAsset = () => {
                                  <div className="flex items-baseline gap-2">
                                    <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Create WO</label>
                                   <div className="flex items-center gap-2 flex-grow">
-                                     <input
-                                       type="number"
-                                       defaultValue="1"
-                                       className="w-16 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                     />
+                                      <input
+                                        type="number"
+                                        defaultValue="1"
+                                        className="w-16 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b-2 border-primary focus:outline-none focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                      />
                                     <span className="text-sm text-muted-foreground">days before due</span>
                                   </div>
                                 </div>
