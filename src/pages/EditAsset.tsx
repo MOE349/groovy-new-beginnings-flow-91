@@ -605,42 +605,42 @@ const EditAsset = () => {
                               {/* Spacer to push content down but not to the very bottom */}
                               <div className="flex-grow min-h-[20px]"></div>
                               
-                              {/* Form fields positioned in lower portion */}
-                               <div className="grid gap-2 md:gap-3 p-3 md:p-4 border-2 border-dashed border-primary/30 rounded-xl bg-gradient-to-br from-card/50 to-background/30 shadow-inner backdrop-blur-sm">
-                                 {/* Frequency field */}
-                                 <div className="grid grid-cols-1 md:grid-cols-[80px_1fr] gap-2 items-center">
-                                   <label className="text-xs md:text-sm font-normal text-foreground">Frequency</label>
-                                   <select className="w-full px-2 py-1 text-xs md:text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 appearance-none cursor-pointer">
-                                     <option value="daily">Daily</option>
-                                     <option value="weekly">Weekly</option>
-                                     <option value="monthly">Monthly</option>
-                                     <option value="quarterly">Quarterly</option>
-                                     <option value="annually">Annually</option>
-                                   </select>
-                                 </div>
-                                
-                                 {/* Start Date field */}
-                                 <div className="grid grid-cols-1 md:grid-cols-[80px_1fr] gap-2 items-center">
-                                   <label className="text-xs md:text-sm font-normal text-foreground">Start Date</label>
-                                   <input
-                                     type="date"
-                                     className="w-full px-2 py-1 text-xs md:text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200"
-                                   />
-                                 </div>
-                                
-                                 {/* Create WO field */}
-                                 <div className="grid grid-cols-1 md:grid-cols-[80px_1fr] gap-2 items-center">
-                                   <label className="text-xs md:text-sm font-normal text-foreground">Create WO</label>
-                                   <div className="flex items-center gap-2">
-                                     <input
-                                       type="number"
-                                       defaultValue="1"
-                                       className="w-16 px-2 py-1 text-xs md:text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                     />
-                                     <span className="text-xs md:text-sm text-muted-foreground whitespace-nowrap">days before due</span>
-                                   </div>
-                                 </div>
-                              </div>
+                               {/* Form fields positioned in lower portion */}
+                                <div className="grid gap-1 sm:gap-2 md:gap-3 p-2 sm:p-3 md:p-4 border-2 border-dashed border-primary/30 rounded-xl bg-gradient-to-br from-card/50 to-background/30 shadow-inner backdrop-blur-sm min-w-0">
+                                  {/* Frequency field */}
+                                  <div className="grid grid-cols-[60px_1fr] sm:grid-cols-[70px_1fr] md:grid-cols-[80px_1fr] gap-1 sm:gap-2 items-center">
+                                    <label className="text-xs sm:text-sm font-normal text-foreground">Frequency</label>
+                                    <select className="w-full min-w-0 px-2 py-1 text-xs sm:text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 appearance-none cursor-pointer">
+                                      <option value="daily">Daily</option>
+                                      <option value="weekly">Weekly</option>
+                                      <option value="monthly">Monthly</option>
+                                      <option value="quarterly">Quarterly</option>
+                                      <option value="annually">Annually</option>
+                                    </select>
+                                  </div>
+                                 
+                                  {/* Start Date field */}
+                                  <div className="grid grid-cols-[60px_1fr] sm:grid-cols-[70px_1fr] md:grid-cols-[80px_1fr] gap-1 sm:gap-2 items-center">
+                                    <label className="text-xs sm:text-sm font-normal text-foreground">Start Date</label>
+                                    <input
+                                      type="date"
+                                      className="w-full min-w-0 px-2 py-1 text-xs sm:text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200"
+                                    />
+                                  </div>
+                                 
+                                  {/* Create WO field */}
+                                  <div className="grid grid-cols-[60px_1fr] sm:grid-cols-[70px_1fr] md:grid-cols-[80px_1fr] gap-1 sm:gap-2 items-center">
+                                    <label className="text-xs sm:text-sm font-normal text-foreground">Create WO</label>
+                                    <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
+                                      <input
+                                        type="number"
+                                        defaultValue="1"
+                                        className="w-12 sm:w-14 md:w-16 px-2 py-1 text-xs sm:text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                      />
+                                      <span className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap">days before due</span>
+                                    </div>
+                                  </div>
+                               </div>
                               
                               {/* Status Toggle Button - positioned at the bottom */}
                               <div className="flex justify-center pb-0">
