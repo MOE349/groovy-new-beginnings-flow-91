@@ -452,15 +452,15 @@ const EditAsset = () => {
                               <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary dark:text-secondary">Meter Reading Trigger</h5>
                               
                                <div className="space-y-3 pt-8 flex-grow">
-                                  {/* Row 1: Every field with number input and dropdown */}
+                                  {/* Row 1: Every field with systematic layout */}
                                   <div className="flex items-center gap-2 h-10">
-                                    <label className="text-caption font-normal text-foreground w-16">Every</label>
+                                    <label className="text-caption font-normal text-foreground w-20 text-right">Every</label>
                                     <input
                                       type="number"
                                       defaultValue="500"
-                                      className="w-32 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
+                                      className="flex-grow px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
                                     />
-                                    <select className="w-36 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background">
+                                    <select className="flex-grow px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background">
                                       <option value="hours">Hours</option>
                                       <option value="days">Days</option>
                                       <option value="weeks">Weeks</option>
@@ -471,28 +471,23 @@ const EditAsset = () => {
                                     </select>
                                   </div>
                                  
-                                 {/* Row 2: Starting at, Create WO, and "before trigger" text horizontally */}
-                                 <div className="flex items-center gap-4 h-10">
-                                   <div className="flex items-center gap-2">
-                                     <label className="text-caption font-normal text-foreground">Starting at</label>
-                                     <input
-                                       type="number"
-                                       defaultValue="250"
-                                       className="w-16 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
-                                     />
-                                   </div>
-                                   
-                                   <div className="flex items-center gap-2">
-                                     <label className="text-caption font-normal text-foreground">Create WO</label>
-                                     <input
-                                       type="number"
-                                       defaultValue="50"
-                                       className="w-16 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
-                                     />
-                                     <span className="text-sm text-muted-foreground">before trigger</span>
-                                   </div>
-                                 </div>
-                               </div>
+                                 {/* Row 2: Starting at and Create WO with systematic layout */}
+                                 <div className="flex items-center gap-2 h-10">
+                                   <label className="text-caption font-normal text-foreground w-20 text-right">Starting at</label>
+                                   <input
+                                     type="number"
+                                     defaultValue="250"
+                                     className="flex-grow px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
+                                   />
+                                   <label className="text-caption font-normal text-foreground w-20 text-right">Create WO</label>
+                                    <input
+                                      type="number"
+                                      defaultValue="50"
+                                      className="flex-grow px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
+                                    />
+                                    <span className="text-caption font-normal text-foreground w-24">before trigger</span>
+                                  </div>
+                                </div>
                               
                               {/* Status Toggle Button - now positioned at the bottom */}
                               <div className="flex justify-center pb-0">
