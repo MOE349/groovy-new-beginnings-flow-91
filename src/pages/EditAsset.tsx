@@ -613,7 +613,7 @@ const EditAsset = () => {
                                  <div className="flex items-baseline gap-2">
                                    <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Frequency</label>
                                   <div className="flex-grow">
-                                    <select className="w-full px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 appearance-none cursor-pointer">
+                                    <select className="w-24 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 appearance-none cursor-pointer">
                                       <option value="daily">Daily</option>
                                       <option value="weekly">Weekly</option>
                                       <option value="monthly">Monthly</option>
