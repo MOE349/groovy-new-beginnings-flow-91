@@ -459,7 +459,7 @@ const EditAsset = () => {
                                     <input
                                       type="number"
                                       defaultValue="500"
-                                      className="w-24 min-w-0 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
+                                      className="w-full min-w-0 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
                                     />
                                     <select className="w-auto min-w-[80px] px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background">
                                       <option value="hours">Hours</option>
