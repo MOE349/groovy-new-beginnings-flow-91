@@ -452,9 +452,9 @@ const EditAsset = () => {
                               <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary dark:text-secondary">Meter Reading Trigger</h5>
                               
                                  <div className="space-y-1 pt-8 flex-grow">
-                                  {/* Every field */}
-                                  <div className="flex items-center gap-2 h-10">
-                                    <label className="text-caption font-normal text-right w-20 text-foreground shrink-0">Every</label>
+                                   {/* Every field */}
+                                   <div className="flex items-baseline gap-2 h-10">
+                                     <label className="text-caption font-normal text-right w-20 text-foreground shrink-0">Every</label>
                                     <div className="flex items-center gap-2 flex-grow">
                                        <input
                                          type="number"
@@ -473,9 +473,9 @@ const EditAsset = () => {
                                     </div>
                                   </div>
                                   
-                                  {/* Starting at field */}
-                                  <div className="flex items-center gap-2 h-10">
-                                    <label className="text-caption font-normal text-right w-20 text-foreground shrink-0">Starting at</label>
+                                   {/* Starting at field */}
+                                   <div className="flex items-baseline gap-2 h-10">
+                                     <label className="text-caption font-normal text-right w-20 text-foreground shrink-0">Starting at</label>
                                     <div className="flex-grow">
                                        <input
                                          type="number"
@@ -485,9 +485,9 @@ const EditAsset = () => {
                                     </div>
                                   </div>
                                   
-                                  {/* Create WO field */}
-                                  <div className="flex items-center gap-2 h-10">
-                                    <label className="text-caption font-normal text-right w-20 text-foreground shrink-0">Create WO</label>
+                                   {/* Create WO field */}
+                                   <div className="flex items-baseline gap-2 h-10">
+                                     <label className="text-caption font-normal text-right w-20 text-foreground shrink-0">Create WO</label>
                                     <div className="flex items-center gap-2 flex-grow">
                                        <input
                                          type="number"
