@@ -67,9 +67,6 @@ export function Layout({ children }: LayoutProps) {
           <main className="flex-1 p-0.5">
             {children}
           </main>
-          
-          <footer className="h-6 flex items-center justify-between border-t bg-primary text-primary-foreground px-3">
-          </footer>
         </div>
       </div>
     </SidebarProvider>
