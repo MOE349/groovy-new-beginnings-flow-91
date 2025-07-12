@@ -448,20 +448,20 @@ const EditAsset = () => {
                         <div className="flex gap-4 h-full">
                           {/* Meter Reading Trigger Container */}
                           <div className="w-1/2">
-                            <div className="p-10 h-[380px] relative border-2 border-border rounded-lg bg-card flex flex-col">
-                              <h5 className="text-sm font-medium text-foreground mb-4">Meter Reading Trigger</h5>
+                            <div className="p-10 h-[380px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 before:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
+                              <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary dark:text-secondary">Meter Reading Trigger</h5>
                               
                                   <div className="space-y-0 pt-1 flex-grow">
                                    {/* Every field */}
                                    <div className="flex items-baseline gap-2">
                                      <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Every</label>
                                     <div className="flex items-center gap-2 flex-grow">
-                                       <input
-                                         type="number"
-                                         defaultValue="500"
-                                         className="w-20 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                       />
-                                       <select className="px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 appearance-none cursor-pointer">
+                                        <input
+                                          type="number"
+                                          defaultValue="500"
+                                          className="w-20 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b-2 border-primary focus:outline-none focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        />
+                                       <select className="px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b-2 border-primary focus:outline-none focus:border-primary transition-all duration-200 appearance-none cursor-pointer">
                                         <option value="hours">Hours</option>
                                         <option value="days">Days</option>
                                         <option value="weeks">Weeks</option>
@@ -477,11 +477,11 @@ const EditAsset = () => {
                                    <div className="flex items-baseline gap-2">
                                      <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Starting at</label>
                                     <div className="flex-grow">
-                                       <input
-                                         type="number"
-                                         defaultValue="250"
-                                         className="w-20 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                       />
+                                        <input
+                                          type="number"
+                                          defaultValue="250"
+                                          className="w-20 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b-2 border-primary focus:outline-none focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        />
                                     </div>
                                   </div>
                                   
@@ -489,11 +489,11 @@ const EditAsset = () => {
                                    <div className="flex items-baseline gap-2">
                                      <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Create WO</label>
                                     <div className="flex items-center gap-2 flex-grow">
-                                       <input
-                                         type="number"
-                                         defaultValue="50"
-                                         className="w-16 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                       />
+                                        <input
+                                          type="number"
+                                          defaultValue="50"
+                                          className="w-16 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b-2 border-primary focus:outline-none focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        />
                                       <span className="text-sm text-muted-foreground">before trigger</span>
                                     </div>
                                   </div>
@@ -529,15 +529,15 @@ const EditAsset = () => {
 
                           {/* Time Trigger Container */}
                           <div className="w-1/2">
-                            <div className="p-10 h-[380px] relative border-2 border-border rounded-lg bg-card flex flex-col">
-                              <h5 className="text-sm font-medium text-foreground mb-4">Time Trigger</h5>
+                            <div className="p-10 h-[380px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
+                              <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary dark:text-secondary">Time Trigger</h5>
                               
                               <div className="space-y-0 pt-1 flex-grow">
                                  {/* Frequency field */}
                                  <div className="flex items-baseline gap-2">
                                    <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Frequency</label>
                                   <div className="flex-grow">
-                                    <select className="w-full px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 appearance-none cursor-pointer">
+                                    <select className="w-full px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b-2 border-primary focus:outline-none focus:border-primary transition-all duration-200 appearance-none cursor-pointer">
                                       <option value="daily">Daily</option>
                                       <option value="weekly">Weekly</option>
                                       <option value="monthly">Monthly</option>
@@ -551,10 +551,10 @@ const EditAsset = () => {
                                  <div className="flex items-baseline gap-2">
                                    <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Start Date</label>
                                   <div className="flex-grow">
-                                     <input
-                                       type="date"
-                                       className="w-full px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200"
-                                     />
+                                      <input
+                                        type="date"
+                                        className="w-full px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b-2 border-primary focus:outline-none focus:border-primary transition-all duration-200"
+                                      />
                                   </div>
                                 </div>
                                 
@@ -562,11 +562,11 @@ const EditAsset = () => {
                                  <div className="flex items-baseline gap-2">
                                    <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Create WO</label>
                                   <div className="flex items-center gap-2 flex-grow">
-                                     <input
-                                       type="number"
-                                       defaultValue="1"
-                                       className="w-16 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                     />
+                                      <input
+                                        type="number"
+                                        defaultValue="1"
+                                        className="w-16 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b-2 border-primary focus:outline-none focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                      />
                                     <span className="text-sm text-muted-foreground">days before due</span>
                                   </div>
                                 </div>
