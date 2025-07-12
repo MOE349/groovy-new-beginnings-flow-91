@@ -46,8 +46,15 @@ export const workOrderFields: FormField[] = [
   {
     name: "suggested_start_date",
     type: "datepicker",
-    label: "Suggested Start Date",
+    label: "Starting At",
     required: false,
+  },
+  {
+    name: "create_wo",
+    type: "input",
+    label: "Create WO",
+    required: false,
+    inputType: "text",
   },
   {
     name: "completion_end_date",

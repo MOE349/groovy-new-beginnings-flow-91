@@ -30,6 +30,7 @@ export interface FormFieldConfig {
   optionValueKey?: string;
   optionLabelKey?: string;
   options?: Array<{ id: string; name: string }>;
+  customRightText?: string;
 }
 
 interface FormLayoutProps {
@@ -178,8 +179,13 @@ const FormLayout = ({
                     {column.fields.map((field) => (
                       <div key={field.name} className="flex items-start gap-2 h-10">
                         <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">{field.label}</label>
-                        <div className="flex-grow">
+                        <div className="flex-grow flex items-center gap-2">
                           {renderField({ ...field, label: "" })}
+                          {field.customRightText && (
+                            <span className="text-caption text-muted-foreground whitespace-nowrap">
+                              {field.customRightText}
+                            </span>
+                          )}
                         </div>
                       </div>
                     ))}
