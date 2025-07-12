@@ -540,7 +540,7 @@ const EditAsset = () => {
                               <div className="flex-grow min-h-[100px]"></div>
                               
                               {/* Form fields positioned in lower portion */}
-                              <div className="space-y-0 pb-8">
+                               <div className="space-y-0 pb-8 p-4 border-2 border-dashed border-primary/30 rounded-xl bg-gradient-to-br from-card/50 to-background/30 shadow-inner backdrop-blur-sm">
                                  {/* Frequency field */}
                                  <div className="flex items-baseline gap-2">
                                    <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Frequency</label>
