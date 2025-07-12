@@ -459,10 +459,9 @@ const EditAsset = () => {
                                      <input
                                        type="number"
                                        defaultValue="500"
-                                       className="w-20 px-2 py-1 text-sm bg-transparent border-0 border-b border-muted-foreground/30 focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 data-[filled=true]:bg-muted-foreground/5 data-[filled=true]:shadow-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                       data-filled={true}
+                                       className="w-20 px-2 py-1 text-sm bg-transparent border-0 border-b border-muted-foreground/30 focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                      />
-                                     <select className="px-2 py-1 text-sm bg-transparent border-0 border-b border-muted-foreground/30 focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 appearance-none cursor-pointer data-[filled=true]:bg-muted-foreground/5 data-[filled=true]:shadow-sm" data-filled={true}>
+                                     <select className="px-2 py-1 text-sm bg-transparent border-0 border-b border-muted-foreground/30 focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 appearance-none cursor-pointer">
                                        <option value="hours">Hours</option>
                                        <option value="days">Days</option>
                                        <option value="weeks">Weeks</option>
@@ -481,8 +480,7 @@ const EditAsset = () => {
                                      <input
                                        type="number"
                                        defaultValue="250"
-                                       className="w-20 px-2 py-1 text-sm bg-transparent border-0 border-b border-muted-foreground/30 focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 data-[filled=true]:bg-muted-foreground/5 data-[filled=true]:shadow-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                       data-filled={true}
+                                       className="w-20 px-2 py-1 text-sm bg-transparent border-0 border-b border-muted-foreground/30 focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                      />
                                    </div>
                                  </div>
@@ -494,8 +492,7 @@ const EditAsset = () => {
                                      <input
                                        type="number"
                                        defaultValue="50"
-                                       className="w-16 px-2 py-1 text-sm bg-transparent border-0 border-b border-muted-foreground/30 focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 data-[filled=true]:bg-muted-foreground/5 data-[filled=true]:shadow-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                       data-filled={true}
+                                       className="w-16 px-2 py-1 text-sm bg-transparent border-0 border-b border-muted-foreground/30 focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                      />
                                      <span className="text-sm text-muted-foreground">before trigger</span>
                                    </div>
