@@ -455,13 +455,13 @@ const EditAsset = () => {
                                 {/* Every field */}
                                 <div className="flex items-start gap-2 h-10">
                                   <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">Every</label>
-                                  <div className="flex items-center gap-2 flex-grow">
+                                  <div className="grid grid-cols-[1fr_auto] gap-2 w-full">
                                     <input
                                       type="number"
                                       defaultValue="500"
-                                      className="w-20 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
+                                      className="w-full min-w-0 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
                                     />
-                                    <select className="min-w-0 flex-1 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background">
+                                    <select className="w-auto min-w-[80px] px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background">
                                       <option value="hours">Hours</option>
                                       <option value="days">Days</option>
                                       <option value="weeks">Weeks</option>
