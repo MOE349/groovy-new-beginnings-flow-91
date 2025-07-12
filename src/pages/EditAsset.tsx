@@ -452,7 +452,7 @@ const EditAsset = () => {
                               <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary dark:text-secondary">Meter Reading Trigger</h5>
                               
                               {/* Maintenance Table */}
-                              <div className="mb-4">
+                              <div className="mt-4 mb-4">
                                 <div className="border border-border rounded-md overflow-hidden">
                                   <table className="w-full text-xs">
                                     <thead className="bg-muted">
@@ -575,7 +575,7 @@ const EditAsset = () => {
                               <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary dark:text-secondary">Time Trigger</h5>
                               
                               {/* Maintenance Table */}
-                              <div className="mb-4">
+                              <div className="mt-4 mb-4">
                                 <div className="border border-border rounded-md overflow-hidden">
                                   <table className="w-full text-xs">
                                     <thead className="bg-muted">
