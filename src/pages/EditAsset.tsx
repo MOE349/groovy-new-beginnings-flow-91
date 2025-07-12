@@ -629,7 +629,7 @@ const EditAsset = () => {
                                   <div className="flex-grow">
                                      <input
                                        type="date"
-                                       className="w-32 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200"
+                                       className="w-24 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200"
                                      />
                                   </div>
                                 </div>
