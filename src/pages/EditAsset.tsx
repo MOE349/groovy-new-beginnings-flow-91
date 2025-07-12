@@ -452,24 +452,24 @@ const EditAsset = () => {
                               <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary dark:text-secondary">Meter Reading Trigger</h5>
                               
                                <div className="space-y-3 pt-8 flex-grow">
-                                 {/* Row 1: Every field with number input and dropdown */}
-                                 <div className="flex items-center gap-2 h-10">
-                                   <label className="text-caption font-normal text-foreground w-16">Every</label>
-                                   <input
-                                     type="number"
-                                     defaultValue="500"
-                                     className="w-20 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
-                                   />
-                                   <select className="w-24 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background">
-                                     <option value="hours">Hours</option>
-                                     <option value="days">Days</option>
-                                     <option value="weeks">Weeks</option>
-                                     <option value="months">Months</option>
-                                     <option value="years">Years</option>
-                                     <option value="miles">Miles</option>
-                                     <option value="kilometers">Kilometers</option>
-                                   </select>
-                                 </div>
+                                  {/* Row 1: Every field with number input and dropdown */}
+                                  <div className="flex items-center gap-2 h-10">
+                                    <label className="text-caption font-normal text-foreground w-16">Every</label>
+                                    <input
+                                      type="number"
+                                      defaultValue="500"
+                                      className="w-32 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
+                                    />
+                                    <select className="w-36 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background">
+                                      <option value="hours">Hours</option>
+                                      <option value="days">Days</option>
+                                      <option value="weeks">Weeks</option>
+                                      <option value="months">Months</option>
+                                      <option value="years">Years</option>
+                                      <option value="miles">Miles</option>
+                                      <option value="kilometers">Kilometers</option>
+                                    </select>
+                                  </div>
                                  
                                  {/* Row 2: Starting at, Create WO, and "before trigger" text horizontally */}
                                  <div className="flex items-center gap-4 h-10">
