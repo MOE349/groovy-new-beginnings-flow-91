@@ -448,8 +448,8 @@ const EditAsset = () => {
                         <div className="flex gap-4 h-full">
                           {/* Meter Reading Trigger Container */}
                           <div className="w-1/2">
-                            <div className="p-10 h-[380px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 before:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
-                              <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary dark:text-secondary">Meter Reading Trigger</h5>
+                            <div className="p-10 h-[380px] relative border-2 border-dashed border-primary/30 rounded-xl shadow-lg bg-gradient-to-br from-card via-background to-card/50 backdrop-blur-sm hover:border-primary/50 transition-all duration-300 flex flex-col">
+                              <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary bg-background px-3 py-1 rounded-full border border-primary/20">Meter Reading Trigger</h5>
                               
                               {/* Spacer to push content down but not to the very bottom */}
                               <div className="flex-grow min-h-[100px]"></div>
@@ -533,8 +533,8 @@ const EditAsset = () => {
 
                           {/* Time Trigger Container */}
                           <div className="w-1/2">
-                            <div className="p-10 h-[380px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
-                              <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary dark:text-secondary">Time Trigger</h5>
+                            <div className="p-10 h-[380px] relative border-2 border-dashed border-primary/30 rounded-xl shadow-lg bg-gradient-to-br from-card via-background to-card/50 backdrop-blur-sm hover:border-primary/50 transition-all duration-300 flex flex-col">
+                              <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary bg-background px-3 py-1 rounded-full border border-primary/20">Time Trigger</h5>
                               
                               {/* Spacer to push content down but not to the very bottom */}
                               <div className="flex-grow min-h-[100px]"></div>
