@@ -728,7 +728,7 @@ const EditAsset = () => {
                            </div>
 
                            {/* Work Orders Table */}
-                           <div className="space-y-2 mt-6">
+                           <div className="space-y-2 mt-8">
                              <h6 className="text-sm font-medium text-foreground">Work Orders</h6>
                              <div className="border border-border rounded-md overflow-hidden">
                                <table className="w-full text-sm">
