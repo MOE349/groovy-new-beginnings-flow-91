@@ -451,8 +451,46 @@ const EditAsset = () => {
                             <div className="p-10 h-[380px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 before:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
                               <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary dark:text-secondary">Meter Reading Trigger</h5>
                               
+                              {/* Maintenance Table */}
+                              <div className="mb-4">
+                                <div className="border border-border rounded-md overflow-hidden">
+                                  <table className="w-full text-sm">
+                                    <thead className="bg-muted">
+                                      <tr>
+                                        <th className="px-3 py-2 text-left font-medium">Maint Name</th>
+                                        <th className="px-3 py-2 text-left font-medium">Type</th>
+                                        <th className="px-3 py-2 text-left font-medium">Status</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr className="border-t border-border">
+                                        <td className="px-3 py-2">Engine Service</td>
+                                        <td className="px-3 py-2">Preventive</td>
+                                        <td className="px-3 py-2">
+                                          <span className="px-1.5 py-0.5 text-xs bg-green-100 text-green-800 rounded">Active</span>
+                                        </td>
+                                      </tr>
+                                      <tr className="border-t border-border">
+                                        <td className="px-3 py-2">Oil Change</td>
+                                        <td className="px-3 py-2">Routine</td>
+                                        <td className="px-3 py-2">
+                                          <span className="px-1.5 py-0.5 text-xs bg-yellow-100 text-yellow-800 rounded">Pending</span>
+                                        </td>
+                                      </tr>
+                                      <tr className="border-t border-border">
+                                        <td className="px-3 py-2">Filter Replace</td>
+                                        <td className="px-3 py-2">Preventive</td>
+                                        <td className="px-3 py-2">
+                                          <span className="px-1.5 py-0.5 text-xs bg-blue-100 text-blue-800 rounded">Scheduled</span>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+
                               {/* Spacer to push content down but not to the very bottom */}
-                              <div className="flex-grow min-h-[100px]"></div>
+                              <div className="flex-grow min-h-[50px]"></div>
                                   
                               {/* Form fields positioned in lower portion */}
                               <div className="space-y-0 pb-4 p-4 mb-4 border-2 border-dashed border-primary/30 rounded-xl bg-gradient-to-br from-card/50 to-background/30 shadow-inner backdrop-blur-sm">
@@ -536,8 +574,46 @@ const EditAsset = () => {
                             <div className="p-10 h-[380px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
                               <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary dark:text-secondary">Time Trigger</h5>
                               
+                              {/* Maintenance Table */}
+                              <div className="mb-4">
+                                <div className="border border-border rounded-md overflow-hidden">
+                                  <table className="w-full text-sm">
+                                    <thead className="bg-muted">
+                                      <tr>
+                                        <th className="px-3 py-2 text-left font-medium">Maint Name</th>
+                                        <th className="px-3 py-2 text-left font-medium">Type</th>
+                                        <th className="px-3 py-2 text-left font-medium">Status</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr className="border-t border-border">
+                                        <td className="px-3 py-2">Hydraulic Check</td>
+                                        <td className="px-3 py-2">Inspection</td>
+                                        <td className="px-3 py-2">
+                                          <span className="px-1.5 py-0.5 text-xs bg-green-100 text-green-800 rounded">Complete</span>
+                                        </td>
+                                      </tr>
+                                      <tr className="border-t border-border">
+                                        <td className="px-3 py-2">Brake Service</td>
+                                        <td className="px-3 py-2">Safety</td>
+                                        <td className="px-3 py-2">
+                                          <span className="px-1.5 py-0.5 text-xs bg-red-100 text-red-800 rounded">Overdue</span>
+                                        </td>
+                                      </tr>
+                                      <tr className="border-t border-border">
+                                        <td className="px-3 py-2">Tire Rotation</td>
+                                        <td className="px-3 py-2">Routine</td>
+                                        <td className="px-3 py-2">
+                                          <span className="px-1.5 py-0.5 text-xs bg-blue-100 text-blue-800 rounded">Upcoming</span>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+
                               {/* Spacer to push content down but not to the very bottom */}
-                              <div className="flex-grow min-h-[100px]"></div>
+                              <div className="flex-grow min-h-[50px]"></div>
                               
                               {/* Form fields positioned in lower portion */}
                                <div className="space-y-0 pb-4 p-4 mb-4 border-2 border-dashed border-primary/30 rounded-xl bg-gradient-to-br from-card/50 to-background/30 shadow-inner backdrop-blur-sm">
