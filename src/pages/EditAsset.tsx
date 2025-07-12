@@ -453,7 +453,7 @@ const EditAsset = () => {
                               
                                   <div className="space-y-0 pt-8 flex-grow">
                                    {/* Every field */}
-                                   <div className="flex items-baseline gap-2 h-10">
+                                   <div className="flex items-baseline gap-2">
                                      <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Every</label>
                                     <div className="flex items-center gap-2 flex-grow">
                                        <input
