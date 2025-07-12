@@ -451,52 +451,52 @@ const EditAsset = () => {
                             <div className="p-10 h-[380px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 before:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
                               <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary dark:text-secondary">Meter Reading Trigger</h5>
                               
-                                <div className="space-y-1 pt-8 flex-grow">
-                                 {/* Every field */}
-                                 <div className="flex items-start gap-2 h-10">
-                                   <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">Every</label>
-                                   <div className="flex items-center gap-2 flex-grow">
-                                      <input
-                                        type="number"
-                                        defaultValue="500"
-                                        className="w-20 px-2 py-1 pb-0 mt-2 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                      />
-                                      <select className="px-2 py-1 pb-0 mt-2 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 appearance-none cursor-pointer">
-                                       <option value="hours">Hours</option>
-                                       <option value="days">Days</option>
-                                       <option value="weeks">Weeks</option>
-                                       <option value="months">Months</option>
-                                       <option value="years">Years</option>
-                                       <option value="miles">Miles</option>
-                                       <option value="kilometers">Kilometers</option>
-                                     </select>
-                                   </div>
-                                 </div>
-                                 
-                                 {/* Starting at field */}
-                                 <div className="flex items-start gap-2 h-10">
-                                   <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">Starting at</label>
-                                   <div className="flex-grow">
-                                      <input
-                                        type="number"
-                                        defaultValue="250"
-                                        className="w-20 px-2 py-1 pb-0 mt-2 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                      />
-                                   </div>
-                                 </div>
-                                 
-                                 {/* Create WO field */}
-                                 <div className="flex items-start gap-2 h-10">
-                                   <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">Create WO</label>
-                                   <div className="flex items-center gap-2 flex-grow">
-                                      <input
-                                        type="number"
-                                        defaultValue="50"
-                                        className="w-16 px-2 py-1 pb-0 mt-2 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                      />
-                                     <span className="text-sm text-muted-foreground">before trigger</span>
-                                   </div>
-                                 </div>
+                                 <div className="space-y-1 pt-8 flex-grow">
+                                  {/* Every field */}
+                                  <div className="flex items-center gap-2 h-10">
+                                    <label className="text-caption font-normal text-right w-20 text-foreground shrink-0">Every</label>
+                                    <div className="flex items-center gap-2 flex-grow">
+                                       <input
+                                         type="number"
+                                         defaultValue="500"
+                                         className="w-20 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                       />
+                                       <select className="px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 appearance-none cursor-pointer">
+                                        <option value="hours">Hours</option>
+                                        <option value="days">Days</option>
+                                        <option value="weeks">Weeks</option>
+                                        <option value="months">Months</option>
+                                        <option value="years">Years</option>
+                                        <option value="miles">Miles</option>
+                                        <option value="kilometers">Kilometers</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                  
+                                  {/* Starting at field */}
+                                  <div className="flex items-center gap-2 h-10">
+                                    <label className="text-caption font-normal text-right w-20 text-foreground shrink-0">Starting at</label>
+                                    <div className="flex-grow">
+                                       <input
+                                         type="number"
+                                         defaultValue="250"
+                                         className="w-20 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                       />
+                                    </div>
+                                  </div>
+                                  
+                                  {/* Create WO field */}
+                                  <div className="flex items-center gap-2 h-10">
+                                    <label className="text-caption font-normal text-right w-20 text-foreground shrink-0">Create WO</label>
+                                    <div className="flex items-center gap-2 flex-grow">
+                                       <input
+                                         type="number"
+                                         defaultValue="50"
+                                         className="w-16 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                       />
+                                      <span className="text-sm text-muted-foreground">before trigger</span>
+                                    </div>
+                                  </div>
                               </div>
                               
                               {/* Status Toggle Button - now positioned at the bottom */}
