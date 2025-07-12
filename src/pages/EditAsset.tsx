@@ -451,8 +451,42 @@ const EditAsset = () => {
                             <div className="p-10 h-[380px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 before:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
                               <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary dark:text-secondary">Meter Reading Trigger</h5>
                               
+                              {/* Maintenance Table */}
+                              <div className="mt-4 mb-4">
+                                <div className="border border-border rounded-md overflow-hidden">
+                                  <table className="w-full text-xs">
+                                    <thead className="bg-muted">
+                                      <tr>
+                                        <th className="px-2 py-1 text-left font-medium">Maint Name</th>
+                                        <th className="px-2 py-1 text-left font-medium">Status</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr className="border-t border-border">
+                                        <td className="px-2 py-1">Engine Service</td>
+                                        <td className="px-2 py-1">
+                                          <span className="px-1 py-0.5 text-xs bg-green-100 text-green-800 rounded">Active</span>
+                                        </td>
+                                      </tr>
+                                      <tr className="border-t border-border">
+                                        <td className="px-2 py-1">Oil Change</td>
+                                        <td className="px-2 py-1">
+                                          <span className="px-1 py-0.5 text-xs bg-yellow-100 text-yellow-800 rounded">Pending</span>
+                                        </td>
+                                      </tr>
+                                      <tr className="border-t border-border">
+                                        <td className="px-2 py-1">Filter Replace</td>
+                                        <td className="px-2 py-1">
+                                          <span className="px-1 py-0.5 text-xs bg-blue-100 text-blue-800 rounded">Scheduled</span>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+
                               {/* Spacer to push content down but not to the very bottom */}
-                              <div className="flex-grow min-h-[100px]"></div>
+                              <div className="flex-grow min-h-[20px]"></div>
                                   
                               {/* Form fields positioned in lower portion */}
                               <div className="space-y-0 pb-4 p-4 mb-4 border-2 border-dashed border-primary/30 rounded-xl bg-gradient-to-br from-card/50 to-background/30 shadow-inner backdrop-blur-sm">
@@ -536,8 +570,42 @@ const EditAsset = () => {
                             <div className="p-10 h-[380px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
                               <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary dark:text-secondary">Time Trigger</h5>
                               
+                              {/* Maintenance Table */}
+                              <div className="mt-4 mb-4">
+                                <div className="border border-border rounded-md overflow-hidden">
+                                  <table className="w-full text-xs">
+                                    <thead className="bg-muted">
+                                      <tr>
+                                        <th className="px-2 py-1 text-left font-medium">Maint Name</th>
+                                        <th className="px-2 py-1 text-left font-medium">Status</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr className="border-t border-border">
+                                        <td className="px-2 py-1">Hydraulic Check</td>
+                                        <td className="px-2 py-1">
+                                          <span className="px-1 py-0.5 text-xs bg-green-100 text-green-800 rounded">Complete</span>
+                                        </td>
+                                      </tr>
+                                      <tr className="border-t border-border">
+                                        <td className="px-2 py-1">Brake Service</td>
+                                        <td className="px-2 py-1">
+                                          <span className="px-1 py-0.5 text-xs bg-red-100 text-red-800 rounded">Overdue</span>
+                                        </td>
+                                      </tr>
+                                      <tr className="border-t border-border">
+                                        <td className="px-2 py-1">Tire Rotation</td>
+                                        <td className="px-2 py-1">
+                                          <span className="px-1 py-0.5 text-xs bg-blue-100 text-blue-800 rounded">Upcoming</span>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+
                               {/* Spacer to push content down but not to the very bottom */}
-                              <div className="flex-grow min-h-[100px]"></div>
+                              <div className="flex-grow min-h-[20px]"></div>
                               
                               {/* Form fields positioned in lower portion */}
                                <div className="space-y-0 pb-4 p-4 mb-4 border-2 border-dashed border-primary/30 rounded-xl bg-gradient-to-br from-card/50 to-background/30 shadow-inner backdrop-blur-sm">
@@ -626,38 +694,84 @@ const EditAsset = () => {
                           <h4 className="text-h3 font-medium text-primary dark:text-secondary">Log</h4>
                         </div>
                         
-                         <div className="pt-8 overflow-auto max-h-[500px]">
-                           {/* Activity Log Table */}
-                           <div className="space-y-2 mt-10">
-                            <h6 className="text-sm font-medium text-foreground">Activity Log</h6>
-                            <div className="border border-border rounded-md overflow-hidden">
-                              <table className="w-full text-sm">
-                                <thead className="bg-muted">
-                                  <tr>
-                                    <th className="px-3 py-2 text-left font-medium">Date</th>
-                                    <th className="px-3 py-2 text-left font-medium">Log Type</th>
-                                    <th className="px-3 py-2 text-left font-medium">Notes</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr className="border-t border-border">
-                                    <td className="px-3 py-2">01/22/2024</td>
-                                    <td className="px-3 py-2">
-                                      <span className="px-1.5 py-0.5 text-xs bg-blue-100 text-blue-800 rounded">Inspection</span>
-                                    </td>
-                                    <td className="px-3 py-2">Routine inspection completed</td>
-                                  </tr>
-                                  <tr className="border-t border-border">
-                                    <td className="px-3 py-2">01/20/2024</td>
-                                    <td className="px-3 py-2">
-                                      <span className="px-1.5 py-0.5 text-xs bg-orange-100 text-orange-800 rounded">Maintenance</span>
-                                    </td>
-                                    <td className="px-3 py-2">Oil change performed</td>
-                                  </tr>
-                                </tbody>
-                              </table>
+                          <div className="pt-2 overflow-auto max-h-[500px]">
+                            {/* Work Orders Table */}
+                            <div className="space-y-2 mt-2">
+                              <h6 className="text-sm font-medium text-foreground">Work Orders</h6>
+                              <div className="border border-border rounded-md overflow-hidden">
+                                <table className="w-full text-sm">
+                                  <thead className="bg-muted">
+                                    <tr>
+                                      <th className="px-3 py-2 text-left font-medium">Date</th>
+                                      <th className="px-3 py-2 text-left font-medium">Log Type</th>
+                                      <th className="px-3 py-2 text-left font-medium">Notes</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr className="border-t border-border">
+                                      <td className="px-3 py-2">01/22/2024</td>
+                                      <td className="px-3 py-2">
+                                        <span className="px-1.5 py-0.5 text-xs bg-blue-100 text-blue-800 rounded">Inspection</span>
+                                      </td>
+                                      <td className="px-3 py-2">Routine inspection completed</td>
+                                    </tr>
+                                    <tr className="border-t border-border">
+                                      <td className="px-3 py-2">01/20/2024</td>
+                                      <td className="px-3 py-2">
+                                        <span className="px-1.5 py-0.5 text-xs bg-orange-100 text-orange-800 rounded">Maintenance</span>
+                                      </td>
+                                      <td className="px-3 py-2">Oil change performed</td>
+                                    </tr>
+                                    <tr className="border-t border-border">
+                                      <td className="px-3 py-2">01/18/2024</td>
+                                      <td className="px-3 py-2">
+                                        <span className="px-1.5 py-0.5 text-xs bg-green-100 text-green-800 rounded">Repair</span>
+                                      </td>
+                                      <td className="px-3 py-2">Fixed hydraulic leak</td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
                             </div>
-                          </div>
+
+                            {/* Activity Log Table */}
+                            <div className="space-y-2 mt-6">
+                             <h6 className="text-sm font-medium text-foreground">Activity Log</h6>
+                             <div className="border border-border rounded-md overflow-hidden">
+                               <table className="w-full text-sm">
+                                 <thead className="bg-muted">
+                                   <tr>
+                                     <th className="px-3 py-2 text-left font-medium">Date</th>
+                                     <th className="px-3 py-2 text-left font-medium">Log Type</th>
+                                     <th className="px-3 py-2 text-left font-medium">Notes</th>
+                                   </tr>
+                                 </thead>
+                                 <tbody>
+                                   <tr className="border-t border-border">
+                                     <td className="px-3 py-2">01/22/2024</td>
+                                     <td className="px-3 py-2">
+                                       <span className="px-1.5 py-0.5 text-xs bg-blue-100 text-blue-800 rounded">Inspection</span>
+                                     </td>
+                                     <td className="px-3 py-2">Routine inspection completed</td>
+                                   </tr>
+                                    <tr className="border-t border-border">
+                                      <td className="px-3 py-2">01/20/2024</td>
+                                      <td className="px-3 py-2">
+                                        <span className="px-1.5 py-0.5 text-xs bg-orange-100 text-orange-800 rounded">Maintenance</span>
+                                      </td>
+                                      <td className="px-3 py-2">Oil change performed</td>
+                                    </tr>
+                                    <tr className="border-t border-border">
+                                      <td className="px-3 py-2">01/16/2024</td>
+                                      <td className="px-3 py-2">
+                                        <span className="px-1.5 py-0.5 text-xs bg-purple-100 text-purple-800 rounded">Service</span>
+                                      </td>
+                                      <td className="px-3 py-2">Annual service completed</td>
+                                    </tr>
+                                 </tbody>
+                               </table>
+                             </div>
+                            </div>
                         </div>
                       </div>
                     </div>
