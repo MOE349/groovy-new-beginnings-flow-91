@@ -643,7 +643,7 @@ const EditAsset = () => {
                                        defaultValue="1"
                                        className="w-16 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                      />
-                                    <span className="text-sm text-muted-foreground">days before due</span>
+                                    <span className="text-sm text-muted-foreground">days before</span>
                                   </div>
                                 </div>
                               </div>
