@@ -223,5 +223,28 @@ export const workOrderFormConfig: FormLayoutConfig = {
         { name: "completion_end_date", label: "Completion Date", type: "datepicker", required: false },
       ]
     }
-  ]
+  ],
+  meterReadingTrigger: {
+    title: "Meter Reading Trigger",
+    fields: [
+      {
+        row: [
+          { name: "every_value", label: "Every", type: "input", inputType: "number", width: "w-24" },
+          { name: "every_unit", label: "", type: "dropdown", options: [
+            { id: "hours", name: "Hours" },
+            { id: "days", name: "Days" },
+            { id: "weeks", name: "Weeks" },
+            { id: "months", name: "Months" }
+          ], width: "w-32" }
+        ]
+      },
+      {
+        row: [
+          { name: "starting_at", label: "Starting at", type: "input", inputType: "number", width: "w-24" },
+          { name: "create_wo", label: "Create WO", type: "input", inputType: "number", width: "w-24" },
+          { name: "before_trigger_text", label: "", type: "text", value: "before trigger", width: "auto" }
+        ]
+      }
+    ]
+  }
 };

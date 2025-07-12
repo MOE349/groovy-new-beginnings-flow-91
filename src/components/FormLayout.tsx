@@ -12,6 +12,20 @@ export interface FormLayoutConfig {
     equipment?: boolean;
   };
   columns: FormColumnConfig[];
+  meterReadingTrigger?: {
+    title: string;
+    fields: {
+      row: {
+        name: string;
+        label: string;
+        type: string;
+        inputType?: string;
+        width?: string;
+        options?: Array<{ id: string; name: string }>;
+        value?: string;
+      }[];
+    }[];
+  };
 }
 
 export interface FormColumnConfig {
@@ -186,6 +200,53 @@ const FormLayout = ({
                   </div>
                 ))}
               </div>
+              
+              {/* Meter Reading Trigger Section */}
+              {config.meterReadingTrigger && (
+                <div className="mt-6 p-6 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl shadow-xl shadow-primary/5">
+                  <h4 className="text-lg font-medium text-primary mb-4">{config.meterReadingTrigger.title}</h4>
+                  <div className="space-y-4">
+                    {config.meterReadingTrigger.fields.map((fieldRow, rowIndex) => (
+                      <div key={rowIndex} className="flex items-center gap-4">
+                        {fieldRow.row.map((field, fieldIndex) => (
+                          <div key={fieldIndex} className="flex items-center gap-2">
+                            {field.label && (
+                              <label className="text-sm font-medium text-foreground">{field.label}</label>
+                            )}
+                            {field.type === "input" && (
+                              <input
+                                type={field.inputType || "text"}
+                                name={field.name}
+                                value={formData[field.name] || ""}
+                                onChange={(e) => handleFieldChange(field.name, e.target.value)}
+                                className={`h-8 rounded border border-border bg-background px-2 text-sm ${field.width || "w-20"}`}
+                              />
+                            )}
+                            {field.type === "dropdown" && field.options && (
+                              <select
+                                name={field.name}
+                                value={formData[field.name] || ""}
+                                onChange={(e) => handleFieldChange(field.name, e.target.value)}
+                                className={`h-8 rounded border border-border bg-background px-2 text-sm ${field.width || "w-32"}`}
+                              >
+                                <option value="">Select...</option>
+                                {field.options.map((option) => (
+                                  <option key={option.id} value={option.id}>
+                                    {option.name}
+                                  </option>
+                                ))}
+                              </select>
+                            )}
+                            {field.type === "text" && (
+                              <span className="text-sm text-muted-foreground">{field.value}</span>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </form>
