@@ -486,7 +486,7 @@ const EditAsset = () => {
                               </div>
 
                               {/* Spacer to push content down but not to the very bottom */}
-                              <div className="flex-grow min-h-[50px]"></div>
+                              <div className="flex-grow min-h-[20px]"></div>
                                   
                               {/* Form fields positioned in lower portion */}
                               <div className="space-y-0 pb-4 p-4 mb-4 border-2 border-dashed border-primary/30 rounded-xl bg-gradient-to-br from-card/50 to-background/30 shadow-inner backdrop-blur-sm">
