@@ -219,8 +219,7 @@ export const workOrderFormConfig: FormLayoutConfig = {
       fields: [
         { name: "maint_type", label: "Maint Type", type: "input", required: false, inputType: "text" },
         { name: "priority", label: "Priority", type: "input", required: false, inputType: "text" },
-        { name: "suggested_start_date", label: "Starting At", type: "datepicker", required: false, customRightText: "before trigger" },
-        { name: "create_wo", label: "Create WO", type: "input", required: false, inputType: "text" },
+        { name: "suggested_start_date", label: "Suggested Start Date", type: "datepicker", required: false },
         { name: "completion_end_date", label: "Completion Date", type: "datepicker", required: false },
       ]
     }
