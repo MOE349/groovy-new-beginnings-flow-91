@@ -707,71 +707,68 @@ const EditAsset = () => {
                                       <th className="px-3 py-2 text-left font-medium">Notes</th>
                                     </tr>
                                   </thead>
-                                  <tbody>
-                                    <tr className="border-t border-border">
-                                      <td className="px-3 py-2">01/22/2024</td>
-                                      <td className="px-3 py-2">
-                                        <span className="px-1.5 py-0.5 text-xs bg-blue-100 text-blue-800 rounded">Inspection</span>
-                                      </td>
-                                      <td className="px-3 py-2">Routine inspection completed</td>
-                                    </tr>
-                                    <tr className="border-t border-border">
-                                      <td className="px-3 py-2">01/20/2024</td>
-                                      <td className="px-3 py-2">
-                                        <span className="px-1.5 py-0.5 text-xs bg-orange-100 text-orange-800 rounded">Maintenance</span>
-                                      </td>
-                                      <td className="px-3 py-2">Oil change performed</td>
-                                    </tr>
-                                    <tr className="border-t border-border">
-                                      <td className="px-3 py-2">01/18/2024</td>
-                                      <td className="px-3 py-2">
-                                        <span className="px-1.5 py-0.5 text-xs bg-green-100 text-green-800 rounded">Repair</span>
-                                      </td>
-                                      <td className="px-3 py-2">Fixed hydraulic leak</td>
-                                    </tr>
-                                  </tbody>
+                                   <tbody>
+                                     <tr className="border-t border-border">
+                                       <td className="px-3 py-2">01/22/2024</td>
+                                       <td className="px-3 py-2">
+                                         <span className="px-1.5 py-0.5 text-xs bg-blue-100 text-blue-800 rounded">Inspection</span>
+                                       </td>
+                                       <td className="px-3 py-2">Routine inspection completed</td>
+                                     </tr>
+                                     <tr className="border-t border-border">
+                                       <td className="px-3 py-2">01/20/2024</td>
+                                       <td className="px-3 py-2">
+                                         <span className="px-1.5 py-0.5 text-xs bg-orange-100 text-orange-800 rounded">Maintenance</span>
+                                       </td>
+                                       <td className="px-3 py-2">Oil change performed</td>
+                                     </tr>
+                                     <tr className="border-t border-border">
+                                       <td className="px-3 py-2">01/18/2024</td>
+                                       <td className="px-3 py-2">
+                                         <span className="px-1.5 py-0.5 text-xs bg-green-100 text-green-800 rounded">Repair</span>
+                                       </td>
+                                       <td className="px-3 py-2">Fixed hydraulic leak</td>
+                                     </tr>
+                                     <tr className="border-t border-border">
+                                       <td className="px-3 py-2">01/16/2024</td>
+                                       <td className="px-3 py-2">
+                                         <span className="px-1.5 py-0.5 text-xs bg-red-100 text-red-800 rounded">Emergency</span>
+                                       </td>
+                                       <td className="px-3 py-2">Emergency brake repair</td>
+                                     </tr>
+                                     <tr className="border-t border-border">
+                                       <td className="px-3 py-2">01/14/2024</td>
+                                       <td className="px-3 py-2">
+                                         <span className="px-1.5 py-0.5 text-xs bg-yellow-100 text-yellow-800 rounded">Service</span>
+                                       </td>
+                                       <td className="px-3 py-2">Scheduled service check</td>
+                                     </tr>
+                                     <tr className="border-t border-border">
+                                       <td className="px-3 py-2">01/12/2024</td>
+                                       <td className="px-3 py-2">
+                                         <span className="px-1.5 py-0.5 text-xs bg-purple-100 text-purple-800 rounded">Calibration</span>
+                                       </td>
+                                       <td className="px-3 py-2">Sensor calibration performed</td>
+                                     </tr>
+                                     <tr className="border-t border-border">
+                                       <td className="px-3 py-2">01/10/2024</td>
+                                       <td className="px-3 py-2">
+                                         <span className="px-1.5 py-0.5 text-xs bg-teal-100 text-teal-800 rounded">Cleaning</span>
+                                       </td>
+                                       <td className="px-3 py-2">Deep cleaning and maintenance</td>
+                                     </tr>
+                                     <tr className="border-t border-border">
+                                       <td className="px-3 py-2">01/08/2024</td>
+                                       <td className="px-3 py-2">
+                                         <span className="px-1.5 py-0.5 text-xs bg-indigo-100 text-indigo-800 rounded">Upgrade</span>
+                                       </td>
+                                       <td className="px-3 py-2">Software upgrade completed</td>
+                                     </tr>
+                                   </tbody>
                                 </table>
                               </div>
                             </div>
 
-                            {/* Activity Log Table */}
-                            <div className="space-y-2 mt-6">
-                             <h6 className="text-sm font-medium text-foreground">Activity Log</h6>
-                             <div className="border border-border rounded-md overflow-hidden">
-                               <table className="w-full text-sm">
-                                 <thead className="bg-muted">
-                                   <tr>
-                                     <th className="px-3 py-2 text-left font-medium">Date</th>
-                                     <th className="px-3 py-2 text-left font-medium">Log Type</th>
-                                     <th className="px-3 py-2 text-left font-medium">Notes</th>
-                                   </tr>
-                                 </thead>
-                                 <tbody>
-                                   <tr className="border-t border-border">
-                                     <td className="px-3 py-2">01/22/2024</td>
-                                     <td className="px-3 py-2">
-                                       <span className="px-1.5 py-0.5 text-xs bg-blue-100 text-blue-800 rounded">Inspection</span>
-                                     </td>
-                                     <td className="px-3 py-2">Routine inspection completed</td>
-                                   </tr>
-                                    <tr className="border-t border-border">
-                                      <td className="px-3 py-2">01/20/2024</td>
-                                      <td className="px-3 py-2">
-                                        <span className="px-1.5 py-0.5 text-xs bg-orange-100 text-orange-800 rounded">Maintenance</span>
-                                      </td>
-                                      <td className="px-3 py-2">Oil change performed</td>
-                                    </tr>
-                                    <tr className="border-t border-border">
-                                      <td className="px-3 py-2">01/16/2024</td>
-                                      <td className="px-3 py-2">
-                                        <span className="px-1.5 py-0.5 text-xs bg-purple-100 text-purple-800 rounded">Service</span>
-                                      </td>
-                                      <td className="px-3 py-2">Annual service completed</td>
-                                    </tr>
-                                 </tbody>
-                               </table>
-                             </div>
-                            </div>
                         </div>
                       </div>
                     </div>
