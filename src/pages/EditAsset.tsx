@@ -722,6 +722,13 @@ const EditAsset = () => {
                                       </td>
                                       <td className="px-3 py-2">Oil change performed</td>
                                     </tr>
+                                    <tr className="border-t border-border">
+                                      <td className="px-3 py-2">01/18/2024</td>
+                                      <td className="px-3 py-2">
+                                        <span className="px-1.5 py-0.5 text-xs bg-green-100 text-green-800 rounded">Repair</span>
+                                      </td>
+                                      <td className="px-3 py-2">Fixed hydraulic leak</td>
+                                    </tr>
                                   </tbody>
                                 </table>
                               </div>
@@ -747,13 +754,20 @@ const EditAsset = () => {
                                      </td>
                                      <td className="px-3 py-2">Routine inspection completed</td>
                                    </tr>
-                                   <tr className="border-t border-border">
-                                     <td className="px-3 py-2">01/20/2024</td>
-                                     <td className="px-3 py-2">
-                                       <span className="px-1.5 py-0.5 text-xs bg-orange-100 text-orange-800 rounded">Maintenance</span>
-                                     </td>
-                                     <td className="px-3 py-2">Oil change performed</td>
-                                   </tr>
+                                    <tr className="border-t border-border">
+                                      <td className="px-3 py-2">01/20/2024</td>
+                                      <td className="px-3 py-2">
+                                        <span className="px-1.5 py-0.5 text-xs bg-orange-100 text-orange-800 rounded">Maintenance</span>
+                                      </td>
+                                      <td className="px-3 py-2">Oil change performed</td>
+                                    </tr>
+                                    <tr className="border-t border-border">
+                                      <td className="px-3 py-2">01/16/2024</td>
+                                      <td className="px-3 py-2">
+                                        <span className="px-1.5 py-0.5 text-xs bg-purple-100 text-purple-800 rounded">Service</span>
+                                      </td>
+                                      <td className="px-3 py-2">Annual service completed</td>
+                                    </tr>
                                  </tbody>
                                </table>
                              </div>
