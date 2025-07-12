@@ -451,43 +451,57 @@ const EditAsset = () => {
                             <div className="p-6 h-[380px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 before:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
                               <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary dark:text-secondary">Meter Reading Trigger</h5>
                               
-                               <div className="space-y-3 pt-8 flex-grow">
-                                  {/* Row 1: Every field with systematic layout */}
-                                  <div className="flex items-center gap-2 h-10">
-                                    <label className="text-caption font-normal text-foreground w-20 text-right">Every</label>
+                              <div className="space-y-6 pt-8 flex-grow">
+                                 {/* Row 1: Every field */}
+                                 <div className="flex items-start gap-2 h-10">
+                                   <div className="flex items-center gap-4 w-full">
+                                     <span className="text-caption font-normal text-foreground whitespace-nowrap">Every</span>
+                                     <div className="flex items-center gap-2 flex-1">
+                                       <input
+                                         type="number"
+                                         defaultValue="500"
+                                         className="w-20 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
+                                       />
+                                       <select className="w-24 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background">
+                                         <option value="hours">Hours</option>
+                                         <option value="days">Days</option>
+                                         <option value="weeks">Weeks</option>
+                                         <option value="months">Months</option>
+                                         <option value="years">Years</option>
+                                         <option value="miles">Miles</option>
+                                         <option value="kilometers">Kilometers</option>
+                                       </select>
+                                     </div>
+                                   </div>
+                                 </div>
+                                
+                                {/* Row 2: Starting at */}
+                                <div className="flex items-start gap-2 h-10">
+                                  <div className="flex items-center gap-4 w-full">
+                                    <span className="text-caption font-normal text-foreground whitespace-nowrap">Starting at</span>
                                     <input
                                       type="number"
-                                      defaultValue="500"
-                                      className="flex-grow px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
+                                      defaultValue="250"
+                                      className="w-20 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
                                     />
-                                    <select className="flex-grow px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background">
-                                      <option value="hours">Hours</option>
-                                      <option value="days">Days</option>
-                                      <option value="weeks">Weeks</option>
-                                      <option value="months">Months</option>
-                                      <option value="years">Years</option>
-                                      <option value="miles">Miles</option>
-                                      <option value="kilometers">Kilometers</option>
-                                    </select>
-                                  </div>
-                                 
-                                 {/* Row 2: Starting at and Create WO with systematic layout */}
-                                 <div className="flex items-center gap-2 h-10">
-                                   <label className="text-caption font-normal text-foreground w-20 text-right">Starting at</label>
-                                   <input
-                                     type="number"
-                                     defaultValue="250"
-                                     className="flex-grow px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
-                                   />
-                                   <label className="text-caption font-normal text-foreground w-20 text-right">Create WO</label>
-                                    <input
-                                      type="number"
-                                      defaultValue="50"
-                                      className="flex-grow px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
-                                    />
-                                    <span className="text-caption font-normal text-foreground w-24">before trigger</span>
                                   </div>
                                 </div>
+
+                                {/* Row 3: Create WO */}
+                                <div className="flex items-start gap-2 h-10">
+                                  <div className="flex items-center gap-4 w-full">
+                                    <span className="text-caption font-normal text-foreground whitespace-nowrap">Create WO</span>
+                                    <div className="flex items-center gap-2">
+                                      <input
+                                        type="number"
+                                        defaultValue="50"
+                                        className="w-20 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
+                                      />
+                                      <span className="text-caption font-normal text-foreground whitespace-nowrap">before trigger</span>
+                                    </div>
+                                  </div>
+                                </div>
+                               </div>
                               
                               {/* Status Toggle Button - now positioned at the bottom */}
                               <div className="flex justify-center pb-0">
