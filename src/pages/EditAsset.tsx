@@ -454,7 +454,7 @@ const EditAsset = () => {
                                  <div className="space-y-1 pt-8 flex-grow">
                                    {/* Every field */}
                                    <div className="flex items-baseline gap-2 h-10">
-                                     <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-1">Every</label>
+                                     <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Every</label>
                                     <div className="flex items-center gap-2 flex-grow">
                                        <input
                                          type="number"
@@ -475,7 +475,7 @@ const EditAsset = () => {
                                   
                                    {/* Starting at field */}
                                    <div className="flex items-baseline gap-2 h-10">
-                                     <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-1">Starting at</label>
+                                     <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Starting at</label>
                                     <div className="flex-grow">
                                        <input
                                          type="number"
@@ -487,7 +487,7 @@ const EditAsset = () => {
                                   
                                    {/* Create WO field */}
                                    <div className="flex items-baseline gap-2 h-10">
-                                     <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-1">Create WO</label>
+                                     <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Create WO</label>
                                     <div className="flex items-center gap-2 flex-grow">
                                        <input
                                          type="number"
@@ -535,7 +535,7 @@ const EditAsset = () => {
                               <div className="space-y-1 pt-8 flex-grow">
                                  {/* Frequency field */}
                                  <div className="flex items-baseline gap-2 h-10">
-                                   <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-1">Frequency</label>
+                                   <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Frequency</label>
                                   <div className="flex-grow">
                                     <select className="w-full px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 appearance-none cursor-pointer">
                                       <option value="daily">Daily</option>
@@ -549,7 +549,7 @@ const EditAsset = () => {
                                 
                                  {/* Start Date field */}
                                  <div className="flex items-baseline gap-2 h-10">
-                                   <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-1">Start Date</label>
+                                   <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Start Date</label>
                                   <div className="flex-grow">
                                      <input
                                        type="date"
@@ -560,7 +560,7 @@ const EditAsset = () => {
                                 
                                  {/* Create WO field */}
                                  <div className="flex items-baseline gap-2 h-10">
-                                   <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-1">Create WO</label>
+                                   <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Create WO</label>
                                   <div className="flex items-center gap-2 flex-grow">
                                      <input
                                        type="number"
