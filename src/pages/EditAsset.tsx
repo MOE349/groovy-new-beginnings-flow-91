@@ -429,7 +429,7 @@ const EditAsset = () => {
           </TabsContent>
           
           <TabsContent value="scheduled-maintenance" className="mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px] overflow-hidden">
+            <div className="bg-card rounded-sm shadow-xs pt-4 px-4 pb-2 h-full min-h-[500px] overflow-hidden">
               {/* Sliding Container Wrapper */}
               <div className="relative w-full h-full">
                 <div 
