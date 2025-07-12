@@ -489,17 +489,17 @@ const EditAsset = () => {
                               <div className="flex-grow min-h-[20px]"></div>
                                   
                               {/* Form fields positioned in lower portion */}
-                              <div className="space-y-1 md:space-y-2 pb-2 md:pb-4 p-2 md:p-4 mb-2 md:mb-4 border-2 border-dashed border-primary/30 rounded-xl bg-gradient-to-br from-card/50 to-background/30 shadow-inner backdrop-blur-sm">
+                              <div className="grid gap-2 md:gap-3 p-3 md:p-4 border-2 border-dashed border-primary/30 rounded-xl bg-gradient-to-br from-card/50 to-background/30 shadow-inner backdrop-blur-sm">
                                    {/* Every field */}
-                                   <div className="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-2">
-                                     <label className="text-xs md:text-caption font-normal text-left w-full md:w-20 text-foreground md:shrink-0 md:pt-1">Every</label>
-                                    <div className="flex items-center gap-1 md:gap-2 w-full md:flex-grow">
+                                   <div className="grid grid-cols-1 md:grid-cols-[80px_1fr] gap-2 items-center">
+                                     <label className="text-xs md:text-sm font-normal text-foreground">Every</label>
+                                     <div className="grid grid-cols-2 gap-2">
                                        <input
                                          type="number"
                                          defaultValue="500"
-                                         className="flex-1 md:w-20 px-2 py-1 pb-0 text-xs md:text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                         className="w-full px-2 py-1 text-xs md:text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                        />
-                                       <select className="flex-1 md:flex-grow px-2 py-1 pb-0 text-xs md:text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 appearance-none cursor-pointer">
+                                       <select className="w-full px-2 py-1 text-xs md:text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 appearance-none cursor-pointer">
                                         <option value="hours">Hours</option>
                                         <option value="days">Days</option>
                                         <option value="weeks">Weeks</option>
@@ -508,33 +508,31 @@ const EditAsset = () => {
                                         <option value="miles">Miles</option>
                                         <option value="kilometers">Kilometers</option>
                                       </select>
-                                    </div>
-                                  </div>
+                                     </div>
+                                   </div>
                                   
                                    {/* Starting at field */}
-                                   <div className="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-2">
-                                     <label className="text-xs md:text-caption font-normal text-left w-full md:w-20 text-foreground md:shrink-0 md:pt-1">Starting at</label>
-                                    <div className="w-full md:flex-grow">
-                                       <input
-                                         type="number"
-                                         defaultValue="250"
-                                         className="w-full md:w-20 px-2 py-1 pb-0 text-xs md:text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                       />
-                                    </div>
-                                  </div>
+                                   <div className="grid grid-cols-1 md:grid-cols-[80px_1fr] gap-2 items-center">
+                                     <label className="text-xs md:text-sm font-normal text-foreground">Starting at</label>
+                                     <input
+                                       type="number"
+                                       defaultValue="250"
+                                       className="w-full px-2 py-1 text-xs md:text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                     />
+                                   </div>
                                   
                                    {/* Create WO field */}
-                                   <div className="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-2">
-                                     <label className="text-xs md:text-caption font-normal text-left w-full md:w-20 text-foreground md:shrink-0 md:pt-1">Create WO</label>
-                                    <div className="flex items-center gap-1 md:gap-2 w-full md:flex-grow">
+                                   <div className="grid grid-cols-1 md:grid-cols-[80px_1fr] gap-2 items-center">
+                                     <label className="text-xs md:text-sm font-normal text-foreground">Create WO</label>
+                                     <div className="flex items-center gap-2">
                                        <input
                                          type="number"
                                          defaultValue="50"
-                                         className="w-16 px-2 py-1 pb-0 text-xs md:text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                         className="w-16 px-2 py-1 text-xs md:text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                        />
-                                      <span className="text-xs md:text-sm text-muted-foreground">before trigger</span>
-                                    </div>
-                                  </div>
+                                       <span className="text-xs md:text-sm text-muted-foreground whitespace-nowrap">before trigger</span>
+                                     </div>
+                                   </div>
                               </div>
                               
                               {/* Status Toggle Button - positioned at the bottom */}
@@ -608,44 +606,40 @@ const EditAsset = () => {
                               <div className="flex-grow min-h-[20px]"></div>
                               
                               {/* Form fields positioned in lower portion */}
-                               <div className="space-y-1 md:space-y-2 pb-2 md:pb-4 p-2 md:p-4 mb-2 md:mb-4 border-2 border-dashed border-primary/30 rounded-xl bg-gradient-to-br from-card/50 to-background/30 shadow-inner backdrop-blur-sm">
+                               <div className="grid gap-2 md:gap-3 p-3 md:p-4 border-2 border-dashed border-primary/30 rounded-xl bg-gradient-to-br from-card/50 to-background/30 shadow-inner backdrop-blur-sm">
                                  {/* Frequency field */}
-                                 <div className="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-2">
-                                   <label className="text-xs md:text-caption font-normal text-left w-full md:w-20 text-foreground md:shrink-0 md:pt-1">Frequency</label>
-                                  <div className="w-full md:flex-grow">
-                                    <select className="w-full px-2 py-1 pb-0 text-xs md:text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 appearance-none cursor-pointer">
-                                      <option value="daily">Daily</option>
-                                      <option value="weekly">Weekly</option>
-                                      <option value="monthly">Monthly</option>
-                                      <option value="quarterly">Quarterly</option>
-                                      <option value="annually">Annually</option>
-                                    </select>
-                                  </div>
-                                </div>
+                                 <div className="grid grid-cols-1 md:grid-cols-[80px_1fr] gap-2 items-center">
+                                   <label className="text-xs md:text-sm font-normal text-foreground">Frequency</label>
+                                   <select className="w-full px-2 py-1 text-xs md:text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 appearance-none cursor-pointer">
+                                     <option value="daily">Daily</option>
+                                     <option value="weekly">Weekly</option>
+                                     <option value="monthly">Monthly</option>
+                                     <option value="quarterly">Quarterly</option>
+                                     <option value="annually">Annually</option>
+                                   </select>
+                                 </div>
                                 
                                  {/* Start Date field */}
-                                 <div className="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-2">
-                                   <label className="text-xs md:text-caption font-normal text-left w-full md:w-20 text-foreground md:shrink-0 md:pt-1">Start Date</label>
-                                  <div className="w-full md:flex-grow">
-                                     <input
-                                       type="date"
-                                       className="w-full px-2 py-1 pb-0 text-xs md:text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200"
-                                     />
-                                  </div>
-                                </div>
+                                 <div className="grid grid-cols-1 md:grid-cols-[80px_1fr] gap-2 items-center">
+                                   <label className="text-xs md:text-sm font-normal text-foreground">Start Date</label>
+                                   <input
+                                     type="date"
+                                     className="w-full px-2 py-1 text-xs md:text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200"
+                                   />
+                                 </div>
                                 
                                  {/* Create WO field */}
-                                 <div className="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-2">
-                                   <label className="text-xs md:text-caption font-normal text-left w-full md:w-20 text-foreground md:shrink-0 md:pt-1">Create WO</label>
-                                  <div className="flex items-center gap-1 md:gap-2 w-full md:flex-grow">
+                                 <div className="grid grid-cols-1 md:grid-cols-[80px_1fr] gap-2 items-center">
+                                   <label className="text-xs md:text-sm font-normal text-foreground">Create WO</label>
+                                   <div className="flex items-center gap-2">
                                      <input
                                        type="number"
                                        defaultValue="1"
-                                       className="w-16 px-2 py-1 pb-0 text-xs md:text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                       className="w-16 px-2 py-1 text-xs md:text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                      />
-                                    <span className="text-xs md:text-sm text-muted-foreground">days before due</span>
-                                  </div>
-                                </div>
+                                     <span className="text-xs md:text-sm text-muted-foreground whitespace-nowrap">days before due</span>
+                                   </div>
+                                 </div>
                               </div>
                               
                               {/* Status Toggle Button - positioned at the bottom */}
