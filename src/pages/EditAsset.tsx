@@ -461,7 +461,7 @@ const EditAsset = () => {
                                       defaultValue="500"
                                       className="w-20 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background"
                                     />
-                                    <select className="px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background">
+                                    <select className="min-w-0 flex-1 px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring bg-background">
                                       <option value="hours">Hours</option>
                                       <option value="days">Days</option>
                                       <option value="weeks">Weeks</option>
