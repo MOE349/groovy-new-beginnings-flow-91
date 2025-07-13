@@ -6,11 +6,15 @@ import { useToast } from '@/hooks/use-toast';
 interface FinancialReportFormProps {
   assetId: string;
   onSuccess?: () => void;
+  fieldsToShow?: string[];
+  containerType?: string;
 }
 
 const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
   assetId,
-  onSuccess
+  onSuccess,
+  fieldsToShow,
+  containerType
 }) => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
@@ -171,6 +175,7 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
   // Convert template to ApiForm fields
   const formFields = formTemplate
     .filter(field => !field.hidden)
+    .filter(field => !fieldsToShow || fieldsToShow.includes(field.name))
     .map(field => ({
       name: field.name,
       type: 'input' as const,
@@ -249,12 +254,30 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
     <div className="h-full">
       <ApiForm
         fields={formFields}
-        title={existingData ? "Update Financial Data" : "Create Financial Data"}
+        title={containerType ? "" : (existingData ? "Update Financial Data" : "Create Financial Data")}
         onSubmit={handleSubmit}
-        submitText={existingData ? "Update Financial Data" : "Save Financial Data"}
+        submitText={containerType ? (existingData ? "Update" : "Save") : (existingData ? "Update Financial Data" : "Save Financial Data")}
         initialData={initialData}
         loading={loading}
         className="h-full"
+        customLayout={containerType ? ({ handleSubmit, renderField }) => (
+          <div className="space-y-3">
+            {formFields.map(field => (
+              <div key={field.name} className="space-y-1">
+                {renderField(field)}
+              </div>
+            ))}
+            <div className="pt-4">
+              <button
+                type="button"
+                onClick={handleSubmit}
+                className="w-full px-3 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 rounded-md transition-colors"
+              >
+                {existingData ? "Update" : "Save"}
+              </button>
+            </div>
+          </div>
+        ) : undefined}
       />
     </div>
   );
