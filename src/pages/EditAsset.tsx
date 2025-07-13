@@ -45,23 +45,9 @@ const EditAsset = () => {
   const queryClient = useQueryClient();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isCodeDialogOpen, setIsCodeDialogOpen] = useState(false);
-  const [currentView, setCurrentView] = useState(0); // 0 for View 1, 1 for View 2
   const [activeTab, setActiveTab] = useState("");
-  const [isMeterTriggerActive, setIsMeterTriggerActive] = useState(true);
-  const [isTimeTriggerActive, setIsTimeTriggerActive] = useState(true);
   const { assetType, assetData, isLoading, isError, error } = useAssetData(id);
   const { handleSubmit } = useAssetSubmit(id, assetType);
-
-  // Reset to View 1 when switching away from scheduled-maintenance tab
-  useEffect(() => {
-    if (activeTab !== "scheduled-maintenance") {
-      setCurrentView(0);
-    }
-  }, [activeTab]);
-
-  const handleViewChange = (viewIndex: number) => {
-    setCurrentView(viewIndex);
-  };
 
   const handleDeleteMeterReading = async (readingId: string) => {
     try {
@@ -438,118 +424,9 @@ const EditAsset = () => {
           </TabsContent>
           
           <TabsContent value="scheduled-maintenance" className="mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px] relative">
-              {currentView === 0 ? (
-                <div className="animate-fade-in grid xl:grid-cols-2 2xl:grid-cols-[1fr_1.2fr] gap-4 lg:gap-6 h-full relative">
-                  
-                  {/* Navigation to View 2 */}
-                  <button
-                    onClick={() => handleViewChange(1)}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-primary/10 hover:bg-primary/20 border border-primary/30 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
-                  >
-                    <ChevronRight className="w-4 h-4 text-primary" />
-                  </button>
-                  {/* Trigger Container */}
-                  <div className="min-w-0">
-                    <div className="p-6 lg:p-8 xl:p-10 space-y-4 min-h-[400px] max-h-[70vh] lg:max-h-[60vh] xl:max-h-[65vh] 2xl:max-h-[70vh] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 before:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
-                      <div className="flex items-center justify-center gap-4 mb-6 py-0.5 -mx-2 -mt-5 bg-accent/20 border border-accent/30 rounded-md">
-                        <h4 className="text-base font-medium text-primary dark:text-secondary">Trigger</h4>
-                      </div>
-                      
-                      <div className="grid lg:grid-cols-2 gap-4 h-full">
-                        {/* Meter Reading Trigger Container */}
-                        <div className="min-w-0">
-                          <div className="p-6 lg:p-8 xl:p-10 min-h-[300px] max-h-[50vh] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
-                            <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary dark:text-secondary whitespace-nowrap">Meter Reading Trigger</h5>
-                            
-                            {/* Trigger Settings Form */}
-                            <div className="mt-12 flex-1 flex items-center justify-center">
-                              <div className="w-full max-w-[280px] border border-border/40 rounded-lg p-4 bg-card/30 space-y-3">
-                                {/* Every Field */}
-                                <div className="flex items-center justify-between">
-                                  <label className="text-sm text-muted-foreground">Every</label>
-                                  <div className="flex items-center gap-2">
-                                    <input 
-                                      type="number" 
-                                      value="500" 
-                                      className="w-16 px-2 py-1 text-xs border border-border/30 rounded bg-background text-foreground text-center"
-                                    />
-                                    <Select defaultValue="hour">
-                                      <SelectTrigger className="w-16 h-7 text-xs">
-                                        <SelectValue />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                        <SelectItem value="hour">Hour</SelectItem>
-                                        <SelectItem value="day">Day</SelectItem>
-                                        <SelectItem value="week">Week</SelectItem>
-                                        <SelectItem value="month">Month</SelectItem>
-                                      </SelectContent>
-                                    </Select>
-                                  </div>
-                                </div>
-                                
-                                {/* Starting at Field */}
-                                <div className="flex items-center justify-between">
-                                  <label className="text-sm text-muted-foreground">Starting at</label>
-                                  <input 
-                                    type="number" 
-                                    value="250" 
-                                    className="w-16 px-2 py-1 text-xs border border-border/30 rounded bg-background text-foreground text-center"
-                                  />
-                                </div>
-                                
-                                {/* Create WO Field */}
-                                <div className="flex items-center justify-between">
-                                  <label className="text-sm text-muted-foreground">Create WO</label>
-                                  <div className="flex items-center gap-2">
-                                    <input 
-                                      type="number" 
-                                      value="50" 
-                                      className="w-16 px-2 py-1 text-xs border border-border/30 rounded bg-background text-foreground text-center"
-                                    />
-                                    <span className="text-xs text-muted-foreground">before trigger</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                                
-                          </div>
-                        </div>
-                        
-                        {/* Calendar-based Trigger Container */}
-                        <div className="min-w-0">
-                          <div className="p-6 lg:p-8 xl:p-10 min-h-[300px] max-h-[50vh] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
-                            <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary dark:text-secondary whitespace-nowrap">Calendar-based Trigger</h5>
-                            
-                            {/* Spacer to push content down */}
-                            <div className="flex-grow min-h-[50px]"></div>
-
-                            {/* Empty space for meter reading trigger */}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Log Container */}
-                  <div className="min-w-0">
-                    <div className="p-6 lg:p-8 xl:p-10 space-y-4 min-h-[400px] max-h-[70vh] lg:max-h-[60vh] xl:max-h-[65vh] 2xl:max-h-[70vh] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
-                       <div className="flex items-center justify-center gap-4 mb-6 py-0.5 -mx-2 -mt-5 bg-accent/20 border border-accent/30 rounded-md">
-                         <h4 className="text-base font-medium text-primary dark:text-secondary">Log</h4>
-                       </div>
-                      
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="animate-fade-in h-full">
-                  <PMChecklistTabs 
-                    assetId={id} 
-                    onNavigateBack={() => handleViewChange(0)}
-                  />
-                </div>
-              )}
-
+            <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
+              <h3 className="text-h3 font-medium text-foreground">Scheduled Maintenance</h3>
+              <p className="text-caption text-muted-foreground mt-2">Maintenance scheduling and management content will go here</p>
             </div>
           </TabsContent>
           
