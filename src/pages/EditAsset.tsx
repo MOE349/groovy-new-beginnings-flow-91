@@ -470,47 +470,7 @@ const EditAsset = () => {
                             {/* Spacer to push content down */}
                             <div className="flex-grow min-h-[50px]"></div>
 
-                            {/* Form fields positioned in lower portion */}
-                            <div className="space-y-0 pb-4 p-6 mb-4 border-2 border-dashed border-primary/30 rounded-xl bg-gradient-to-br from-card/50 to-background/30 shadow-inner backdrop-blur-sm w-full max-w-sm mx-auto">
-                                 {/* Every field */}
-                                 <div className="flex items-baseline gap-2">
-                                   <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Every</label>
-                                  <div className="flex items-center gap-2 flex-grow">
-                                     <input
-                                       type="number"
-                                       defaultValue="6"
-                                        className="w-12 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                     />
-                                     <label className="text-sm font-normal text-left w-12 text-foreground">Months</label>
-                                  </div>
-                                </div>
-
-                                {/* Starting Date field */}
-                                <div className="flex items-baseline gap-2">
-                                  <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Starting</label>
-                                 <div className="flex items-center gap-2 flex-grow">
-                                    <ApiDatePicker
-                                      name="starting_date"
-                                      placeholder="Select date"
-                                      value={undefined}
-                                      onChange={() => {}}
-                                      className="text-sm"
-                                    />
-                                 </div>
-                                </div>
-
-                                {/* Switch field */}
-                                <div className="flex items-center gap-2 justify-between">
-                                  <label className="text-caption font-normal text-left w-16 text-foreground shrink-0">Active</label>
-                                 <div className="flex items-center">
-                                   <ApiSwitch
-                                     name="active"
-                                     checked={false}
-                                     onChange={() => {}}
-                                   />
-                                 </div>
-                                </div>
-                            </div>
+                            {/* Empty space for meter reading trigger */}
                           </div>
                         </div>
                       </div>
