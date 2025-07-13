@@ -432,155 +432,151 @@ const EditAsset = () => {
           <TabsContent value="scheduled-maintenance" className="mt-1">
             <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
               {currentView === 0 ? (
-                <div className="animate-fade-in grid grid-cols-1 lg:grid-cols-2 gap-6 h-full">
-                  {/* Trigger Container */}
-                  <div className="space-y-4">
-                    {/* Trigger Header */}
-                    <div className="bg-blue-600 text-white px-3 py-2 text-sm font-medium">
-                      Trigger
-                    </div>
+                 <div className="animate-fade-in grid grid-cols-1 lg:grid-cols-3 gap-6 h-full">
+                   
+                   {/* Meter Reading Trigger - Standalone Card */}
+                   <div className="bg-card rounded-sm shadow-card p-4 space-y-4">
+                     <div className="bg-blue-600 text-white px-3 py-2 text-sm font-medium rounded-sm">
+                       Meter Reading Trigger
+                     </div>
                     
-                    {/* Meter Reading Trigger Section */}
-                    <div className="space-y-3">
-                      <h4 className="font-medium text-gray-700">Meter Reading Trigger</h4>
-                      
-                      {/* Small Maintenance Table */}
-                      <div className="border rounded-sm overflow-hidden">
-                        <table className="w-full text-xs">
-                          <thead className="bg-gray-100">
-                            <tr>
-                              <th className="px-2 py-1 text-left font-medium">Maint Name</th>
-                              <th className="px-2 py-1 text-left font-medium">Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr className="border-b">
-                              <td className="px-2 py-1">Hydraulic Check</td>
-                              <td className="px-2 py-1 text-green-600">Complete</td>
-                            </tr>
-                            <tr className="border-b">
-                              <td className="px-2 py-1">Brake Service</td>
-                              <td className="px-2 py-1 text-red-600">Overdue</td>
-                            </tr>
-                            <tr>
-                              <td className="px-2 py-1">Tire Rotation</td>
-                              <td className="px-2 py-1 text-yellow-600">Upcoming</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      
-                      {/* Dotted Border Container */}
-                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
-                        <div className="space-y-3">
-                          <div className="flex items-center space-x-2">
-                            <span className="text-sm">Every</span>
-                            <input 
-                              type="number" 
-                              defaultValue={500} 
-                              className="w-16 px-2 py-1 border border-gray-300 rounded text-center text-sm"
-                            />
-                            <span className="text-sm">Hour</span>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <span className="text-sm">Starting at</span>
-                            <input 
-                              type="number" 
-                              defaultValue={250} 
-                              className="w-16 px-2 py-1 border border-gray-300 rounded text-center text-sm"
-                            />
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <span className="text-sm">Create WO</span>
-                            <input 
-                              type="number" 
-                              defaultValue={50} 
-                              className="w-16 px-2 py-1 border border-gray-300 rounded text-center text-sm"
-                            />
-                            <span className="text-sm">before trigger</span>
-                          </div>
-                          <button className="bg-green-500 text-white px-3 py-1 rounded text-sm font-medium flex items-center space-x-1">
-                            <span>✓</span>
-                            <span>Active</span>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
+                     {/* Small Maintenance Table */}
+                     <div className="border rounded-sm overflow-hidden">
+                       <table className="w-full text-xs">
+                         <thead className="bg-gray-100">
+                           <tr>
+                             <th className="px-2 py-1 text-left font-medium">Maint Name</th>
+                             <th className="px-2 py-1 text-left font-medium">Status</th>
+                           </tr>
+                         </thead>
+                         <tbody>
+                           <tr className="border-b">
+                             <td className="px-2 py-1">Hydraulic Check</td>
+                             <td className="px-2 py-1 text-green-600">Complete</td>
+                           </tr>
+                           <tr className="border-b">
+                             <td className="px-2 py-1">Brake Service</td>
+                             <td className="px-2 py-1 text-red-600">Overdue</td>
+                           </tr>
+                           <tr>
+                             <td className="px-2 py-1">Tire Rotation</td>
+                             <td className="px-2 py-1 text-yellow-600">Upcoming</td>
+                           </tr>
+                         </tbody>
+                       </table>
+                     </div>
+                     
+                     {/* Dotted Border Container */}
+                     <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
+                       <div className="space-y-3">
+                         <div className="flex items-center space-x-2">
+                           <span className="text-sm">Every</span>
+                           <input 
+                             type="number" 
+                             defaultValue={500} 
+                             className="w-16 px-2 py-1 border border-gray-300 rounded text-center text-sm"
+                           />
+                           <span className="text-sm">Hour</span>
+                         </div>
+                         <div className="flex items-center space-x-2">
+                           <span className="text-sm">Starting at</span>
+                           <input 
+                             type="number" 
+                             defaultValue={250} 
+                             className="w-16 px-2 py-1 border border-gray-300 rounded text-center text-sm"
+                           />
+                         </div>
+                         <div className="flex items-center space-x-2">
+                           <span className="text-sm">Create WO</span>
+                           <input 
+                             type="number" 
+                             defaultValue={50} 
+                             className="w-16 px-2 py-1 border border-gray-300 rounded text-center text-sm"
+                           />
+                           <span className="text-sm">before trigger</span>
+                         </div>
+                         <button className="bg-green-500 text-white px-3 py-1 rounded text-sm font-medium flex items-center space-x-1">
+                           <span>✓</span>
+                           <span>Active</span>
+                         </button>
+                       </div>
+                     </div>
+                   </div>
 
-                    {/* Time Trigger Section */}
-                    <div className="space-y-3">
-                      <h4 className="font-medium text-gray-700">Time Trigger</h4>
-                      
-                      {/* Small Maintenance Table */}
-                      <div className="border rounded-sm overflow-hidden">
-                        <table className="w-full text-xs">
-                          <thead className="bg-gray-100">
-                            <tr>
-                              <th className="px-2 py-1 text-left font-medium">Maint Name</th>
-                              <th className="px-2 py-1 text-left font-medium">Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr className="border-b">
-                              <td className="px-2 py-1">Daily Inspection</td>
-                              <td className="px-2 py-1 text-green-600">Complete</td>
-                            </tr>
-                            <tr className="border-b">
-                              <td className="px-2 py-1">Weekly Service</td>
-                              <td className="px-2 py-1 text-yellow-600">Upcoming</td>
-                            </tr>
-                            <tr>
-                              <td className="px-2 py-1">Monthly Check</td>
-                              <td className="px-2 py-1 text-blue-600">Scheduled</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      
-                      {/* Dotted Border Container */}
-                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
-                        <div className="space-y-3">
-                          <div className="flex items-center space-x-2">
-                            <span className="text-sm">Frequency</span>
-                            <select className="px-2 py-1 border border-gray-300 rounded text-sm">
-                              <option>Daily</option>
-                              <option>Weekly</option>
-                              <option>Monthly</option>
-                            </select>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <span className="text-sm">Start Date</span>
-                            <input 
-                              type="text" 
-                              placeholder="mm/dd/yyyy"
-                              className="px-2 py-1 border border-gray-300 rounded text-sm"
-                            />
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <span className="text-sm">Create WO</span>
-                            <input 
-                              type="number" 
-                              defaultValue={1} 
-                              className="w-16 px-2 py-1 border border-gray-300 rounded text-center text-sm"
-                            />
-                            <span className="text-sm">days before</span>
-                          </div>
-                          <button className="bg-green-500 text-white px-3 py-1 rounded text-sm font-medium flex items-center space-x-1">
-                            <span>✓</span>
-                            <span>Active</span>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                   {/* Time Trigger - Standalone Card */}
+                   <div className="bg-card rounded-sm shadow-card p-4 space-y-4">
+                     <div className="bg-blue-600 text-white px-3 py-2 text-sm font-medium rounded-sm">
+                       Time Trigger
+                     </div>
+                     
+                     {/* Small Maintenance Table */}
+                     <div className="border rounded-sm overflow-hidden">
+                       <table className="w-full text-xs">
+                         <thead className="bg-gray-100">
+                           <tr>
+                             <th className="px-2 py-1 text-left font-medium">Maint Name</th>
+                             <th className="px-2 py-1 text-left font-medium">Status</th>
+                           </tr>
+                         </thead>
+                         <tbody>
+                           <tr className="border-b">
+                             <td className="px-2 py-1">Daily Inspection</td>
+                             <td className="px-2 py-1 text-green-600">Complete</td>
+                           </tr>
+                           <tr className="border-b">
+                             <td className="px-2 py-1">Weekly Service</td>
+                             <td className="px-2 py-1 text-yellow-600">Upcoming</td>
+                           </tr>
+                           <tr>
+                             <td className="px-2 py-1">Monthly Check</td>
+                             <td className="px-2 py-1 text-blue-600">Scheduled</td>
+                           </tr>
+                         </tbody>
+                       </table>
+                     </div>
+                     
+                     {/* Dotted Border Container */}
+                     <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
+                       <div className="space-y-3">
+                         <div className="flex items-center space-x-2">
+                           <span className="text-sm">Frequency</span>
+                           <select className="px-2 py-1 border border-gray-300 rounded text-sm">
+                             <option>Daily</option>
+                             <option>Weekly</option>
+                             <option>Monthly</option>
+                           </select>
+                         </div>
+                         <div className="flex items-center space-x-2">
+                           <span className="text-sm">Start Date</span>
+                           <input 
+                             type="text" 
+                             placeholder="mm/dd/yyyy"
+                             className="px-2 py-1 border border-gray-300 rounded text-sm"
+                           />
+                         </div>
+                         <div className="flex items-center space-x-2">
+                           <span className="text-sm">Create WO</span>
+                           <input 
+                             type="number" 
+                             defaultValue={1} 
+                             className="w-16 px-2 py-1 border border-gray-300 rounded text-center text-sm"
+                           />
+                           <span className="text-sm">days before</span>
+                         </div>
+                         <button className="bg-green-500 text-white px-3 py-1 rounded text-sm font-medium flex items-center space-x-1">
+                           <span>✓</span>
+                           <span>Active</span>
+                         </button>
+                       </div>
+                     </div>
+                   </div>
 
-                  {/* Log Container */}
-                  <div className="space-y-4">
-                    {/* Log Header */}
-                    <div className="bg-blue-600 text-white px-3 py-2 text-sm font-medium">
-                      Log
-                    </div>
-                    
+                   {/* Log - Standalone Card */}
+                   <div className="bg-card rounded-sm shadow-card p-4 space-y-4">
+                     <div className="bg-blue-600 text-white px-3 py-2 text-sm font-medium rounded-sm">
+                       Log
+                     </div>
+                     
                      {/* Work Orders Section */}
                      <div className="relative">
                        <div className="flex items-center justify-between mb-4">
