@@ -53,7 +53,7 @@ const EditAsset = () => {
   // Meter Reading Trigger form state
   const [meterTriggerData, setMeterTriggerData] = useState({
     interval_value: 500,
-    interval_unit: "Hour",
+    interval_unit: "hours",
     start_threshold_value: 250,
     lead_time_value: 50,
     is_active: true
@@ -523,9 +523,13 @@ const EditAsset = () => {
                                         onChange={(e) => setMeterTriggerData(prev => ({...prev, interval_unit: e.target.value}))}
                                         className="h-6 px-2 text-xs border rounded bg-background"
                                       >
-                                        <option value="Hour">Hour</option>
-                                        <option value="Day">Day</option>
-                                        <option value="Week">Week</option>
+                                        <option value="hours">hours</option>
+                                        <option value="km">km</option>
+                                        <option value="miles">miles</option>
+                                        <option value="cycles">cycles</option>
+                                        <option value="days">days</option>
+                                        <option value="weeks">weeks</option>
+                                        <option value="months">months</option>
                                       </select>
                                     </div>
                                   </div>
