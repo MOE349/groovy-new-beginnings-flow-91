@@ -37,7 +37,7 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupLabel className="text-2xl font-bold text-white">Tenmil</SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu className="mt-4">
+            <SidebarMenu className="mt-4 space-y-3">
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild isActive={isActive(item.url)}>
