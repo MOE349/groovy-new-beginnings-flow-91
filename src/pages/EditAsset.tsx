@@ -49,6 +49,15 @@ const EditAsset = () => {
   const [activeTab, setActiveTab] = useState("");
   const [isMeterTriggerActive, setIsMeterTriggerActive] = useState(true);
   const [isTimeTriggerActive, setIsTimeTriggerActive] = useState(true);
+  
+  // Meter Reading Trigger form state
+  const [meterTriggerData, setMeterTriggerData] = useState({
+    interval_value: 500,
+    interval_unit: "Hour",
+    start_threshold_value: 250,
+    lead_time_value: 50,
+    is_active: true
+  });
   const { assetType, assetData, isLoading, isError, error } = useAssetData(id);
   const { handleSubmit } = useAssetSubmit(id, assetType);
 
@@ -94,6 +103,37 @@ const EditAsset = () => {
       toast({
         title: "Error",
         description: error.message || "Failed to delete code",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleSaveMeterTrigger = async () => {
+    try {
+      const submissionData = {
+        interval_value: meterTriggerData.interval_value,
+        interval_unit: meterTriggerData.interval_unit,
+        start_threshold_value: meterTriggerData.start_threshold_value,
+        start_threshold_unit: meterTriggerData.interval_unit, // same as interval_unit
+        lead_time_value: meterTriggerData.lead_time_value,
+        lead_time_unit: meterTriggerData.interval_unit, // same as interval_unit
+        is_active: meterTriggerData.is_active,
+        asset: id
+      };
+      
+      await apiCall('/pm_automation/pm-settings/', { 
+        method: 'POST', 
+        body: submissionData 
+      });
+      
+      toast({
+        title: "Success",
+        description: "PM Trigger settings saved successfully!",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to save PM Trigger settings",
         variant: "destructive",
       });
     }
@@ -474,13 +514,18 @@ const EditAsset = () => {
                                     <div className="flex items-center gap-2">
                                       <input 
                                         type="number" 
-                                        defaultValue="500" 
+                                        value={meterTriggerData.interval_value}
+                                        onChange={(e) => setMeterTriggerData(prev => ({...prev, interval_value: Number(e.target.value)}))}
                                         className="w-16 h-6 px-2 text-xs border rounded bg-background"
                                       />
-                                      <select className="h-6 px-2 text-xs border rounded bg-background">
-                                        <option>Hour</option>
-                                        <option>Day</option>
-                                        <option>Week</option>
+                                      <select 
+                                        value={meterTriggerData.interval_unit}
+                                        onChange={(e) => setMeterTriggerData(prev => ({...prev, interval_unit: e.target.value}))}
+                                        className="h-6 px-2 text-xs border rounded bg-background"
+                                      >
+                                        <option value="Hour">Hour</option>
+                                        <option value="Day">Day</option>
+                                        <option value="Week">Week</option>
                                       </select>
                                     </div>
                                   </div>
@@ -490,7 +535,8 @@ const EditAsset = () => {
                                     <span className="text-xs text-muted-foreground">Starting at</span>
                                     <input 
                                       type="number" 
-                                      defaultValue="250" 
+                                      value={meterTriggerData.start_threshold_value}
+                                      onChange={(e) => setMeterTriggerData(prev => ({...prev, start_threshold_value: Number(e.target.value)}))}
                                       className="w-16 h-6 px-2 text-xs border rounded bg-background"
                                     />
                                   </div>
@@ -501,7 +547,8 @@ const EditAsset = () => {
                                     <div className="flex items-center gap-2">
                                       <input 
                                         type="number" 
-                                        defaultValue="50" 
+                                        value={meterTriggerData.lead_time_value}
+                                        onChange={(e) => setMeterTriggerData(prev => ({...prev, lead_time_value: Number(e.target.value)}))}
                                         className="w-16 h-6 px-2 text-xs border rounded bg-background"
                                       />
                                       <span className="text-xs text-muted-foreground">before trigger</span>
@@ -512,13 +559,23 @@ const EditAsset = () => {
                                   <div className="pt-2">
                                     <Button 
                                       className={`w-full h-8 text-xs ${
-                                        isMeterTriggerActive 
+                                        meterTriggerData.is_active 
                                           ? 'bg-green-500 hover:bg-green-600 text-white' 
                                           : 'bg-gray-500 hover:bg-gray-600 text-white'
                                       }`}
-                                      onClick={() => setIsMeterTriggerActive(!isMeterTriggerActive)}
+                                      onClick={() => setMeterTriggerData(prev => ({...prev, is_active: !prev.is_active}))}
                                     >
-                                      {isMeterTriggerActive ? '✓ Active' : '✗ Inactive'}
+                                      {meterTriggerData.is_active ? '✓ Active' : '✗ Inactive'}
+                                    </Button>
+                                  </div>
+
+                                  {/* Save button */}
+                                  <div className="pt-2">
+                                    <Button 
+                                      className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-white"
+                                      onClick={handleSaveMeterTrigger}
+                                    >
+                                      Save
                                     </Button>
                                   </div>
                                 </div>
