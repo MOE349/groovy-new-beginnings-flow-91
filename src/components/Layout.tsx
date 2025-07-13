@@ -30,7 +30,7 @@ export function Layout({ children }: LayoutProps) {
     if (location.pathname.startsWith('/settings')) {
       return 'Settings';
     }
-    if (location.pathname.startsWith('/work-orders')) {
+    if (location.pathname.startsWith('/workorders')) {
       return 'Work Orders';
     }
     return 'Tenmil';
