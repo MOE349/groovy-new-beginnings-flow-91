@@ -82,7 +82,7 @@ export function Layout({ children }: LayoutProps) {
             </div>
           </header>
           
-          <main className="flex-1 p-2">
+          <main className="flex-1 p-1">
             {children}
           </main>
           
