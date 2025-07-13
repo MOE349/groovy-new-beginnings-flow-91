@@ -82,7 +82,7 @@ const SortableTableHead = ({ column, className }: { column: TableColumn; classNa
     <TableHead
       ref={setNodeRef}
       style={style}
-      className={`${className} cursor-grab active:cursor-grabbing select-none`}
+      className={`${className} cursor-grab active:cursor-grabbing select-none py-4`}
       {...attributes}
       {...listeners}
     >
