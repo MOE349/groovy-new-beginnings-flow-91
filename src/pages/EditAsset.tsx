@@ -18,6 +18,7 @@ import { useQueryClient, useQuery } from "@tanstack/react-query";
 import FormLayout from "@/components/FormLayout";
 import { equipmentFormConfig, attachmentFormConfig } from "@/config/formLayouts";
 import FinancialsTabContent from "@/components/FinancialsTabContent";
+import PartsBomTabContent from "@/components/PartsBomTabContent";
 
 import {
   Dialog,
@@ -200,10 +201,7 @@ const EditAsset = () => {
           
           {/* Tab Content Panels - Compact */}
           <TabsContent value="parts-bom" className="mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
-              <h3 className="text-h3 font-medium text-foreground">Parts/BOM</h3>
-              <p className="text-caption text-muted-foreground">Parts and Bill of Materials content will go here</p>
-            </div>
+            <PartsBomTabContent assetId={id || ''} />
           </TabsContent>
           
           <TabsContent value="metering-events" className="mt-1">
