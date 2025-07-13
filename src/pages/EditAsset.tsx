@@ -556,10 +556,9 @@ const EditAsset = () => {
                         <h4 className="text-base font-medium text-primary dark:text-secondary flex-1 text-center">Log</h4>
                         <button
                           onClick={() => handleViewChange(1)}
-                          className="flex items-center gap-1 px-2 py-0.5 text-xs text-primary hover:text-primary/80 transition-colors"
+                          className="w-8 h-8 bg-primary/10 hover:bg-primary/20 border border-primary/30 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
                         >
-                          <ArrowRight className="h-3 w-3" />
-                          Go to Checklist
+                          <ChevronRight className="w-4 h-4 text-primary" />
                         </button>
                       </div>
                       
