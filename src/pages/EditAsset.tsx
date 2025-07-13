@@ -7,7 +7,7 @@ import ApiForm from "@/components/ApiForm";
 import ApiTable from "@/components/ApiTable";
 import { apiCall } from "@/utils/apis";
 import GearSpinner from "@/components/ui/gear-spinner";
-import { AlertTriangle, Trash2, Plus, Check, X } from "lucide-react";
+import { AlertTriangle, Trash2, Plus, Check, X, Calendar as CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAssetData } from "@/hooks/useAssetData";
 import { useAssetSubmit } from "@/hooks/useAssetSubmit";
@@ -527,9 +527,54 @@ const EditAsset = () => {
                             <div className="p-4 h-[380px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
                               <h5 className="text-xs font-medium text-primary dark:text-secondary mb-4 text-center">Calendar Trigger</h5>
                               
-                              <div className="flex-grow space-y-2 overflow-auto">
-                                <div className="p-2 text-center text-muted-foreground text-xs">
-                                  Calendar trigger content coming soon...
+                              <div className="flex-grow space-y-3 overflow-auto">
+                                <div className="space-y-3">
+                                  {/* Frequency field */}
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-xs text-muted-foreground">Frequency</span>
+                                    <select className="h-6 px-2 text-xs border rounded bg-background">
+                                      <option>Daily</option>
+                                      <option>Weekly</option>
+                                      <option>Monthly</option>
+                                      <option>Yearly</option>
+                                    </select>
+                                  </div>
+
+                                  {/* Start Date field */}
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-xs text-muted-foreground">Start Date</span>
+                                    <div className="relative">
+                                      <input 
+                                        type="text" 
+                                        placeholder="mm/dd/yy" 
+                                        className="w-20 h-6 px-2 text-xs border rounded bg-background pr-6"
+                                      />
+                                      <CalendarIcon className="absolute right-1 top-1 h-4 w-4 text-muted-foreground" />
+                                    </div>
+                                  </div>
+
+                                  {/* Create WO field */}
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-xs text-muted-foreground">Create WO</span>
+                                    <div className="flex items-center gap-2">
+                                      <input 
+                                        type="number" 
+                                        defaultValue="1" 
+                                        className="w-12 h-6 px-2 text-xs border rounded bg-background"
+                                      />
+                                      <span className="text-xs text-muted-foreground">days before</span>
+                                    </div>
+                                  </div>
+
+                                  {/* Active toggle */}
+                                  <div className="pt-2">
+                                    <Button 
+                                      className="w-full h-8 bg-green-500 hover:bg-green-600 text-white text-xs"
+                                      onClick={() => setIsTimeTriggerActive(!isTimeTriggerActive)}
+                                    >
+                                      ✓ Active
+                                    </Button>
+                                  </div>
                                 </div>
                               </div>
                             </div>
