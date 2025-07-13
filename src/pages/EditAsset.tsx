@@ -453,7 +453,7 @@ const EditAsset = () => {
                               
                               {/* Maintenance Table */}
                               <div className="mt-4 mb-4">
-                                 <div className="border border-border rounded-md overflow-hidden mx-auto" style={{ width: '120%', maxWidth: '400px', marginLeft: '-10%', marginRight: '-10%' }}>
+                                 <div className="border border-border rounded-md overflow-hidden w-full max-w-sm mx-auto">
                                   <table className="w-full text-xs">
                                     <thead className="bg-muted">
                                       <tr>
@@ -489,7 +489,7 @@ const EditAsset = () => {
                               <div className="flex-grow min-h-[20px]"></div>
                                   
                               {/* Form fields positioned in lower portion */}
-                              <div className="space-y-0 pb-4 p-6 mb-4 border-2 border-dashed border-primary/30 rounded-xl bg-gradient-to-br from-card/50 to-background/30 shadow-inner backdrop-blur-sm mx-auto" style={{ width: '120%', maxWidth: '400px', marginLeft: '-10%', marginRight: '-10%' }}>
+                              <div className="space-y-0 pb-4 p-6 mb-4 border-2 border-dashed border-primary/30 rounded-xl bg-gradient-to-br from-card/50 to-background/30 shadow-inner backdrop-blur-sm w-full max-w-sm mx-auto">
                                    {/* Every field */}
                                    <div className="flex items-baseline gap-2">
                                      <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Every</label>
@@ -572,7 +572,7 @@ const EditAsset = () => {
                               
                               {/* Maintenance Table */}
                               <div className="mt-4 mb-4">
-                                 <div className="border border-border rounded-md overflow-hidden mx-auto" style={{ width: '120%', maxWidth: '400px', marginLeft: '-10%', marginRight: '-10%' }}>
+                                 <div className="border border-border rounded-md overflow-hidden w-full max-w-sm mx-auto">
                                   <table className="w-full text-xs">
                                     <thead className="bg-muted">
                                       <tr>
@@ -608,7 +608,7 @@ const EditAsset = () => {
                               <div className="flex-grow min-h-[20px]"></div>
                               
                               {/* Form fields positioned in lower portion */}
-                               <div className="space-y-0 pb-4 p-6 mb-4 border-2 border-dashed border-primary/30 rounded-xl bg-gradient-to-br from-card/50 to-background/30 shadow-inner backdrop-blur-sm mx-auto" style={{ width: '120%', maxWidth: '400px', marginLeft: '-10%', marginRight: '-10%' }}>
+                               <div className="space-y-0 pb-4 p-6 mb-4 border-2 border-dashed border-primary/30 rounded-xl bg-gradient-to-br from-card/50 to-background/30 shadow-inner backdrop-blur-sm w-full max-w-sm mx-auto">
                                  {/* Frequency field */}
                                  <div className="flex items-baseline gap-2">
                                    <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Frequency</label>
