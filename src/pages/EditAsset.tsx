@@ -217,9 +217,9 @@ const EditAsset = () => {
           
           <TabsContent value="metering-events" className="mt-1">
             <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
-              <div className="flex gap-6">
+              <div className="grid xl:grid-cols-2 2xl:grid-cols-[1fr_1.2fr] gap-4 lg:gap-6">
                 {/* Left side - Meter Readings */}
-                <div className="w-1/2">
+                <div className="min-w-0">
                   {/* Button */}
                   <div className="mb-1">
                     <Button 
@@ -234,7 +234,7 @@ const EditAsset = () => {
                   </div>
 
                   {/* Table */}
-                  <div className="w-5/6">
+                  <div className="w-full max-w-full">
                     <ApiTable
                       endpoint={`/meter-readings/meter_reading?asset=${id}`}
                       columns={[
@@ -261,7 +261,7 @@ const EditAsset = () => {
                 </div>
 
                 {/* Right side - Codes */}
-                <div className="w-1/2">
+                <div className="min-w-0">
                   {/* Button */}
                   <div className="mb-1">
                     <Button 
@@ -276,7 +276,7 @@ const EditAsset = () => {
                   </div>
 
                   {/* Table */}
-                  <div className="w-5/6">
+                  <div className="w-full max-w-full">
                     <ApiTable
                       endpoint={`/fault-codes/codes?asset=${id}`}
                       columns={[
@@ -440,7 +440,7 @@ const EditAsset = () => {
           <TabsContent value="scheduled-maintenance" className="mt-1">
             <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px] relative">
               {currentView === 0 ? (
-                <div className="animate-fade-in flex gap-6 h-full relative">
+                <div className="animate-fade-in grid xl:grid-cols-2 2xl:grid-cols-[1fr_1.2fr] gap-4 lg:gap-6 h-full relative">
                   
                   {/* Navigation to View 2 */}
                   <button
@@ -450,16 +450,16 @@ const EditAsset = () => {
                     <ChevronRight className="w-4 h-4 text-primary" />
                   </button>
                   {/* Trigger Container */}
-                  <div className="w-1/2">
-                    <div className="p-10 space-y-4 h-[474px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b before:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
+                  <div className="min-w-0">
+                    <div className="p-6 lg:p-8 xl:p-10 space-y-4 min-h-[400px] max-h-[70vh] lg:max-h-[60vh] xl:max-h-[65vh] 2xl:max-h-[70vh] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 before:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
                       <div className="flex items-center justify-center gap-4 mb-6 py-0.5 -mx-2 -mt-5 bg-accent/20 border border-accent/30 rounded-md">
                         <h4 className="text-base font-medium text-primary dark:text-secondary">Trigger</h4>
                       </div>
                       
-                      <div className="flex gap-4 h-full">
+                      <div className="grid lg:grid-cols-2 gap-4 h-full">
                         {/* Meter Reading Trigger Container */}
-                        <div className="w-1/2">
-                          <div className="p-10 h-[380px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
+                        <div className="min-w-0">
+                          <div className="p-6 lg:p-8 xl:p-10 min-h-[300px] max-h-[50vh] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
                             <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary dark:text-secondary whitespace-nowrap">Meter Reading Trigger</h5>
                             
                             {/* Trigger Settings Form */}
@@ -517,8 +517,8 @@ const EditAsset = () => {
                         </div>
                         
                         {/* Calendar-based Trigger Container */}
-                        <div className="w-1/2">
-                          <div className="p-10 h-[380px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
+                        <div className="min-w-0">
+                          <div className="p-6 lg:p-8 xl:p-10 min-h-[300px] max-h-[50vh] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
                             <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary dark:text-secondary whitespace-nowrap">Calendar-based Trigger</h5>
                             
                             {/* Spacer to push content down */}
@@ -532,8 +532,8 @@ const EditAsset = () => {
                   </div>
 
                   {/* Log Container */}
-                  <div className="w-1/2">
-                    <div className="p-10 space-y-4 h-[474px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
+                  <div className="min-w-0">
+                    <div className="p-6 lg:p-8 xl:p-10 space-y-4 min-h-[400px] max-h-[70vh] lg:max-h-[60vh] xl:max-h-[65vh] 2xl:max-h-[70vh] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
                        <div className="flex items-center justify-center gap-4 mb-6 py-0.5 -mx-2 -mt-5 bg-accent/20 border border-accent/30 rounded-md">
                          <h4 className="text-base font-medium text-primary dark:text-secondary">Log</h4>
                        </div>

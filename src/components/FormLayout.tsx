@@ -163,18 +163,18 @@ const FormLayout = ({
             )}
             
             {/* Right Section - Form fields in columns */}
-            <div className="flex-1">
-              <div className={`grid gap-x-8 gap-y-2 ${
+            <div className="flex-1 max-w-full">
+              <div className={`grid gap-x-4 lg:gap-x-6 xl:gap-x-8 2xl:gap-x-10 gap-y-2 ${
                 config.columns.length === 1 
                   ? 'grid-cols-1' 
                   : config.columns.length === 2 && config.title.includes("Work Order")
-                    ? 'grid-cols-[2fr_1fr]' 
+                    ? 'lg:grid-cols-[2fr_1fr] xl:grid-cols-[2.5fr_1fr] 2xl:grid-cols-[3fr_1fr]' 
                     : config.columns.length === 2 
-                      ? 'grid-cols-2' 
-                      : 'grid-cols-3'
+                      ? 'lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2' 
+                      : 'lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3'
               }`}>
-                {config.columns.map((column, colIndex) => (
-                   <div key={colIndex} className="p-6 space-y-2 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
+                 {config.columns.map((column, colIndex) => (
+                    <div key={colIndex} className="p-4 lg:p-5 xl:p-6 2xl:p-7 space-y-2 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl min-w-0">
                      {column.fields.map((field, fieldIndex) => {
                        // Special handling for make and model to be on the same row
                        if (field.name === "make" && column.fields[fieldIndex + 1]?.name === "model") {
