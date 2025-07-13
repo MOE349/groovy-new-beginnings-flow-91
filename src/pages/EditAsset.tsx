@@ -688,7 +688,7 @@ const EditAsset = () => {
                           <ChevronRight className="w-4 h-4 text-primary" />
                         </button>
                         
-                        <div className="absolute top-1 left-8 right-8 flex items-center justify-center gap-4 py-1 bg-accent/20 border border-accent/30 rounded-md z-10">
+                        <div className="absolute top-1 left-8 right-8 flex items-center justify-center gap-4 py-0.5 bg-accent/20 border border-accent/30 rounded-md z-10">
                           <h4 className="text-base font-medium text-primary dark:text-secondary">Log</h4>
                         </div>
                         
