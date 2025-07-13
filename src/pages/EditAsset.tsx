@@ -576,21 +576,6 @@ const EditAsset = () => {
                 </div>
               )}
 
-              {/* Navigation Dots */}
-              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
-                <button
-                  onClick={() => handleViewChange(0)}
-                  className={`w-2 h-2 rounded-full transition-all duration-200 ${
-                    currentView === 0 ? 'bg-primary' : 'bg-primary/30'
-                  }`}
-                />
-                <button
-                  onClick={() => handleViewChange(1)}
-                  className={`w-2 h-2 rounded-full transition-all duration-200 ${
-                    currentView === 1 ? 'bg-primary' : 'bg-primary/30'
-                  }`}
-                />
-              </div>
             </div>
           </TabsContent>
           
