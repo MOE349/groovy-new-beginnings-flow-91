@@ -460,7 +460,7 @@ const EditAsset = () => {
                             <div className="flex-grow min-h-[20px]"></div>
                                 
                             {/* Form fields positioned in lower portion */}
-                            <div className="space-y-3 p-4 border-2 border-dashed border-muted-foreground/30 rounded-lg bg-muted/10 w-full max-w-xs mx-auto">
+                            <div className="space-y-3 p-4 border-2 border-dashed border-muted-foreground/30 rounded-lg bg-muted/10 w-full max-w-md mx-auto">
                                 {/* Every field */}
                                 <div className="flex items-center gap-3">
                                     <label className="text-sm font-medium text-foreground w-16 shrink-0">Every</label>
