@@ -435,125 +435,99 @@ const EditAsset = () => {
                 <div className="animate-fade-in flex gap-6 h-full">
                   {/* Trigger Container */}
                   <div className="w-1/2">
-                    <div className="p-10 space-y-4 h-[474px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b before:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
-                      <div className="flex items-center justify-center gap-4 mb-6 py-0.5 -mx-2 -mt-5 bg-accent/20 border border-accent/30 rounded-md">
-                        <h4 className="text-base font-medium text-primary dark:text-secondary">Trigger</h4>
-                      </div>
+                    <div className="bg-card border rounded-lg p-6 h-full">
+                      <h4 className="text-lg font-semibold mb-6 text-center">Trigger</h4>
                       
                       <div className="flex gap-4 h-full">
-                        {/* Meter Reading Trigger Container */}
-                        <div className="w-1/2">
-                          <div className="p-10 h-[380px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 before:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
-                            <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary dark:text-secondary whitespace-nowrap">Meter Reading Trigger</h5>
+                        {/* Meter Reading Trigger */}
+                        <div className="w-1/2 flex flex-col">
+                          <h5 className="text-sm font-medium mb-4 text-center">Meter Reading Trigger</h5>
+                          
+                          <div className="space-y-4 mb-6">
+                            <div className="flex items-center gap-2">
+                              <label className="text-sm font-medium w-12">Every</label>
+                              <input
+                                type="number"
+                                defaultValue="500"
+                                className="w-16 px-2 py-1 text-sm border rounded"
+                              />
+                              <span className="text-sm">Hour</span>
+                            </div>
                             
-                            {/* Maintenance Table */}
-                             <div className="mt-4 mb-4">
-                                <ApiTable
-                                  endpoint="/api/placeholder-maintenance"
-                                  columns={[
-                                    { key: 'maintenanceName', header: 'Maintenance Name', type: 'text' },
-                                    { key: 'status', header: 'Status', type: 'text' }
-                                  ]}
-                                  title=""
-                                  queryKey={['maintenance', id]}
-                                  className="w-full max-w-sm mx-auto"
-                                />
-                             </div>
-
-                            {/* Spacer to push content down but not to the very bottom */}
-                            <div className="flex-grow min-h-[20px]"></div>
-                                
-                            {/* Form fields positioned in lower portion */}
-                            <div className="space-y-0 pb-4 p-6 mb-4 border-2 border-dashed border-primary/30 rounded-xl bg-gradient-to-br from-card/50 to-background/30 shadow-inner backdrop-blur-sm w-full max-w-sm mx-auto">
-                                 {/* Every field */}
-                                 <div className="flex items-baseline gap-2">
-                                   <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Every</label>
-                                  <div className="flex items-center gap-2 flex-grow">
-                                     <input
-                                       type="number"
-                                       defaultValue="500"
-                                        className="w-12 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                     />
-                                     <label className="text-sm font-normal text-left w-10 text-foreground">Hours</label>
-                                  </div>
-                                </div>
-
-                                {/* Tolerance field */}
-                                <div className="flex items-baseline gap-2">
-                                  <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Tolerance</label>
-                                 <div className="flex items-center gap-2 flex-grow">
-                                    <input
-                                      type="number"
-                                      defaultValue="50"
-                                       className="w-12 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                    />
-                                    <label className="text-sm font-normal text-left w-10 text-foreground">Hours</label>
-                                 </div>
-                                </div>
-
-                                {/* Switch field */}
-                                <div className="flex items-center gap-2 justify-between">
-                                  <label className="text-caption font-normal text-left w-16 text-foreground shrink-0">Active</label>
-                                 <div className="flex items-center">
-                                   <ApiSwitch
-                                     name="active"
-                                     checked={false}
-                                     onChange={() => {}}
-                                   />
-                                 </div>
-                                </div>
+                            <div className="flex items-center gap-2">
+                              <label className="text-sm font-medium w-12">Starting at</label>
+                              <input
+                                type="number"
+                                defaultValue="250"
+                                className="w-16 px-2 py-1 text-sm border rounded"
+                              />
+                              <span className="text-sm">Hours</span>
+                            </div>
+                            
+                            <div className="flex items-center gap-2">
+                              <label className="text-sm font-medium w-12">Create WO</label>
+                              <input
+                                type="number"
+                                defaultValue="50"
+                                className="w-16 px-2 py-1 text-sm border rounded"
+                              />
+                              <span className="text-sm">before trigger</span>
+                            </div>
+                            
+                            <div className="flex items-center justify-between">
+                              <label className="text-sm font-medium">Active</label>
+                              <ApiSwitch
+                                name="meter-active"
+                                checked={false}
+                                onChange={() => {}}
+                              />
                             </div>
                           </div>
                         </div>
                         
-                        {/* Calendar-based Trigger Container */}
-                        <div className="w-1/2">
-                          <div className="p-10 h-[380px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
-                            <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary dark:text-secondary whitespace-nowrap">Calendar-based Trigger</h5>
+                        {/* Time Trigger */}
+                        <div className="w-1/2 flex flex-col">
+                          <h5 className="text-sm font-medium mb-4 text-center">Time Trigger</h5>
+                          
+                          <div className="space-y-4 mb-6">
+                            <div className="flex items-center gap-2">
+                              <label className="text-sm font-medium w-16">Frequency</label>
+                              <select className="px-2 py-1 text-sm border rounded flex-1">
+                                <option>Daily</option>
+                                <option>Weekly</option>
+                                <option>Monthly</option>
+                                <option>Yearly</option>
+                              </select>
+                            </div>
                             
-                            {/* Spacer to push content down */}
-                            <div className="flex-grow min-h-[50px]"></div>
-
-                            {/* Form fields positioned in lower portion */}
-                            <div className="space-y-0 pb-4 p-6 mb-4 border-2 border-dashed border-primary/30 rounded-xl bg-gradient-to-br from-card/50 to-background/30 shadow-inner backdrop-blur-sm w-full max-w-sm mx-auto">
-                                 {/* Every field */}
-                                 <div className="flex items-baseline gap-2">
-                                   <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Every</label>
-                                  <div className="flex items-center gap-2 flex-grow">
-                                     <input
-                                       type="number"
-                                       defaultValue="6"
-                                        className="w-12 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                     />
-                                     <label className="text-sm font-normal text-left w-12 text-foreground">Months</label>
-                                  </div>
-                                </div>
-
-                                {/* Starting Date field */}
-                                <div className="flex items-baseline gap-2">
-                                  <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Starting</label>
-                                 <div className="flex items-center gap-2 flex-grow">
-                                    <ApiDatePicker
-                                      name="starting_date"
-                                      placeholder="Select date"
-                                      value={undefined}
-                                      onChange={() => {}}
-                                      className="text-sm"
-                                    />
-                                 </div>
-                                </div>
-
-                                {/* Switch field */}
-                                <div className="flex items-center gap-2 justify-between">
-                                  <label className="text-caption font-normal text-left w-16 text-foreground shrink-0">Active</label>
-                                 <div className="flex items-center">
-                                   <ApiSwitch
-                                     name="active"
-                                     checked={false}
-                                     onChange={() => {}}
-                                   />
-                                 </div>
-                                </div>
+                            <div className="flex items-center gap-2">
+                              <label className="text-sm font-medium w-16">Start Date</label>
+                              <ApiDatePicker
+                                name="start_date"
+                                placeholder="Select date"
+                                value={undefined}
+                                onChange={() => {}}
+                                className="text-sm flex-1"
+                              />
+                            </div>
+                            
+                            <div className="flex items-center gap-2">
+                              <label className="text-sm font-medium w-16">Create WO</label>
+                              <input
+                                type="number"
+                                defaultValue="1"
+                                className="w-12 px-2 py-1 text-sm border rounded"
+                              />
+                              <span className="text-sm">days before</span>
+                            </div>
+                            
+                            <div className="flex items-center justify-between">
+                              <label className="text-sm font-medium">Active</label>
+                              <ApiSwitch
+                                name="time-active"
+                                checked={false}
+                                onChange={() => {}}
+                              />
                             </div>
                           </div>
                         </div>
@@ -563,31 +537,50 @@ const EditAsset = () => {
 
                   {/* Log Container */}
                   <div className="w-1/2">
-                    <div className="p-10 space-y-4 h-[474px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
-                      <div className="flex items-center justify-between gap-4 mb-6 py-0.5 -mx-2 -mt-5 bg-accent/20 border border-accent/30 rounded-md">
-                        <h4 className="text-base font-medium text-primary dark:text-secondary flex-1 text-center">Log</h4>
+                    <div className="bg-card border rounded-lg p-6 h-full">
+                      <div className="flex items-center justify-between mb-6">
+                        <h4 className="text-lg font-semibold">Log</h4>
                         <button
                           onClick={() => handleViewChange(1)}
-                          className="flex items-center gap-1 px-2 py-0.5 text-xs text-primary hover:text-primary/80 transition-colors"
+                          className="flex items-center gap-1 px-3 py-1 text-sm text-primary hover:text-primary/80 border rounded transition-colors"
                         >
-                          <ArrowRight className="h-3 w-3" />
+                          <ArrowRight className="h-4 w-4" />
                           Go to Checklist
                         </button>
                       </div>
                       
-                      {/* Log Table */}
-                      <div className="h-[400px] overflow-y-auto">
-                        <ApiTable
-                          endpoint="/api/placeholder-log"
-                          columns={[
-                            { key: 'date', header: 'Date', type: 'text' },
-                            { key: 'action', header: 'Action', type: 'text' },
-                            { key: 'user', header: 'User', type: 'text' }
-                          ]}
-                          title=""
-                          queryKey={['log', id]}
-                          className="w-full"
-                        />
+                      {/* Dummy Work Orders Table */}
+                      <div className="overflow-hidden border rounded-lg">
+                        <table className="w-full">
+                          <thead className="bg-muted">
+                            <tr>
+                              <th className="px-3 py-2 text-left text-sm font-medium">Date</th>
+                              <th className="px-3 py-2 text-left text-sm font-medium">Log Type</th>
+                              <th className="px-3 py-2 text-left text-sm font-medium">Notes</th>
+                              <th className="px-3 py-2 text-left text-sm font-medium">Completion Hours</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y">
+                            <tr>
+                              <td className="px-3 py-2 text-sm">2024-01-15</td>
+                              <td className="px-3 py-2 text-sm">PM Inspection</td>
+                              <td className="px-3 py-2 text-sm">Routine maintenance completed</td>
+                              <td className="px-3 py-2 text-sm">2.5</td>
+                            </tr>
+                            <tr className="bg-muted/50">
+                              <td className="px-3 py-2 text-sm">2024-01-10</td>
+                              <td className="px-3 py-2 text-sm">Oil Change</td>
+                              <td className="px-3 py-2 text-sm">Oil and filter replaced</td>
+                              <td className="px-3 py-2 text-sm">1.0</td>
+                            </tr>
+                            <tr>
+                              <td className="px-3 py-2 text-sm">2024-01-05</td>
+                              <td className="px-3 py-2 text-sm">Belt Inspection</td>
+                              <td className="px-3 py-2 text-sm">All belts in good condition</td>
+                              <td className="px-3 py-2 text-sm">0.5</td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </div>
                   </div>
