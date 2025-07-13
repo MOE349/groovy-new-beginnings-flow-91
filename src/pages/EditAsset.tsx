@@ -489,7 +489,7 @@ const EditAsset = () => {
                               <div className="flex-grow min-h-[20px]"></div>
                                   
                               {/* Form fields positioned in lower portion */}
-                              <div className="space-y-0 pb-4 p-4 mb-4 border-2 border-dashed border-primary/30 rounded-xl bg-gradient-to-br from-card/50 to-background/30 shadow-inner backdrop-blur-sm">
+                               <div className="space-y-0 pb-4 p-4 mb-4 border-4 border-dashed border-primary/30 rounded-xl bg-gradient-to-br from-card/50 to-background/30 shadow-inner backdrop-blur-sm">
                                    {/* Every field */}
                                    <div className="flex items-baseline gap-2">
                                      <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Every</label>
