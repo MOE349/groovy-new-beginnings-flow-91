@@ -121,7 +121,7 @@ const EditAsset = () => {
         asset: id
       };
       
-      await apiCall('/pm_automation/pm-settings/', { 
+      await apiCall('/pm-automation/pm-settings/', { 
         method: 'POST', 
         body: submissionData 
       });
