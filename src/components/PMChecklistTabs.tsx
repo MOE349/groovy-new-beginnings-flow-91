@@ -48,7 +48,7 @@ export const PMChecklistTabs: React.FC = () => {
   };
 
   return (
-    <div className="w-full h-full pt-12">
+    <div className="w-full h-full">
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full h-full">
         <div className="flex items-center justify-between mb-4">
           <TabsList className="bg-accent/10 border border-accent/20">
