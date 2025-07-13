@@ -533,40 +533,9 @@ const EditAsset = () => {
           
           <TabsContent value="backlog" className="mt-1">
             <div className="bg-card rounded-sm shadow-xs p-4 h-[500px] overflow-auto">
-              <ApiTable
-                endpoint={`/workorders/workorder?status__in=Pending%2CNew&asset=${id}`}
-                columns={[
-                  { key: 'code', header: 'Code' },
-                  { key: 'title', header: 'Title' },
-                  { 
-                    key: 'status', 
-                    header: 'Status',
-                    render: (value: any) => {
-                      const statusColors = {
-                        'New': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
-                        'Pending': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
-                        'InProgress': 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300',
-                        'Complete': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
-                        'Cancelled': 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
-                      };
-                      const colorClass = statusColors[value as keyof typeof statusColors] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
-                      return (
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${colorClass}`}>
-                          {value}
-                        </span>
-                      );
-                    }
-                  },
-                  { 
-                    key: 'created_at', 
-                    header: 'Created',
-                    render: (value: any) => value ? new Date(value).toLocaleDateString() : '-'
-                  },
-                ]}
-                queryKey={["workorder", `backlog-${id}`]}
-                editRoutePattern="/workorders/edit/{id}"
-                tableId={`backlog-${id}`}
-              />
+              <div className="p-4 text-center text-muted-foreground">
+                Backlog content coming soon...
+              </div>
             </div>
           </TabsContent>
           
