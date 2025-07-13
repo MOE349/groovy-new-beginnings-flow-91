@@ -1,4 +1,4 @@
-import { LayoutDashboard, Truck, FileText, Settings, Wrench, Package, ShoppingCart, CreditCard, BarChart3 } from "lucide-react";
+import { LayoutDashboard, Truck, FileText, Settings, Wrench, Package, ShoppingCart, CreditCard, BarChart3, Users } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 
 import {
@@ -21,6 +21,7 @@ const items = [
   { title: "Purchase Orders", url: "/purchase-orders", icon: ShoppingCart },
   { title: "Billing", url: "/billing", icon: CreditCard },
   { title: "Analytics/Reports", url: "/analytics", icon: BarChart3 },
+  { title: "Users", url: "/users", icon: Users },
   { title: "Settings", url: "/settings", icon: Settings },
 ];
 

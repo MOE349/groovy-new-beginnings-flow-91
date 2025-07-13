@@ -42,6 +42,9 @@ export function Layout({ children }: LayoutProps) {
     if (location.pathname.startsWith('/analytics')) {
       return 'Analytics/Reports';
     }
+    if (location.pathname.startsWith('/users')) {
+      return 'Users';
+    }
     if (location.pathname.startsWith('/settings')) {
       return 'Settings';
     }

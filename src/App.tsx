@@ -27,6 +27,7 @@ import Parts from "./pages/Parts";
 import PurchaseOrders from "./pages/PurchaseOrders";
 import Billing from "./pages/Billing";
 import Analytics from "./pages/Analytics";
+import Users from "./pages/Users";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
@@ -61,6 +62,7 @@ const App = () => (
             <Route path="/purchase-orders" element={<Layout><PurchaseOrders /></Layout>} />
             <Route path="/billing" element={<Layout><Billing /></Layout>} />
             <Route path="/analytics" element={<Layout><Analytics /></Layout>} />
+            <Route path="/users" element={<Layout><Users /></Layout>} />
             <Route path="/settings" element={<Layout><Settings /></Layout>} />
             <Route path="/settings/sites/new" element={<Layout><CreateSite /></Layout>} />
             <Route path="/settings/sites/edit/:id" element={<Layout><EditSite /></Layout>} />
