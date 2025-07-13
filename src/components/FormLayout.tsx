@@ -174,16 +174,43 @@ const FormLayout = ({
                       : 'grid-cols-3'
               }`}>
                 {config.columns.map((column, colIndex) => (
-                  <div key={colIndex} className="p-6 space-y-2 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
-                    {column.fields.map((field) => (
-                      <div key={field.name} className="flex items-start gap-2 h-10">
-                        <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">{field.label}</label>
-                        <div className="flex-grow">
-                          {renderField({ ...field, label: "" })}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                   <div key={colIndex} className="p-6 space-y-2 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
+                     {column.fields.map((field, fieldIndex) => {
+                       // Special handling for make and model to be on the same row
+                       if (field.name === "make" && column.fields[fieldIndex + 1]?.name === "model") {
+                         const modelField = column.fields[fieldIndex + 1];
+                         return (
+                           <div key="make-model-row" className="space-y-2">
+                             <div className="flex items-start gap-2 h-10">
+                               <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">{field.label}</label>
+                               <div className="flex items-center gap-2 flex-grow">
+                                 <div className="flex-1">
+                                   {renderField({ ...field, label: "" })}
+                                 </div>
+                                 <label className="text-caption font-normal text-foreground shrink-0">{modelField.label}</label>
+                                 <div className="flex-1">
+                                   {renderField({ ...modelField, label: "" })}
+                                 </div>
+                               </div>
+                             </div>
+                           </div>
+                         );
+                       }
+                       // Skip rendering model field separately since it's handled above
+                       if (field.name === "model" && column.fields[fieldIndex - 1]?.name === "make") {
+                         return null;
+                       }
+                       // Default single field rendering
+                       return (
+                         <div key={field.name} className="flex items-start gap-2 h-10">
+                           <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">{field.label}</label>
+                           <div className="flex-grow">
+                             {renderField({ ...field, label: "" })}
+                           </div>
+                         </div>
+                       );
+                     })}
+                   </div>
                 ))}
               </div>
             </div>
