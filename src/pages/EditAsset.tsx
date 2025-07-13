@@ -450,38 +450,18 @@ const EditAsset = () => {
                               <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary dark:text-secondary whitespace-nowrap">Meter Reading Trigger</h5>
                               
                               {/* Maintenance Table */}
-                              <div className="mt-4 mb-4">
-                                 <div className="border border-border rounded-md overflow-hidden w-full max-w-sm mx-auto">
-                                  <table className="w-full text-xs">
-                                    <thead className="bg-muted">
-                                      <tr>
-                                        <th className="px-2 py-1 text-left font-medium">Maint Name</th>
-                                        <th className="px-2 py-1 text-left font-medium">Status</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      <tr className="border-t border-border">
-                                        <td className="px-2 py-1">Engine Service</td>
-                                        <td className="px-2 py-1">
-                                          <span className="px-1 py-0.5 text-xs bg-green-100 text-green-800 rounded">Active</span>
-                                        </td>
-                                      </tr>
-                                      <tr className="border-t border-border">
-                                        <td className="px-2 py-1">Oil Change</td>
-                                        <td className="px-2 py-1">
-                                          <span className="px-1 py-0.5 text-xs bg-yellow-100 text-yellow-800 rounded">Pending</span>
-                                        </td>
-                                      </tr>
-                                      <tr className="border-t border-border">
-                                        <td className="px-2 py-1">Filter Replace</td>
-                                        <td className="px-2 py-1">
-                                          <span className="px-1 py-0.5 text-xs bg-blue-100 text-blue-800 rounded">Scheduled</span>
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                                </div>
-                              </div>
+                               <div className="mt-4 mb-4">
+                                  <ApiTable
+                                    endpoint="/api/placeholder-maintenance"
+                                    columns={[
+                                      { key: 'maintenanceName', header: 'Maintenance Name', type: 'text' },
+                                      { key: 'status', header: 'Status', type: 'text' }
+                                    ]}
+                                    title=""
+                                    queryKey={['maintenance', id]}
+                                    className="w-full max-w-sm mx-auto"
+                                  />
+                               </div>
 
                               {/* Spacer to push content down but not to the very bottom */}
                               <div className="flex-grow min-h-[20px]"></div>
