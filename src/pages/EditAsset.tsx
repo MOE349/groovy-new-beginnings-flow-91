@@ -572,7 +572,7 @@ const EditAsset = () => {
                               
                               {/* Maintenance Table */}
                               <div className="mt-4 mb-4">
-                                <div className="border border-border rounded-md overflow-hidden">
+                                 <div className="border border-border rounded-md overflow-hidden mx-auto" style={{ width: '120%', maxWidth: '400px', marginLeft: '-10%', marginRight: '-10%' }}>
                                   <table className="w-full text-xs">
                                     <thead className="bg-muted">
                                       <tr>
