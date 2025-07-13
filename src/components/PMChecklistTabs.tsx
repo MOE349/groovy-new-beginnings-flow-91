@@ -49,7 +49,7 @@ const PMChecklistTabs: React.FC<PMChecklistTabsProps> = ({ assetId, onNavigateBa
   };
 
   return (
-    <div className="p-4 min-h-[400px] max-h-[70vh] lg:max-h-[60vh] xl:max-h-[65vh] 2xl:max-h-[70vh] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b before:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
+    <div className="p-4 h-[450px] overflow-auto relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b before:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
       
       {/* Left Arrow Navigation */}
       <button
@@ -144,8 +144,8 @@ const PMChecklistTabs: React.FC<PMChecklistTabsProps> = ({ assetId, onNavigateBa
               <TabsContent key={tab.id} value={tab.id} className="h-full mt-0">
                 <div className="min-h-[300px] flex-1 border border-border/30 rounded-b-lg rounded-tr-lg bg-background/50 p-4 overflow-auto">
                   
-                  {/* Responsive Layout: Checklist and Parts */}
-                  <div className="grid lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-[1fr_1.2fr] gap-4 h-full">
+                   {/* Fixed Layout: Checklist and Parts */}
+                   <div className="grid grid-cols-2 gap-4 h-full">
                     
                     {/* Checklist Section */}
                     <div className="border border-border/20 rounded-lg p-3 bg-card/50">

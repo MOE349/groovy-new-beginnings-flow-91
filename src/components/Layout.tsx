@@ -53,21 +53,21 @@ export function Layout({ children }: LayoutProps) {
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full">
+      <div className="min-h-screen flex w-full min-w-[1440px] overflow-x-auto">
         <AppSidebar />
         
         <div className="flex-1 flex flex-col">
-          <header className="h-6 flex items-center justify-between border-b bg-primary text-primary-foreground px-3">
+          <header className="h-12 flex items-center justify-between border-b bg-primary text-primary-foreground px-4">
             <div className="flex items-center">
-              <SidebarTrigger className="mr-3" />
-              <h1 className="text-base font-semibold">{getPageTitle()}</h1>
+              <SidebarTrigger className="mr-4" />
+              <h1 className="text-lg font-semibold">{getPageTitle()}</h1>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-3">
               <ThemeToggle />
               {user && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                     <Button variant="ghost" className="text-xs font-medium text-primary-foreground hover:bg-secondary hover:text-secondary-foreground h-5 px-2">
+                     <Button variant="ghost" className="text-sm font-medium text-primary-foreground hover:bg-secondary hover:text-secondary-foreground h-8 px-3">
                        {user.name}
                      </Button>
                   </DropdownMenuTrigger>
@@ -82,11 +82,11 @@ export function Layout({ children }: LayoutProps) {
             </div>
           </header>
           
-          <main className="flex-1 p-0.5">
+          <main className="flex-1 p-4">
             {children}
           </main>
           
-          <footer className="h-6 flex items-center justify-between border-t bg-primary text-primary-foreground px-3">
+          <footer className="h-10 flex items-center justify-between border-t bg-primary text-primary-foreground px-4">
           </footer>
         </div>
       </div>
