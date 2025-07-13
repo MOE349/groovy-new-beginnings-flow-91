@@ -447,18 +447,6 @@ const EditAsset = () => {
                             <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary dark:text-secondary whitespace-nowrap">Meter Reading Trigger</h5>
                             
                             {/* Maintenance Table */}
-                             <div className="mt-4 mb-4">
-                                <ApiTable
-                                  endpoint="/api/placeholder-maintenance"
-                                  columns={[
-                                    { key: 'maintenanceName', header: 'Maintenance Name', type: 'text' },
-                                    { key: 'status', header: 'Status', type: 'text' }
-                                  ]}
-                                  title=""
-                                  queryKey={['maintenance', id]}
-                                  className="w-full max-w-sm mx-auto"
-                                />
-                             </div>
 
                             {/* Spacer to push content down but not to the very bottom */}
                             <div className="flex-grow min-h-[20px]"></div>
@@ -575,20 +563,6 @@ const EditAsset = () => {
                         </button>
                       </div>
                       
-                      {/* Log Table */}
-                      <div className="h-[400px] overflow-y-auto">
-                        <ApiTable
-                          endpoint="/api/placeholder-log"
-                          columns={[
-                            { key: 'date', header: 'Date', type: 'text' },
-                            { key: 'action', header: 'Action', type: 'text' },
-                            { key: 'user', header: 'User', type: 'text' }
-                          ]}
-                          title=""
-                          queryKey={['log', id]}
-                          className="w-full"
-                        />
-                      </div>
                     </div>
                   </div>
                 </div>
