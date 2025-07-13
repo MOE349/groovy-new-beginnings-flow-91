@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ApiForm from '@/components/ApiForm';
+import ApiInput from '@/components/ApiInput';
 import { apiPost, apiPut, apiGet } from '@/utils/apis';
 import { useToast } from '@/hooks/use-toast';
 
@@ -260,11 +261,25 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
         initialData={initialData}
         loading={loading}
         className="h-full"
-        customLayout={containerType ? ({ handleSubmit, renderField }) => (
+        customLayout={containerType ? ({ handleSubmit, formData, handleFieldChange }) => (
           <div className="space-y-3">
             {formFields.map(field => (
-              <div key={field.name} className="space-y-1">
-                {renderField(field)}
+              <div key={field.name} className="flex items-center gap-3">
+                <label className="text-sm font-medium text-muted-foreground min-w-[120px] text-left">
+                  {field.label}
+                  {field.required && <span className="text-destructive ml-1">*</span>}
+                </label>
+                <div className="flex-1">
+                  <ApiInput
+                    name={field.name}
+                    type={field.inputType}
+                    placeholder={field.placeholder}
+                    value={formData[field.name] || ""}
+                    onChange={(value) => handleFieldChange(field.name, value)}
+                    disabled={field.disabled}
+                    className="mb-0"
+                  />
+                </div>
               </div>
             ))}
             <div className="pt-4">
