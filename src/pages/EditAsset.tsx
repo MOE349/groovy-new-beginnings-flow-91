@@ -466,9 +466,57 @@ const EditAsset = () => {
                             <div className="p-4 h-[380px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
                               <h5 className="text-xs font-medium text-primary dark:text-secondary mb-4 text-center">Meter Reading Trigger</h5>
                               
-                              <div className="flex-grow space-y-2 overflow-auto">
-                                <div className="p-2 text-center text-muted-foreground text-xs">
-                                  Meter reading trigger content coming soon...
+                              <div className="flex-grow space-y-3 overflow-auto">
+                                <div className="space-y-3">
+                                  {/* Every field */}
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-xs text-muted-foreground">Every</span>
+                                    <div className="flex items-center gap-2">
+                                      <input 
+                                        type="number" 
+                                        defaultValue="500" 
+                                        className="w-16 h-6 px-2 text-xs border rounded bg-background"
+                                      />
+                                      <select className="h-6 px-2 text-xs border rounded bg-background">
+                                        <option>Hour</option>
+                                        <option>Day</option>
+                                        <option>Week</option>
+                                      </select>
+                                    </div>
+                                  </div>
+
+                                  {/* Starting at field */}
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-xs text-muted-foreground">Starting at</span>
+                                    <input 
+                                      type="number" 
+                                      defaultValue="250" 
+                                      className="w-16 h-6 px-2 text-xs border rounded bg-background"
+                                    />
+                                  </div>
+
+                                  {/* Create WO field */}
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-xs text-muted-foreground">Create WO</span>
+                                    <div className="flex items-center gap-2">
+                                      <input 
+                                        type="number" 
+                                        defaultValue="50" 
+                                        className="w-16 h-6 px-2 text-xs border rounded bg-background"
+                                      />
+                                      <span className="text-xs text-muted-foreground">before trigger</span>
+                                    </div>
+                                  </div>
+
+                                  {/* Active toggle */}
+                                  <div className="pt-2">
+                                    <Button 
+                                      className="w-full h-8 bg-green-500 hover:bg-green-600 text-white text-xs"
+                                      onClick={() => setIsMeterTriggerActive(!isMeterTriggerActive)}
+                                    >
+                                      ✓ Active
+                                    </Button>
+                                  </div>
                                 </div>
                               </div>
                             </div>
