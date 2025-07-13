@@ -112,11 +112,7 @@ const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({ assetId }) 
               </div>
               
               <div className="flex-grow space-y-4 overflow-auto mt-8">
-                <FinancialReportForm 
-                  assetId={assetId} 
-                  onSuccess={handleFormSuccess}
-                  containerType="full"
-                />
+                {/* Empty container - no fields yet */}
               </div>
             </div>
           </div>
