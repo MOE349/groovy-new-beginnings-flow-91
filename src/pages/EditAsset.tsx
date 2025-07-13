@@ -434,144 +434,217 @@ const EditAsset = () => {
               {currentView === 0 ? (
                 <div className="animate-fade-in grid grid-cols-1 lg:grid-cols-2 gap-6 h-full">
                   {/* Trigger Container */}
-                  <div className="space-y-6">
-                    {/* Meter Reading Trigger */}
-                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
-                      <h4 className="font-medium text-gray-700 mb-4">Meter Reading Trigger</h4>
-                      <div className="space-y-3">
-                        <div className="flex items-center space-x-2">
-                          <span className="text-sm">Every</span>
-                          <input 
-                            type="number" 
-                            defaultValue={500} 
-                            className="w-16 px-2 py-1 border border-gray-300 rounded text-center text-sm"
-                          />
-                          <span className="text-sm">Hour</span>
+                  <div className="space-y-4">
+                    {/* Trigger Header */}
+                    <div className="bg-blue-600 text-white px-3 py-2 text-sm font-medium">
+                      Trigger
+                    </div>
+                    
+                    {/* Meter Reading Trigger Section */}
+                    <div className="space-y-3">
+                      <h4 className="font-medium text-gray-700">Meter Reading Trigger</h4>
+                      
+                      {/* Small Maintenance Table */}
+                      <div className="border rounded-sm overflow-hidden">
+                        <table className="w-full text-xs">
+                          <thead className="bg-gray-100">
+                            <tr>
+                              <th className="px-2 py-1 text-left font-medium">Maint Name</th>
+                              <th className="px-2 py-1 text-left font-medium">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="border-b">
+                              <td className="px-2 py-1">Hydraulic Check</td>
+                              <td className="px-2 py-1 text-green-600">Complete</td>
+                            </tr>
+                            <tr className="border-b">
+                              <td className="px-2 py-1">Brake Service</td>
+                              <td className="px-2 py-1 text-red-600">Overdue</td>
+                            </tr>
+                            <tr>
+                              <td className="px-2 py-1">Tire Rotation</td>
+                              <td className="px-2 py-1 text-yellow-600">Upcoming</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      
+                      {/* Dotted Border Container */}
+                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
+                        <div className="space-y-3">
+                          <div className="flex items-center space-x-2">
+                            <span className="text-sm">Every</span>
+                            <input 
+                              type="number" 
+                              defaultValue={500} 
+                              className="w-16 px-2 py-1 border border-gray-300 rounded text-center text-sm"
+                            />
+                            <span className="text-sm">Hour</span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <span className="text-sm">Starting at</span>
+                            <input 
+                              type="number" 
+                              defaultValue={250} 
+                              className="w-16 px-2 py-1 border border-gray-300 rounded text-center text-sm"
+                            />
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <span className="text-sm">Create WO</span>
+                            <input 
+                              type="number" 
+                              defaultValue={50} 
+                              className="w-16 px-2 py-1 border border-gray-300 rounded text-center text-sm"
+                            />
+                            <span className="text-sm">before trigger</span>
+                          </div>
+                          <button className="bg-green-500 text-white px-3 py-1 rounded text-sm font-medium flex items-center space-x-1">
+                            <span>✓</span>
+                            <span>Active</span>
+                          </button>
                         </div>
-                        <div className="flex items-center space-x-2">
-                          <span className="text-sm">Starting at</span>
-                          <input 
-                            type="number" 
-                            defaultValue={250} 
-                            className="w-16 px-2 py-1 border border-gray-300 rounded text-center text-sm"
-                          />
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <span className="text-sm">Create WO</span>
-                          <input 
-                            type="number" 
-                            defaultValue={50} 
-                            className="w-16 px-2 py-1 border border-gray-300 rounded text-center text-sm"
-                          />
-                          <span className="text-sm">before trigger</span>
-                        </div>
-                        <button className="bg-green-500 text-white px-3 py-1 rounded text-sm font-medium flex items-center space-x-1">
-                          <span>✓</span>
-                          <span>Active</span>
-                        </button>
                       </div>
                     </div>
 
-                    {/* Time Trigger */}
-                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
-                      <h4 className="font-medium text-gray-700 mb-4">Time Trigger</h4>
-                      <div className="space-y-3">
-                        <div className="flex items-center space-x-2">
-                          <span className="text-sm">Frequency</span>
-                          <select className="px-2 py-1 border border-gray-300 rounded text-sm">
-                            <option>Daily</option>
-                            <option>Weekly</option>
-                            <option>Monthly</option>
-                          </select>
+                    {/* Time Trigger Section */}
+                    <div className="space-y-3">
+                      <h4 className="font-medium text-gray-700">Time Trigger</h4>
+                      
+                      {/* Small Maintenance Table */}
+                      <div className="border rounded-sm overflow-hidden">
+                        <table className="w-full text-xs">
+                          <thead className="bg-gray-100">
+                            <tr>
+                              <th className="px-2 py-1 text-left font-medium">Maint Name</th>
+                              <th className="px-2 py-1 text-left font-medium">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="border-b">
+                              <td className="px-2 py-1">Daily Inspection</td>
+                              <td className="px-2 py-1 text-green-600">Complete</td>
+                            </tr>
+                            <tr className="border-b">
+                              <td className="px-2 py-1">Weekly Service</td>
+                              <td className="px-2 py-1 text-yellow-600">Upcoming</td>
+                            </tr>
+                            <tr>
+                              <td className="px-2 py-1">Monthly Check</td>
+                              <td className="px-2 py-1 text-blue-600">Scheduled</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      
+                      {/* Dotted Border Container */}
+                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
+                        <div className="space-y-3">
+                          <div className="flex items-center space-x-2">
+                            <span className="text-sm">Frequency</span>
+                            <select className="px-2 py-1 border border-gray-300 rounded text-sm">
+                              <option>Daily</option>
+                              <option>Weekly</option>
+                              <option>Monthly</option>
+                            </select>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <span className="text-sm">Start Date</span>
+                            <input 
+                              type="text" 
+                              placeholder="mm/dd/yyyy"
+                              className="px-2 py-1 border border-gray-300 rounded text-sm"
+                            />
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <span className="text-sm">Create WO</span>
+                            <input 
+                              type="number" 
+                              defaultValue={1} 
+                              className="w-16 px-2 py-1 border border-gray-300 rounded text-center text-sm"
+                            />
+                            <span className="text-sm">days before</span>
+                          </div>
+                          <button className="bg-green-500 text-white px-3 py-1 rounded text-sm font-medium flex items-center space-x-1">
+                            <span>✓</span>
+                            <span>Active</span>
+                          </button>
                         </div>
-                        <div className="flex items-center space-x-2">
-                          <span className="text-sm">Start Date</span>
-                          <input 
-                            type="text" 
-                            placeholder="mm/dd/yyyy"
-                            className="px-2 py-1 border border-gray-300 rounded text-sm"
-                          />
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <span className="text-sm">Create WO</span>
-                          <input 
-                            type="number" 
-                            defaultValue={1} 
-                            className="w-16 px-2 py-1 border border-gray-300 rounded text-center text-sm"
-                          />
-                          <span className="text-sm">days before</span>
-                        </div>
-                        <button className="bg-green-500 text-white px-3 py-1 rounded text-sm font-medium flex items-center space-x-1">
-                          <span>✓</span>
-                          <span>Active</span>
-                        </button>
                       </div>
                     </div>
                   </div>
 
-                  {/* Work Orders Log Section */}
-                  <div className="relative">
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-lg font-semibold">Work Orders</h3>
-                      <button 
-                        className="text-blue-600 hover:text-blue-800"
-                        onClick={() => handleViewChange(1)}
-                      >
-                        <span className="text-sm">►</span>
-                      </button>
+                  {/* Log Container */}
+                  <div className="space-y-4">
+                    {/* Log Header */}
+                    <div className="bg-blue-600 text-white px-3 py-2 text-sm font-medium">
+                      Log
                     </div>
-                    <div className="border rounded-lg overflow-hidden">
-                      <table className="w-full">
-                        <thead className="bg-blue-600 text-white">
-                          <tr>
-                            <th className="px-3 py-2 text-left text-sm font-medium">Date</th>
-                            <th className="px-3 py-2 text-left text-sm font-medium">Log Type</th>
-                            <th className="px-3 py-2 text-left text-sm font-medium">Notes</th>
-                            <th className="px-3 py-2 text-left text-sm font-medium">Completion Hours</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr className="bg-white border-b">
-                            <td className="px-3 py-2 text-sm">01/15/2024</td>
-                            <td className="px-3 py-2 text-sm">Inspection</td>
-                            <td className="px-3 py-2 text-sm">Routine maintenance check completed</td>
-                            <td className="px-3 py-2 text-sm">2.5</td>
-                          </tr>
-                          <tr className="bg-gray-50 border-b">
-                            <td className="px-3 py-2 text-sm">01/10/2024</td>
-                            <td className="px-3 py-2 text-sm">Maintenance</td>
-                            <td className="px-3 py-2 text-sm">Oil change and filter replacement</td>
-                            <td className="px-3 py-2 text-sm">1.0</td>
-                          </tr>
-                          <tr className="bg-white border-b">
-                            <td className="px-3 py-2 text-sm">01/05/2024</td>
-                            <td className="px-3 py-2 text-sm">Repair</td>
-                            <td className="px-3 py-2 text-sm">Fixed hydraulic leak</td>
-                            <td className="px-3 py-2 text-sm">3.2</td>
-                          </tr>
-                          <tr className="bg-gray-50 border-b">
-                            <td className="px-3 py-2 text-sm">12/28/2023</td>
-                            <td className="px-3 py-2 text-sm">Inspection</td>
-                            <td className="px-3 py-2 text-sm">Pre-holiday safety inspection</td>
-                            <td className="px-3 py-2 text-sm">1.5</td>
-                          </tr>
-                          <tr className="bg-white border-b">
-                            <td className="px-3 py-2 text-sm">12/20/2023</td>
-                            <td className="px-3 py-2 text-sm">Maintenance</td>
-                            <td className="px-3 py-2 text-sm">Belt replacement and alignment</td>
-                            <td className="px-3 py-2 text-sm">2.0</td>
-                          </tr>
-                          <tr className="bg-gray-50 border-b">
-                            <td className="px-3 py-2 text-sm">12/15/2023</td>
-                            <td className="px-3 py-2 text-sm">Repair</td>
-                            <td className="px-3 py-2 text-sm">Electrical connection repair</td>
-                            <td className="px-3 py-2 text-sm">1.8</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
+                    
+                     {/* Work Orders Section */}
+                     <div className="relative">
+                       <div className="flex items-center justify-between mb-4">
+                         <h3 className="text-lg font-semibold">Work Orders</h3>
+                         <button 
+                           className="text-blue-600 hover:text-blue-800"
+                           onClick={() => handleViewChange(1)}
+                         >
+                           <span className="text-sm">►</span>
+                         </button>
+                       </div>
+                       <div className="border rounded-lg overflow-hidden">
+                         <table className="w-full">
+                           <thead className="bg-blue-600 text-white">
+                             <tr>
+                               <th className="px-3 py-2 text-left text-sm font-medium">Date</th>
+                               <th className="px-3 py-2 text-left text-sm font-medium">Log Type</th>
+                               <th className="px-3 py-2 text-left text-sm font-medium">Notes</th>
+                               <th className="px-3 py-2 text-left text-sm font-medium">Completion Hours</th>
+                             </tr>
+                           </thead>
+                           <tbody>
+                             <tr className="bg-white border-b">
+                               <td className="px-3 py-2 text-sm">01/15/2024</td>
+                               <td className="px-3 py-2 text-sm">Inspection</td>
+                               <td className="px-3 py-2 text-sm">Routine maintenance check completed</td>
+                               <td className="px-3 py-2 text-sm">2.5</td>
+                             </tr>
+                             <tr className="bg-gray-50 border-b">
+                               <td className="px-3 py-2 text-sm">01/10/2024</td>
+                               <td className="px-3 py-2 text-sm">Maintenance</td>
+                               <td className="px-3 py-2 text-sm">Oil change and filter replacement</td>
+                               <td className="px-3 py-2 text-sm">1.0</td>
+                             </tr>
+                             <tr className="bg-white border-b">
+                               <td className="px-3 py-2 text-sm">01/05/2024</td>
+                               <td className="px-3 py-2 text-sm">Repair</td>
+                               <td className="px-3 py-2 text-sm">Fixed hydraulic leak</td>
+                               <td className="px-3 py-2 text-sm">3.2</td>
+                             </tr>
+                             <tr className="bg-gray-50 border-b">
+                               <td className="px-3 py-2 text-sm">12/28/2023</td>
+                               <td className="px-3 py-2 text-sm">Inspection</td>
+                               <td className="px-3 py-2 text-sm">Pre-holiday safety inspection</td>
+                               <td className="px-3 py-2 text-sm">1.5</td>
+                             </tr>
+                             <tr className="bg-white border-b">
+                               <td className="px-3 py-2 text-sm">12/20/2023</td>
+                               <td className="px-3 py-2 text-sm">Maintenance</td>
+                               <td className="px-3 py-2 text-sm">Belt replacement and alignment</td>
+                               <td className="px-3 py-2 text-sm">2.0</td>
+                             </tr>
+                             <tr className="bg-gray-50 border-b">
+                               <td className="px-3 py-2 text-sm">12/15/2023</td>
+                               <td className="px-3 py-2 text-sm">Repair</td>
+                               <td className="px-3 py-2 text-sm">Electrical connection repair</td>
+                               <td className="px-3 py-2 text-sm">1.8</td>
+                             </tr>
+                           </tbody>
+                         </table>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
               ) : (
                 <div className="animate-fade-in h-full">
                   <PMChecklistTabs 
