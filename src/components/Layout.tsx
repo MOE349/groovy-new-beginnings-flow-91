@@ -86,7 +86,7 @@ export function Layout({ children }: LayoutProps) {
             {children}
           </main>
           
-          <footer className="h-10 flex items-center justify-between border-t bg-primary text-primary-foreground px-4">
+          <footer className="h-8 flex items-center justify-between border-t bg-primary text-primary-foreground px-4">
           </footer>
         </div>
       </div>
