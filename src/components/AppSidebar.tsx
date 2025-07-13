@@ -31,7 +31,7 @@ export function AppSidebar() {
     <Sidebar collapsible="icon">
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-2xl font-bold">Tenmil</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="mt-8">
               {items.map((item) => (
