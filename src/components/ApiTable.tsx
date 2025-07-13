@@ -275,7 +275,7 @@ const ApiTable = <T extends Record<string, any>>({
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
       >
-        <div className="overflow-x-auto">
+        <div className="overflow-auto max-h-96">
           <Table className={tableClassName}>
             <TableHeader>
               <TableRow>
