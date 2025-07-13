@@ -313,7 +313,7 @@ const ApiTable = <T extends Record<string, any>>({
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={orderedColumns.length} className="text-center py-8 text-muted-foreground">
+                  <TableCell colSpan={orderedColumns.length} className="text-center py-4 text-muted-foreground">
                     {emptyMessage}
                   </TableCell>
                 </TableRow>
