@@ -82,7 +82,7 @@ const SortableTableHead = ({ column, className }: { column: TableColumn; classNa
     <TableHead
       ref={setNodeRef}
       style={style}
-      className={`${className} cursor-grab active:cursor-grabbing select-none py-2`}
+      className={`${className} cursor-grab active:cursor-grabbing select-none`}
       {...attributes}
       {...listeners}
     >
@@ -313,7 +313,7 @@ const ApiTable = <T extends Record<string, any>>({
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={orderedColumns.length} className="text-center py-2 text-muted-foreground">
+                  <TableCell colSpan={orderedColumns.length} className="text-center text-muted-foreground">
                     {emptyMessage}
                   </TableCell>
                 </TableRow>
