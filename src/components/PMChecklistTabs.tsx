@@ -113,7 +113,7 @@ export const PMChecklistTabs: React.FC = () => {
 
         {tabs.map((tab) => (
           <TabsContent key={tab.id} value={tab.id} className="mt-0 h-full">
-            <div className="grid grid-cols-2 gap-6 h-full">
+            <div className="grid grid-cols-2 gap-4 h-full max-w-full">
               {/* Checklist Section */}
               <div className="bg-card/50 border border-border/50 rounded-lg p-4">
                 <h4 className="text-h4 font-medium text-foreground mb-3 flex items-center gap-2">
