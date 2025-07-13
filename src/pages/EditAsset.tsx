@@ -432,215 +432,166 @@ const EditAsset = () => {
           <TabsContent value="scheduled-maintenance" className="mt-1">
             <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
               {currentView === 0 ? (
-                 <div className="animate-fade-in grid grid-cols-1 lg:grid-cols-3 gap-6 h-full">
-                   
-                   {/* Meter Reading Trigger - Standalone Card */}
-                   <div className="bg-card rounded-sm shadow-card p-4 space-y-4">
-                     <div className="bg-blue-600 text-white px-3 py-2 text-sm font-medium rounded-sm">
-                       Meter Reading Trigger
-                     </div>
-                    
-                     {/* Small Maintenance Table */}
-                     <div className="border rounded-sm overflow-hidden">
-                       <table className="w-full text-xs">
-                         <thead className="bg-gray-100">
-                           <tr>
-                             <th className="px-2 py-1 text-left font-medium">Maint Name</th>
-                             <th className="px-2 py-1 text-left font-medium">Status</th>
-                           </tr>
-                         </thead>
-                         <tbody>
-                           <tr className="border-b">
-                             <td className="px-2 py-1">Hydraulic Check</td>
-                             <td className="px-2 py-1 text-green-600">Complete</td>
-                           </tr>
-                           <tr className="border-b">
-                             <td className="px-2 py-1">Brake Service</td>
-                             <td className="px-2 py-1 text-red-600">Overdue</td>
-                           </tr>
-                           <tr>
-                             <td className="px-2 py-1">Tire Rotation</td>
-                             <td className="px-2 py-1 text-yellow-600">Upcoming</td>
-                           </tr>
-                         </tbody>
-                       </table>
-                     </div>
-                     
-                     {/* Dotted Border Container */}
-                     <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
-                       <div className="space-y-3">
-                         <div className="flex items-center space-x-2">
-                           <span className="text-sm">Every</span>
-                           <input 
-                             type="number" 
-                             defaultValue={500} 
-                             className="w-16 px-2 py-1 border border-gray-300 rounded text-center text-sm"
-                           />
-                           <span className="text-sm">Hour</span>
-                         </div>
-                         <div className="flex items-center space-x-2">
-                           <span className="text-sm">Starting at</span>
-                           <input 
-                             type="number" 
-                             defaultValue={250} 
-                             className="w-16 px-2 py-1 border border-gray-300 rounded text-center text-sm"
-                           />
-                         </div>
-                         <div className="flex items-center space-x-2">
-                           <span className="text-sm">Create WO</span>
-                           <input 
-                             type="number" 
-                             defaultValue={50} 
-                             className="w-16 px-2 py-1 border border-gray-300 rounded text-center text-sm"
-                           />
-                           <span className="text-sm">before trigger</span>
-                         </div>
-                         <button className="bg-green-500 text-white px-3 py-1 rounded text-sm font-medium flex items-center space-x-1">
-                           <span>✓</span>
-                           <span>Active</span>
-                         </button>
-                       </div>
-                     </div>
-                   </div>
+                <div className="animate-fade-in flex gap-6 h-full">
+                  {/* Trigger Container */}
+                  <div className="w-1/2">
+                    <div className="p-10 space-y-4 h-[474px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b before:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
+                      <div className="flex items-center justify-center gap-4 mb-6 py-0.5 -mx-2 -mt-5 bg-accent/20 border border-accent/30 rounded-md">
+                        <h4 className="text-base font-medium text-primary dark:text-secondary">Trigger</h4>
+                      </div>
+                      
+                      <div className="flex gap-4 h-full">
+                        {/* Meter Reading Trigger Container */}
+                        <div className="w-1/2">
+                          <div className="p-10 h-[380px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 before:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
+                            <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary dark:text-secondary whitespace-nowrap">Meter Reading Trigger</h5>
+                            
+                            {/* Maintenance Table */}
+                             <div className="mt-4 mb-4">
+                                <ApiTable
+                                  endpoint="/api/placeholder-maintenance"
+                                  columns={[
+                                    { key: 'maintenanceName', header: 'Maintenance Name', type: 'text' },
+                                    { key: 'status', header: 'Status', type: 'text' }
+                                  ]}
+                                  title=""
+                                  queryKey={['maintenance', id]}
+                                  className="w-full max-w-sm mx-auto"
+                                />
+                             </div>
 
-                   {/* Time Trigger - Standalone Card */}
-                   <div className="bg-card rounded-sm shadow-card p-4 space-y-4">
-                     <div className="bg-blue-600 text-white px-3 py-2 text-sm font-medium rounded-sm">
-                       Time Trigger
-                     </div>
-                     
-                     {/* Small Maintenance Table */}
-                     <div className="border rounded-sm overflow-hidden">
-                       <table className="w-full text-xs">
-                         <thead className="bg-gray-100">
-                           <tr>
-                             <th className="px-2 py-1 text-left font-medium">Maint Name</th>
-                             <th className="px-2 py-1 text-left font-medium">Status</th>
-                           </tr>
-                         </thead>
-                         <tbody>
-                           <tr className="border-b">
-                             <td className="px-2 py-1">Daily Inspection</td>
-                             <td className="px-2 py-1 text-green-600">Complete</td>
-                           </tr>
-                           <tr className="border-b">
-                             <td className="px-2 py-1">Weekly Service</td>
-                             <td className="px-2 py-1 text-yellow-600">Upcoming</td>
-                           </tr>
-                           <tr>
-                             <td className="px-2 py-1">Monthly Check</td>
-                             <td className="px-2 py-1 text-blue-600">Scheduled</td>
-                           </tr>
-                         </tbody>
-                       </table>
-                     </div>
-                     
-                     {/* Dotted Border Container */}
-                     <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
-                       <div className="space-y-3">
-                         <div className="flex items-center space-x-2">
-                           <span className="text-sm">Frequency</span>
-                           <select className="px-2 py-1 border border-gray-300 rounded text-sm">
-                             <option>Daily</option>
-                             <option>Weekly</option>
-                             <option>Monthly</option>
-                           </select>
-                         </div>
-                         <div className="flex items-center space-x-2">
-                           <span className="text-sm">Start Date</span>
-                           <input 
-                             type="text" 
-                             placeholder="mm/dd/yyyy"
-                             className="px-2 py-1 border border-gray-300 rounded text-sm"
-                           />
-                         </div>
-                         <div className="flex items-center space-x-2">
-                           <span className="text-sm">Create WO</span>
-                           <input 
-                             type="number" 
-                             defaultValue={1} 
-                             className="w-16 px-2 py-1 border border-gray-300 rounded text-center text-sm"
-                           />
-                           <span className="text-sm">days before</span>
-                         </div>
-                         <button className="bg-green-500 text-white px-3 py-1 rounded text-sm font-medium flex items-center space-x-1">
-                           <span>✓</span>
-                           <span>Active</span>
-                         </button>
-                       </div>
-                     </div>
-                   </div>
+                            {/* Spacer to push content down but not to the very bottom */}
+                            <div className="flex-grow min-h-[20px]"></div>
+                                
+                            {/* Form fields positioned in lower portion */}
+                            <div className="space-y-0 pb-4 p-6 mb-4 border-2 border-dashed border-primary/30 rounded-xl bg-gradient-to-br from-card/50 to-background/30 shadow-inner backdrop-blur-sm w-full max-w-sm mx-auto">
+                                 {/* Every field */}
+                                 <div className="flex items-baseline gap-2">
+                                   <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Every</label>
+                                  <div className="flex items-center gap-2 flex-grow">
+                                     <input
+                                       type="number"
+                                       defaultValue="500"
+                                        className="w-12 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                     />
+                                     <label className="text-sm font-normal text-left w-10 text-foreground">Hours</label>
+                                  </div>
+                                </div>
 
-                   {/* Log - Standalone Card */}
-                   <div className="bg-card rounded-sm shadow-card p-4 space-y-4">
-                     <div className="bg-blue-600 text-white px-3 py-2 text-sm font-medium rounded-sm">
-                       Log
-                     </div>
-                     
-                     {/* Work Orders Section */}
-                     <div className="relative">
-                       <div className="flex items-center justify-between mb-4">
-                         <h3 className="text-lg font-semibold">Work Orders</h3>
-                         <button 
-                           className="text-blue-600 hover:text-blue-800"
-                           onClick={() => handleViewChange(1)}
-                         >
-                           <span className="text-sm">►</span>
-                         </button>
-                       </div>
-                       <div className="border rounded-lg overflow-hidden">
-                         <table className="w-full">
-                           <thead className="bg-blue-600 text-white">
-                             <tr>
-                               <th className="px-3 py-2 text-left text-sm font-medium">Date</th>
-                               <th className="px-3 py-2 text-left text-sm font-medium">Log Type</th>
-                               <th className="px-3 py-2 text-left text-sm font-medium">Notes</th>
-                               <th className="px-3 py-2 text-left text-sm font-medium">Completion Hours</th>
-                             </tr>
-                           </thead>
-                           <tbody>
-                             <tr className="bg-white border-b">
-                               <td className="px-3 py-2 text-sm">01/15/2024</td>
-                               <td className="px-3 py-2 text-sm">Inspection</td>
-                               <td className="px-3 py-2 text-sm">Routine maintenance check completed</td>
-                               <td className="px-3 py-2 text-sm">2.5</td>
-                             </tr>
-                             <tr className="bg-gray-50 border-b">
-                               <td className="px-3 py-2 text-sm">01/10/2024</td>
-                               <td className="px-3 py-2 text-sm">Maintenance</td>
-                               <td className="px-3 py-2 text-sm">Oil change and filter replacement</td>
-                               <td className="px-3 py-2 text-sm">1.0</td>
-                             </tr>
-                             <tr className="bg-white border-b">
-                               <td className="px-3 py-2 text-sm">01/05/2024</td>
-                               <td className="px-3 py-2 text-sm">Repair</td>
-                               <td className="px-3 py-2 text-sm">Fixed hydraulic leak</td>
-                               <td className="px-3 py-2 text-sm">3.2</td>
-                             </tr>
-                             <tr className="bg-gray-50 border-b">
-                               <td className="px-3 py-2 text-sm">12/28/2023</td>
-                               <td className="px-3 py-2 text-sm">Inspection</td>
-                               <td className="px-3 py-2 text-sm">Pre-holiday safety inspection</td>
-                               <td className="px-3 py-2 text-sm">1.5</td>
-                             </tr>
-                             <tr className="bg-white border-b">
-                               <td className="px-3 py-2 text-sm">12/20/2023</td>
-                               <td className="px-3 py-2 text-sm">Maintenance</td>
-                               <td className="px-3 py-2 text-sm">Belt replacement and alignment</td>
-                               <td className="px-3 py-2 text-sm">2.0</td>
-                             </tr>
-                             <tr className="bg-gray-50 border-b">
-                               <td className="px-3 py-2 text-sm">12/15/2023</td>
-                               <td className="px-3 py-2 text-sm">Repair</td>
-                               <td className="px-3 py-2 text-sm">Electrical connection repair</td>
-                               <td className="px-3 py-2 text-sm">1.8</td>
-                             </tr>
-                           </tbody>
-                         </table>
-                       </div>
-                     </div>
-                   </div>
-                 </div>
+                                {/* Tolerance field */}
+                                <div className="flex items-baseline gap-2">
+                                  <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Tolerance</label>
+                                 <div className="flex items-center gap-2 flex-grow">
+                                    <input
+                                      type="number"
+                                      defaultValue="50"
+                                       className="w-12 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    />
+                                    <label className="text-sm font-normal text-left w-10 text-foreground">Hours</label>
+                                 </div>
+                                </div>
+
+                                {/* Switch field */}
+                                <div className="flex items-center gap-2 justify-between">
+                                  <label className="text-caption font-normal text-left w-16 text-foreground shrink-0">Active</label>
+                                 <div className="flex items-center">
+                                   <ApiSwitch
+                                     name="active"
+                                     checked={false}
+                                     onChange={() => {}}
+                                   />
+                                 </div>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        {/* Calendar-based Trigger Container */}
+                        <div className="w-1/2">
+                          <div className="p-10 h-[380px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
+                            <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary dark:text-secondary whitespace-nowrap">Calendar-based Trigger</h5>
+                            
+                            {/* Spacer to push content down */}
+                            <div className="flex-grow min-h-[50px]"></div>
+
+                            {/* Form fields positioned in lower portion */}
+                            <div className="space-y-0 pb-4 p-6 mb-4 border-2 border-dashed border-primary/30 rounded-xl bg-gradient-to-br from-card/50 to-background/30 shadow-inner backdrop-blur-sm w-full max-w-sm mx-auto">
+                                 {/* Every field */}
+                                 <div className="flex items-baseline gap-2">
+                                   <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Every</label>
+                                  <div className="flex items-center gap-2 flex-grow">
+                                     <input
+                                       type="number"
+                                       defaultValue="6"
+                                        className="w-12 px-2 py-1 pb-0 text-sm bg-transparent border-0 border-b border-primary focus:outline-none focus:border-b-2 focus:border-primary transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                     />
+                                     <label className="text-sm font-normal text-left w-12 text-foreground">Months</label>
+                                  </div>
+                                </div>
+
+                                {/* Starting Date field */}
+                                <div className="flex items-baseline gap-2">
+                                  <label className="text-caption font-normal text-left w-20 text-foreground shrink-0 pt-1">Starting</label>
+                                 <div className="flex items-center gap-2 flex-grow">
+                                    <ApiDatePicker
+                                      name="starting_date"
+                                      placeholder="Select date"
+                                      value={undefined}
+                                      onChange={() => {}}
+                                      className="text-sm"
+                                    />
+                                 </div>
+                                </div>
+
+                                {/* Switch field */}
+                                <div className="flex items-center gap-2 justify-between">
+                                  <label className="text-caption font-normal text-left w-16 text-foreground shrink-0">Active</label>
+                                 <div className="flex items-center">
+                                   <ApiSwitch
+                                     name="active"
+                                     checked={false}
+                                     onChange={() => {}}
+                                   />
+                                 </div>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Log Container */}
+                  <div className="w-1/2">
+                    <div className="p-10 space-y-4 h-[474px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl">
+                      <div className="flex items-center justify-between gap-4 mb-6 py-0.5 -mx-2 -mt-5 bg-accent/20 border border-accent/30 rounded-md">
+                        <h4 className="text-base font-medium text-primary dark:text-secondary flex-1 text-center">Log</h4>
+                        <button
+                          onClick={() => handleViewChange(1)}
+                          className="flex items-center gap-1 px-2 py-0.5 text-xs text-primary hover:text-primary/80 transition-colors"
+                        >
+                          <ArrowRight className="h-3 w-3" />
+                          Go to Checklist
+                        </button>
+                      </div>
+                      
+                      {/* Log Table */}
+                      <div className="h-[400px] overflow-y-auto">
+                        <ApiTable
+                          endpoint="/api/placeholder-log"
+                          columns={[
+                            { key: 'date', header: 'Date', type: 'text' },
+                            { key: 'action', header: 'Action', type: 'text' },
+                            { key: 'user', header: 'User', type: 'text' }
+                          ]}
+                          title=""
+                          queryKey={['log', id]}
+                          className="w-full"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
               ) : (
                 <div className="animate-fade-in h-full">
                   <PMChecklistTabs 
