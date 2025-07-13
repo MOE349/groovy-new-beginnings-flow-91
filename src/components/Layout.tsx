@@ -40,7 +40,7 @@ export function Layout({ children }: LayoutProps) {
       return 'Billing';
     }
     if (location.pathname.startsWith('/analytics')) {
-      return 'Analytics & Reports';
+      return 'Analytics/Reports';
     }
     if (location.pathname.startsWith('/settings')) {
       return 'Settings';
