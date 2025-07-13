@@ -31,6 +31,14 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 const EditAsset = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -466,7 +474,17 @@ const EditAsset = () => {
                                       value="500" 
                                       className="w-16 px-2 py-1 text-xs border border-border/30 rounded bg-background text-foreground text-center"
                                     />
-                                    <span className="text-xs text-muted-foreground">Hour</span>
+                                    <Select defaultValue="hour">
+                                      <SelectTrigger className="w-16 h-7 text-xs">
+                                        <SelectValue />
+                                      </SelectTrigger>
+                                      <SelectContent>
+                                        <SelectItem value="hour">Hour</SelectItem>
+                                        <SelectItem value="day">Day</SelectItem>
+                                        <SelectItem value="week">Week</SelectItem>
+                                        <SelectItem value="month">Month</SelectItem>
+                                      </SelectContent>
+                                    </Select>
                                   </div>
                                 </div>
                                 
