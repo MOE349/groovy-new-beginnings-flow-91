@@ -454,10 +454,46 @@ const EditAsset = () => {
                           <div className="p-10 h-[380px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
                             <h5 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-sm font-medium text-primary dark:text-secondary whitespace-nowrap">Meter Reading Trigger</h5>
                             
-                            {/* Maintenance Table */}
-
-                            {/* Spacer to push content down but not to the very bottom */}
-                            <div className="flex-grow min-h-[20px]"></div>
+                            {/* Trigger Settings Form */}
+                            <div className="mt-12 flex-1 flex items-center justify-center">
+                              <div className="w-full max-w-[280px] border border-border/40 rounded-lg p-4 bg-card/30 space-y-3">
+                                {/* Every Field */}
+                                <div className="flex items-center justify-between">
+                                  <label className="text-sm text-muted-foreground">Every</label>
+                                  <div className="flex items-center gap-2">
+                                    <input 
+                                      type="number" 
+                                      value="500" 
+                                      className="w-16 px-2 py-1 text-xs border border-border/30 rounded bg-background text-foreground text-center"
+                                    />
+                                    <span className="text-xs text-muted-foreground">Hour</span>
+                                  </div>
+                                </div>
+                                
+                                {/* Starting at Field */}
+                                <div className="flex items-center justify-between">
+                                  <label className="text-sm text-muted-foreground">Starting at</label>
+                                  <input 
+                                    type="number" 
+                                    value="250" 
+                                    className="w-16 px-2 py-1 text-xs border border-border/30 rounded bg-background text-foreground text-center"
+                                  />
+                                </div>
+                                
+                                {/* Create WO Field */}
+                                <div className="flex items-center justify-between">
+                                  <label className="text-sm text-muted-foreground">Create WO</label>
+                                  <div className="flex items-center gap-2">
+                                    <input 
+                                      type="number" 
+                                      value="50" 
+                                      className="w-16 px-2 py-1 text-xs border border-border/30 rounded bg-background text-foreground text-center"
+                                    />
+                                    <span className="text-xs text-muted-foreground">before trigger</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                                 
                           </div>
                         </div>
