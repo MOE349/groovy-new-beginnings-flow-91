@@ -442,7 +442,7 @@ const EditAsset = () => {
               
               {/* View 1: Two Container Layout */}
               {currentView === 0 && (
-                <div className="flex gap-14 h-full relative animate-fade-in">
+                <div className="flex gap-6 h-full relative animate-fade-in">
                   
                   {/* Navigation to View 2 */}
                   <button
