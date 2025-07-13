@@ -21,14 +21,17 @@ export function Layout({ children }: LayoutProps) {
   const location = useLocation();
   
   const getPageTitle = () => {
-    if (location.pathname === '/assets') {
+    if (location.pathname === '/' || location.pathname === '/dashboard') {
+      return 'Dashboard';
+    }
+    if (location.pathname.startsWith('/asset')) {
       return 'Assets';
     }
-    if (location.pathname === '/settings') {
+    if (location.pathname.startsWith('/settings')) {
       return 'Settings';
     }
-    if (location.pathname === '/dashboard') {
-      return 'Dashboard';
+    if (location.pathname.startsWith('/work-orders')) {
+      return 'Work Orders';
     }
     return 'Tenmil';
   };
