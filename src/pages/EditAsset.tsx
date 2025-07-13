@@ -432,7 +432,7 @@ const EditAsset = () => {
               {/* Sliding Container Wrapper */}
               <div className="relative w-full h-full">
                 <div 
-                  className="flex w-[200%] h-full transition-transform duration-300 ease-in-out gap-6"
+                  className="flex w-[200%] h-full transition-transform duration-300 ease-in-out"
                   style={{ transform: `translateX(-${currentView * 50}%)` }}
                 >
                   {/* View 1: Trigger + Log */}
@@ -763,7 +763,7 @@ const EditAsset = () => {
                   </div>
 
                   {/* View 2: PM Checklist (Full Width) */}
-                  <div className="w-1/2 h-full flex-shrink-0 pr-6">
+                  <div className="w-1/2 h-full flex-shrink-0">
                     {/* PM Checklist Container with Left Arrow - Full Width */}
                     <div className="w-full">
                       <PMChecklistTabs 
