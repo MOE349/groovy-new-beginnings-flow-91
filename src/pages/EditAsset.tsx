@@ -459,47 +459,6 @@ const EditAsset = () => {
                             {/* Spacer to push content down but not to the very bottom */}
                             <div className="flex-grow min-h-[20px]"></div>
                                 
-                            {/* Form fields positioned in lower portion */}
-                            <div className="space-y-3 p-4 border-2 border-dashed border-muted-foreground/30 rounded-lg bg-muted/10 w-full max-w-xs mx-auto">
-                                {/* Every field */}
-                                <div className="flex items-center gap-3">
-                                    <label className="text-sm font-medium text-foreground w-16 shrink-0">Every</label>
-                                    <div className="flex items-center gap-2 flex-1">
-                                        <input
-                                            type="number"
-                                            defaultValue="500"
-                                            className="w-16 px-2 py-1 text-sm bg-background border border-border rounded focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                                        />
-                                        <span className="text-sm text-muted-foreground">Hour</span>
-                                    </div>
-                                </div>
-
-                                {/* Starting at field */}
-                                <div className="flex items-center gap-3">
-                                    <label className="text-sm font-medium text-foreground w-16 shrink-0">Starting at</label>
-                                    <div className="flex items-center gap-2 flex-1">
-                                        <input
-                                            type="number"
-                                            defaultValue="250"
-                                            className="w-16 px-2 py-1 text-sm bg-background border border-border rounded focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                                        />
-                                    </div>
-                                </div>
-
-                                {/* Create WO field */}
-                                <div className="flex items-center gap-3">
-                                    <label className="text-sm font-medium text-foreground w-16 shrink-0">Create WO</label>
-                                    <div className="flex items-center gap-2 flex-1">
-                                        <input
-                                            type="number"
-                                            defaultValue="50"
-                                            className="w-16 px-2 py-1 text-sm bg-background border border-border rounded focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                                        />
-                                        <span className="text-sm text-muted-foreground">before trigger</span>
-                                    </div>
-                                </div>
-                            </div>
-                                
                           </div>
                         </div>
                         
