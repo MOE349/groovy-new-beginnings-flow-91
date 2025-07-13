@@ -23,6 +23,10 @@ import CreateAttachmentCategory from "./pages/CreateAttachmentCategory";
 import WorkOrders from "./pages/WorkOrders";
 import CreateWorkOrder from "./pages/CreateWorkOrder";
 import EditWorkOrder from "./pages/EditWorkOrder";
+import Parts from "./pages/Parts";
+import PurchaseOrders from "./pages/PurchaseOrders";
+import Billing from "./pages/Billing";
+import Analytics from "./pages/Analytics";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
@@ -50,6 +54,13 @@ const App = () => (
             <Route path="/asset/equipment/create" element={<Layout><CreateEquipment /></Layout>} />
             <Route path="/asset/attachment/create" element={<Layout><CreateAttachment /></Layout>} />
             <Route path="/asset/edit/:id" element={<Layout><EditAsset /></Layout>} />
+            <Route path="/workorders" element={<Layout><WorkOrders /></Layout>} />
+            <Route path="/workorders/create" element={<Layout><CreateWorkOrder /></Layout>} />
+            <Route path="/workorders/edit/:id" element={<Layout><EditWorkOrder /></Layout>} />
+            <Route path="/parts" element={<Layout><Parts /></Layout>} />
+            <Route path="/purchase-orders" element={<Layout><PurchaseOrders /></Layout>} />
+            <Route path="/billing" element={<Layout><Billing /></Layout>} />
+            <Route path="/analytics" element={<Layout><Analytics /></Layout>} />
             <Route path="/settings" element={<Layout><Settings /></Layout>} />
             <Route path="/settings/sites/new" element={<Layout><CreateSite /></Layout>} />
             <Route path="/settings/sites/edit/:id" element={<Layout><EditSite /></Layout>} />
@@ -57,9 +68,6 @@ const App = () => (
             <Route path="/settings/locations/edit/:id" element={<Layout><EditLocation /></Layout>} />
             <Route path="/settings/equipment-categories/new" element={<Layout><CreateEquipmentCategory /></Layout>} />
             <Route path="/settings/attachment-categories/new" element={<Layout><CreateAttachmentCategory /></Layout>} />
-            <Route path="/workorders" element={<Layout><WorkOrders /></Layout>} />
-            <Route path="/workorders/create" element={<Layout><CreateWorkOrder /></Layout>} />
-            <Route path="/workorders/edit/:id" element={<Layout><EditWorkOrder /></Layout>} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

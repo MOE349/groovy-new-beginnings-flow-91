@@ -27,11 +27,23 @@ export function Layout({ children }: LayoutProps) {
     if (location.pathname.startsWith('/asset')) {
       return 'Assets';
     }
-    if (location.pathname.startsWith('/settings')) {
-      return 'Settings';
-    }
     if (location.pathname.startsWith('/workorders')) {
       return 'Work Orders';
+    }
+    if (location.pathname.startsWith('/parts')) {
+      return 'Parts';
+    }
+    if (location.pathname.startsWith('/purchase-orders')) {
+      return 'Purchase Orders';
+    }
+    if (location.pathname.startsWith('/billing')) {
+      return 'Billing';
+    }
+    if (location.pathname.startsWith('/analytics')) {
+      return 'Analytics & Reports';
+    }
+    if (location.pathname.startsWith('/settings')) {
+      return 'Settings';
     }
     return 'Tenmil';
   };
