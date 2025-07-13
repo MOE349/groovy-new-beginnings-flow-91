@@ -510,12 +510,12 @@ const EditAsset = () => {
 
                                   {/* Active toggle */}
                                   <div className="pt-2">
-                                    <Button 
-                                      className="w-full h-8 bg-green-500 hover:bg-green-600 text-white text-xs"
-                                      onClick={() => setIsMeterTriggerActive(!isMeterTriggerActive)}
-                                    >
-                                      ✓ Active
-                                    </Button>
+                                    <ApiSwitch
+                                      name="meterTriggerActive"
+                                      label={isMeterTriggerActive ? "Active" : "Inactive"}
+                                      checked={isMeterTriggerActive}
+                                      onChange={setIsMeterTriggerActive}
+                                    />
                                   </div>
                                 </div>
                               </div>
