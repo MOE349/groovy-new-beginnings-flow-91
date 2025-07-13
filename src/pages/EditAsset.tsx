@@ -573,10 +573,14 @@ const EditAsset = () => {
                                   {/* Active toggle */}
                                   <div className="pt-2">
                                     <Button 
-                                      className="w-full h-8 bg-green-500 hover:bg-green-600 text-white text-xs"
+                                      className={`w-full h-8 text-xs ${
+                                        isTimeTriggerActive 
+                                          ? 'bg-green-500 hover:bg-green-600 text-white' 
+                                          : 'bg-gray-500 hover:bg-gray-600 text-white'
+                                      }`}
                                       onClick={() => setIsTimeTriggerActive(!isTimeTriggerActive)}
                                     >
-                                      ✓ Active
+                                      {isTimeTriggerActive ? '✓ Active' : '✗ Inactive'}
                                     </Button>
                                   </div>
                                 </div>
