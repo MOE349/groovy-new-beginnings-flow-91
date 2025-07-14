@@ -579,13 +579,10 @@ const EditAsset = () => {
                                      {/* Starting at field */}
                                      <div className="flex items-center justify-between">
                                        <span className="text-xs text-muted-foreground">Starting at</span>
-                                         <div className="flex items-center gap-2">
-                                            <input type="date" value={calendarTriggerData.start_date} onChange={e => setCalendarTriggerData(prev => ({
-                                            ...prev,
-                                            start_date: e.target.value
-                                          }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
-                                            <span className="text-xs text-muted-foreground w-20"></span>
-                                         </div>
+                                       <input type="date" value={calendarTriggerData.start_date} onChange={e => setCalendarTriggerData(prev => ({
+                                         ...prev,
+                                         start_date: e.target.value
+                                       }))} className="w-40 h-6 px-2 text-xs border rounded bg-background" />
                                      </div>
 
                                    {/* Create WO field */}
