@@ -116,10 +116,10 @@ const SortableTableHead = ({
       {...attributes}
       {...listeners}
     >
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 min-w-0">
         <div className="flex items-center gap-2">
           <GripVertical className="h-4 w-4 text-muted-foreground" />
-          {column.header}
+          <span className="truncate">{column.header}</span>
         </div>
         <input
           type="text"
@@ -128,8 +128,9 @@ const SortableTableHead = ({
           onKeyPress={handleKeyPress}
           onMouseDown={handleInputMouseDown}
           onFocus={handleInputFocus}
-          className="h-6 px-2 text-xs border border-border rounded bg-background text-foreground cursor-text"
+          className="h-6 px-2 text-xs border border-border rounded bg-background text-foreground cursor-text w-20 min-w-0"
           onClick={(e) => e.stopPropagation()}
+          placeholder="Filter..."
         />
       </div>
     </TableHead>
@@ -379,8 +380,8 @@ const ApiTable = <T extends Record<string, any>>({
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
       >
-        <div className="overflow-auto h-[calc(100vh-8rem)]">
-          <Table className={tableClassName}>
+        <div className="overflow-auto h-[calc(100vh-8rem)] max-w-full">
+          <Table className={`table-fixed ${tableClassName || ''}`}>
             <TableHeader>
               <TableRow>
                 <SortableContext
@@ -409,9 +410,8 @@ const ApiTable = <T extends Record<string, any>>({
                     onClick={() => isRowClickable && handleRowClick(row)}
                   >
                     {orderedColumns.map((column) => (
-                      <TableCell key={column.key} className={column.className}>
-                        <div className="flex items-center gap-2">
-                          <div className="w-4"></div>
+                      <TableCell key={column.key} className={`${column.className} min-w-0`}>
+                        <div className="truncate">
                           {renderCell(column, row)}
                         </div>
                       </TableCell>
