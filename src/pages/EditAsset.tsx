@@ -39,6 +39,7 @@ const EditAsset = () => {
 
   // Meter Reading Trigger form state
   const [meterTriggerData, setMeterTriggerData] = useState({
+    name: "",
     interval_value: 500,
     interval_unit: "hours",
     start_threshold_value: 250,
@@ -66,6 +67,7 @@ const EditAsset = () => {
           console.log('PM Data object:', pmData);
           
           const newMeterTriggerData = {
+            name: pmData.name || "",
             interval_value: pmData.interval_value || 500,
             interval_unit: pmData.interval_unit || "hours",
             start_threshold_value: pmData.start_threshold_value || 250,
@@ -520,10 +522,26 @@ const EditAsset = () => {
                              <div className="px-4 pt-4 pb-0 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
                               <h5 className="text-xs font-medium text-primary dark:text-secondary mb-4 text-center">Meter Reading Trigger</h5>
                               
-                                <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
-                                  <div className="space-y-1">
-                                   {/* Every field */}
-                                   <div className="flex items-center justify-between">
+                                 <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
+                                   <div className="space-y-1">
+                                     {/* Name field */}
+                                     <div className="flex items-center justify-between">
+                                       <span className="text-xs text-muted-foreground">Name</span>
+                                       <div className="flex items-center gap-2">
+                                         <input 
+                                           type="text" 
+                                           value={meterTriggerData.name} 
+                                           onChange={e => setMeterTriggerData(prev => ({
+                                             ...prev,
+                                             name: e.target.value
+                                           }))} 
+                                           className="w-20 h-6 px-2 text-xs border rounded bg-background" 
+                                         />
+                                       </div>
+                                     </div>
+
+                                    {/* Every field */}
+                                    <div className="flex items-center justify-between">
                                      <span className="text-xs text-muted-foreground">Every</span>
                                      <div className="flex items-center gap-2">
                                        <input type="number" value={meterTriggerData.interval_value} onChange={e => setMeterTriggerData(prev => ({
