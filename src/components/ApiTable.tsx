@@ -188,7 +188,7 @@ const SortableTableHead = ({
         width: width ? `${width}px` : 'auto',
         minWidth: width ? `${width}px` : '150px',
       }}
-      className={`${className} select-none relative !h-auto !py-2`}
+      className={`${className} select-none relative !h-fit !py-2 !min-h-0`}
     >
       <div className="flex items-center justify-between gap-2 min-w-0">
         <div className="flex items-center gap-2 min-w-0 cursor-grab active:cursor-grabbing" {...attributes} {...listeners}>
