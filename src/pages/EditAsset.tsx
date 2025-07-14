@@ -43,9 +43,7 @@ const EditAsset = () => {
     interval_unit: "hours",
     start_threshold_value: 250,
     lead_time_value: 50,
-    is_active: true,
-    next_trigger_value: null,
-    last_handled_trigger: null
+    is_active: true
   });
 
   // Fetch PM data on component load
@@ -72,9 +70,7 @@ const EditAsset = () => {
             interval_unit: pmData.interval_unit || "hours",
             start_threshold_value: pmData.start_threshold_value || 250,
             lead_time_value: pmData.lead_time_value || 50,
-            is_active: pmData.is_active !== undefined ? pmData.is_active : true,
-            next_trigger_value: pmData.next_trigger_value || null,
-            last_handled_trigger: pmData.last_handled_trigger || null
+            is_active: pmData.is_active !== undefined ? pmData.is_active : true
           };
           
           console.log('Setting meter trigger data:', newMeterTriggerData);
@@ -573,23 +569,6 @@ const EditAsset = () => {
                                       </div>
                                     </div>
 
-                                    {/* Next trigger field */}
-                                    <div className="flex items-center justify-between">
-                                      <span className="text-xs text-muted-foreground">Next trigger</span>
-                                      <div className="flex items-center gap-2">
-                                        <input type="text" value={meterTriggerData.next_trigger_value || '-'} readOnly className="w-16 h-6 px-2 text-xs border rounded bg-muted/50 text-muted-foreground cursor-default" />
-                                        <span className="text-xs text-muted-foreground w-20">{meterTriggerData.interval_unit}</span>
-                                      </div>
-                                    </div>
-
-                                    {/* Last trigger field */}
-                                    <div className="flex items-center justify-between">
-                                      <span className="text-xs text-muted-foreground">Last trigger</span>
-                                      <div className="flex items-center gap-2">
-                                        <input type="text" value={meterTriggerData.last_handled_trigger || '-'} readOnly className="w-16 h-6 px-2 text-xs border rounded bg-muted/50 text-muted-foreground cursor-default" />
-                                        <span className="text-xs text-muted-foreground w-20">{meterTriggerData.interval_unit}</span>
-                                      </div>
-                                    </div>
 
                                     {/* Active toggle */}
                                    <div>
