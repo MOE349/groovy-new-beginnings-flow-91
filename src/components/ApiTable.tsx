@@ -192,7 +192,7 @@ const SortableTableHead = ({
               <Button
                 variant="ghost"
                 size="sm"
-                className={`h-6 w-6 p-0 ${hasActiveFilter ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
+                className={`h-6 w-6 p-0 ${hasActiveFilter ? 'text-primary ring-2 ring-secondary ring-offset-4' : 'text-muted-foreground hover:text-foreground'}`}
                 onClick={handleSearchClick}
               >
                 <Search className="h-3 w-3" />
