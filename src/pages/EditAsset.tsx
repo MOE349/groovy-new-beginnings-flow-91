@@ -476,7 +476,7 @@ const EditAsset = () => {
                                         ...prev,
                                         start_threshold_value: Number(e.target.value)
                                       }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
-                                        <span className="h-6 px-2 text-xs text-muted-foreground flex items-center">{meterTriggerData.interval_unit}</span>
+                                        <div className="h-6 px-2 text-xs border rounded bg-background flex items-center text-muted-foreground">{meterTriggerData.interval_unit}</div>
                                      </div>
                                    </div>
 
