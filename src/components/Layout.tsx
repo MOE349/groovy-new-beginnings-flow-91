@@ -53,7 +53,7 @@ export function Layout({ children }: LayoutProps) {
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full min-w-[1440px] overflow-x-auto">
+      <div className="min-h-screen flex w-full">
         <AppSidebar />
         
         <div className="flex-1 flex flex-col">
@@ -82,7 +82,7 @@ export function Layout({ children }: LayoutProps) {
             </div>
           </header>
           
-          <main className="flex-1 p-1">
+          <main className="flex-1 p-1 overflow-x-auto min-w-0">
             {children}
           </main>
           
