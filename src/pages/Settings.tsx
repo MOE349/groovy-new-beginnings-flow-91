@@ -173,9 +173,8 @@ const Settings = () => {
   ), []);
 
   return (
-    <div className="h-full overflow-x-auto min-w-0">
-      <div className="space-y-6 min-w-[1440px]">
-        <Tabs defaultValue="sites" className="w-full mt-8">
+    <div className="space-y-6">
+      <Tabs defaultValue="sites" className="w-full mt-8">
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="sites">Tables</TabsTrigger>
             <TabsTrigger value="categories">Users</TabsTrigger>
@@ -272,83 +271,82 @@ const Settings = () => {
               WorkOrder Status has been moved to the Sites tab.
             </div>
           </TabsContent>
-        </Tabs>
+      </Tabs>
 
-        {/* Site Dialog */}
-        <Dialog open={dialogOpen === 'site'} onOpenChange={(open) => !open && setDialogOpen(null)}>
-          <DialogContent className="max-w-md max-h-[80vh] overflow-hidden">
-            <DialogHeader>
-              <DialogTitle>Create New Site</DialogTitle>
-            </DialogHeader>
-            <ApiForm
-              fields={siteFormFields}
-              onSubmit={handleSiteSubmit}
-              loading={loading}
-              customLayout={customLayout("Create New Site", handleSiteSubmit, siteFormFields)}
-            />
-          </DialogContent>
-        </Dialog>
+      {/* Site Dialog */}
+      <Dialog open={dialogOpen === 'site'} onOpenChange={(open) => !open && setDialogOpen(null)}>
+        <DialogContent className="max-w-md max-h-[80vh] overflow-hidden">
+          <DialogHeader>
+            <DialogTitle>Create New Site</DialogTitle>
+          </DialogHeader>
+          <ApiForm
+            fields={siteFormFields}
+            onSubmit={handleSiteSubmit}
+            loading={loading}
+            customLayout={customLayout("Create New Site", handleSiteSubmit, siteFormFields)}
+          />
+        </DialogContent>
+      </Dialog>
 
-        {/* Location Dialog */}
-        <Dialog open={dialogOpen === 'location'} onOpenChange={(open) => !open && setDialogOpen(null)}>
-          <DialogContent className="max-w-md max-h-[80vh] overflow-hidden">
-            <DialogHeader>
-              <DialogTitle>Create New Location</DialogTitle>
-            </DialogHeader>
-            <ApiForm
-              fields={locationFormFields}
-              onSubmit={handleLocationSubmit}
-              loading={loading}
-              customLayout={customLayout("Create New Location", handleLocationSubmit, locationFormFields)}
-            />
-          </DialogContent>
-        </Dialog>
+      {/* Location Dialog */}
+      <Dialog open={dialogOpen === 'location'} onOpenChange={(open) => !open && setDialogOpen(null)}>
+        <DialogContent className="max-w-md max-h-[80vh] overflow-hidden">
+          <DialogHeader>
+            <DialogTitle>Create New Location</DialogTitle>
+          </DialogHeader>
+          <ApiForm
+            fields={locationFormFields}
+            onSubmit={handleLocationSubmit}
+            loading={loading}
+            customLayout={customLayout("Create New Location", handleLocationSubmit, locationFormFields)}
+          />
+        </DialogContent>
+      </Dialog>
 
-        {/* Equipment Category Dialog */}
-        <Dialog open={dialogOpen === 'equipmentCategory'} onOpenChange={(open) => !open && setDialogOpen(null)}>
-          <DialogContent className="max-w-md max-h-[80vh] overflow-hidden">
-            <DialogHeader>
-              <DialogTitle>Create New Equipment Category</DialogTitle>
-            </DialogHeader>
-            <ApiForm
-              fields={equipmentCategoryFormFields}
-              onSubmit={handleEquipmentCategorySubmit}
-              loading={loading}
-              customLayout={customLayout("Create New Equipment Category", handleEquipmentCategorySubmit, equipmentCategoryFormFields)}
-            />
-          </DialogContent>
-        </Dialog>
+      {/* Equipment Category Dialog */}
+      <Dialog open={dialogOpen === 'equipmentCategory'} onOpenChange={(open) => !open && setDialogOpen(null)}>
+        <DialogContent className="max-w-md max-h-[80vh] overflow-hidden">
+          <DialogHeader>
+            <DialogTitle>Create New Equipment Category</DialogTitle>
+          </DialogHeader>
+          <ApiForm
+            fields={equipmentCategoryFormFields}
+            onSubmit={handleEquipmentCategorySubmit}
+            loading={loading}
+            customLayout={customLayout("Create New Equipment Category", handleEquipmentCategorySubmit, equipmentCategoryFormFields)}
+          />
+        </DialogContent>
+      </Dialog>
 
-        {/* Attachment Category Dialog */}
-        <Dialog open={dialogOpen === 'attachmentCategory'} onOpenChange={(open) => !open && setDialogOpen(null)}>
-          <DialogContent className="max-w-md max-h-[80vh] overflow-hidden">
-            <DialogHeader>
-              <DialogTitle>Create New Attachment Category</DialogTitle>
-            </DialogHeader>
-            <ApiForm
-              fields={attachmentCategoryFormFields}
-              onSubmit={handleAttachmentCategorySubmit}
-              loading={loading}
-              customLayout={customLayout("Create New Attachment Category", handleAttachmentCategorySubmit, attachmentCategoryFormFields)}
-            />
-          </DialogContent>
-        </Dialog>
+      {/* Attachment Category Dialog */}
+      <Dialog open={dialogOpen === 'attachmentCategory'} onOpenChange={(open) => !open && setDialogOpen(null)}>
+        <DialogContent className="max-w-md max-h-[80vh] overflow-hidden">
+          <DialogHeader>
+            <DialogTitle>Create New Attachment Category</DialogTitle>
+          </DialogHeader>
+          <ApiForm
+            fields={attachmentCategoryFormFields}
+            onSubmit={handleAttachmentCategorySubmit}
+            loading={loading}
+            customLayout={customLayout("Create New Attachment Category", handleAttachmentCategorySubmit, attachmentCategoryFormFields)}
+          />
+        </DialogContent>
+      </Dialog>
 
-        {/* Work Order Status Dialog */}
-        <Dialog open={dialogOpen === 'workOrderStatus'} onOpenChange={(open) => !open && setDialogOpen(null)}>
-          <DialogContent className="max-w-md max-h-[80vh] overflow-hidden">
-            <DialogHeader>
-              <DialogTitle>Add WorkOrder Status</DialogTitle>
-            </DialogHeader>
-            <ApiForm
-              fields={workOrderStatusFormFields}
-              onSubmit={handleWorkOrderStatusSubmit}
-              loading={loading}
-              customLayout={customLayout("Add WorkOrder Status", handleWorkOrderStatusSubmit, workOrderStatusFormFields)}
-            />
-          </DialogContent>
-        </Dialog>
-      </div>
+      {/* Work Order Status Dialog */}
+      <Dialog open={dialogOpen === 'workOrderStatus'} onOpenChange={(open) => !open && setDialogOpen(null)}>
+        <DialogContent className="max-w-md max-h-[80vh] overflow-hidden">
+          <DialogHeader>
+            <DialogTitle>Add WorkOrder Status</DialogTitle>
+          </DialogHeader>
+          <ApiForm
+            fields={workOrderStatusFormFields}
+            onSubmit={handleWorkOrderStatusSubmit}
+            loading={loading}
+            customLayout={customLayout("Add WorkOrder Status", handleWorkOrderStatusSubmit, workOrderStatusFormFields)}
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
