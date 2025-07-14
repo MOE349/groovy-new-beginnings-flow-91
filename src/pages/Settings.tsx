@@ -183,7 +183,7 @@ const Settings = () => {
           </TabsList>
           
           <TabsContent value="sites" className="space-y-3">
-            <div className="grid grid-cols-1 xl:grid-cols-3 lg:grid-cols-2 gap-4">
+            <div className="grid grid-cols-3 gap-4">
               {/* Left Column - Sites and Locations */}
               <div className="space-y-4">
                 <ApiTable
