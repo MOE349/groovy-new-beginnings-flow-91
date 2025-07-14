@@ -193,6 +193,7 @@ const Settings = () => {
                   createNewText="New Site"
                   className="h-fit"
                   tableClassName="text-xs"
+                  maxHeight="max-h-80"
                   columns={[
                     { key: 'code', header: 'Code' },
                     { key: 'name', header: 'Name' },
@@ -206,6 +207,7 @@ const Settings = () => {
                   createNewText="New Location"
                   className="h-fit"
                   tableClassName="text-xs"
+                  maxHeight="max-h-80"
                   columns={[
                     { key: 'site', header: 'Site', type: 'object' },
                     { key: 'name', header: 'Name' },
@@ -223,6 +225,7 @@ const Settings = () => {
                   createNewText="New Equipment Category"
                   className="h-fit"
                   tableClassName="text-xs"
+                  maxHeight="max-h-80"
                   columns={[
                     { key: 'name', header: 'Name' },
                     { key: 'slug', header: 'Slug' },
@@ -236,6 +239,7 @@ const Settings = () => {
                   createNewText="New Attachment Category"
                   className="h-fit"
                   tableClassName="text-xs"
+                  maxHeight="max-h-80"
                   columns={[
                     { key: 'name', header: 'Name' },
                     { key: 'slug', header: 'Slug' },
@@ -252,6 +256,7 @@ const Settings = () => {
                   createNewText="Add WorkOrder Status"
                   className="h-fit"
                   tableClassName="text-xs"
+                  maxHeight="max-h-80"
                   columns={[
                     { key: 'name', header: 'Name' },
                     { key: 'control', header: 'Control', type: 'object' },

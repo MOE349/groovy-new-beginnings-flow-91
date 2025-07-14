@@ -61,6 +61,8 @@ interface ApiTableProps<T = any> {
   onRowClick?: (row: T) => void;
   persistColumnOrder?: boolean; // Enable column order persistence
   tableId?: string; // Unique identifier for localStorage key
+  height?: string; // Custom height for the table container
+  maxHeight?: string; // Custom max height for the table container
 }
 
 // Filter popover component
@@ -253,6 +255,8 @@ const ApiTable = <T extends Record<string, any>>({
   onRowClick,
   persistColumnOrder = true,
   tableId,
+  height,
+  maxHeight,
 }: ApiTableProps<T>) => {
   const navigate = useNavigate();
   
@@ -548,7 +552,7 @@ const ApiTable = <T extends Record<string, any>>({
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
       >
-        <div className="overflow-x-auto overflow-y-auto h-[calc(100vh-8rem)]">
+        <div className={`overflow-x-auto overflow-y-auto ${height || maxHeight || 'h-[calc(100vh-8rem)]'}`}>
           <Table className={`table-auto ${tableClassName || ''}`}>
             <TableHeader>
               <TableRow>
