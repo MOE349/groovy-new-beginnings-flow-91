@@ -225,7 +225,7 @@ const SortableTableHead = ({
       {/* Resize handle */}
       {!isLastColumn && (
         <div
-          className="absolute top-0 right-0 w-px h-full cursor-col-resize bg-secondary/30 hover:bg-secondary/50 hover:w-0.5 transition-all"
+          className="absolute top-0 right-0 w-px h-full cursor-col-resize bg-white/30 hover:bg-white/50 hover:w-0.5 transition-all"
           onMouseDown={(e) => {
             e.preventDefault();
             e.stopPropagation();
