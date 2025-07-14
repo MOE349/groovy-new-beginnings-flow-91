@@ -444,7 +444,7 @@ const EditAsset = () => {
                               <h5 className="text-xs font-medium text-primary dark:text-secondary mb-4 text-center">Meter Reading Trigger</h5>
                               
                               <div className="flex-grow space-y-3 overflow-auto">
-                                <div className="space-y-3">
+                                <div className="space-y-3 mt-4">
                                   {/* Every field */}
                                   <div className="flex items-center justify-between">
                                     <span className="text-xs text-muted-foreground">Every</span>
