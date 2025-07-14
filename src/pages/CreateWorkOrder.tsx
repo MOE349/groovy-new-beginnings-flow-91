@@ -127,15 +127,17 @@ const CreateWorkOrder = () => {
   );
 
   return (
-    <div className="space-y-6">
-      <ApiForm
-        fields={workOrderFields}
-        onSubmit={handleSubmit}
-        initialData={{
-          status: "Active",
-        }}
-        customLayout={customLayout}
-      />
+    <div className="h-full overflow-x-auto min-w-0">
+      <div className="space-y-6 min-w-[1440px]">
+        <ApiForm
+          fields={workOrderFields}
+          onSubmit={handleSubmit}
+          initialData={{
+            status: "Active",
+          }}
+          customLayout={customLayout}
+        />
+      </div>
     </div>
   );
 };
