@@ -54,7 +54,7 @@ const EditAsset = () => {
       if (!id) return;
       
       try {
-        const response = await apiCall(`/pm-automation/pm-settings/?asset=${id}`, {
+        const response = await apiCall(`/pm-automation/pm-settings?asset=${id}`, {
           method: 'GET'
         });
         
