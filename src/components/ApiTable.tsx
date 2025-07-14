@@ -225,15 +225,13 @@ const SortableTableHead = ({
       {/* Resize handle */}
       {!isLastColumn && (
         <div
-          className="absolute top-0 right-0 w-1 h-full cursor-col-resize hover:bg-primary/20 group"
+          className="absolute top-0 right-0 w-px h-full cursor-col-resize bg-primary/30 hover:bg-primary/50 hover:w-0.5 transition-all"
           onMouseDown={(e) => {
             e.preventDefault();
             e.stopPropagation();
             onResizeStart(column.key, e.clientX);
           }}
-        >
-          <div className="w-full h-full group-hover:bg-primary/30 transition-colors" />
-        </div>
+        />
       )}
     </TableHead>
   );
