@@ -12,7 +12,9 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Plus, GripVertical } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Input } from "@/components/ui/input";
+import { Plus, GripVertical, Search } from "lucide-react";
 import { apiCall } from "@/utils/apis";
 import GearSpinner from "@/components/ui/gear-spinner";
 import {
@@ -61,19 +63,94 @@ interface ApiTableProps<T = any> {
   tableId?: string; // Unique identifier for localStorage key
 }
 
+// Filter popover component
+const FilterPopover = ({
+  isOpen,
+  onOpenChange,
+  filterValue,
+  onFilterChange,
+  onApply,
+  onClear,
+  hasActiveFilter,
+}: {
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
+  filterValue: string;
+  onFilterChange: (value: string) => void;
+  onApply: () => void;
+  onClear: () => void;
+  hasActiveFilter: boolean;
+}) => {
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      onApply();
+      onOpenChange(false);
+    }
+    if (e.key === 'Escape') {
+      onOpenChange(false);
+    }
+  };
+
+  return (
+    <PopoverContent className="w-64 p-3" align="start">
+      <div className="space-y-3">
+        <Input
+          value={filterValue}
+          onChange={(e) => onFilterChange(e.target.value)}
+          onKeyPress={handleKeyPress}
+          placeholder="Filter..."
+          className="h-8"
+          autoFocus
+        />
+        <div className="flex gap-2">
+          <Button 
+            size="sm" 
+            onClick={() => {
+              onApply();
+              onOpenChange(false);
+            }}
+            className="flex-1"
+          >
+            Apply
+          </Button>
+          <Button 
+            size="sm" 
+            variant="outline" 
+            onClick={() => {
+              onClear();
+              onOpenChange(false);
+            }}
+            className="flex-1"
+          >
+            Clear
+          </Button>
+        </div>
+      </div>
+    </PopoverContent>
+  );
+};
+
 // Sortable header component
 const SortableTableHead = ({ 
   column, 
   className, 
   filterValue, 
   onFilterChange, 
-  onFilterApply 
+  onFilterApply,
+  onFilterClear,
+  hasActiveFilter,
+  openFilterPopover,
+  setOpenFilterPopover,
 }: { 
   column: TableColumn; 
   className?: string;
   filterValue: string;
   onFilterChange: (value: string) => void;
   onFilterApply: () => void;
+  onFilterClear: () => void;
+  hasActiveFilter: boolean;
+  openFilterPopover: string | null;
+  setOpenFilterPopover: (key: string | null) => void;
 }) => {
   const {
     attributes,
@@ -90,48 +167,47 @@ const SortableTableHead = ({
     opacity: isDragging ? 0.5 : 1,
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      onFilterApply();
-    }
-  };
+  const isPopoverOpen = openFilterPopover === column.key;
 
-  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onFilterChange(e.target.value);
-  };
-
-  const handleInputMouseDown = (e: React.MouseEvent) => {
+  const handleSearchClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-  };
-
-  const handleInputFocus = (e: React.FocusEvent) => {
-    e.stopPropagation();
+    setOpenFilterPopover(isPopoverOpen ? null : column.key);
   };
 
   return (
     <TableHead
       ref={setNodeRef}
       style={style}
-      className={`${className} cursor-grab active:cursor-grabbing select-none`}
-      {...attributes}
-      {...listeners}
+      className={`${className} select-none`}
     >
-      <div className="flex flex-col gap-1 min-w-0">
-        <div className="flex items-center gap-2">
-          <GripVertical className="h-4 w-4 text-muted-foreground" />
+      <div className="flex items-center justify-between gap-2 min-w-0" {...attributes} {...listeners}>
+        <div className="flex items-center gap-2 min-w-0 cursor-grab active:cursor-grabbing">
+          <GripVertical className="h-4 w-4 text-muted-foreground flex-shrink-0" />
           <span className="truncate">{column.header}</span>
         </div>
-        <input
-          type="text"
-          value={filterValue}
-          onChange={handleFilterChange}
-          onKeyPress={handleKeyPress}
-          onMouseDown={handleInputMouseDown}
-          onFocus={handleInputFocus}
-          className="h-6 px-2 text-xs border border-border rounded bg-background text-foreground cursor-text w-20 min-w-0"
-          onClick={(e) => e.stopPropagation()}
-          placeholder="Filter..."
-        />
+        
+        <Popover open={isPopoverOpen} onOpenChange={(open) => setOpenFilterPopover(open ? column.key : null)}>
+          <PopoverTrigger asChild>
+            <Button
+              variant="ghost"
+              size="sm"
+              className={`h-6 w-6 p-0 flex-shrink-0 ${hasActiveFilter ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
+              onClick={handleSearchClick}
+            >
+              <Search className="h-3 w-3" />
+            </Button>
+          </PopoverTrigger>
+          
+          <FilterPopover
+            isOpen={isPopoverOpen}
+            onOpenChange={(open) => setOpenFilterPopover(open ? column.key : null)}
+            filterValue={filterValue}
+            onFilterChange={onFilterChange}
+            onApply={onFilterApply}
+            onClear={onFilterClear}
+            hasActiveFilter={hasActiveFilter}
+          />
+        </Popover>
       </div>
     </TableHead>
   );
@@ -189,6 +265,7 @@ const ApiTable = <T extends Record<string, any>>({
   const [orderedColumns, setOrderedColumns] = useState<TableColumn<T>[]>(getSavedColumnOrder());
   const [filters, setFilters] = useState<Record<string, string>>({});
   const [appliedFilters, setAppliedFilters] = useState<Record<string, string>>({});
+  const [openFilterPopover, setOpenFilterPopover] = useState<string | null>(null);
 
   // Update ordered columns when columns prop changes
   useEffect(() => {
@@ -253,6 +330,15 @@ const ApiTable = <T extends Record<string, any>>({
     } else {
       setAppliedFilters(prev => ({ ...prev, [columnKey]: filterValue }));
     }
+  };
+
+  const clearFilter = (columnKey: string) => {
+    setFilters(prev => ({ ...prev, [columnKey]: '' }));
+    setAppliedFilters(prev => {
+      const newFilters = { ...prev };
+      delete newFilters[columnKey];
+      return newFilters;
+    });
   };
 
   const {
@@ -396,6 +482,10 @@ const ApiTable = <T extends Record<string, any>>({
                       filterValue={filters[column.key] || ''}
                       onFilterChange={(value) => handleFilterChange(column.key, value)}
                       onFilterApply={() => applyFilter(column.key)}
+                      onFilterClear={() => clearFilter(column.key)}
+                      hasActiveFilter={Boolean(appliedFilters[column.key])}
+                      openFilterPopover={openFilterPopover}
+                      setOpenFilterPopover={setOpenFilterPopover}
                     />
                   ))}
                 </SortableContext>
