@@ -520,16 +520,16 @@ const EditAsset = () => {
                               
                               <div className="flex-grow space-y-3 overflow-auto">
                                 <div className="space-y-3">
-                                  {/* Frequency field */}
-                                  <div className="flex items-center justify-between">
-                                    <span className="text-xs text-muted-foreground">Frequency</span>
-                                    <select className="h-6 px-2 text-xs border rounded bg-background">
-                                      <option>Daily</option>
-                                      <option>Weekly</option>
-                                      <option>Monthly</option>
-                                      <option>Yearly</option>
-                                    </select>
-                                  </div>
+                                   {/* Frequency field */}
+                                   <div className="flex items-center justify-between">
+                                     <span className="text-xs text-muted-foreground">Frequency</span>
+                                     <select className="w-20 h-6 px-2 text-xs border rounded bg-background">
+                                       <option>Daily</option>
+                                       <option>Weekly</option>
+                                       <option>Monthly</option>
+                                       <option>Yearly</option>
+                                     </select>
+                                   </div>
 
                                   {/* Start Date field */}
                                   <div className="flex items-center justify-between">
@@ -540,14 +540,14 @@ const EditAsset = () => {
                                     </div>
                                   </div>
 
-                                  {/* Create WO field */}
-                                  <div className="flex items-center justify-between">
-                                    <span className="text-xs text-muted-foreground">Create WO</span>
-                                    <div className="flex items-center gap-2">
-                                      <input type="number" defaultValue="1" className="w-12 h-6 px-2 text-xs border rounded bg-background" />
-                                      <span className="text-xs text-muted-foreground">days before</span>
-                                    </div>
-                                  </div>
+                                   {/* Create WO field */}
+                                   <div className="flex items-center justify-between">
+                                     <span className="text-xs text-muted-foreground">Create WO</span>
+                                     <div className="flex items-center gap-2">
+                                       <input type="number" defaultValue="1" className="w-12 h-6 px-2 text-xs border rounded bg-background" />
+                                       <span className="text-xs text-muted-foreground w-20">days before</span>
+                                     </div>
+                                   </div>
 
                                   {/* Active toggle */}
                                   <div className="pt-2">
