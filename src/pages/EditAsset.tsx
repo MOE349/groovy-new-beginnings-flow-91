@@ -179,7 +179,7 @@ const EditAsset = () => {
         is_active: meterTriggerData.is_active,
         asset: id
       };
-      await apiCall('/pm-automation/pm-settings/', {
+      await apiCall('/pm-automation/pm-settings', {
         method: 'POST',
         body: submissionData
       });
