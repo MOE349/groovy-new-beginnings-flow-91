@@ -584,7 +584,6 @@ const EditAsset = () => {
                                         ...prev,
                                         start_date: e.target.value
                                       }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
-                                        <span className="text-xs text-muted-foreground w-20">date</span>
                                      </div>
                                    </div>
 
