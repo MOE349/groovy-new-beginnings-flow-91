@@ -254,42 +254,6 @@ const ApiTable = <T extends Record<string, any>>({
     }
   };
 
-  const getFilteredData = () => {
-    if (!data || Object.keys(appliedFilters).length === 0) {
-      return data || [];
-    }
-
-    return data.filter((row: T) => {
-      return Object.entries(appliedFilters).every(([columnKey, filterValue]) => {
-        if (!filterValue) return true;
-        
-        const column = orderedColumns.find(col => col.key === columnKey);
-        if (!column) return true;
-
-        let cellValue = '';
-        
-        if (column.render) {
-          const renderedValue = column.render(row[columnKey], row);
-          if (typeof renderedValue === 'string') {
-            cellValue = renderedValue;
-          } else if (renderedValue && typeof renderedValue === 'object' && 'props' in renderedValue) {
-            cellValue = String(renderedValue.props.children || '');
-          } else {
-            cellValue = String(renderedValue || '');
-          }
-        } else if (column.type === "object" && row[columnKey] && typeof row[columnKey] === "object") {
-          cellValue = row[columnKey].name || row[columnKey].id || '';
-        } else {
-          cellValue = String(row[columnKey] || '');
-        }
-
-        return cellValue.toLowerCase().includes(filterValue.toLowerCase());
-      });
-    });
-  };
-
-  const filteredData = getFilteredData();
-  
   const {
     data,
     isLoading,
@@ -326,6 +290,42 @@ const ApiTable = <T extends Record<string, any>>({
       return [...primaryWithSource, ...secondaryWithSource];
     },
   });
+
+  const getFilteredData = () => {
+    if (!data || Object.keys(appliedFilters).length === 0) {
+      return data || [];
+    }
+
+    return data.filter((row: T) => {
+      return Object.entries(appliedFilters).every(([columnKey, filterValue]) => {
+        if (!filterValue) return true;
+        
+        const column = orderedColumns.find(col => col.key === columnKey);
+        if (!column) return true;
+
+        let cellValue = '';
+        
+        if (column.render) {
+          const renderedValue = column.render(row[columnKey], row);
+          if (typeof renderedValue === 'string') {
+            cellValue = renderedValue;
+          } else if (renderedValue && typeof renderedValue === 'object' && 'props' in renderedValue) {
+            cellValue = String(renderedValue.props.children || '');
+          } else {
+            cellValue = String(renderedValue || '');
+          }
+        } else if (column.type === "object" && row[columnKey] && typeof row[columnKey] === "object") {
+          cellValue = row[columnKey].name || row[columnKey].id || '';
+        } else {
+          cellValue = String(row[columnKey] || '');
+        }
+
+        return cellValue.toLowerCase().includes(filterValue.toLowerCase());
+      });
+    });
+  };
+
+  const filteredData = getFilteredData();
 
   const handleRowClick = (row: T) => {
     if (onRowClick) {
