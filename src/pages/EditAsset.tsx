@@ -443,70 +443,70 @@ const EditAsset = () => {
                              <div className="px-4 pt-4 pb-0 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
                               <h5 className="text-xs font-medium text-primary dark:text-secondary mb-4 text-center">Meter Reading Trigger</h5>
                               
-                               <div className="flex-grow space-y-1 overflow-auto flex flex-col justify-end">
-                                 <div className="space-y-1">
-                                  {/* Every field */}
-                                  <div className="flex items-center justify-between">
-                                    <span className="text-xs text-muted-foreground">Every</span>
-                                    <div className="flex items-center gap-2">
-                                      <input type="number" value={meterTriggerData.interval_value} onChange={e => setMeterTriggerData(prev => ({
-                                      ...prev,
-                                      interval_value: Number(e.target.value)
-                                    }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
-                                      <select value={meterTriggerData.interval_unit} onChange={e => setMeterTriggerData(prev => ({
-                                      ...prev,
-                                      interval_unit: e.target.value
-                                    }))} className="h-6 px-2 text-xs border rounded bg-background">
-                                        <option value="hours">hours</option>
-                                        <option value="km">km</option>
-                                        <option value="miles">miles</option>
-                                        <option value="cycles">cycles</option>
-                                        <option value="days">days</option>
-                                        <option value="weeks">weeks</option>
-                                        <option value="months">months</option>
-                                      </select>
-                                    </div>
-                                  </div>
+                                <div className="flex-grow overflow-auto flex flex-col justify-end">
+                                  <div className="space-y-1">
+                                   {/* Every field */}
+                                   <div className="flex items-center justify-between">
+                                     <span className="text-xs text-muted-foreground">Every</span>
+                                     <div className="flex items-center gap-2">
+                                       <input type="number" value={meterTriggerData.interval_value} onChange={e => setMeterTriggerData(prev => ({
+                                       ...prev,
+                                       interval_value: Number(e.target.value)
+                                     }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
+                                       <select value={meterTriggerData.interval_unit} onChange={e => setMeterTriggerData(prev => ({
+                                       ...prev,
+                                       interval_unit: e.target.value
+                                     }))} className="h-6 px-2 text-xs border rounded bg-background">
+                                         <option value="hours">hours</option>
+                                         <option value="km">km</option>
+                                         <option value="miles">miles</option>
+                                         <option value="cycles">cycles</option>
+                                         <option value="days">days</option>
+                                         <option value="weeks">weeks</option>
+                                         <option value="months">months</option>
+                                       </select>
+                                     </div>
+                                   </div>
 
-                                  {/* Starting at field */}
-                                  <div className="flex items-center justify-between">
-                                    <span className="text-xs text-muted-foreground">Starting at</span>
-                                    <input type="number" value={meterTriggerData.start_threshold_value} onChange={e => setMeterTriggerData(prev => ({
-                                    ...prev,
-                                    start_threshold_value: Number(e.target.value)
-                                  }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
-                                  </div>
+                                   {/* Starting at field */}
+                                   <div className="flex items-center justify-between">
+                                     <span className="text-xs text-muted-foreground">Starting at</span>
+                                     <input type="number" value={meterTriggerData.start_threshold_value} onChange={e => setMeterTriggerData(prev => ({
+                                     ...prev,
+                                     start_threshold_value: Number(e.target.value)
+                                   }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
+                                   </div>
 
-                                  {/* Create WO field */}
-                                  <div className="flex items-center justify-between">
-                                    <span className="text-xs text-muted-foreground">Create WO</span>
-                                    <div className="flex items-center gap-2">
-                                      <input type="number" value={meterTriggerData.lead_time_value} onChange={e => setMeterTriggerData(prev => ({
-                                      ...prev,
-                                      lead_time_value: Number(e.target.value)
-                                    }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
-                                      <span className="text-xs text-muted-foreground">before trigger</span>
-                                    </div>
-                                  </div>
+                                   {/* Create WO field */}
+                                   <div className="flex items-center justify-between">
+                                     <span className="text-xs text-muted-foreground">Create WO</span>
+                                     <div className="flex items-center gap-2">
+                                       <input type="number" value={meterTriggerData.lead_time_value} onChange={e => setMeterTriggerData(prev => ({
+                                       ...prev,
+                                       lead_time_value: Number(e.target.value)
+                                     }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
+                                       <span className="text-xs text-muted-foreground">before trigger</span>
+                                     </div>
+                                   </div>
 
-                                  {/* Active toggle */}
-                                  <div>
-                                    <Button className={`w-full h-8 text-xs ${meterTriggerData.is_active ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-500 hover:bg-gray-600 text-white'}`} onClick={() => setMeterTriggerData(prev => ({
-                                    ...prev,
-                                    is_active: !prev.is_active
-                                  }))}>
-                                      {meterTriggerData.is_active ? '✓ Active' : '✗ Inactive'}
-                                    </Button>
-                                  </div>
-
-                                  {/* Save button */}
-                                  <div className="relative -translate-y-1 mt-3">
-                                    <Button className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-white" onClick={handleSaveMeterTrigger}>
-                                      Save
-                                    </Button>
-                                  </div>
-                                </div>
-                              </div>
+                                   {/* Active toggle */}
+                                   <div>
+                                     <Button className={`w-full h-8 text-xs ${meterTriggerData.is_active ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-500 hover:bg-gray-600 text-white'}`} onClick={() => setMeterTriggerData(prev => ({
+                                     ...prev,
+                                     is_active: !prev.is_active
+                                   }))}>
+                                       {meterTriggerData.is_active ? '✓ Active' : '✗ Inactive'}
+                                     </Button>
+                                   </div>
+                                 </div>
+                               
+                               {/* Save button - outside the space-y-1 container */}
+                               <div className="mt-3">
+                                 <Button className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-white" onClick={handleSaveMeterTrigger}>
+                                   Save
+                                 </Button>
+                               </div>
+                               </div>
                             </div>
                           </div>
 
