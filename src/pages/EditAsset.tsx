@@ -500,7 +500,7 @@ const EditAsset = () => {
                                   </div>
 
                                   {/* Save button */}
-                                  <div className="pt-2">
+                                   <div className="pt-4">
                                     <Button className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-white" onClick={handleSaveMeterTrigger}>
                                       Save
                                     </Button>
