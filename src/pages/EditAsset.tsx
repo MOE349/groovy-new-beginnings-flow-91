@@ -45,6 +45,15 @@ const EditAsset = () => {
     lead_time_value: 50,
     is_active: true
   });
+
+  // Calendar Trigger form state
+  const [calendarTriggerData, setCalendarTriggerData] = useState({
+    interval_value: 30,
+    interval_unit: "days",
+    start_date: "",
+    days_in_advance: 5,
+    is_active: true
+  });
   const {
     assetType,
     assetData,
@@ -137,6 +146,33 @@ const EditAsset = () => {
       toast({
         title: "Error",
         description: error.message || "Failed to save PM Trigger settings",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleSaveCalendarTrigger = async () => {
+    try {
+      const submissionData = {
+        interval_value: calendarTriggerData.interval_value,
+        interval_unit: calendarTriggerData.interval_unit,
+        start_date: calendarTriggerData.start_date,
+        days_in_advance: calendarTriggerData.days_in_advance,
+        is_active: calendarTriggerData.is_active,
+        asset: id
+      };
+      await apiCall('/pm-automation/calendar-settings/', {
+        method: 'POST',
+        body: submissionData
+      });
+      toast({
+        title: "Success",
+        description: "Calendar Trigger settings saved successfully!"
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to save Calendar Trigger settings",
         variant: "destructive"
       });
     }
@@ -515,48 +551,73 @@ const EditAsset = () => {
 
                           {/* Calendar Trigger Container */}
                           <div className="w-1/2">
-                            <div className="p-4 h-[380px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
+                             <div className="px-4 pt-4 pb-0 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
                               <h5 className="text-xs font-medium text-primary dark:text-secondary mb-4 text-center">Calendar Trigger</h5>
                               
-                              <div className="flex-grow space-y-3 overflow-auto">
-                                <div className="space-y-3">
-                                   {/* Frequency field */}
+                                <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
+                                  <div className="space-y-1">
+                                   {/* Every field */}
                                    <div className="flex items-center justify-between">
-                                     <span className="text-xs text-muted-foreground">Frequency</span>
-                                     <select className="w-20 h-6 px-2 text-xs border rounded bg-background">
-                                       <option>Daily</option>
-                                       <option>Weekly</option>
-                                       <option>Monthly</option>
-                                       <option>Yearly</option>
-                                     </select>
+                                     <span className="text-xs text-muted-foreground">Every</span>
+                                     <div className="flex items-center gap-2">
+                                       <input type="number" value={calendarTriggerData.interval_value} onChange={e => setCalendarTriggerData(prev => ({
+                                       ...prev,
+                                       interval_value: Number(e.target.value)
+                                     }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
+                                        <select value={calendarTriggerData.interval_unit} onChange={e => setCalendarTriggerData(prev => ({
+                                        ...prev,
+                                        interval_unit: e.target.value
+                                      }))} className="h-6 px-2 text-xs border rounded bg-background w-20">
+                                         <option value="days">days</option>
+                                         <option value="weeks">weeks</option>
+                                         <option value="months">months</option>
+                                         <option value="years">years</option>
+                                       </select>
+                                     </div>
                                    </div>
 
-                                  {/* Start Date field */}
-                                  <div className="flex items-center justify-between">
-                                    <span className="text-xs text-muted-foreground">Start Date</span>
-                                    <div className="relative">
-                                      <input type="text" placeholder="mm/dd/yy" className="w-20 h-6 px-2 text-xs border rounded bg-background pr-6" />
-                                      <CalendarIcon className="absolute right-1 top-1 h-4 w-4 text-muted-foreground" />
-                                    </div>
-                                  </div>
+                                   {/* Starting at field */}
+                                   <div className="flex items-center justify-between">
+                                     <span className="text-xs text-muted-foreground">Starting at</span>
+                                     <div className="flex items-center gap-2">
+                                        <input type="date" value={calendarTriggerData.start_date} onChange={e => setCalendarTriggerData(prev => ({
+                                        ...prev,
+                                        start_date: e.target.value
+                                      }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
+                                        <span className="text-xs text-muted-foreground w-20">date</span>
+                                     </div>
+                                   </div>
 
                                    {/* Create WO field */}
                                    <div className="flex items-center justify-between">
                                      <span className="text-xs text-muted-foreground">Create WO</span>
                                      <div className="flex items-center gap-2">
-                                       <input type="number" defaultValue="1" className="w-12 h-6 px-2 text-xs border rounded bg-background" />
-                                       <span className="text-xs text-muted-foreground w-20">days before</span>
+                                       <input type="number" value={calendarTriggerData.days_in_advance} onChange={e => setCalendarTriggerData(prev => ({
+                                       ...prev,
+                                       days_in_advance: Number(e.target.value)
+                                     }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
+                                       <span className="text-xs text-muted-foreground w-20">days in advance</span>
                                      </div>
                                    </div>
 
-                                  {/* Active toggle */}
-                                  <div className="pt-2">
-                                    <Button className={`w-full h-8 text-xs ${isTimeTriggerActive ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-500 hover:bg-gray-600 text-white'}`} onClick={() => setIsTimeTriggerActive(!isTimeTriggerActive)}>
-                                      {isTimeTriggerActive ? '✓ Active' : '✗ Inactive'}
-                                    </Button>
-                                  </div>
-                                </div>
-                              </div>
+                                   {/* Active toggle */}
+                                   <div>
+                                     <Button className={`w-full h-8 text-xs ${calendarTriggerData.is_active ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-500 hover:bg-gray-600 text-white'}`} onClick={() => setCalendarTriggerData(prev => ({
+                                     ...prev,
+                                     is_active: !prev.is_active
+                                   }))}>
+                                       {calendarTriggerData.is_active ? '✓ Active' : '✗ Inactive'}
+                                     </Button>
+                                   </div>
+                                 </div>
+                               
+                               {/* Save button - outside the space-y-1 container */}
+                               <div className="mt-0.5">
+                                 <Button className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-white" onClick={handleSaveCalendarTrigger}>
+                                   Save
+                                 </Button>
+                               </div>
+                               </div>
                             </div>
                           </div>
                         </div>
