@@ -583,8 +583,7 @@ const EditAsset = () => {
                                          <input type="date" value={calendarTriggerData.start_date} onChange={e => setCalendarTriggerData(prev => ({
                                          ...prev,
                                          start_date: e.target.value
-                                       }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
-                                         <span className="w-20"></span>
+                                       }))} className="w-full h-6 px-2 text-xs border rounded bg-background" />
                                       </div>
                                     </div>
 
