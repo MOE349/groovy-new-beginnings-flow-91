@@ -62,7 +62,19 @@ interface ApiTableProps<T = any> {
 }
 
 // Sortable header component
-const SortableTableHead = ({ column, className }: { column: TableColumn; className?: string }) => {
+const SortableTableHead = ({ 
+  column, 
+  className, 
+  filterValue, 
+  onFilterChange, 
+  onFilterApply 
+}: { 
+  column: TableColumn; 
+  className?: string;
+  filterValue: string;
+  onFilterChange: (value: string) => void;
+  onFilterApply: () => void;
+}) => {
   const {
     attributes,
     listeners,
@@ -78,6 +90,24 @@ const SortableTableHead = ({ column, className }: { column: TableColumn; classNa
     opacity: isDragging ? 0.5 : 1,
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      onFilterApply();
+    }
+  };
+
+  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onFilterChange(e.target.value);
+  };
+
+  const handleInputMouseDown = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
+  const handleInputFocus = (e: React.FocusEvent) => {
+    e.stopPropagation();
+  };
+
   return (
     <TableHead
       ref={setNodeRef}
@@ -86,9 +116,21 @@ const SortableTableHead = ({ column, className }: { column: TableColumn; classNa
       {...attributes}
       {...listeners}
     >
-      <div className="flex items-center gap-2">
-        <GripVertical className="h-4 w-4 text-muted-foreground" />
-        {column.header}
+      <div className="flex flex-col gap-1">
+        <div className="flex items-center gap-2">
+          <GripVertical className="h-4 w-4 text-muted-foreground" />
+          {column.header}
+        </div>
+        <input
+          type="text"
+          value={filterValue}
+          onChange={handleFilterChange}
+          onKeyPress={handleKeyPress}
+          onMouseDown={handleInputMouseDown}
+          onFocus={handleInputFocus}
+          className="h-6 px-2 text-xs border border-border rounded bg-background text-foreground cursor-text"
+          onClick={(e) => e.stopPropagation()}
+        />
       </div>
     </TableHead>
   );
@@ -144,6 +186,8 @@ const ApiTable = <T extends Record<string, any>>({
   };
 
   const [orderedColumns, setOrderedColumns] = useState<TableColumn<T>[]>(getSavedColumnOrder());
+  const [filters, setFilters] = useState<Record<string, string>>({});
+  const [appliedFilters, setAppliedFilters] = useState<Record<string, string>>({});
 
   // Update ordered columns when columns prop changes
   useEffect(() => {
@@ -185,6 +229,66 @@ const ApiTable = <T extends Record<string, any>>({
       });
     }
   };
+
+  const handleFilterChange = (columnKey: string, value: string) => {
+    setFilters(prev => ({ ...prev, [columnKey]: value }));
+    if (value === '') {
+      setAppliedFilters(prev => {
+        const newFilters = { ...prev };
+        delete newFilters[columnKey];
+        return newFilters;
+      });
+    }
+  };
+
+  const applyFilter = (columnKey: string) => {
+    const filterValue = filters[columnKey] || '';
+    if (filterValue === '') {
+      setAppliedFilters(prev => {
+        const newFilters = { ...prev };
+        delete newFilters[columnKey];
+        return newFilters;
+      });
+    } else {
+      setAppliedFilters(prev => ({ ...prev, [columnKey]: filterValue }));
+    }
+  };
+
+  const getFilteredData = () => {
+    if (!data || Object.keys(appliedFilters).length === 0) {
+      return data || [];
+    }
+
+    return data.filter((row: T) => {
+      return Object.entries(appliedFilters).every(([columnKey, filterValue]) => {
+        if (!filterValue) return true;
+        
+        const column = orderedColumns.find(col => col.key === columnKey);
+        if (!column) return true;
+
+        let cellValue = '';
+        
+        if (column.render) {
+          const renderedValue = column.render(row[columnKey], row);
+          if (typeof renderedValue === 'string') {
+            cellValue = renderedValue;
+          } else if (renderedValue && typeof renderedValue === 'object' && 'props' in renderedValue) {
+            cellValue = String(renderedValue.props.children || '');
+          } else {
+            cellValue = String(renderedValue || '');
+          }
+        } else if (column.type === "object" && row[columnKey] && typeof row[columnKey] === "object") {
+          cellValue = row[columnKey].name || row[columnKey].id || '';
+        } else {
+          cellValue = String(row[columnKey] || '');
+        }
+
+        return cellValue.toLowerCase().includes(filterValue.toLowerCase());
+      });
+    });
+  };
+
+  const filteredData = getFilteredData();
   
   const {
     data,
@@ -287,15 +391,18 @@ const ApiTable = <T extends Record<string, any>>({
                     <SortableTableHead 
                       key={column.key} 
                       column={column} 
-                      className={column.className} 
+                      className={column.className}
+                      filterValue={filters[column.key] || ''}
+                      onFilterChange={(value) => handleFilterChange(column.key, value)}
+                      onFilterApply={() => applyFilter(column.key)}
                     />
                   ))}
                 </SortableContext>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data && data.length > 0 ? (
-                data.map((row: T, index: number) => (
+              {filteredData && filteredData.length > 0 ? (
+                filteredData.map((row: T, index: number) => (
                   <TableRow 
                     key={row.id || index}
                     className={`group ${isRowClickable ? "cursor-pointer hover:bg-muted/50 transition-colors" : ""}`}
@@ -314,7 +421,7 @@ const ApiTable = <T extends Record<string, any>>({
               ) : (
                 <TableRow>
                   <TableCell colSpan={orderedColumns.length} className="text-center text-muted-foreground">
-                    {emptyMessage}
+                    {Object.keys(appliedFilters).length > 0 ? "No results match your filters" : emptyMessage}
                   </TableCell>
                 </TableRow>
               )}
