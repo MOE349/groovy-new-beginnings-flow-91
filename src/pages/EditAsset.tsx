@@ -490,7 +490,7 @@ const EditAsset = () => {
                                   </div>
 
                                   {/* Active toggle */}
-                                  <div className="pt-2">
+                                  <div className="pt-1">
                                     <Button className={`w-full h-8 text-xs ${meterTriggerData.is_active ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-500 hover:bg-gray-600 text-white'}`} onClick={() => setMeterTriggerData(prev => ({
                                     ...prev,
                                     is_active: !prev.is_active
