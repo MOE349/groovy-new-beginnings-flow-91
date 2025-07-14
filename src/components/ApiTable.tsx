@@ -141,6 +141,9 @@ const SortableTableHead = ({
   hasActiveFilter,
   openFilterPopover,
   setOpenFilterPopover,
+  width,
+  onResizeStart,
+  isLastColumn,
 }: { 
   column: TableColumn; 
   className?: string;
@@ -151,6 +154,9 @@ const SortableTableHead = ({
   hasActiveFilter: boolean;
   openFilterPopover: string | null;
   setOpenFilterPopover: (key: string | null) => void;
+  width?: number;
+  onResizeStart: (columnKey: string, startX: number) => void;
+  isLastColumn: boolean;
 }) => {
   const {
     attributes,
@@ -177,8 +183,12 @@ const SortableTableHead = ({
   return (
     <TableHead
       ref={setNodeRef}
-      style={style}
-      className={`${className} select-none`}
+      style={{
+        ...style,
+        width: width ? `${width}px` : 'auto',
+        minWidth: width ? `${width}px` : '150px',
+      }}
+      className={`${className} select-none relative`}
     >
       <div className="flex items-center justify-between gap-2 min-w-0">
         <div className="flex items-center gap-2 min-w-0 cursor-grab active:cursor-grabbing" {...attributes} {...listeners}>
@@ -211,6 +221,20 @@ const SortableTableHead = ({
           </Popover>
         </div>
       </div>
+      
+      {/* Resize handle */}
+      {!isLastColumn && (
+        <div
+          className="absolute top-0 right-0 w-1 h-full cursor-col-resize hover:bg-primary/20 group"
+          onMouseDown={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onResizeStart(column.key, e.clientX);
+          }}
+        >
+          <div className="w-full h-full group-hover:bg-primary/30 transition-colors" />
+        </div>
+      )}
     </TableHead>
   );
 };
@@ -236,6 +260,64 @@ const ApiTable = <T extends Record<string, any>>({
   
   // Generate a unique storage key for this table
   const storageKey = `table-column-order-${tableId || endpoint.replace(/\//g, '-')}`;
+  const widthStorageKey = `table-column-widths-${tableId || endpoint.replace(/\//g, '-')}`;
+  
+  // Column resizing state
+  const [columnWidths, setColumnWidths] = useState<Record<string, number>>({});
+  const [isResizing, setIsResizing] = useState(false);
+  const [resizingColumn, setResizingColumn] = useState<string | null>(null);
+  
+  // Load saved column widths from localStorage
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(widthStorageKey);
+      if (saved) {
+        setColumnWidths(JSON.parse(saved));
+      }
+    } catch (error) {
+      console.warn('Failed to load saved column widths:', error);
+    }
+  }, [widthStorageKey]);
+
+  // Save column widths to localStorage
+  const saveColumnWidths = (widths: Record<string, number>) => {
+    try {
+      localStorage.setItem(widthStorageKey, JSON.stringify(widths));
+    } catch (error) {
+      console.warn('Failed to save column widths:', error);
+    }
+  };
+
+  // Handle column resize
+  const handleColumnResize = (columnKey: string, width: number) => {
+    const newWidths = { ...columnWidths, [columnKey]: Math.max(width, 100) }; // Minimum width of 100px
+    setColumnWidths(newWidths);
+    saveColumnWidths(newWidths);
+  };
+
+  // Handle resize start
+  const handleResizeStart = (columnKey: string, startX: number) => {
+    setIsResizing(true);
+    setResizingColumn(columnKey);
+    
+    const startWidth = columnWidths[columnKey] || 150; // Default width
+    
+    const handleMouseMove = (e: MouseEvent) => {
+      const diff = e.clientX - startX;
+      const newWidth = startWidth + diff;
+      handleColumnResize(columnKey, newWidth);
+    };
+    
+    const handleMouseUp = () => {
+      setIsResizing(false);
+      setResizingColumn(null);
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+    
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+  };
   
   // Load saved column order from localStorage
   const getSavedColumnOrder = (): TableColumn<T>[] => {
@@ -476,7 +558,7 @@ const ApiTable = <T extends Record<string, any>>({
                   items={orderedColumns.map(col => col.key)} 
                   strategy={horizontalListSortingStrategy}
                 >
-                  {orderedColumns.map((column) => (
+                  {orderedColumns.map((column, index) => (
                     <SortableTableHead 
                       key={column.key} 
                       column={column} 
@@ -488,6 +570,9 @@ const ApiTable = <T extends Record<string, any>>({
                       hasActiveFilter={Boolean(appliedFilters[column.key])}
                       openFilterPopover={openFilterPopover}
                       setOpenFilterPopover={setOpenFilterPopover}
+                      width={columnWidths[column.key]}
+                      onResizeStart={handleResizeStart}
+                      isLastColumn={index === orderedColumns.length - 1}
                     />
                   ))}
                 </SortableContext>
@@ -502,7 +587,14 @@ const ApiTable = <T extends Record<string, any>>({
                     onClick={() => isRowClickable && handleRowClick(row)}
                   >
                     {orderedColumns.map((column) => (
-                      <TableCell key={column.key} className={`${column.className} min-w-0`}>
+                      <TableCell 
+                        key={column.key} 
+                        className={`${column.className} min-w-0`}
+                        style={{
+                          width: columnWidths[column.key] ? `${columnWidths[column.key]}px` : 'auto',
+                          minWidth: columnWidths[column.key] ? `${columnWidths[column.key]}px` : '150px',
+                        }}
+                      >
                         <div className="truncate">
                           {renderCell(column, row)}
                         </div>
