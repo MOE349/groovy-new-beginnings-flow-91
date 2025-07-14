@@ -43,7 +43,9 @@ const EditAsset = () => {
     interval_unit: "hours",
     start_threshold_value: 250,
     lead_time_value: 50,
-    is_active: true
+    is_active: true,
+    next_trigger_value: null,
+    last_handled_trigger: null
   });
 
   // Calendar Trigger form state
@@ -516,19 +518,37 @@ const EditAsset = () => {
                                      </div>
                                    </div>
 
-                                   {/* Create WO field */}
-                                   <div className="flex items-center justify-between">
-                                     <span className="text-xs text-muted-foreground">Create WO</span>
-                                     <div className="flex items-center gap-2">
-                                       <input type="number" value={meterTriggerData.lead_time_value} onChange={e => setMeterTriggerData(prev => ({
-                                       ...prev,
-                                       lead_time_value: Number(e.target.value)
-                                     }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
-                                       <span className="text-xs text-muted-foreground">before trigger</span>
-                                     </div>
-                                   </div>
+                                    {/* Create WO field */}
+                                    <div className="flex items-center justify-between">
+                                      <span className="text-xs text-muted-foreground">Create WO</span>
+                                      <div className="flex items-center gap-2">
+                                        <input type="number" value={meterTriggerData.lead_time_value} onChange={e => setMeterTriggerData(prev => ({
+                                        ...prev,
+                                        lead_time_value: Number(e.target.value)
+                                      }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
+                                        <span className="text-xs text-muted-foreground">before trigger</span>
+                                      </div>
+                                    </div>
 
-                                   {/* Active toggle */}
+                                    {/* Next trigger field */}
+                                    <div className="flex items-center justify-between">
+                                      <span className="text-xs text-muted-foreground">Next trigger</span>
+                                      <div className="flex items-center gap-2">
+                                        <input type="text" value={meterTriggerData.next_trigger_value || '-'} readOnly className="w-16 h-6 px-2 text-xs border rounded bg-muted/50 text-muted-foreground cursor-default" />
+                                        <span className="text-xs text-muted-foreground w-20">{meterTriggerData.interval_unit}</span>
+                                      </div>
+                                    </div>
+
+                                    {/* Last trigger field */}
+                                    <div className="flex items-center justify-between">
+                                      <span className="text-xs text-muted-foreground">Last trigger</span>
+                                      <div className="flex items-center gap-2">
+                                        <input type="text" value={meterTriggerData.last_handled_trigger || '-'} readOnly className="w-16 h-6 px-2 text-xs border rounded bg-muted/50 text-muted-foreground cursor-default" />
+                                        <span className="text-xs text-muted-foreground w-20">{meterTriggerData.interval_unit}</span>
+                                      </div>
+                                    </div>
+
+                                    {/* Active toggle */}
                                    <div>
                                      <Button className={`w-full h-8 text-xs ${meterTriggerData.is_active ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-500 hover:bg-gray-600 text-white'}`} onClick={() => setMeterTriggerData(prev => ({
                                      ...prev,
