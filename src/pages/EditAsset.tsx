@@ -204,7 +204,7 @@ const EditAsset = () => {
         <Tabs defaultValue="metering-events" className="h-full" onValueChange={setActiveTab}>
           {/* Compact Pill-Style Tab List */}
           <div className="h-10 overflow-x-auto">
-            <TabsList className="grid w-full grid-cols-7 h-10 bg-card border border-border rounded-md p-0">
+            <TabsList className="grid w-full grid-cols-8 h-10 bg-card border border-border rounded-md p-0">
               <TabsTrigger 
                 value="metering-events"
                 className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary dark:data-[state=active]:text-secondary data-[state=active]:border-b-2 data-[state=active]:border-primary dark:data-[state=active]:border-secondary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
@@ -240,6 +240,12 @@ const EditAsset = () => {
                 className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary dark:data-[state=active]:text-secondary data-[state=active]:border-b-2 data-[state=active]:border-primary dark:data-[state=active]:border-secondary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
               >
                 Files
+              </TabsTrigger>
+              <TabsTrigger 
+                value="components"
+                className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary dark:data-[state=active]:text-secondary data-[state=active]:border-b-2 data-[state=active]:border-primary dark:data-[state=active]:border-secondary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
+              >
+                Components
               </TabsTrigger>
               <TabsTrigger 
                 value="log"
@@ -721,6 +727,14 @@ const EditAsset = () => {
             <div className="bg-card rounded-sm shadow-xs p-4 h-[500px] overflow-auto">
               <div className="p-4 text-center text-muted-foreground">
                 Backlog content coming soon...
+              </div>
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="components" className="mt-1">
+            <div className="bg-card rounded-sm shadow-xs p-4 h-[500px] overflow-auto">
+              <div className="p-4 text-center text-muted-foreground">
+                Components content coming soon...
               </div>
             </div>
           </TabsContent>
