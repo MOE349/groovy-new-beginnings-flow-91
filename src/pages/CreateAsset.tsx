@@ -227,7 +227,7 @@ const CreateAsset = () => {
 
   return (
     <div className="h-full overflow-x-auto min-w-0">
-      <div className="space-y-6 min-w-fit">
+      <div className="space-y-6 min-w-[1440px]">
         <div>
           <ApiForm
             fields={currentFields}
