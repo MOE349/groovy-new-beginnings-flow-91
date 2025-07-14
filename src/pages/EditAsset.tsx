@@ -476,7 +476,7 @@ const EditAsset = () => {
                                        ...prev,
                                        start_threshold_value: Number(e.target.value)
                                      }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
-                                       <div className="w-[104px]"></div> {/* Spacer to align under select dropdown */}
+                                       <div className="h-6 px-2 text-xs border rounded bg-background invisible">placeholder</div>
                                      </div>
                                    </div>
 
