@@ -54,13 +54,20 @@ const EditAsset = () => {
       if (!id) return;
       
       try {
+        console.log('Fetching PM data for asset:', id);
         const response = await apiCall(`/pm-automation/pm-settings?asset=${id}`, {
           method: 'GET'
         });
         
+        console.log('PM API Response:', response);
+        console.log('Response data:', response.data);
+        console.log('Response data length:', response.data?.length);
+        
         if (response.data && response.data.length > 0) {
           const pmData = response.data[0];
-          setMeterTriggerData({
+          console.log('PM Data object:', pmData);
+          
+          const newMeterTriggerData = {
             interval_value: pmData.interval_value || 500,
             interval_unit: pmData.interval_unit || "hours",
             start_threshold_value: pmData.start_threshold_value || 250,
@@ -68,7 +75,12 @@ const EditAsset = () => {
             is_active: pmData.is_active !== undefined ? pmData.is_active : true,
             next_trigger_value: pmData.next_trigger_value || null,
             last_handled_trigger: pmData.last_handled_trigger || null
-          });
+          };
+          
+          console.log('Setting meter trigger data:', newMeterTriggerData);
+          setMeterTriggerData(newMeterTriggerData);
+        } else {
+          console.log('No PM data found, using defaults');
         }
       } catch (error) {
         console.error('Failed to fetch PM data:', error);
