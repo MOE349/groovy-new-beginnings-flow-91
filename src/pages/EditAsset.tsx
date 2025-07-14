@@ -189,18 +189,19 @@ const EditAsset = () => {
   );
 
   return (
-    <div className="space-y-4 min-w-0">
-      <div>
-        <ApiForm
-          fields={currentFields}
-          onSubmit={handleSubmit}
-          initialData={initialData}
-          customLayout={customLayout}
-        />
-      </div>
+    <div className="h-full overflow-x-auto min-w-0">
+      <div className="space-y-4 min-w-fit">
+        <div>
+          <ApiForm
+            fields={currentFields}
+            onSubmit={handleSubmit}
+            initialData={initialData}
+            customLayout={customLayout}
+          />
+        </div>
 
-      {/* Compact Tabs Section */}
-      <div>
+        {/* Compact Tabs Section */}
+        <div>
         <Tabs defaultValue="metering-events" className="h-full" onValueChange={setActiveTab}>
           {/* Compact Pill-Style Tab List */}
           <div className="h-10 overflow-x-auto">
@@ -747,6 +748,7 @@ const EditAsset = () => {
             </div>
           </TabsContent>
         </Tabs>
+        </div>
       </div>
     </div>
   );

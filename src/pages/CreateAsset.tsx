@@ -226,16 +226,18 @@ const CreateAsset = () => {
   );
 
   return (
-    <div className="space-y-6 min-w-0">
-      <div>
-        <ApiForm
-          fields={currentFields}
-          onSubmit={handleSubmit}
-          initialData={{
-            is_online: false,
-          }}
-          customLayout={customLayout}
-        />
+    <div className="h-full overflow-x-auto min-w-0">
+      <div className="space-y-6 min-w-fit">
+        <div>
+          <ApiForm
+            fields={currentFields}
+            onSubmit={handleSubmit}
+            initialData={{
+              is_online: false,
+            }}
+            customLayout={customLayout}
+          />
+        </div>
       </div>
     </div>
   );
