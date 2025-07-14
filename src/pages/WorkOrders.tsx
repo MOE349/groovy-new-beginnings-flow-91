@@ -17,7 +17,7 @@ const WorkOrders = () => {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 min-w-0">
       <div className="flex gap-4">
         <Button asChild size="sm">
           <Link to="/workorders/create">
