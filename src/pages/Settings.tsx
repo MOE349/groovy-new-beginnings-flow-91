@@ -173,8 +173,9 @@ const Settings = () => {
   ), []);
 
   return (
-    <div className="space-y-6">
-      <Tabs defaultValue="sites" className="w-full mt-8">
+    <div className="h-full overflow-x-auto min-w-0">
+      <div className="space-y-6 min-w-[1440px]">
+        <Tabs defaultValue="sites" className="w-full mt-8">
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="sites">Tables</TabsTrigger>
             <TabsTrigger value="categories">Users</TabsTrigger>
@@ -347,6 +348,7 @@ const Settings = () => {
           />
         </DialogContent>
       </Dialog>
+      </div>
     </div>
   );
 };
