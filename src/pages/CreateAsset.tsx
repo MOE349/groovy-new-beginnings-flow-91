@@ -35,7 +35,7 @@ const CreateAsset = () => {
 
   if (!assetType) {
     return (
-      <div className="px-6 space-y-4 min-w-0">
+      <div className="px-6 space-y-4">
         <div className="h-14 flex items-center justify-between px-4 py-2 bg-card border-b border-border">
           <div>
             <h1 className="text-h3 font-medium text-primary">Create New Asset</h1>
@@ -226,7 +226,7 @@ const CreateAsset = () => {
   );
 
   return (
-    <div className="space-y-6 min-w-0">
+    <div className="space-y-6">
       <div>
         <ApiForm
           fields={currentFields}

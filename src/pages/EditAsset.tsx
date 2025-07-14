@@ -189,7 +189,7 @@ const EditAsset = () => {
   );
 
   return (
-    <div className="space-y-4 min-w-0">
+    <div className="space-y-4">
       <div>
         <ApiForm
           fields={currentFields}

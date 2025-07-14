@@ -173,7 +173,7 @@ const Settings = () => {
   ), []);
 
   return (
-    <div className="space-y-6 min-w-0">
+    <div className="space-y-6">
       <Tabs defaultValue="sites" className="w-full mt-8">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="sites">Tables</TabsTrigger>
@@ -182,7 +182,7 @@ const Settings = () => {
         </TabsList>
         
         <TabsContent value="sites" className="space-y-3">
-          <div className="grid grid-cols-1 xl:grid-cols-3 lg:grid-cols-2 gap-4 min-w-0">
+          <div className="grid grid-cols-1 xl:grid-cols-3 lg:grid-cols-2 gap-4">
             {/* Left Column - Sites and Locations */}
             <div className="space-y-4">
               <ApiTable

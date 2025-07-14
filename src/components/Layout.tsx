@@ -82,10 +82,8 @@ export function Layout({ children }: LayoutProps) {
             </div>
           </header>
           
-          <main className="flex-1 overflow-hidden min-w-0">
-            <div className="h-full overflow-x-auto overflow-y-auto p-1">
-              {children}
-            </div>
+          <main className="flex-1 p-1 overflow-x-auto min-w-0">
+            {children}
           </main>
           
           <footer className="h-8 flex items-center justify-between border-t bg-primary text-primary-foreground px-4">
