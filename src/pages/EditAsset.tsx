@@ -476,7 +476,7 @@ const EditAsset = () => {
                                        ...prev,
                                        start_threshold_value: Number(e.target.value)
                                      }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
-                                       <div className="h-6 px-2 text-xs border rounded bg-background invisible">placeholder</div>
+                                       <span className="text-xs text-muted-foreground opacity-0">placeholder</span>
                                      </div>
                                    </div>
 
