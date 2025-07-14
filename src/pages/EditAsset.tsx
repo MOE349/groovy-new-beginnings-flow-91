@@ -453,10 +453,10 @@ const EditAsset = () => {
                                        ...prev,
                                        interval_value: Number(e.target.value)
                                      }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
-                                       <select value={meterTriggerData.interval_unit} onChange={e => setMeterTriggerData(prev => ({
-                                       ...prev,
-                                       interval_unit: e.target.value
-                                     }))} className="h-6 px-2 text-xs border rounded bg-background">
+                                        <select value={meterTriggerData.interval_unit} onChange={e => setMeterTriggerData(prev => ({
+                                        ...prev,
+                                        interval_unit: e.target.value
+                                      }))} className="h-6 px-2 text-xs border rounded bg-background w-20">
                                          <option value="hours">hours</option>
                                          <option value="km">km</option>
                                          <option value="miles">miles</option>
