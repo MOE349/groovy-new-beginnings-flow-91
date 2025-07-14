@@ -471,10 +471,13 @@ const EditAsset = () => {
                                    {/* Starting at field */}
                                    <div className="flex items-center justify-between">
                                      <span className="text-xs text-muted-foreground">Starting at</span>
-                                     <input type="number" value={meterTriggerData.start_threshold_value} onChange={e => setMeterTriggerData(prev => ({
-                                     ...prev,
-                                     start_threshold_value: Number(e.target.value)
-                                   }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
+                                     <div className="flex items-center gap-2">
+                                       <div className="w-16"></div> {/* Spacer to align under select */}
+                                       <input type="number" value={meterTriggerData.start_threshold_value} onChange={e => setMeterTriggerData(prev => ({
+                                       ...prev,
+                                       start_threshold_value: Number(e.target.value)
+                                     }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
+                                     </div>
                                    </div>
 
                                    {/* Create WO field */}
