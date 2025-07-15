@@ -98,6 +98,15 @@ const EditAsset = () => {
     days_in_advance: 5,
     is_active: true
   });
+
+  // PM Settings query for the table
+  const { data: pmSettingsData } = useQuery({
+    queryKey: [`/pm-automation/pm-settings?asset=${id}`],
+    queryFn: async () => {
+      const response = await apiCall(`/pm-automation/pm-settings?asset=${id}`);
+      return response.data.data || response.data;
+    },
+  });
   const {
     assetType,
     assetData,
@@ -544,20 +553,12 @@ const EditAsset = () => {
                                 </tr>
                               </thead>
                               <tbody>
-                                {/* PM Settings Query */}
+                                {/* Generate exactly 3 rows using pmSettingsData */}
                                 {(() => {
-                                  const { data: pmData } = useQuery({
-                                    queryKey: [`/pm-automation/pm-settings?asset=${id}`],
-                                    queryFn: async () => {
-                                      const response = await apiCall(`/pm-automation/pm-settings?asset=${id}`);
-                                      return response.data.data || response.data;
-                                    },
-                                  });
-
                                   // Ensure exactly 3 rows
                                   const rows = [];
                                   for (let i = 0; i < 3; i++) {
-                                    const item = pmData?.[i];
+                                    const item = pmSettingsData?.[i];
                                     rows.push(
                                       <tr key={i} className="border-b transition-colors hover:bg-muted/50 even:bg-muted/20">
                                         <td className="px-2 py-1 text-left align-middle text-xs">
