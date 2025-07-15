@@ -173,6 +173,36 @@ const EditAsset = () => {
       });
     }
   };
+  const handleSaveMeterTrigger = async () => {
+    try {
+      const submissionData = {
+        interval_value: meterTriggerData.interval_value,
+        interval_unit: meterTriggerData.interval_unit,
+        start_threshold_value: meterTriggerData.start_threshold_value,
+        start_threshold_unit: meterTriggerData.interval_unit,
+        // same as interval_unit
+        lead_time_value: meterTriggerData.lead_time_value,
+        lead_time_unit: meterTriggerData.interval_unit,
+        // same as interval_unit
+        is_active: meterTriggerData.is_active,
+        asset: id
+      };
+      await apiCall('/pm-automation/pm-settings', {
+        method: 'POST',
+        body: submissionData
+      });
+      toast({
+        title: "Success",
+        description: "PM Trigger settings saved successfully!"
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to save PM Trigger settings",
+        variant: "destructive"
+      });
+    }
+  };
 
   const handleSaveCalendarTrigger = async () => {
     try {
@@ -551,85 +581,88 @@ const EditAsset = () => {
                         </div>
                        
                           <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
-                            <ApiForm 
-                              fields={[
-                                {
-                                  name: "name",
-                                  type: "input",
-                                  inputType: "text",
-                                  label: "Name",
-                                  required: false
-                                },
-                                {
-                                  name: "interval_value",
-                                  type: "input",
-                                  inputType: "number",
-                                  label: "Every",
-                                  required: true
-                                },
-                                {
-                                  name: "interval_unit",
-                                  type: "dropdown",
-                                  label: "Unit",
-                                  options: [
-                                    { label: "hours", value: "hours" },
-                                    { label: "km", value: "km" },
-                                    { label: "miles", value: "miles" },
-                                    { label: "cycles", value: "cycles" },
-                                    { label: "days", value: "days" },
-                                    { label: "weeks", value: "weeks" },
-                                    { label: "months", value: "months" }
-                                  ],
-                                  required: true
-                                },
-                                {
-                                  name: "start_threshold_value",
-                                  type: "input",
-                                  inputType: "number",
-                                  label: "Starting at",
-                                  required: true
-                                },
-                                {
-                                  name: "lead_time_value",
-                                  type: "input",
-                                  inputType: "number",
-                                  label: "Create WO (before trigger)",
-                                  required: true
-                                },
-                                {
-                                  name: "is_active",
-                                  type: "switch",
-                                  label: "Active",
-                                  required: false
-                                }
-                              ]}
-                              initialData={{
-                                name: meterTriggerData.name,
-                                interval_value: meterTriggerData.interval_value,
-                                interval_unit: meterTriggerData.interval_unit,
-                                start_threshold_value: meterTriggerData.start_threshold_value,
-                                lead_time_value: meterTriggerData.lead_time_value,
-                                is_active: meterTriggerData.is_active
-                              }}
-                              onSubmit={async (data) => {
-                                const submissionData = {
-                                  ...data,
-                                  start_threshold_unit: data.interval_unit,
-                                  lead_time_unit: data.interval_unit,
-                                  asset: id
-                                };
-                                await apiCall('/pm-automation/pm-settings', {
-                                  method: 'POST',
-                                  body: submissionData
-                                });
-                                toast({
-                                  title: "Success",
-                                  description: "PM Trigger settings saved successfully!"
-                                });
-                              }}
-                              submitText="Save"
-                            />
+                            <div className="space-y-1">
+                              {/* Name field */}
+                              <div className="flex items-center justify-between">
+                                <span className="text-xs text-muted-foreground">Name</span>
+                                <div className="flex items-center gap-2">
+                                  <input 
+                                    type="text" 
+                                    value={meterTriggerData.name} 
+                                    onChange={e => setMeterTriggerData(prev => ({
+                                      ...prev,
+                                      name: e.target.value
+                                    }))} 
+                                    className="w-33 h-6 px-2 text-xs border rounded bg-background" 
+                                  />
+                                </div>
+                              </div>
+
+                             {/* Every field */}
+                             <div className="flex items-center justify-between">
+                              <span className="text-xs text-muted-foreground">Every</span>
+                              <div className="flex items-center gap-2">
+                                <input type="number" value={meterTriggerData.interval_value} onChange={e => setMeterTriggerData(prev => ({
+                                ...prev,
+                                interval_value: Number(e.target.value)
+                              }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
+                                 <select value={meterTriggerData.interval_unit} onChange={e => setMeterTriggerData(prev => ({
+                                 ...prev,
+                                 interval_unit: e.target.value
+                               }))} className="h-6 px-2 text-xs border rounded bg-background w-20">
+                                  <option value="hours">hours</option>
+                                  <option value="km">km</option>
+                                  <option value="miles">miles</option>
+                                  <option value="cycles">cycles</option>
+                                  <option value="days">days</option>
+                                  <option value="weeks">weeks</option>
+                                  <option value="months">months</option>
+                                </select>
+                              </div>
+                            </div>
+
+                            {/* Starting at field */}
+                            <div className="flex items-center justify-between">
+                              <span className="text-xs text-muted-foreground">Starting at</span>
+                              <div className="flex items-center gap-2">
+                                 <input type="number" value={meterTriggerData.start_threshold_value} onChange={e => setMeterTriggerData(prev => ({
+                                 ...prev,
+                                 start_threshold_value: Number(e.target.value)
+                               }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
+                                 <span className="text-xs text-muted-foreground w-20">{meterTriggerData.interval_unit}</span>
+                              </div>
+                            </div>
+
+                             {/* Create WO field */}
+                             <div className="flex items-center justify-between">
+                               <span className="text-xs text-muted-foreground">Create WO</span>
+                               <div className="flex items-center gap-2">
+                                 <input type="number" value={meterTriggerData.lead_time_value} onChange={e => setMeterTriggerData(prev => ({
+                                 ...prev,
+                                 lead_time_value: Number(e.target.value)
+                               }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
+                                 <span className="text-xs text-muted-foreground">before trigger</span>
+                               </div>
+                             </div>
+
+                             {/* Active toggle */}
+                            <div>
+                              <Button className={`w-full h-8 text-xs ${meterTriggerData.is_active ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-500 hover:bg-gray-600 text-white'}`} onClick={() => setMeterTriggerData(prev => ({
+                              ...prev,
+                              is_active: !prev.is_active
+                            }))}>
+                                {meterTriggerData.is_active ? '✓ Active' : '✗ Inactive'}
+                              </Button>
+                            </div>
                           </div>
+                        
+                        {/* Save button - outside the space-y-1 container */}
+                        <div className="mt-0.5">
+                          <Button className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-white" onClick={handleSaveMeterTrigger}>
+                            Save
+                          </Button>
+                        </div>
+                        </div>
                      </div>
                   </div>
 
