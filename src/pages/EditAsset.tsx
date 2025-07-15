@@ -532,18 +532,51 @@ const EditAsset = () => {
                          <h5 className="text-xs font-medium text-primary dark:text-secondary">Meter Reading Trigger</h5>
                        </div>
                        
-                        {/* API Table at the top */}
+                        {/* Custom Table with fixed 3 rows */}
                         <div className="mb-4">
-                          <ApiTable 
-                            endpoint={`/pm-automation/pm-settings?asset=${id}`} 
-                            columns={[
-                              { key: 'name', header: 'Name', type: 'string' },
-                              { key: 'next_trigger_value', header: 'Next Trigger', type: 'string' },
-                              { key: 'is_active', header: 'Status', type: 'boolean' }
-                            ]} 
-                            tableId="meter-trigger-settings"
-                            height="120px"
-                          />
+                          <div className="overflow-auto h-[120px]">
+                            <table className="w-full caption-bottom text-sm">
+                              <thead>
+                                <tr className="border-b">
+                                  <th className="h-6 px-2 py-1 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Name</th>
+                                  <th className="h-6 px-2 py-1 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Next Trigger</th>
+                                  <th className="h-6 px-2 py-1 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Status</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {/* PM Settings Query */}
+                                {(() => {
+                                  const { data: pmData } = useQuery({
+                                    queryKey: [`/pm-automation/pm-settings?asset=${id}`],
+                                    queryFn: async () => {
+                                      const response = await apiCall(`/pm-automation/pm-settings?asset=${id}`);
+                                      return response.data.data || response.data;
+                                    },
+                                  });
+
+                                  // Ensure exactly 3 rows
+                                  const rows = [];
+                                  for (let i = 0; i < 3; i++) {
+                                    const item = pmData?.[i];
+                                    rows.push(
+                                      <tr key={i} className="border-b transition-colors hover:bg-muted/50 even:bg-muted/20">
+                                        <td className="px-2 py-1 text-left align-middle text-xs">
+                                          {item?.name || '-'}
+                                        </td>
+                                        <td className="px-2 py-1 text-left align-middle text-xs">
+                                          {item?.next_trigger_value || '-'}
+                                        </td>
+                                        <td className="px-2 py-1 text-left align-middle text-xs">
+                                          {item?.is_active ? 'Active' : item?.is_active === false ? 'Inactive' : '-'}
+                                        </td>
+                                      </tr>
+                                    );
+                                  }
+                                  return rows;
+                                })()}
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                        
                           <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
