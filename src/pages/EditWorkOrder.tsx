@@ -21,6 +21,8 @@ const EditWorkOrder = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [isChecklistDialogOpen, setIsChecklistDialogOpen] = useState(false);
+  const [isEditChecklistDialogOpen, setIsEditChecklistDialogOpen] = useState(false);
+  const [selectedChecklistItem, setSelectedChecklistItem] = useState<any>(null);
 
   const { data: workOrderData, isLoading, isError, error } = useQuery({
     queryKey: ["work_order", id],
@@ -64,6 +66,36 @@ const EditWorkOrder = () => {
         variant: "destructive",
       });
     }
+  };
+
+  const handleEditChecklistSubmit = async (data: Record<string, any>) => {
+    try {
+      await apiCall(`/work-orders/work_orders/checklists/${selectedChecklistItem.id}`, { 
+        method: 'PUT', 
+        body: data 
+      });
+      // Invalidate and refetch the checklist table
+      queryClient.invalidateQueries({
+        queryKey: ["work_order_checklists", id]
+      });
+      toast({
+        title: "Success",
+        description: "Checklist item updated successfully!",
+      });
+      setIsEditChecklistDialogOpen(false);
+      setSelectedChecklistItem(null);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to update checklist item",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleRowClick = (row: any) => {
+    setSelectedChecklistItem(row);
+    setIsEditChecklistDialogOpen(true);
   };
 
   const checklistFormTemplate: FormField[] = [  
@@ -236,7 +268,34 @@ const EditWorkOrder = () => {
                 ]}
                 queryKey={["work_order_checklists", id]}
                 emptyMessage="No checklist items found"
+                onRowClick={handleRowClick}
               />
+              
+              {/* Edit Checklist Dialog */}
+              <Dialog open={isEditChecklistDialogOpen} onOpenChange={setIsEditChecklistDialogOpen}>
+                <DialogContent className="max-w-2xl">
+                  <DialogHeader>
+                    <DialogTitle>Edit Checklist Item</DialogTitle>
+                  </DialogHeader>
+                  {selectedChecklistItem && (
+                    <ApiForm
+                      fields={checklistFormTemplate}
+                      onSubmit={handleEditChecklistSubmit}
+                      submitText="Update Checklist Item"
+                      initialData={{
+                        ...selectedChecklistItem,
+                        work_order: id,
+                        completed_by: typeof selectedChecklistItem.completed_by === 'object' 
+                          ? selectedChecklistItem.completed_by?.id 
+                          : selectedChecklistItem.completed_by,
+                        completion_date: selectedChecklistItem.completion_date 
+                          ? new Date(selectedChecklistItem.completion_date) 
+                          : undefined,
+                      }}
+                    />
+                  )}
+                </DialogContent>
+              </Dialog>
             </div>
           </TabsContent>
           
