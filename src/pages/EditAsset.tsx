@@ -528,7 +528,7 @@ const EditAsset = () => {
                                       ...prev,
                                       name: e.target.value
                                     }))} 
-                                    className="w-34 h-6 px-2 text-xs border rounded bg-background" 
+                                    className="w-32 h-6 px-2 text-xs border rounded bg-background" 
                                   />
                                 </div>
                               </div>
