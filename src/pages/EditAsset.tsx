@@ -541,14 +541,14 @@ const EditAsset = () => {
                                           }`}
                                            onClick={() => {
                                              if (item) {
-                                               setMeterTriggerData({
-                                                 name: item.name || "",
-                                                 interval_value: item.interval_value || 500,
-                                                 interval_unit: item.interval_unit || "hours",
-                                                 start_threshold_value: item.start_threshold_value || 250,
-                                                 lead_time_value: item.lead_time_value || 50,
-                                                 is_active: item.is_active !== undefined ? item.is_active : true
-                                               });
+                                                setMeterTriggerData({
+                                                  name: item.name ?? "",
+                                                  interval_value: item.interval_value ?? 500,
+                                                  interval_unit: item.interval_unit ?? "hours",
+                                                  start_threshold_value: item.start_threshold_value ?? 250,
+                                                  lead_time_value: item.lead_time_value ?? 50,
+                                                  is_active: item.is_active !== undefined ? item.is_active : true
+                                                });
                                                setIsEditMode(true);
                                                setSelectedItemId(item.id);
                                              } else {
