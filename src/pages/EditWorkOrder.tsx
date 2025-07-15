@@ -145,7 +145,7 @@ const EditWorkOrder = () => {
           <TabsContent value="checklist" className="mt-1">
             <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
               <ApiTable
-                endpoint="/work_orders/checklists"
+                endpoint={`/work-orders/checklists?work_order_id=${id}`}
                 columns={[
                   { key: 'completed_by', header: 'Completed By', type: 'object' },
                   { key: 'completion_date', header: 'Completion Date', type: 'date' },
