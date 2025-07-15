@@ -237,7 +237,6 @@ const EditWorkOrder = () => {
           <TabsContent value="checklist" className="mt-1">
             <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-h3 font-medium text-foreground">Checklist</h3>
                 <Dialog open={isChecklistDialogOpen} onOpenChange={setIsChecklistDialogOpen}>
                   <DialogTrigger asChild>
                     <Button size="sm">
