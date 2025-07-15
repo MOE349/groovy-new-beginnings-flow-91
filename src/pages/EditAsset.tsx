@@ -312,23 +312,38 @@ const EditAsset = () => {
 
                   {/* Table */}
                   <div className="w-full max-w-full">
-                    <ApiTable endpoint={`/meter-readings/meter_reading?asset=${id}`} columns={[{
-                      key: 'meter_reading',
-                      header: 'Meter Reading'
-                    }, {
-                      key: 'created_at',
-                      header: 'Creation Date',
-                      render: (value: any) => value ? new Date(value).toLocaleDateString() : '-'
-                    }, {
-                      key: 'created_by',
-                      header: 'Created By',
-                      render: (value: any) => {
-                        if (typeof value === 'object' && value) {
-                          return value.name || value.email || value.id || '-';
-                        }
-                        return value || '-';
-                      }
-                    }]} tableId={`meter-readings-${id}`} />
+                     <ApiTable endpoint={`/meter-readings/meter_reading?asset=${id}`} columns={[{
+                       key: 'meter_reading',
+                       header: 'Meter Reading'
+                     }, {
+                       key: 'created_at',
+                       header: 'Creation Date',
+                       render: (value: any) => value ? new Date(value).toLocaleDateString() : '-'
+                     }, {
+                       key: 'created_by',
+                       header: 'Created By',
+                       render: (value: any) => {
+                         if (typeof value === 'object' && value) {
+                           return value.name || value.email || value.id || '-';
+                         }
+                         return value || '-';
+                       }
+                     }, {
+                       key: 'actions',
+                       header: '',
+                       render: (value: any, row: any) => (
+                         <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex justify-end">
+                           <Button
+                             variant="ghost"
+                             size="sm"
+                             className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
+                             onClick={() => handleDeleteMeterReading(row.id)}
+                           >
+                             <Trash2 className="h-4 w-4" />
+                           </Button>
+                         </div>
+                       )
+                     }]} tableId={`meter-readings-${id}`} />
                   </div>
                 </div>
 
