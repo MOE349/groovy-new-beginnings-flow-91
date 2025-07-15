@@ -39,57 +39,16 @@ const EditAsset = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
 
-  // Meter Reading Trigger form state
+  // Meter Reading Trigger form state - start empty
   const [meterTriggerData, setMeterTriggerData] = useState({
     name: "",
-    interval_value: 500,
+    interval_value: 0,
     interval_unit: "hours",
-    start_threshold_value: 250,
-    lead_time_value: 50,
+    start_threshold_value: 0,
+    lead_time_value: 0,
     is_active: true
   });
 
-  // Fetch PM data on component load
-  useEffect(() => {
-    const fetchPMData = async () => {
-      if (!id) return;
-      
-      try {
-        console.log('Fetching PM data for asset:', id);
-        const response = await apiCall(`/pm-automation/pm-settings?asset=${id}`, {
-          method: 'GET'
-        });
-        
-        console.log('PM API Response:', response);
-        console.log('Response data:', response.data);
-        console.log('Response data length:', response.data?.length);
-        
-        if (response.data && response.data.length > 0) {
-          const pmData = response.data[0];
-          console.log('PM Data object:', pmData);
-          
-          const newMeterTriggerData = {
-            name: pmData.name || "",
-            interval_value: pmData.interval_value || 500,
-            interval_unit: pmData.interval_unit || "hours",
-            start_threshold_value: pmData.start_threshold_value || 250,
-            lead_time_value: pmData.lead_time_value || 50,
-            is_active: pmData.is_active !== undefined ? pmData.is_active : true
-          };
-          
-          console.log('Setting meter trigger data:', newMeterTriggerData);
-          setMeterTriggerData(newMeterTriggerData);
-        } else {
-          console.log('No PM data found, using defaults');
-        }
-      } catch (error) {
-        console.error('Failed to fetch PM data:', error);
-        // Keep using default initial data if fetch fails
-      }
-    };
-
-    fetchPMData();
-  }, [id]);
 
   // Calendar Trigger form state
   const [calendarTriggerData, setCalendarTriggerData] = useState({
