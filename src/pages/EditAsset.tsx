@@ -581,90 +581,140 @@ const EditAsset = () => {
                         </div>
                        
                           <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
-                            <div className="space-y-1">
-                              {/* Name field */}
-                              <div className="flex items-center justify-between">
-                                <span className="text-xs text-muted-foreground">Name</span>
-                                <div className="flex items-center gap-2">
-                                  <input 
-                                    type="text" 
-                                    value={meterTriggerData.name} 
-                                    onChange={e => setMeterTriggerData(prev => ({
-                                      ...prev,
-                                      name: e.target.value
-                                    }))} 
-                                    className="w-33 h-6 px-2 text-xs border rounded bg-background" 
-                                  />
+                            <ApiForm 
+                              fields={[
+                                {
+                                  name: "name",
+                                  type: "input",
+                                  inputType: "text",
+                                  label: "Name"
+                                },
+                                {
+                                  name: "interval_value",
+                                  type: "input",
+                                  inputType: "number",
+                                  label: "Every"
+                                },
+                                {
+                                  name: "interval_unit",
+                                  type: "dropdown",
+                                  label: "Unit",
+                                  options: [
+                                    { value: "hours", label: "hours" },
+                                    { value: "km", label: "km" },
+                                    { value: "miles", label: "miles" },
+                                    { value: "cycles", label: "cycles" },
+                                    { value: "days", label: "days" },
+                                    { value: "weeks", label: "weeks" },
+                                    { value: "months", label: "months" }
+                                  ]
+                                },
+                                {
+                                  name: "start_threshold_value",
+                                  type: "input",
+                                  inputType: "number",
+                                  label: "Starting at"
+                                },
+                                {
+                                  name: "lead_time_value",
+                                  type: "input",
+                                  inputType: "number",
+                                  label: "Create WO"
+                                },
+                                {
+                                  name: "is_active",
+                                  type: "switch",
+                                  label: "Active"
+                                }
+                              ]}
+                              onSubmit={async (data) => {
+                                try {
+                                  const submissionData = {
+                                    ...data,
+                                    start_threshold_unit: data.interval_unit,
+                                    lead_time_unit: data.interval_unit,
+                                    asset: id
+                                  };
+                                  await apiCall('/pm-automation/pm-settings', {
+                                    method: 'POST',
+                                    body: submissionData
+                                  });
+                                  toast({
+                                    title: "Success",
+                                    description: "PM Trigger settings saved successfully!"
+                                  });
+                                } catch (error: any) {
+                                  toast({
+                                    title: "Error",
+                                    description: error.message || "Failed to save PM Trigger settings",
+                                    variant: "destructive"
+                                  });
+                                }
+                              }}
+                              initialData={meterTriggerData}
+                              submitText="Save"
+                              customLayout={({ renderField, handleSubmit }) => (
+                                <div className="space-y-1">
+                                  {/* Name field */}
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-xs text-muted-foreground">Name</span>
+                                    <div className="flex items-center gap-2">
+                                      <div className="w-33">{renderField({ name: "name", type: "input", inputType: "text" })}</div>
+                                    </div>
+                                  </div>
+
+                                  {/* Every field */}
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-xs text-muted-foreground">Every</span>
+                                    <div className="flex items-center gap-2">
+                                      <div className="w-16">{renderField({ name: "interval_value", type: "input", inputType: "number" })}</div>
+                                      <div className="w-20">{renderField({ name: "interval_unit", type: "dropdown", options: [
+                                        { value: "hours", label: "hours" },
+                                        { value: "km", label: "km" },
+                                        { value: "miles", label: "miles" },
+                                        { value: "cycles", label: "cycles" },
+                                        { value: "days", label: "days" },
+                                        { value: "weeks", label: "weeks" },
+                                        { value: "months", label: "months" }
+                                      ] })}</div>
+                                    </div>
+                                  </div>
+
+                                  {/* Starting at field */}
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-xs text-muted-foreground">Starting at</span>
+                                    <div className="flex items-center gap-2">
+                                      <div className="w-16">{renderField({ name: "start_threshold_value", type: "input", inputType: "number" })}</div>
+                                      <span className="text-xs text-muted-foreground w-20">{meterTriggerData.interval_unit}</span>
+                                    </div>
+                                  </div>
+
+                                  {/* Create WO field */}
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-xs text-muted-foreground">Create WO</span>
+                                    <div className="flex items-center gap-2">
+                                      <div className="w-16">{renderField({ name: "lead_time_value", type: "input", inputType: "number" })}</div>
+                                      <span className="text-xs text-muted-foreground">before trigger</span>
+                                    </div>
+                                  </div>
+
+                                  {/* Active toggle */}
+                                  <div>
+                                    {renderField({ name: "is_active", type: "switch", label: "Active" })}
+                                  </div>
+
+                                  {/* Save button */}
+                                  <div className="mt-0.5">
+                                    <Button className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-white" onClick={handleSubmit}>
+                                      Save
+                                    </Button>
+                                  </div>
                                 </div>
-                              </div>
-
-                             {/* Every field */}
-                             <div className="flex items-center justify-between">
-                              <span className="text-xs text-muted-foreground">Every</span>
-                              <div className="flex items-center gap-2">
-                                <input type="number" value={meterTriggerData.interval_value} onChange={e => setMeterTriggerData(prev => ({
-                                ...prev,
-                                interval_value: Number(e.target.value)
-                              }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
-                                 <select value={meterTriggerData.interval_unit} onChange={e => setMeterTriggerData(prev => ({
-                                 ...prev,
-                                 interval_unit: e.target.value
-                               }))} className="h-6 px-2 text-xs border rounded bg-background w-20">
-                                  <option value="hours">hours</option>
-                                  <option value="km">km</option>
-                                  <option value="miles">miles</option>
-                                  <option value="cycles">cycles</option>
-                                  <option value="days">days</option>
-                                  <option value="weeks">weeks</option>
-                                  <option value="months">months</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Starting at field */}
-                            <div className="flex items-center justify-between">
-                              <span className="text-xs text-muted-foreground">Starting at</span>
-                              <div className="flex items-center gap-2">
-                                 <input type="number" value={meterTriggerData.start_threshold_value} onChange={e => setMeterTriggerData(prev => ({
-                                 ...prev,
-                                 start_threshold_value: Number(e.target.value)
-                               }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
-                                 <span className="text-xs text-muted-foreground w-20">{meterTriggerData.interval_unit}</span>
-                              </div>
-                            </div>
-
-                             {/* Create WO field */}
-                             <div className="flex items-center justify-between">
-                               <span className="text-xs text-muted-foreground">Create WO</span>
-                               <div className="flex items-center gap-2">
-                                 <input type="number" value={meterTriggerData.lead_time_value} onChange={e => setMeterTriggerData(prev => ({
-                                 ...prev,
-                                 lead_time_value: Number(e.target.value)
-                               }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
-                                 <span className="text-xs text-muted-foreground">before trigger</span>
-                               </div>
-                             </div>
-
-                             {/* Active toggle */}
-                            <div>
-                              <Button className={`w-full h-8 text-xs ${meterTriggerData.is_active ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-500 hover:bg-gray-600 text-white'}`} onClick={() => setMeterTriggerData(prev => ({
-                              ...prev,
-                              is_active: !prev.is_active
-                            }))}>
-                                {meterTriggerData.is_active ? '✓ Active' : '✗ Inactive'}
-                              </Button>
-                            </div>
-                          </div>
-                        
-                        {/* Save button - outside the space-y-1 container */}
-                        <div className="mt-0.5">
-                          <Button className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-white" onClick={handleSaveMeterTrigger}>
-                            Save
-                          </Button>
-                        </div>
-                        </div>
-                     </div>
-                  </div>
+                              )}
+                            />
+                         </div>
+                      </div>
+                   </div>
 
                   {/* Calendar Trigger Container */}
                   <div className="w-1/4">
@@ -674,87 +724,131 @@ const EditAsset = () => {
                        </div>
                        
                           <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
-                            <div className="space-y-1">
-                              {/* Name field */}
-                              <div className="flex items-center justify-between">
-                                <span className="text-xs text-muted-foreground">Name</span>
-                                <div className="flex items-center gap-2">
-                                  <input 
-                                    type="text" 
-                                    value={calendarTriggerData.name} 
-                                    onChange={e => setCalendarTriggerData(prev => ({
-                                      ...prev,
-                                      name: e.target.value
-                                    }))} 
-                                    className="w-33 h-6 px-2 text-xs border rounded bg-background" 
-                                  />
-                                </div>
-                              </div>
-
-                             {/* Every field */}
-                            <div className="flex items-center justify-between">
-                              <span className="text-xs text-muted-foreground">Every</span>
-                              <div className="flex items-center gap-2">
-                                <input type="number" value={calendarTriggerData.interval_value} onChange={e => setCalendarTriggerData(prev => ({
-                                ...prev,
-                                interval_value: Number(e.target.value)
-                              }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
-                                 <select value={calendarTriggerData.interval_unit} onChange={e => setCalendarTriggerData(prev => ({
-                                 ...prev,
-                                 interval_unit: e.target.value
-                               }))} className="h-6 px-2 text-xs border rounded bg-background w-20">
-                                  <option value="days">days</option>
-                                  <option value="weeks">weeks</option>
-                                  <option value="months">months</option>
-                                  <option value="years">years</option>
-                                </select>
-                              </div>
-                            </div>
-
-                              {/* Starting at field */}
-                              <div className="flex items-center justify-between">
-                                <span className="text-xs text-muted-foreground">Starting at</span>
-                                   <div className="flex items-center gap-2 pr-0">
-                                     <input type="date" value={calendarTriggerData.start_date} onChange={e => setCalendarTriggerData(prev => ({
-                                     ...prev,
-                                     start_date: e.target.value
-                                   }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
-                                     <span className="text-xs text-muted-foreground w-20"></span>
+                            <ApiForm 
+                              fields={[
+                                {
+                                  name: "name",
+                                  type: "input",
+                                  inputType: "text",
+                                  label: "Name"
+                                },
+                                {
+                                  name: "interval_value",
+                                  type: "input",
+                                  inputType: "number",
+                                  label: "Every"
+                                },
+                                {
+                                  name: "interval_unit",
+                                  type: "dropdown",
+                                  label: "Unit",
+                                  options: [
+                                    { value: "days", label: "days" },
+                                    { value: "weeks", label: "weeks" },
+                                    { value: "months", label: "months" },
+                                    { value: "years", label: "years" }
+                                  ]
+                                },
+                                {
+                                  name: "start_date",
+                                  type: "datepicker",
+                                  label: "Starting at"
+                                },
+                                {
+                                  name: "days_in_advance",
+                                  type: "input",
+                                  inputType: "number",
+                                  label: "Create WO"
+                                },
+                                {
+                                  name: "is_active",
+                                  type: "switch",
+                                  label: "Active"
+                                }
+                              ]}
+                              onSubmit={async (data) => {
+                                try {
+                                  const submissionData = {
+                                    ...data,
+                                    asset: id
+                                  };
+                                  await apiCall('/pm-automation/calendar-settings/', {
+                                    method: 'POST',
+                                    body: submissionData
+                                  });
+                                  toast({
+                                    title: "Success",
+                                    description: "Calendar Trigger settings saved successfully!"
+                                  });
+                                } catch (error: any) {
+                                  toast({
+                                    title: "Error",
+                                    description: error.message || "Failed to save Calendar Trigger settings",
+                                    variant: "destructive"
+                                  });
+                                }
+                              }}
+                              initialData={calendarTriggerData}
+                              submitText="Save"
+                              customLayout={({ renderField, handleSubmit }) => (
+                                <div className="space-y-1">
+                                  {/* Name field */}
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-xs text-muted-foreground">Name</span>
+                                    <div className="flex items-center gap-2">
+                                      <div className="w-33">{renderField({ name: "name", type: "input", inputType: "text" })}</div>
+                                    </div>
                                   </div>
-                              </div>
 
-                            {/* Create WO field */}
-                            <div className="flex items-center justify-between">
-                              <span className="text-xs text-muted-foreground">Create WO</span>
-                              <div className="flex items-center gap-2">
-                                <input type="number" value={calendarTriggerData.days_in_advance} onChange={e => setCalendarTriggerData(prev => ({
-                                ...prev,
-                                days_in_advance: Number(e.target.value)
-                              }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
-                                <span className="text-xs text-muted-foreground w-20">days in advance</span>
-                              </div>
-                            </div>
+                                  {/* Every field */}
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-xs text-muted-foreground">Every</span>
+                                    <div className="flex items-center gap-2">
+                                      <div className="w-16">{renderField({ name: "interval_value", type: "input", inputType: "number" })}</div>
+                                      <div className="w-20">{renderField({ name: "interval_unit", type: "dropdown", options: [
+                                        { value: "days", label: "days" },
+                                        { value: "weeks", label: "weeks" },
+                                        { value: "months", label: "months" },
+                                        { value: "years", label: "years" }
+                                      ] })}</div>
+                                    </div>
+                                  </div>
 
-                            {/* Active toggle */}
-                            <div>
-                              <Button className={`w-full h-8 text-xs ${calendarTriggerData.is_active ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-500 hover:bg-gray-600 text-white'}`} onClick={() => setCalendarTriggerData(prev => ({
-                              ...prev,
-                              is_active: !prev.is_active
-                            }))}>
-                                {calendarTriggerData.is_active ? '✓ Active' : '✗ Inactive'}
-                              </Button>
-                            </div>
+                                  {/* Starting at field */}
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-xs text-muted-foreground">Starting at</span>
+                                    <div className="flex items-center gap-2 pr-0">
+                                      <div className="w-16">{renderField({ name: "start_date", type: "datepicker" })}</div>
+                                      <span className="text-xs text-muted-foreground w-20"></span>
+                                    </div>
+                                  </div>
+
+                                  {/* Create WO field */}
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-xs text-muted-foreground">Create WO</span>
+                                    <div className="flex items-center gap-2">
+                                      <div className="w-16">{renderField({ name: "days_in_advance", type: "input", inputType: "number" })}</div>
+                                      <span className="text-xs text-muted-foreground w-20">days in advance</span>
+                                    </div>
+                                  </div>
+
+                                  {/* Active toggle */}
+                                  <div>
+                                    {renderField({ name: "is_active", type: "switch", label: "Active" })}
+                                  </div>
+
+                                  {/* Save button */}
+                                  <div className="mt-0.5">
+                                    <Button className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-white" onClick={handleSubmit}>
+                                      Save
+                                    </Button>
+                                  </div>
+                                </div>
+                              )}
+                            />
                           </div>
-                        
-                        {/* Save button - outside the space-y-1 container */}
-                        <div className="mt-0.5">
-                          <Button className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-white" onClick={handleSaveCalendarTrigger}>
-                            Save
-                          </Button>
-                        </div>
-                        </div>
-                     </div>
-                  </div>
+                      </div>
+                   </div>
 
                   {/* Log Container */}
                   <div className="w-1/2">
