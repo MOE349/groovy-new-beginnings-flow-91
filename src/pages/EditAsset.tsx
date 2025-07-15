@@ -532,6 +532,20 @@ const EditAsset = () => {
                          <h5 className="text-xs font-medium text-primary dark:text-secondary">Meter Reading Trigger</h5>
                        </div>
                        
+                        {/* API Table at the top */}
+                        <div className="mb-4">
+                          <ApiTable 
+                            endpoint="/pm-automation/pm-settings/" 
+                            columns={[
+                              { key: 'name', header: 'Name', type: 'string' },
+                              { key: 'next_trigger_value', header: 'Next Trigger', type: 'string' },
+                              { key: 'is_active', header: 'Status', type: 'boolean' }
+                            ]} 
+                            tableId="meter-trigger-settings"
+                            height="120px"
+                          />
+                        </div>
+                       
                           <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
                             <div className="space-y-1">
                               {/* Name field */}
