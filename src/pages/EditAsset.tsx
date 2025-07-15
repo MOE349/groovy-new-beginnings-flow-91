@@ -253,8 +253,7 @@ const EditAsset = () => {
     equipment: assetData?.equipment?.id || assetData?.equipment || ""
   };
   const customLayout = (props: any) => <FormLayout {...props} config={assetType === "attachment" ? attachmentFormConfig : equipmentFormConfig} />;
-  return (
-    <div className="h-full overflow-x-auto min-w-0">
+  return <div className="h-full overflow-x-auto min-w-0">
       <div className="space-y-4 min-w-[1440px]">
         <div>
           <ApiForm fields={currentFields} onSubmit={handleSubmit} initialData={initialData} customLayout={customLayout} />
@@ -262,7 +261,7 @@ const EditAsset = () => {
 
         {/* Compact Tabs Section */}
         <div>
-          <Tabs defaultValue="metering-events" className="h-full" onValueChange={setActiveTab}>
+        <Tabs defaultValue="metering-events" className="h-full" onValueChange={setActiveTab}>
           {/* Compact Pill-Style Tab List */}
           <div className="h-10 overflow-x-auto">
             <TabsList className="grid w-full grid-cols-8 h-10 bg-card border border-border rounded-md p-0">
@@ -501,177 +500,192 @@ const EditAsset = () => {
           <TabsContent value="scheduled-maintenance" className="mt-1">
             <div className="bg-card rounded-sm shadow-xs p-2 h-full min-h-[500px] overflow-hidden">
               
-                {/* View 1: Three Container Layout */}
-              {currentView === 0 && (
-                <div className="flex gap-6 h-full relative animate-fade-in">
+              {/* View 1: Two Container Layout */}
+              {currentView === 0 && <div className="flex gap-6 h-full relative animate-fade-in">
                   
                   {/* Navigation to View 2 */}
                   <button onClick={() => handleViewChange(1)} className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-primary/10 hover:bg-primary/20 border border-primary/30 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110">
                     <ChevronRight className="w-4 h-4 text-primary" />
                   </button>
                   
-                  {/* Meter Reading Trigger Container */}
-                  <div className="w-1/4 ml-2">
-                    <div className="px-4 pt-4 pb-0 h-[474px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 before:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
-                      <h5 className="text-xs font-medium text-primary dark:text-secondary mb-4 text-center">Meter Reading Trigger</h5>
+                  {/* PM Tasks Container */}
+                  <div className="w-1/2 ml-2">
+                    <div className="p-6 h-[474px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
+                      <div className="flex items-center justify-center gap-4 mb-2 py-1 -mx-2 -mt-3 bg-accent/20 border border-accent/30 rounded-md">
+                        <h4 className="text-sm font-medium text-primary dark:text-secondary">PM Triggers</h4>
+                      </div>
                       
-                      <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
-                        <div className="space-y-1">
-                          {/* Name field */}
-                          <div className="flex items-center justify-between">
-                            <span className="text-xs text-muted-foreground">Name</span>
-                            <div className="flex items-center gap-2">
-                              <input 
-                                type="text" 
-                                value={meterTriggerData.name} 
-                                onChange={e => setMeterTriggerData(prev => ({
-                                  ...prev,
-                                  name: e.target.value
-                                }))} 
-                                className="w-20 h-6 px-2 text-xs border rounded bg-background" 
-                              />
+                      <div className="flex-grow space-y-4 overflow-auto">
+                        <div className="flex gap-4 h-full">
+                          {/* Meter Reading Trigger Container */}
+                          <div className="w-1/2">
+                             <div className="px-4 pt-4 pb-0 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
+                              <h5 className="text-xs font-medium text-primary dark:text-secondary mb-4 text-center">Meter Reading Trigger</h5>
+                              
+                                 <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
+                                   <div className="space-y-1">
+                                     {/* Name field */}
+                                     <div className="flex items-center justify-between">
+                                       <span className="text-xs text-muted-foreground">Name</span>
+                                       <div className="flex items-center gap-2">
+                                         <input 
+                                           type="text" 
+                                           value={meterTriggerData.name} 
+                                           onChange={e => setMeterTriggerData(prev => ({
+                                             ...prev,
+                                             name: e.target.value
+                                           }))} 
+                                           className="w-20 h-6 px-2 text-xs border rounded bg-background" 
+                                         />
+                                       </div>
+                                     </div>
+
+                                    {/* Every field */}
+                                    <div className="flex items-center justify-between">
+                                     <span className="text-xs text-muted-foreground">Every</span>
+                                     <div className="flex items-center gap-2">
+                                       <input type="number" value={meterTriggerData.interval_value} onChange={e => setMeterTriggerData(prev => ({
+                                       ...prev,
+                                       interval_value: Number(e.target.value)
+                                     }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
+                                        <select value={meterTriggerData.interval_unit} onChange={e => setMeterTriggerData(prev => ({
+                                        ...prev,
+                                        interval_unit: e.target.value
+                                      }))} className="h-6 px-2 text-xs border rounded bg-background w-20">
+                                         <option value="hours">hours</option>
+                                         <option value="km">km</option>
+                                         <option value="miles">miles</option>
+                                         <option value="cycles">cycles</option>
+                                         <option value="days">days</option>
+                                         <option value="weeks">weeks</option>
+                                         <option value="months">months</option>
+                                       </select>
+                                     </div>
+                                   </div>
+
+                                   {/* Starting at field */}
+                                   <div className="flex items-center justify-between">
+                                     <span className="text-xs text-muted-foreground">Starting at</span>
+                                     <div className="flex items-center gap-2">
+                                        <input type="number" value={meterTriggerData.start_threshold_value} onChange={e => setMeterTriggerData(prev => ({
+                                        ...prev,
+                                        start_threshold_value: Number(e.target.value)
+                                      }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
+                                        <span className="text-xs text-muted-foreground w-20">{meterTriggerData.interval_unit}</span>
+                                     </div>
+                                   </div>
+
+                                    {/* Create WO field */}
+                                    <div className="flex items-center justify-between">
+                                      <span className="text-xs text-muted-foreground">Create WO</span>
+                                      <div className="flex items-center gap-2">
+                                        <input type="number" value={meterTriggerData.lead_time_value} onChange={e => setMeterTriggerData(prev => ({
+                                        ...prev,
+                                        lead_time_value: Number(e.target.value)
+                                      }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
+                                        <span className="text-xs text-muted-foreground">before trigger</span>
+                                      </div>
+                                    </div>
+
+
+                                    {/* Active toggle */}
+                                   <div>
+                                     <Button className={`w-full h-8 text-xs ${meterTriggerData.is_active ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-500 hover:bg-gray-600 text-white'}`} onClick={() => setMeterTriggerData(prev => ({
+                                     ...prev,
+                                     is_active: !prev.is_active
+                                   }))}>
+                                       {meterTriggerData.is_active ? '✓ Active' : '✗ Inactive'}
+                                     </Button>
+                                   </div>
+                                 </div>
+                               
+                               {/* Save button - outside the space-y-1 container */}
+                               <div className="mt-0.5">
+                                 <Button className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-white" onClick={handleSaveMeterTrigger}>
+                                   Save
+                                 </Button>
+                               </div>
+                               </div>
                             </div>
                           </div>
 
-                         {/* Every field */}
-                         <div className="flex items-center justify-between">
-                          <span className="text-xs text-muted-foreground">Every</span>
-                          <div className="flex items-center gap-2">
-                            <input type="number" value={meterTriggerData.interval_value} onChange={e => setMeterTriggerData(prev => ({
-                            ...prev,
-                            interval_value: Number(e.target.value)
-                          }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
-                             <select value={meterTriggerData.interval_unit} onChange={e => setMeterTriggerData(prev => ({
-                             ...prev,
-                             interval_unit: e.target.value
-                           }))} className="h-6 px-2 text-xs border rounded bg-background w-20">
-                              <option value="hours">hours</option>
-                              <option value="km">km</option>
-                              <option value="miles">miles</option>
-                              <option value="cycles">cycles</option>
-                              <option value="days">days</option>
-                              <option value="weeks">weeks</option>
-                              <option value="months">months</option>
-                            </select>
+                          {/* Calendar Trigger Container */}
+                          <div className="w-1/2">
+                             <div className="px-4 pt-4 pb-0 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
+                              <h5 className="text-xs font-medium text-primary dark:text-secondary mb-4 text-center">Calendar Trigger</h5>
+                              
+                                <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
+                                  <div className="space-y-1">
+                                   {/* Every field */}
+                                   <div className="flex items-center justify-between">
+                                     <span className="text-xs text-muted-foreground">Every</span>
+                                     <div className="flex items-center gap-2">
+                                       <input type="number" value={calendarTriggerData.interval_value} onChange={e => setCalendarTriggerData(prev => ({
+                                       ...prev,
+                                       interval_value: Number(e.target.value)
+                                     }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
+                                        <select value={calendarTriggerData.interval_unit} onChange={e => setCalendarTriggerData(prev => ({
+                                        ...prev,
+                                        interval_unit: e.target.value
+                                      }))} className="h-6 px-2 text-xs border rounded bg-background w-20">
+                                         <option value="days">days</option>
+                                         <option value="weeks">weeks</option>
+                                         <option value="months">months</option>
+                                         <option value="years">years</option>
+                                       </select>
+                                     </div>
+                                   </div>
+
+                                     {/* Starting at field */}
+                                     <div className="flex items-center justify-between">
+                                       <span className="text-xs text-muted-foreground">Starting at</span>
+                                          <div className="flex items-center gap-2 pr-0">
+                                            <input type="date" value={calendarTriggerData.start_date} onChange={e => setCalendarTriggerData(prev => ({
+                                            ...prev,
+                                            start_date: e.target.value
+                                          }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
+                                            <span className="text-xs text-muted-foreground w-20"></span>
+                                         </div>
+                                     </div>
+
+                                   {/* Create WO field */}
+                                   <div className="flex items-center justify-between">
+                                     <span className="text-xs text-muted-foreground">Create WO</span>
+                                     <div className="flex items-center gap-2">
+                                       <input type="number" value={calendarTriggerData.days_in_advance} onChange={e => setCalendarTriggerData(prev => ({
+                                       ...prev,
+                                       days_in_advance: Number(e.target.value)
+                                     }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
+                                       <span className="text-xs text-muted-foreground w-20">days in advance</span>
+                                     </div>
+                                   </div>
+
+                                   {/* Active toggle */}
+                                   <div>
+                                     <Button className={`w-full h-8 text-xs ${calendarTriggerData.is_active ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-500 hover:bg-gray-600 text-white'}`} onClick={() => setCalendarTriggerData(prev => ({
+                                     ...prev,
+                                     is_active: !prev.is_active
+                                   }))}>
+                                       {calendarTriggerData.is_active ? '✓ Active' : '✗ Inactive'}
+                                     </Button>
+                                   </div>
+                                 </div>
+                               
+                               {/* Save button - outside the space-y-1 container */}
+                               <div className="mt-0.5">
+                                 <Button className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-white" onClick={handleSaveCalendarTrigger}>
+                                   Save
+                                 </Button>
+                               </div>
+                               </div>
+                            </div>
                           </div>
-                        </div>
-
-                        {/* Starting at field */}
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs text-muted-foreground">Starting at</span>
-                          <div className="flex items-center gap-2">
-                             <input type="number" value={meterTriggerData.start_threshold_value} onChange={e => setMeterTriggerData(prev => ({
-                             ...prev,
-                             start_threshold_value: Number(e.target.value)
-                           }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
-                             <span className="text-xs text-muted-foreground w-20">{meterTriggerData.interval_unit}</span>
-                          </div>
-                        </div>
-
-                         {/* Create WO field */}
-                         <div className="flex items-center justify-between">
-                           <span className="text-xs text-muted-foreground">Create WO</span>
-                           <div className="flex items-center gap-2">
-                             <input type="number" value={meterTriggerData.lead_time_value} onChange={e => setMeterTriggerData(prev => ({
-                             ...prev,
-                             lead_time_value: Number(e.target.value)
-                           }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
-                             <span className="text-xs text-muted-foreground">before trigger</span>
-                           </div>
-                         </div>
-
-                         {/* Active toggle */}
-                        <div>
-                          <Button className={`w-full h-8 text-xs ${meterTriggerData.is_active ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-500 hover:bg-gray-600 text-white'}`} onClick={() => setMeterTriggerData(prev => ({
-                          ...prev,
-                          is_active: !prev.is_active
-                        }))}>
-                            {meterTriggerData.is_active ? '✓ Active' : '✗ Inactive'}
-                          </Button>
                         </div>
                       </div>
-                    
-                    {/* Save button - outside the space-y-1 container */}
-                    <div className="mt-0.5">
-                      <Button className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-white" onClick={handleSaveMeterTrigger}>
-                        Save
-                      </Button>
-                    </div>
                     </div>
                   </div>
 
-                  {/* Calendar Trigger Container */}
-                  <div className="w-1/4">
-                    <div className="px-4 pt-4 pb-0 h-[474px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
-                      <h5 className="text-xs font-medium text-primary dark:text-secondary mb-4 text-center">Calendar Trigger</h5>
-                      
-                        <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
-                          <div className="space-y-1">
-                           {/* Every field */}
-                           <div className="flex items-center justify-between">
-                             <span className="text-xs text-muted-foreground">Every</span>
-                             <div className="flex items-center gap-2">
-                               <input type="number" value={calendarTriggerData.interval_value} onChange={e => setCalendarTriggerData(prev => ({
-                               ...prev,
-                               interval_value: Number(e.target.value)
-                             }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
-                                <select value={calendarTriggerData.interval_unit} onChange={e => setCalendarTriggerData(prev => ({
-                                ...prev,
-                                interval_unit: e.target.value
-                              }))} className="h-6 px-2 text-xs border rounded bg-background w-20">
-                                 <option value="days">days</option>
-                                 <option value="weeks">weeks</option>
-                                 <option value="months">months</option>
-                                 <option value="years">years</option>
-                               </select>
-                             </div>
-                           </div>
-
-                             {/* Starting at field */}
-                             <div className="flex items-center justify-between">
-                               <span className="text-xs text-muted-foreground">Starting at</span>
-                                  <div className="flex items-center gap-2 pr-0">
-                                    <input type="date" value={calendarTriggerData.start_date} onChange={e => setCalendarTriggerData(prev => ({
-                                    ...prev,
-                                    start_date: e.target.value
-                                  }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
-                                    <span className="text-xs text-muted-foreground w-20"></span>
-                                 </div>
-                             </div>
-
-                           {/* Create WO field */}
-                           <div className="flex items-center justify-between">
-                             <span className="text-xs text-muted-foreground">Create WO</span>
-                             <div className="flex items-center gap-2">
-                               <input type="number" value={calendarTriggerData.days_in_advance} onChange={e => setCalendarTriggerData(prev => ({
-                               ...prev,
-                               days_in_advance: Number(e.target.value)
-                             }))} className="w-16 h-6 px-2 text-xs border rounded bg-background" />
-                               <span className="text-xs text-muted-foreground w-20">days in advance</span>
-                             </div>
-                           </div>
-
-                           {/* Active toggle */}
-                           <div>
-                             <Button className={`w-full h-8 text-xs ${calendarTriggerData.is_active ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-500 hover:bg-gray-600 text-white'}`} onClick={() => setCalendarTriggerData(prev => ({
-                             ...prev,
-                             is_active: !prev.is_active
-                           }))}>
-                               {calendarTriggerData.is_active ? '✓ Active' : '✗ Inactive'}
-                             </Button>
-                           </div>
-                         </div>
-                       
-                       {/* Save button - outside the space-y-1 container */}
-                       <div className="mt-0.5">
-                         <Button className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-white" onClick={handleSaveCalendarTrigger}>
-                           Save
-                         </Button>
-                       </div>
-                       </div>
-                  </div>
-
-                  {/* Log Container */}
+                  {/* Schedule Configuration Container */}
                   <div className="w-1/2 mr-2">
                     <div className="p-6 h-[474px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
                       <div className="flex items-center justify-center gap-4 mb-6 py-1 -mx-2 -mt-3 bg-accent/20 border border-accent/30 rounded-md">
@@ -683,14 +697,13 @@ const EditAsset = () => {
                           Schedule configuration content coming soon...
                         </div>
                       </div>
-                     </div>
-                   </div>
-                </div>
-              )}
+                    </div>
+                  </div>
+                  
+                </div>}
 
               {/* View 2: Single Big Container Layout */}
-              {currentView === 1 && (
-                <div className="h-full relative animate-fade-in">
+              {currentView === 1 && <div className="h-full relative animate-fade-in">
                   
                   {/* Navigation back to View 1 */}
                   <button onClick={() => handleViewChange(0)} className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-primary/10 hover:bg-primary/20 border border-primary/30 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110">
@@ -712,8 +725,8 @@ const EditAsset = () => {
                       </div>
                     </div>
                   </div>
-                </div>
-              )}
+                  
+                </div>}
               
             </div>
           </TabsContent>
@@ -753,10 +766,9 @@ const EditAsset = () => {
               </div>
             </div>
           </TabsContent>
-          </Tabs>
+        </Tabs>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
 export default EditAsset;
