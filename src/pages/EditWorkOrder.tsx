@@ -4,17 +4,22 @@ import { toast } from "@/hooks/use-toast";
 import ApiForm from "@/components/ApiForm";
 import ApiTable from "@/components/ApiTable";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { apiCall } from "@/utils/apis";
 import { workOrderFields } from "@/data/workOrderFormFields";
 import GearSpinner from "@/components/ui/gear-spinner";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, Plus } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import FormLayout from "@/components/FormLayout";
 import { workOrderFormConfig } from "@/config/formLayouts";
+import { useState } from "react";
+import { FormField } from "@/components/ApiForm";
 
 const EditWorkOrder = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [isChecklistDialogOpen, setIsChecklistDialogOpen] = useState(false);
 
   const { data: workOrderData, isLoading, isError, error } = useQuery({
     queryKey: ["work_order", id],
@@ -38,6 +43,56 @@ const EditWorkOrder = () => {
       });
     }
   };
+
+  const handleChecklistSubmit = async (data: Record<string, any>) => {
+    try {
+      await apiCall('/work-orders/work_orders/checklists', { method: 'POST', body: data });
+      toast({
+        title: "Success",
+        description: "Checklist item created successfully!",
+      });
+      setIsChecklistDialogOpen(false);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to create checklist item",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const checklistFormTemplate: FormField[] = [  
+    {
+      name: "description",
+      type: "textarea",
+      label: "Description",
+      required: true,
+      rows: 3,
+    },
+    {
+      name: "completed_by",
+      type: "dropdown",
+      label: "Completed By",
+      required: false,
+      endpoint: "/users/user",
+      queryKey: ["users_user"],
+      optionValueKey: "id",
+      optionLabelKey: "name",
+    },
+    {
+      name: "completion_date",
+      type: "datepicker",
+      label: "Completion Date",
+      required: false,
+    },
+    {
+      name: "hrs_spent",
+      type: "input",
+      label: "Hrs Spent",
+      required: false,
+      inputType: "text",
+    }
+  ];
 
   if (isLoading) {
     return (
@@ -144,8 +199,30 @@ const EditWorkOrder = () => {
           
           <TabsContent value="checklist" className="mt-1">
             <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-h3 font-medium text-foreground">Checklist</h3>
+                <Dialog open={isChecklistDialogOpen} onOpenChange={setIsChecklistDialogOpen}>
+                  <DialogTrigger asChild>
+                    <Button size="sm">
+                      <Plus className="h-4 w-4 mr-2" />
+                      Add Checklist Item
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-2xl">
+                    <DialogHeader>
+                      <DialogTitle>Add Checklist Item</DialogTitle>
+                    </DialogHeader>
+                    <ApiForm
+                      fields={checklistFormTemplate}
+                      onSubmit={handleChecklistSubmit}
+                      submitText="Create Checklist Item"
+                      initialData={{ work_order: id }}
+                    />
+                  </DialogContent>
+                </Dialog>
+              </div>
               <ApiTable
-                endpoint={`/work-orders/checklists?work_order_id=${id}`}
+                endpoint={`/work-orders/work_orders/checklists?work_order_id=${id}`}
                 columns={[
                   { key: 'completed_by', header: 'Completed By', type: 'object' },
                   { key: 'completion_date', header: 'Completion Date', type: 'date' },
