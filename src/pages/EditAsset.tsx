@@ -639,8 +639,7 @@ const EditAsset = () => {
                                 >
                                   {meterTriggerData.is_active ? '✓ Active' : '✗ Inactive'}
                                 </Button>
-                              </div>
-                              </div>
+                               </div>
                              
                              {/* Save button - inside the dotted border container */}
                              <div className="mt-0.5">
@@ -696,11 +695,11 @@ const EditAsset = () => {
                                 }}
                               >
                                  {isEditMode ? 'Update' : 'Save'}
-                               </Button>
-                             </div>
+                                </Button>
+                              </div>
+                            </div>
                            </div>
                           </div>
-                      </div>
 
                   {/* Calendar Trigger Container */}
                   <div className="w-1/4">
@@ -876,6 +875,8 @@ const EditAsset = () => {
         </Tabs>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };
+
 export default EditAsset;
