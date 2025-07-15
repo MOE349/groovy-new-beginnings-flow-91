@@ -532,9 +532,13 @@ const EditAsset = () => {
                                    for (let i = 0; i < 3; i++) {
                                      const item = pmSettingsData?.[i];
                                      rows.push(
-                                       <tr 
-                                         key={i} 
-                                         className="border-b transition-colors hover:bg-muted/50 even:bg-muted/20 cursor-pointer hover:bg-primary/10"
+                                        <tr 
+                                          key={i} 
+                                          className={`border-b transition-colors cursor-pointer ${
+                                            item && selectedItemId === item.id 
+                                              ? 'bg-primary/20 hover:bg-primary/25' 
+                                              : 'hover:bg-muted/50 even:bg-muted/20 hover:bg-primary/10'
+                                          }`}
                                            onClick={() => {
                                              if (item) {
                                                setMeterTriggerData({
