@@ -500,17 +500,17 @@ const EditAsset = () => {
           <TabsContent value="scheduled-maintenance" className="mt-1">
             <div className="bg-card rounded-sm shadow-xs p-2 h-full min-h-[500px] overflow-hidden">
               
-              {/* View 1: Two Container Layout */}
-              {currentView === 0 && <div className="flex gap-6 h-full relative animate-fade-in">
+              {/* View 1: Single Container Layout */}
+              {currentView === 0 && <div className="h-full relative animate-fade-in">
                   
                   {/* Navigation to View 2 */}
                   <button onClick={() => handleViewChange(1)} className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-primary/10 hover:bg-primary/20 border border-primary/30 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110">
                     <ChevronRight className="w-4 h-4 text-primary" />
                   </button>
                   
-                  {/* PM Tasks Container */}
-                  <div className="w-1/2 ml-2">
-                    <div className="p-6 h-[474px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
+                  {/* PM Tasks Container - Full Width */}
+                  <div className="w-full px-2">
+                    <div className="p-6 h-[474px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
                       <div className="flex items-center justify-center gap-4 mb-2 py-1 -mx-2 -mt-3 bg-accent/20 border border-accent/30 rounded-md">
                         <h4 className="text-sm font-medium text-primary dark:text-secondary">PM Triggers</h4>
                       </div>
@@ -519,7 +519,7 @@ const EditAsset = () => {
                         <div className="flex gap-4 h-full">
                           {/* Meter Reading Trigger Container */}
                           <div className="w-1/2">
-                             <div className="px-4 pt-4 pb-0 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
+                             <div className="px-4 pt-4 pb-0 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
                               <h5 className="text-xs font-medium text-primary dark:text-secondary mb-4 text-center">Meter Reading Trigger</h5>
                               
                                  <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
@@ -611,7 +611,7 @@ const EditAsset = () => {
 
                           {/* Calendar Trigger Container */}
                           <div className="w-1/2">
-                             <div className="px-4 pt-4 pb-0 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
+                             <div className="px-4 pt-4 pb-0 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
                               <h5 className="text-xs font-medium text-primary dark:text-secondary mb-4 text-center">Calendar Trigger</h5>
                               
                                 <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
@@ -680,21 +680,6 @@ const EditAsset = () => {
                                </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Schedule Configuration Container */}
-                  <div className="w-1/2 mr-2">
-                    <div className="p-6 h-[474px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
-                      <div className="flex items-center justify-center gap-4 mb-6 py-1 -mx-2 -mt-3 bg-accent/20 border border-accent/30 rounded-md">
-                        <h4 className="text-sm font-medium text-primary dark:text-secondary">Log</h4>
-                      </div>
-                      
-                      <div className="flex-grow space-y-4 overflow-auto">
-                        <div className="p-4 text-center text-muted-foreground">
-                          Schedule configuration content coming soon...
                         </div>
                       </div>
                     </div>
