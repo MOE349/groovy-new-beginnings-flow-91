@@ -522,30 +522,45 @@ const EditAsset = () => {
                                   <th className="h-6 px-2 py-1 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Status</th>
                                 </tr>
                               </thead>
-                              <tbody>
-                                {/* Generate exactly 3 rows using pmSettingsData */}
-                                {(() => {
-                                  // Ensure exactly 3 rows
-                                  const rows = [];
-                                  for (let i = 0; i < 3; i++) {
-                                    const item = pmSettingsData?.[i];
-                                    rows.push(
-                                      <tr key={i} className="border-b transition-colors hover:bg-muted/50 even:bg-muted/20">
-                                        <td className="px-2 py-1 text-left align-middle text-xs">
-                                          {item?.name || '-'}
-                                        </td>
-                                        <td className="px-2 py-1 text-left align-middle text-xs">
-                                          {item?.next_trigger_value || '-'}
-                                        </td>
-                                        <td className="px-2 py-1 text-left align-middle text-xs">
-                                          {item?.is_active ? 'Active' : item?.is_active === false ? 'Inactive' : '-'}
-                                        </td>
-                                      </tr>
-                                    );
-                                  }
-                                  return rows;
-                                })()}
-                              </tbody>
+                               <tbody>
+                                 {/* Generate exactly 3 rows using pmSettingsData */}
+                                 {(() => {
+                                   // Ensure exactly 3 rows
+                                   const rows = [];
+                                   for (let i = 0; i < 3; i++) {
+                                     const item = pmSettingsData?.[i];
+                                     rows.push(
+                                       <tr 
+                                         key={i} 
+                                         className="border-b transition-colors hover:bg-muted/50 even:bg-muted/20 cursor-pointer hover:bg-primary/10"
+                                         onClick={() => {
+                                           if (item) {
+                                             setMeterTriggerData({
+                                               name: item.name || "",
+                                               interval_value: item.interval_value || 500,
+                                               interval_unit: item.interval_unit || "hours",
+                                               start_threshold_value: item.start_threshold_value || 250,
+                                               lead_time_value: item.lead_time_value || 50,
+                                               is_active: item.is_active !== undefined ? item.is_active : true
+                                             });
+                                           }
+                                         }}
+                                       >
+                                         <td className="px-2 py-1 text-left align-middle text-xs">
+                                           {item?.name || '-'}
+                                         </td>
+                                         <td className="px-2 py-1 text-left align-middle text-xs">
+                                           {item?.next_trigger_value || '-'}
+                                         </td>
+                                         <td className="px-2 py-1 text-left align-middle text-xs">
+                                           {item?.is_active ? 'Active' : item?.is_active === false ? 'Inactive' : '-'}
+                                         </td>
+                                       </tr>
+                                     );
+                                   }
+                                   return rows;
+                                 })()}
+                               </tbody>
                             </table>
                           </div>
                         </div>
