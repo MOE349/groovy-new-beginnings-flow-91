@@ -509,27 +509,8 @@ const EditAsset = () => {
                   {/* Meter Reading Trigger Container */}
                   <div className="w-1/4">
                      <div className="px-4 pt-4 pb-0 h-[474px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
-                        <div className="flex items-center justify-between gap-4 mb-2 py-1 -mx-2 mt-0 bg-accent/20 border border-accent/30 rounded-md">
+                        <div className="flex items-center justify-center gap-4 mb-2 py-1 -mx-2 mt-0 bg-accent/20 border border-accent/30 rounded-md">
                           <h5 className="text-xs font-medium text-primary dark:text-secondary">Meter Reading Trigger</h5>
-                          <Button 
-                            variant="ghost" 
-                            size="sm" 
-                            className="h-6 px-2 text-xs"
-                            onClick={() => {
-                              setMeterTriggerData({
-                                name: "",
-                                interval_value: 500,
-                                interval_unit: "hours",
-                                start_threshold_value: 250,
-                                lead_time_value: 50,
-                                is_active: true
-                              });
-                              setIsEditMode(false);
-                              setSelectedItemId(null);
-                            }}
-                          >
-                            New
-                          </Button>
                         </div>
                        
                         {/* Custom Table with fixed 3 rows */}
@@ -554,20 +535,32 @@ const EditAsset = () => {
                                        <tr 
                                          key={i} 
                                          className="border-b transition-colors hover:bg-muted/50 even:bg-muted/20 cursor-pointer hover:bg-primary/10"
-                                          onClick={() => {
-                                            if (item) {
-                                              setMeterTriggerData({
-                                                name: item.name || "",
-                                                interval_value: item.interval_value || 500,
-                                                interval_unit: item.interval_unit || "hours",
-                                                start_threshold_value: item.start_threshold_value || 250,
-                                                lead_time_value: item.lead_time_value || 50,
-                                                is_active: item.is_active !== undefined ? item.is_active : true
-                                              });
-                                              setIsEditMode(true);
-                                              setSelectedItemId(item.id);
-                                            }
-                                          }}
+                                           onClick={() => {
+                                             if (item) {
+                                               setMeterTriggerData({
+                                                 name: item.name || "",
+                                                 interval_value: item.interval_value || 500,
+                                                 interval_unit: item.interval_unit || "hours",
+                                                 start_threshold_value: item.start_threshold_value || 250,
+                                                 lead_time_value: item.lead_time_value || 50,
+                                                 is_active: item.is_active !== undefined ? item.is_active : true
+                                               });
+                                               setIsEditMode(true);
+                                               setSelectedItemId(item.id);
+                                             } else {
+                                               // Empty row clicked - act as "new" button
+                                               setMeterTriggerData({
+                                                 name: "",
+                                                 interval_value: 500,
+                                                 interval_unit: "hours",
+                                                 start_threshold_value: 250,
+                                                 lead_time_value: 50,
+                                                 is_active: true
+                                               });
+                                               setIsEditMode(false);
+                                               setSelectedItemId(null);
+                                             }
+                                           }}
                                        >
                                          <td className="px-2 py-1 text-left align-middle text-xs">
                                            {item?.name || '-'}
