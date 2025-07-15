@@ -42,10 +42,10 @@ const EditAsset = () => {
   // Meter Reading Trigger form state - start empty
   const [meterTriggerData, setMeterTriggerData] = useState({
     name: "",
-    interval_value: 0,
+    interval_value: "",
     interval_unit: "hours",
-    start_threshold_value: 0,
-    lead_time_value: 0,
+    start_threshold_value: "",
+    lead_time_value: "",
     is_active: true
   });
 
@@ -502,24 +502,24 @@ const EditAsset = () => {
                                              if (item) {
                                                 setMeterTriggerData({
                                                   name: item.name ?? "",
-                                                  interval_value: item.interval_value ?? 500,
+                                                  interval_value: String(item.interval_value ?? ""),
                                                   interval_unit: item.interval_unit ?? "hours",
-                                                  start_threshold_value: item.start_threshold_value ?? 250,
-                                                  lead_time_value: item.lead_time_value ?? 50,
+                                                  start_threshold_value: String(item.start_threshold_value ?? ""),
+                                                  lead_time_value: String(item.lead_time_value ?? ""),
                                                   is_active: item.is_active !== undefined ? item.is_active : true
                                                 });
-                                               setIsEditMode(true);
-                                               setSelectedItemId(item.id);
-                                             } else {
-                                               // Empty row clicked - act as "new" button
-                                               setMeterTriggerData({
-                                                 name: "",
-                                                 interval_value: 500,
-                                                 interval_unit: "hours",
-                                                 start_threshold_value: 250,
-                                                 lead_time_value: 50,
-                                                 is_active: true
-                                               });
+                                                setIsEditMode(true);
+                                                setSelectedItemId(item.id);
+                                              } else {
+                                                // Empty row clicked - act as "new" button
+                                                setMeterTriggerData({
+                                                  name: "",
+                                                  interval_value: "",
+                                                  interval_unit: "hours",
+                                                  start_threshold_value: "",
+                                                  lead_time_value: "",
+                                                  is_active: true
+                                                });
                                                setIsEditMode(false);
                                                setSelectedItemId(null);
                                              }
@@ -569,10 +569,10 @@ const EditAsset = () => {
                                   <input 
                                     type="number" 
                                     value={meterTriggerData.interval_value} 
-                                    onChange={e => setMeterTriggerData(prev => ({
-                                      ...prev,
-                                      interval_value: Number(e.target.value)
-                                    }))} 
+                                     onChange={e => setMeterTriggerData(prev => ({
+                                       ...prev,
+                                       interval_value: e.target.value
+                                     }))} 
                                     className="w-16 h-6 px-2 text-xs border rounded bg-background" 
                                   />
                                   <select 
@@ -601,10 +601,10 @@ const EditAsset = () => {
                                   <input 
                                     type="number" 
                                     value={meterTriggerData.start_threshold_value} 
-                                    onChange={e => setMeterTriggerData(prev => ({
-                                      ...prev,
-                                      start_threshold_value: Number(e.target.value)
-                                    }))} 
+                                     onChange={e => setMeterTriggerData(prev => ({
+                                       ...prev,
+                                       start_threshold_value: e.target.value
+                                     }))} 
                                     className="w-16 h-6 px-2 text-xs border rounded bg-background" 
                                   />
                                   <span className="text-xs text-muted-foreground w-20"></span>
@@ -618,10 +618,10 @@ const EditAsset = () => {
                                   <input 
                                     type="number" 
                                     value={meterTriggerData.lead_time_value} 
-                                    onChange={e => setMeterTriggerData(prev => ({
-                                      ...prev,
-                                      lead_time_value: Number(e.target.value)
-                                    }))} 
+                                     onChange={e => setMeterTriggerData(prev => ({
+                                       ...prev,
+                                       lead_time_value: e.target.value
+                                     }))} 
                                     className="w-16 h-6 px-2 text-xs border rounded bg-background" 
                                   />
                                   <span className="text-xs text-muted-foreground w-20">before trigger</span>
