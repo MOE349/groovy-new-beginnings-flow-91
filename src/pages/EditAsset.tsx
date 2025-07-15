@@ -253,7 +253,8 @@ const EditAsset = () => {
     equipment: assetData?.equipment?.id || assetData?.equipment || ""
   };
   const customLayout = (props: any) => <FormLayout {...props} config={assetType === "attachment" ? attachmentFormConfig : equipmentFormConfig} />;
-  return <div className="h-full overflow-x-auto min-w-0">
+  return (
+    <div className="h-full overflow-x-auto min-w-0">
       <div className="space-y-4 min-w-[1440px]">
         <div>
           <ApiForm fields={currentFields} onSubmit={handleSubmit} initialData={initialData} customLayout={customLayout} />
@@ -261,7 +262,7 @@ const EditAsset = () => {
 
         {/* Compact Tabs Section */}
         <div>
-        <Tabs defaultValue="metering-events" className="h-full" onValueChange={setActiveTab}>
+          <Tabs defaultValue="metering-events" className="h-full" onValueChange={setActiveTab}>
           {/* Compact Pill-Style Tab List */}
           <div className="h-10 overflow-x-auto">
             <TabsList className="grid w-full grid-cols-8 h-10 bg-card border border-border rounded-md p-0">
@@ -501,7 +502,8 @@ const EditAsset = () => {
             <div className="bg-card rounded-sm shadow-xs p-2 h-full min-h-[500px] overflow-hidden">
               
                 {/* View 1: Three Container Layout */}
-              {currentView === 0 && <div className="flex gap-6 h-full relative animate-fade-in">
+              {currentView === 0 && (
+                <div className="flex gap-6 h-full relative animate-fade-in">
                   
                   {/* Navigation to View 2 */}
                   <button onClick={() => handleViewChange(1)} className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-primary/10 hover:bg-primary/20 border border-primary/30 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110">
@@ -683,11 +685,12 @@ const EditAsset = () => {
                       </div>
                      </div>
                    </div>
-                    
-                  </div>}
+                </div>
+              )}
 
               {/* View 2: Single Big Container Layout */}
-              {currentView === 1 && <div className="h-full relative animate-fade-in">
+              {currentView === 1 && (
+                <div className="h-full relative animate-fade-in">
                   
                   {/* Navigation back to View 1 */}
                   <button onClick={() => handleViewChange(0)} className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-primary/10 hover:bg-primary/20 border border-primary/30 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110">
@@ -709,8 +712,8 @@ const EditAsset = () => {
                       </div>
                     </div>
                   </div>
-                  
-                </div>}
+                </div>
+              )}
               
             </div>
           </TabsContent>
@@ -750,9 +753,10 @@ const EditAsset = () => {
               </div>
             </div>
           </TabsContent>
-        </Tabs>
+          </Tabs>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };
 export default EditAsset;
