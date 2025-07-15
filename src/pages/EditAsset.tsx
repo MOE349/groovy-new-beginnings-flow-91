@@ -640,10 +640,10 @@ const EditAsset = () => {
                                   {meterTriggerData.is_active ? '✓ Active' : '✗ Inactive'}
                                 </Button>
                               </div>
-                            </div>
-                            
-                            {/* Save button - outside the space-y-1 container */}
-                            <div className="mt-0.5">
+                              </div>
+                             
+                             {/* Save button - inside the dotted border container */}
+                             <div className="mt-0.5">
                               <Button 
                                 className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-white" 
                                 onClick={async () => {
@@ -695,12 +695,12 @@ const EditAsset = () => {
                                   }
                                 }}
                               >
-                                {isEditMode ? 'Update' : 'Save'}
-                              </Button>
-                            </div>
+                                 {isEditMode ? 'Update' : 'Save'}
+                               </Button>
+                             </div>
+                           </div>
                           </div>
-                     </div>
-                  </div>
+                      </div>
 
                   {/* Calendar Trigger Container */}
                   <div className="w-1/4">
