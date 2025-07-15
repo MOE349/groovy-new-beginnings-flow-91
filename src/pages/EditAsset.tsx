@@ -535,7 +535,7 @@ const EditAsset = () => {
                         {/* API Table at the top */}
                         <div className="mb-4">
                           <ApiTable 
-                            endpoint="/pm-automation/pm-settings/" 
+                            endpoint="/pm-automation/pm-settings" 
                             columns={[
                               { key: 'name', header: 'Name', type: 'string' },
                               { key: 'next_trigger_value', header: 'Next Trigger', type: 'string' },
