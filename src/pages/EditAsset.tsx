@@ -36,6 +36,8 @@ const EditAsset = () => {
   const [activeTab, setActiveTab] = useState("");
   const [isMeterTriggerActive, setIsMeterTriggerActive] = useState(true);
   const [isTimeTriggerActive, setIsTimeTriggerActive] = useState(true);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
 
   // Meter Reading Trigger form state
   const [meterTriggerData, setMeterTriggerData] = useState({
@@ -507,9 +509,28 @@ const EditAsset = () => {
                   {/* Meter Reading Trigger Container */}
                   <div className="w-1/4">
                      <div className="px-4 pt-4 pb-0 h-[474px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
-                        <div className="flex items-center justify-center gap-4 mb-2 py-1 -mx-2 mt-0 bg-accent/20 border border-accent/30 rounded-md">
-                         <h5 className="text-xs font-medium text-primary dark:text-secondary">Meter Reading Trigger</h5>
-                       </div>
+                        <div className="flex items-center justify-between gap-4 mb-2 py-1 -mx-2 mt-0 bg-accent/20 border border-accent/30 rounded-md">
+                          <h5 className="text-xs font-medium text-primary dark:text-secondary">Meter Reading Trigger</h5>
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="h-6 px-2 text-xs"
+                            onClick={() => {
+                              setMeterTriggerData({
+                                name: "",
+                                interval_value: 500,
+                                interval_unit: "hours",
+                                start_threshold_value: 250,
+                                lead_time_value: 50,
+                                is_active: true
+                              });
+                              setIsEditMode(false);
+                              setSelectedItemId(null);
+                            }}
+                          >
+                            New
+                          </Button>
+                        </div>
                        
                         {/* Custom Table with fixed 3 rows */}
                         <div className="mb-4">
@@ -533,18 +554,20 @@ const EditAsset = () => {
                                        <tr 
                                          key={i} 
                                          className="border-b transition-colors hover:bg-muted/50 even:bg-muted/20 cursor-pointer hover:bg-primary/10"
-                                         onClick={() => {
-                                           if (item) {
-                                             setMeterTriggerData({
-                                               name: item.name || "",
-                                               interval_value: item.interval_value || 500,
-                                               interval_unit: item.interval_unit || "hours",
-                                               start_threshold_value: item.start_threshold_value || 250,
-                                               lead_time_value: item.lead_time_value || 50,
-                                               is_active: item.is_active !== undefined ? item.is_active : true
-                                             });
-                                           }
-                                         }}
+                                          onClick={() => {
+                                            if (item) {
+                                              setMeterTriggerData({
+                                                name: item.name || "",
+                                                interval_value: item.interval_value || 500,
+                                                interval_unit: item.interval_unit || "hours",
+                                                start_threshold_value: item.start_threshold_value || 250,
+                                                lead_time_value: item.lead_time_value || 50,
+                                                is_active: item.is_active !== undefined ? item.is_active : true
+                                              });
+                                              setIsEditMode(true);
+                                              setSelectedItemId(item.id);
+                                            }
+                                          }}
                                        >
                                          <td className="px-2 py-1 text-left align-middle text-xs">
                                            {item?.name || '-'}
@@ -680,24 +703,43 @@ const EditAsset = () => {
                                     asset: id
                                   };
                                   try {
-                                    await apiCall('/pm-automation/pm-settings', {
-                                      method: 'POST',
-                                      body: submissionData
-                                    });
-                                    toast({
-                                      title: "Success",
-                                      description: "PM Trigger settings saved successfully!"
+                                    if (isEditMode && selectedItemId) {
+                                      // Update existing item
+                                      await apiCall(`/pm-automation/pm-settings/${selectedItemId}`, {
+                                        method: 'PUT',
+                                        body: submissionData
+                                      });
+                                      toast({
+                                        title: "Success",
+                                        description: "PM Trigger settings updated successfully!"
+                                      });
+                                    } else {
+                                      // Create new item
+                                      await apiCall('/pm-automation/pm-settings', {
+                                        method: 'POST',
+                                        body: submissionData
+                                      });
+                                      toast({
+                                        title: "Success",
+                                        description: "PM Trigger settings created successfully!"
+                                      });
+                                    }
+                                    // Reset edit mode and refresh data
+                                    setIsEditMode(false);
+                                    setSelectedItemId(null);
+                                    queryClient.invalidateQueries({
+                                      queryKey: [`/pm-automation/pm-settings?asset=${id}`]
                                     });
                                   } catch (error: any) {
                                     toast({
                                       title: "Error",
-                                      description: error.message || "Failed to save PM Trigger settings",
+                                      description: error.message || `Failed to ${isEditMode ? 'update' : 'create'} PM Trigger settings`,
                                       variant: "destructive"
                                     });
                                   }
                                 }}
                               >
-                                Save
+                                {isEditMode ? 'Update' : 'Save'}
                               </Button>
                             </div>
                           </div>
