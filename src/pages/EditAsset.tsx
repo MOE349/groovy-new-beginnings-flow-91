@@ -545,7 +545,7 @@ const EditAsset = () => {
                         </div>
                        
                           <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
-                            <div className="space-y-1">
+                            <div className="space-y-1 border-2 border-dashed border-border rounded-lg p-3">
                               {/* Name field */}
                               <div className="flex items-center justify-between">
                                 <span className="text-xs text-muted-foreground">Name</span>
