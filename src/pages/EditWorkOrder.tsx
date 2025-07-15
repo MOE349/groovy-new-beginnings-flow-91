@@ -144,8 +144,17 @@ const EditWorkOrder = () => {
           
           <TabsContent value="checklist" className="mt-1">
             <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
-              <h3 className="text-h3 font-medium text-foreground">Checklist</h3>
-              <p className="text-caption text-muted-foreground">Checklist items and progress will go here</p>
+              <ApiTable
+                endpoint="/work_orders/checklists"
+                columns={[
+                  { key: 'completed_by', header: 'Completed By', type: 'object' },
+                  { key: 'completion_date', header: 'Completion Date', type: 'date' },
+                  { key: 'hrs_spent', header: 'Hrs Spent', type: 'string' },
+                  { key: 'description', header: 'Description', type: 'string' },
+                ]}
+                queryKey={["work_order_checklists", id]}
+                emptyMessage="No checklist items found"
+              />
             </div>
           </TabsContent>
           
