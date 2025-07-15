@@ -545,7 +545,7 @@ const EditAsset = () => {
                         </div>
                        
                           <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
-                            <div className="space-y-1 border-2 border-dashed border-border rounded-lg p-3">
+                            <div className="space-y-1">
                               {/* Name field */}
                               <div className="flex items-center justify-between">
                                 <span className="text-xs text-muted-foreground">Name</span>
@@ -639,10 +639,11 @@ const EditAsset = () => {
                                 >
                                   {meterTriggerData.is_active ? '✓ Active' : '✗ Inactive'}
                                 </Button>
-                               </div>
-                             
-                             {/* Save button - inside the dotted border container */}
-                             <div className="mt-0.5">
+                              </div>
+                            </div>
+                            
+                            {/* Save button - outside the space-y-1 container */}
+                            <div className="mt-0.5">
                               <Button 
                                 className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-white" 
                                 onClick={async () => {
@@ -694,12 +695,12 @@ const EditAsset = () => {
                                   }
                                 }}
                               >
-                                 {isEditMode ? 'Update' : 'Save'}
-                                </Button>
-                              </div>
+                                {isEditMode ? 'Update' : 'Save'}
+                              </Button>
                             </div>
-                           </div>
                           </div>
+                     </div>
+                  </div>
 
                   {/* Calendar Trigger Container */}
                   <div className="w-1/4">
@@ -875,8 +876,6 @@ const EditAsset = () => {
         </Tabs>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default EditAsset;
