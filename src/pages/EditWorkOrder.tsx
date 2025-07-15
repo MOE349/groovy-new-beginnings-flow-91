@@ -10,7 +10,7 @@ import { apiCall } from "@/utils/apis";
 import { workOrderFields } from "@/data/workOrderFormFields";
 import GearSpinner from "@/components/ui/gear-spinner";
 import { AlertTriangle, Plus } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import FormLayout from "@/components/FormLayout";
 import { workOrderFormConfig } from "@/config/formLayouts";
 import { useState } from "react";
@@ -19,6 +19,7 @@ import { FormField } from "@/components/ApiForm";
 const EditWorkOrder = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [isChecklistDialogOpen, setIsChecklistDialogOpen] = useState(false);
 
   const { data: workOrderData, isLoading, isError, error } = useQuery({
@@ -47,6 +48,10 @@ const EditWorkOrder = () => {
   const handleChecklistSubmit = async (data: Record<string, any>) => {
     try {
       await apiCall('/work-orders/work_orders/checklists', { method: 'POST', body: data });
+      // Invalidate and refetch the checklist table
+      queryClient.invalidateQueries({
+        queryKey: ["work_order_checklists", id]
+      });
       toast({
         title: "Success",
         description: "Checklist item created successfully!",
