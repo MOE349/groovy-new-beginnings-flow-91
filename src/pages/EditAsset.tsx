@@ -91,6 +91,7 @@ const EditAsset = () => {
 
   // Calendar Trigger form state
   const [calendarTriggerData, setCalendarTriggerData] = useState({
+    name: "",
     interval_value: 30,
     interval_unit: "days",
     start_date: "",
@@ -197,6 +198,7 @@ const EditAsset = () => {
   const handleSaveCalendarTrigger = async () => {
     try {
       const submissionData = {
+        name: calendarTriggerData.name,
         interval_value: calendarTriggerData.interval_value,
         interval_unit: calendarTriggerData.interval_unit,
         start_date: calendarTriggerData.start_date,
@@ -623,9 +625,25 @@ const EditAsset = () => {
                          <h5 className="text-xs font-medium text-primary dark:text-secondary">Calendar Trigger</h5>
                        </div>
                        
-                         <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
-                           <div className="space-y-1">
-                            {/* Every field */}
+                          <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
+                            <div className="space-y-1">
+                              {/* Name field */}
+                              <div className="flex items-center justify-between">
+                                <span className="text-xs text-muted-foreground">Name</span>
+                                <div className="flex items-center gap-2">
+                                  <input 
+                                    type="text" 
+                                    value={calendarTriggerData.name} 
+                                    onChange={e => setCalendarTriggerData(prev => ({
+                                      ...prev,
+                                      name: e.target.value
+                                    }))} 
+                                    className="w-33 h-6 px-2 text-xs border rounded bg-background" 
+                                  />
+                                </div>
+                              </div>
+
+                             {/* Every field */}
                             <div className="flex items-center justify-between">
                               <span className="text-xs text-muted-foreground">Every</span>
                               <div className="flex items-center gap-2">
