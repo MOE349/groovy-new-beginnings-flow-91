@@ -82,15 +82,32 @@ const ApiForm = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Convert Date objects to YYYY-MM-DD format for API submission
-    const processedData = { ...formData };
-    Object.keys(processedData).forEach(key => {
-      if (processedData[key] instanceof Date) {
-        processedData[key] = processedData[key].toISOString().split('T')[0];
+    // Determine which fields have changed from initialData
+    const updatedData: Record<string, any> = {};
+    Object.keys(formData).forEach(key => {
+      // Compare values, handling date objects and primitive types
+      const initialValue = initialData[key];
+      const currentValue = formData[key];
+      
+      // Check if the value is a date
+      if (currentValue instanceof Date) {
+        // Convert both to ISO date string for comparison
+        const formattedInitial = initialValue instanceof Date 
+          ? initialValue.toISOString().split('T')[0] 
+          : initialValue;
+        const formattedCurrent = currentValue.toISOString().split('T')[0];
+        
+        if (formattedInitial !== formattedCurrent) {
+          updatedData[key] = formattedCurrent;
+        }
+      } 
+      // For primitive types and objects
+      else if (JSON.stringify(initialValue) !== JSON.stringify(currentValue)) {
+        updatedData[key] = currentValue;
       }
     });
     
-    onSubmit?.(processedData);
+    onSubmit?.(updatedData);
   };
 
   const renderField = (field: FormField) => {
