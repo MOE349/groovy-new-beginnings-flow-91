@@ -344,8 +344,30 @@ const EditWorkOrder = () => {
                     )}
                   />
                 </div>
-                <div className="w-1/2">
-                  {/* Right side empty for now */}
+                <div className="w-1/2 pl-4">
+                  <div className="space-y-6">
+                    <div>
+                      <h3 className="text-lg font-medium mb-4">Summary</h3>
+                      <div className="space-y-4">
+                        <div>
+                          <label className="block text-sm font-medium text-foreground mb-1">
+                            Total Hours Spent
+                          </label>
+                          <div className="p-3 bg-muted rounded-md text-sm text-muted-foreground">
+                            {completionData?.data?.data?.total_hrs_spent || "Not specified"}
+                          </div>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-foreground mb-1">
+                            Completed By
+                          </label>
+                          <div className="p-3 bg-muted rounded-md text-sm text-muted-foreground">
+                            {completionData?.data?.data?.completed_by || "Not specified"}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
