@@ -309,7 +309,14 @@ const EditWorkOrder = () => {
                   <ApiForm
                     fields={completionFormFields}
                     onSubmit={handleCompletionSubmit}
-                    initialData={{ work_order: id }}
+                    initialData={{ 
+                      work_order: id,
+                      problem: workOrder?.problem || "",
+                      root_cause: workOrder?.root_cause || "",
+                      solution: workOrder?.solution || "",
+                      completion_notes: workOrder?.completion_notes || "",
+                      admin_notes: workOrder?.admin_notes || "",
+                    }}
                     customLayout={({ fields, formData, handleFieldChange, renderField }) => (
                       <div className="space-y-6">
                         {fields.map(field => {
