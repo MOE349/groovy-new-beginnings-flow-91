@@ -52,24 +52,34 @@ const weightClassFormFields = [
 const Settings = () => {
   const [dialogOpen, setDialogOpen] = useState<'site' | 'location' | 'equipmentCategory' | 'attachmentCategory' | 'workOrderStatus' | 'weightClass' | null>(null);
   const [loading, setLoading] = useState(false);
+  const [editingItem, setEditingItem] = useState<Record<string, any> | null>(null);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const handleSiteSubmit = async (data: Record<string, any>) => {
     try {
       setLoading(true);
-      await apiCall("/company/site", { method: 'POST', body: data });
-      toast({
-        title: "Success",
-        description: "Site created successfully",
-      });
+      if (editingItem) {
+        await apiCall(`/company/site/${editingItem.id}`, { method: 'PUT', body: data });
+        toast({
+          title: "Success",
+          description: "Site updated successfully",
+        });
+      } else {
+        await apiCall("/company/site", { method: 'POST', body: data });
+        toast({
+          title: "Success",
+          description: "Site created successfully",
+        });
+      }
       // Invalidate and refetch the sites query
       await queryClient.invalidateQueries({ queryKey: ["/company/site"] });
       setDialogOpen(null);
+      setEditingItem(null);
     } catch (error: any) {
       toast({
         title: "Error",
-        description: error.message || "Failed to create site",
+        description: error.message || `Failed to ${editingItem ? 'update' : 'create'} site`,
         variant: "destructive",
       });
     } finally {
@@ -80,18 +90,27 @@ const Settings = () => {
   const handleLocationSubmit = async (data: Record<string, any>) => {
     try {
       setLoading(true);
-      await apiCall("/company/location", { method: 'POST', body: data });
-      toast({
-        title: "Success",
-        description: "Location created successfully",
-      });
+      if (editingItem) {
+        await apiCall(`/company/location/${editingItem.id}`, { method: 'PUT', body: data });
+        toast({
+          title: "Success",
+          description: "Location updated successfully",
+        });
+      } else {
+        await apiCall("/company/location", { method: 'POST', body: data });
+        toast({
+          title: "Success",
+          description: "Location created successfully",
+        });
+      }
       // Invalidate and refetch the locations query
       await queryClient.invalidateQueries({ queryKey: ["/company/location"] });
       setDialogOpen(null);
+      setEditingItem(null);
     } catch (error: any) {
       toast({
         title: "Error",
-        description: error.message || "Failed to create location",
+        description: error.message || `Failed to ${editingItem ? 'update' : 'create'} location`,
         variant: "destructive",
       });
     } finally {
@@ -102,18 +121,27 @@ const Settings = () => {
   const handleEquipmentCategorySubmit = async (data: Record<string, any>) => {
     try {
       setLoading(true);
-      await apiCall("/assets/equipment_category", { method: 'POST', body: data });
-      toast({
-        title: "Success",
-        description: "Equipment category created successfully",
-      });
+      if (editingItem) {
+        await apiCall(`/assets/equipment_category/${editingItem.id}`, { method: 'PUT', body: data });
+        toast({
+          title: "Success",
+          description: "Equipment category updated successfully",
+        });
+      } else {
+        await apiCall("/assets/equipment_category", { method: 'POST', body: data });
+        toast({
+          title: "Success",
+          description: "Equipment category created successfully",
+        });
+      }
       // Invalidate and refetch the equipment categories query
       await queryClient.invalidateQueries({ queryKey: ["/assets/equipment_category"] });
       setDialogOpen(null);
+      setEditingItem(null);
     } catch (error: any) {
       toast({
         title: "Error",
-        description: error.message || "Failed to create equipment category",
+        description: error.message || `Failed to ${editingItem ? 'update' : 'create'} equipment category`,
         variant: "destructive",
       });
     } finally {
@@ -124,18 +152,27 @@ const Settings = () => {
   const handleAttachmentCategorySubmit = async (data: Record<string, any>) => {
     try {
       setLoading(true);
-      await apiCall("/assets/attachment_category", { method: 'POST', body: data });
-      toast({
-        title: "Success",
-        description: "Attachment category created successfully",
-      });
+      if (editingItem) {
+        await apiCall(`/assets/attachment_category/${editingItem.id}`, { method: 'PUT', body: data });
+        toast({
+          title: "Success",
+          description: "Attachment category updated successfully",
+        });
+      } else {
+        await apiCall("/assets/attachment_category", { method: 'POST', body: data });
+        toast({
+          title: "Success",
+          description: "Attachment category created successfully",
+        });
+      }
       // Invalidate and refetch the attachment categories query
       await queryClient.invalidateQueries({ queryKey: ["/assets/attachment_category"] });
       setDialogOpen(null);
+      setEditingItem(null);
     } catch (error: any) {
       toast({
         title: "Error",
-        description: error.message || "Failed to create attachment category",
+        description: error.message || `Failed to ${editingItem ? 'update' : 'create'} attachment category`,
         variant: "destructive",
       });
     } finally {
@@ -146,18 +183,27 @@ const Settings = () => {
   const handleWorkOrderStatusSubmit = async (data: Record<string, any>) => {
     try {
       setLoading(true);
-      await apiCall("/work-orders/status", { method: 'POST', body: data });
-      toast({
-        title: "Success",
-        description: "Work order status created successfully",
-      });
+      if (editingItem) {
+        await apiCall(`/work-orders/status/${editingItem.id}`, { method: 'PUT', body: data });
+        toast({
+          title: "Success",
+          description: "Work order status updated successfully",
+        });
+      } else {
+        await apiCall("/work-orders/status", { method: 'POST', body: data });
+        toast({
+          title: "Success",
+          description: "Work order status created successfully",
+        });
+      }
       // Invalidate and refetch the work order status query
       await queryClient.invalidateQueries({ queryKey: ["/work-orders/status"] });
       setDialogOpen(null);
+      setEditingItem(null);
     } catch (error: any) {
       toast({
         title: "Error",
-        description: error.message || "Failed to create work order status",
+        description: error.message || `Failed to ${editingItem ? 'update' : 'create'} work order status`,
         variant: "destructive",
       });
     } finally {
@@ -168,23 +214,54 @@ const Settings = () => {
   const handleWeightClassSubmit = async (data: Record<string, any>) => {
     try {
       setLoading(true);
-      await apiCall("/assets/equipment_weight_class", { method: 'POST', body: data });
-      toast({
-        title: "Success",
-        description: "Weight class created successfully",
-      });
+      if (editingItem) {
+        await apiCall(`/assets/equipment_weight_class/${editingItem.id}`, { method: 'PUT', body: data });
+        toast({
+          title: "Success",
+          description: "Weight class updated successfully",
+        });
+      } else {
+        await apiCall("/assets/equipment_weight_class", { method: 'POST', body: data });
+        toast({
+          title: "Success",
+          description: "Weight class created successfully",
+        });
+      }
       // Invalidate and refetch the weight class query
       await queryClient.invalidateQueries({ queryKey: ["/assets/equipment_weight_class"] });
       setDialogOpen(null);
+      setEditingItem(null);
     } catch (error: any) {
       toast({
         title: "Error",
-        description: error.message || "Failed to create weight class",
+        description: error.message || `Failed to ${editingItem ? 'update' : 'create'} weight class`,
         variant: "destructive",
       });
     } finally {
       setLoading(false);
     }
+  };
+
+  // Helper function to handle row clicks for editing
+  const handleRowClick = (row: any, type: 'site' | 'location' | 'equipmentCategory' | 'attachmentCategory' | 'workOrderStatus' | 'weightClass') => {
+    setEditingItem(row);
+    setDialogOpen(type);
+  };
+
+  // Helper function to prepare initial data for editing (handle nested objects)
+  const prepareInitialData = (item: any, fields: any[]) => {
+    if (!item) return {};
+    
+    const initialData: Record<string, any> = { ...item };
+    
+    // Handle nested objects in dropdowns (convert object to ID)
+    fields.forEach(field => {
+      if (field.type === 'dropdown' && item[field.name] && typeof item[field.name] === 'object') {
+        initialData[field.name] = item[field.name].id || item[field.name];
+      }
+    });
+    
+    return initialData;
   };
 
   const customLayout = useCallback((
@@ -228,7 +305,8 @@ const Settings = () => {
                 <ApiTable
                   title="Sites"
                   endpoint="/company/site"
-                  onCreateNew={() => setDialogOpen('site')}
+                  onCreateNew={() => { setEditingItem(null); setDialogOpen('site'); }}
+                  onRowClick={(row) => handleRowClick(row, 'site')}
                   createNewText="New Site"
                   className="h-fit"
                   tableClassName="text-xs"
@@ -242,7 +320,8 @@ const Settings = () => {
                 <ApiTable
                   title="Locations"
                   endpoint="/company/location"
-                  onCreateNew={() => setDialogOpen('location')}
+                  onCreateNew={() => { setEditingItem(null); setDialogOpen('location'); }}
+                  onRowClick={(row) => handleRowClick(row, 'location')}
                   createNewText="New Location"
                   className="h-fit"
                   tableClassName="text-xs"
@@ -260,7 +339,8 @@ const Settings = () => {
                 <ApiTable
                   title="Equipment Categories"
                   endpoint="/assets/equipment_category"
-                  onCreateNew={() => setDialogOpen('equipmentCategory')}
+                  onCreateNew={() => { setEditingItem(null); setDialogOpen('equipmentCategory'); }}
+                  onRowClick={(row) => handleRowClick(row, 'equipmentCategory')}
                   createNewText="New Equipment Category"
                   className="h-fit"
                   tableClassName="text-xs"
@@ -274,7 +354,8 @@ const Settings = () => {
                 <ApiTable
                   title="Attachment Categories"
                   endpoint="/assets/attachment_category"
-                  onCreateNew={() => setDialogOpen('attachmentCategory')}
+                  onCreateNew={() => { setEditingItem(null); setDialogOpen('attachmentCategory'); }}
+                  onRowClick={(row) => handleRowClick(row, 'attachmentCategory')}
                   createNewText="New Attachment Category"
                   className="h-fit"
                   tableClassName="text-xs"
@@ -291,7 +372,8 @@ const Settings = () => {
                 <ApiTable
                   title="WorkOrder Status"
                   endpoint="/work-orders/status"
-                  onCreateNew={() => setDialogOpen('workOrderStatus')}
+                  onCreateNew={() => { setEditingItem(null); setDialogOpen('workOrderStatus'); }}
+                  onRowClick={(row) => handleRowClick(row, 'workOrderStatus')}
                   createNewText="Add WorkOrder Status"
                   className="h-fit"
                   tableClassName="text-xs"
@@ -305,7 +387,8 @@ const Settings = () => {
                 <ApiTable
                   title="Weight Classes"
                   endpoint="/assets/equipment_weight_class"
-                  onCreateNew={() => setDialogOpen('weightClass')}
+                  onCreateNew={() => { setEditingItem(null); setDialogOpen('weightClass'); }}
+                  onRowClick={(row) => handleRowClick(row, 'weightClass')}
                   createNewText="New Weight Class"
                   className="h-fit"
                   tableClassName="text-xs"
@@ -333,91 +416,97 @@ const Settings = () => {
       </Tabs>
 
       {/* Site Dialog */}
-      <Dialog open={dialogOpen === 'site'} onOpenChange={(open) => !open && setDialogOpen(null)}>
+      <Dialog open={dialogOpen === 'site'} onOpenChange={(open) => { if (!open) { setDialogOpen(null); setEditingItem(null); } }}>
         <DialogContent className="max-w-md max-h-[80vh] overflow-hidden">
           <DialogHeader>
-            <DialogTitle>Create New Site</DialogTitle>
+            <DialogTitle>{editingItem ? 'Edit Site' : 'Create New Site'}</DialogTitle>
           </DialogHeader>
           <ApiForm
             fields={siteFormFields}
             onSubmit={handleSiteSubmit}
             loading={loading}
-            customLayout={customLayout("Create New Site", handleSiteSubmit, siteFormFields)}
+            initialData={editingItem ? prepareInitialData(editingItem, siteFormFields) : {}}
+            customLayout={customLayout(editingItem ? 'Edit Site' : 'Create New Site', handleSiteSubmit, siteFormFields)}
           />
         </DialogContent>
       </Dialog>
 
       {/* Location Dialog */}
-      <Dialog open={dialogOpen === 'location'} onOpenChange={(open) => !open && setDialogOpen(null)}>
+      <Dialog open={dialogOpen === 'location'} onOpenChange={(open) => { if (!open) { setDialogOpen(null); setEditingItem(null); } }}>
         <DialogContent className="max-w-md max-h-[80vh] overflow-hidden">
           <DialogHeader>
-            <DialogTitle>Create New Location</DialogTitle>
+            <DialogTitle>{editingItem ? 'Edit Location' : 'Create New Location'}</DialogTitle>
           </DialogHeader>
           <ApiForm
             fields={locationFormFields}
             onSubmit={handleLocationSubmit}
             loading={loading}
-            customLayout={customLayout("Create New Location", handleLocationSubmit, locationFormFields)}
+            initialData={editingItem ? prepareInitialData(editingItem, locationFormFields) : {}}
+            customLayout={customLayout(editingItem ? 'Edit Location' : 'Create New Location', handleLocationSubmit, locationFormFields)}
           />
         </DialogContent>
       </Dialog>
 
       {/* Equipment Category Dialog */}
-      <Dialog open={dialogOpen === 'equipmentCategory'} onOpenChange={(open) => !open && setDialogOpen(null)}>
+      <Dialog open={dialogOpen === 'equipmentCategory'} onOpenChange={(open) => { if (!open) { setDialogOpen(null); setEditingItem(null); } }}>
         <DialogContent className="max-w-md max-h-[80vh] overflow-hidden">
           <DialogHeader>
-            <DialogTitle>Create New Equipment Category</DialogTitle>
+            <DialogTitle>{editingItem ? 'Edit Equipment Category' : 'Create New Equipment Category'}</DialogTitle>
           </DialogHeader>
           <ApiForm
             fields={equipmentCategoryFormFields}
             onSubmit={handleEquipmentCategorySubmit}
             loading={loading}
-            customLayout={customLayout("Create New Equipment Category", handleEquipmentCategorySubmit, equipmentCategoryFormFields)}
+            initialData={editingItem ? prepareInitialData(editingItem, equipmentCategoryFormFields) : {}}
+            customLayout={customLayout(editingItem ? 'Edit Equipment Category' : 'Create New Equipment Category', handleEquipmentCategorySubmit, equipmentCategoryFormFields)}
           />
         </DialogContent>
       </Dialog>
 
       {/* Attachment Category Dialog */}
-      <Dialog open={dialogOpen === 'attachmentCategory'} onOpenChange={(open) => !open && setDialogOpen(null)}>
+      <Dialog open={dialogOpen === 'attachmentCategory'} onOpenChange={(open) => { if (!open) { setDialogOpen(null); setEditingItem(null); } }}>
         <DialogContent className="max-w-md max-h-[80vh] overflow-hidden">
           <DialogHeader>
-            <DialogTitle>Create New Attachment Category</DialogTitle>
+            <DialogTitle>{editingItem ? 'Edit Attachment Category' : 'Create New Attachment Category'}</DialogTitle>
           </DialogHeader>
           <ApiForm
             fields={attachmentCategoryFormFields}
             onSubmit={handleAttachmentCategorySubmit}
             loading={loading}
-            customLayout={customLayout("Create New Attachment Category", handleAttachmentCategorySubmit, attachmentCategoryFormFields)}
+            initialData={editingItem ? prepareInitialData(editingItem, attachmentCategoryFormFields) : {}}
+            customLayout={customLayout(editingItem ? 'Edit Attachment Category' : 'Create New Attachment Category', handleAttachmentCategorySubmit, attachmentCategoryFormFields)}
           />
         </DialogContent>
       </Dialog>
 
       {/* Work Order Status Dialog */}
-      <Dialog open={dialogOpen === 'workOrderStatus'} onOpenChange={(open) => !open && setDialogOpen(null)}>
+      <Dialog open={dialogOpen === 'workOrderStatus'} onOpenChange={(open) => { if (!open) { setDialogOpen(null); setEditingItem(null); } }}>
         <DialogContent className="max-w-md max-h-[80vh] overflow-hidden">
           <DialogHeader>
-            <DialogTitle>Add WorkOrder Status</DialogTitle>
+            <DialogTitle>{editingItem ? 'Edit WorkOrder Status' : 'Add WorkOrder Status'}</DialogTitle>
           </DialogHeader>
           <ApiForm
             fields={workOrderStatusFormFields}
             onSubmit={handleWorkOrderStatusSubmit}
             loading={loading}
-            customLayout={customLayout("Add WorkOrder Status", handleWorkOrderStatusSubmit, workOrderStatusFormFields)}
+            initialData={editingItem ? prepareInitialData(editingItem, workOrderStatusFormFields) : {}}
+            customLayout={customLayout(editingItem ? 'Edit WorkOrder Status' : 'Add WorkOrder Status', handleWorkOrderStatusSubmit, workOrderStatusFormFields)}
           />
         </DialogContent>
       </Dialog>
 
       {/* Weight Class Dialog */}
-      <Dialog open={dialogOpen === 'weightClass'} onOpenChange={(open) => !open && setDialogOpen(null)}>
+      <Dialog open={dialogOpen === 'weightClass'} onOpenChange={(open) => { if (!open) { setDialogOpen(null); setEditingItem(null); } }}>
         <DialogContent className="max-w-md max-h-[80vh] overflow-hidden">
           <DialogHeader>
-            <DialogTitle>Create New Weight Class</DialogTitle>
+            <DialogTitle>{editingItem ? 'Edit Weight Class' : 'Create New Weight Class'}</DialogTitle>
           </DialogHeader>
           <ApiForm
             fields={weightClassFormFields}
             onSubmit={handleWeightClassSubmit}
             loading={loading}
-            customLayout={customLayout("Create New Weight Class", handleWeightClassSubmit, weightClassFormFields)}
+            initialData={editingItem ? prepareInitialData(editingItem, weightClassFormFields) : {}}
+            customLayout={customLayout(editingItem ? 'Edit Weight Class' : 'Create New Weight Class', handleWeightClassSubmit, weightClassFormFields)}
           />
         </DialogContent>
       </Dialog>
