@@ -61,6 +61,26 @@ export const equipmentFields: FormField[] = [
     inputType: "text",
   },
   {
+    name: "year",
+    type: "dropdown",
+    label: "Year",
+    required: false,
+    options: Array.from({ length: 46 }, (_, i) => {
+      const year = new Date().getFullYear() - i;
+      return { value: year.toString(), label: year.toString() };
+    }),
+  },
+  {
+    name: "weight_class",
+    type: "dropdown",
+    label: "Weight Class",
+    required: false,
+    endpoint: "/assets/equipment_weight_class",
+    queryKey: ["equipment_weight_class"],
+    optionValueKey: "id",
+    optionLabelKey: "name",
+  },
+  {
     name: "location",
     type: "dropdown",
     label: "Location",
