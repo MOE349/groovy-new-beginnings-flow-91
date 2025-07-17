@@ -24,7 +24,7 @@ const EditSite = () => {
     if (!id) return;
     
     try {
-      await apiCall(`/company/site/${id}`, { method: 'PUT', body: data });
+      await apiCall(`/company/site/${id}`, { method: 'PATCH', body: data });
       toast({
         title: "Success",
         description: "Site updated successfully!",

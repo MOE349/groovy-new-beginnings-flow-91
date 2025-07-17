@@ -24,7 +24,7 @@ const EditLocation = () => {
     if (!id) return;
     
     try {
-      await apiCall(`/company/location/${id}`, { method: 'PUT', body: data });
+      await apiCall(`/company/location/${id}`, { method: 'PATCH', body: data });
       toast({
         title: "Success",
         description: "Location updated successfully!",
