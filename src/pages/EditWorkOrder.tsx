@@ -303,7 +303,7 @@ const EditWorkOrder = () => {
           {/* Tab Content Panels - Compact */}
           <TabsContent value="completion" className="mt-1">
             <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
-              <h3 className="text-h3 font-medium text-foreground mb-4">Completion</h3>
+              
               <div className="flex">
                 <div className="w-1/2 pr-8">
                   <ApiForm
