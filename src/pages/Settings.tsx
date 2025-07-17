@@ -32,8 +32,18 @@ const workOrderStatusFormFields = [
   }
 ];
 
+const weightClassFormFields = [
+  {
+    name: "name",
+    type: "input" as const,
+    label: "Name",
+    required: true,
+    inputType: "text" as const
+  }
+];
+
 const Settings = () => {
-  const [dialogOpen, setDialogOpen] = useState<'site' | 'location' | 'equipmentCategory' | 'attachmentCategory' | 'workOrderStatus' | null>(null);
+  const [dialogOpen, setDialogOpen] = useState<'site' | 'location' | 'equipmentCategory' | 'attachmentCategory' | 'workOrderStatus' | 'weightClass' | null>(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -148,6 +158,28 @@ const Settings = () => {
     }
   };
 
+  const handleWeightClassSubmit = async (data: Record<string, any>) => {
+    try {
+      setLoading(true);
+      await apiCall("/assets/weight_class", { method: 'POST', body: data });
+      toast({
+        title: "Success",
+        description: "Weight class created successfully",
+      });
+      // Invalidate and refetch the weight class query
+      await queryClient.invalidateQueries({ queryKey: ["/assets/weight_class"] });
+      setDialogOpen(null);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to create weight class",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const customLayout = useCallback((
     title: string,
     onSubmit: (data: Record<string, any>) => Promise<void>,
@@ -247,7 +279,7 @@ const Settings = () => {
                 />
               </div>
               
-              {/* Right Column - WorkOrder Status */}
+              {/* Right Column - WorkOrder Status and Weight Class */}
               <div className="space-y-4">
                 <ApiTable
                   title="WorkOrder Status"
@@ -260,6 +292,19 @@ const Settings = () => {
                   columns={[
                     { key: 'name', header: 'Name' },
                     { key: 'control', header: 'Control', type: 'object' },
+                  ]}
+                />
+                
+                <ApiTable
+                  title="Weight Classes"
+                  endpoint="/assets/weight_class"
+                  onCreateNew={() => setDialogOpen('weightClass')}
+                  createNewText="New Weight Class"
+                  className="h-fit"
+                  tableClassName="text-xs"
+                  maxHeight="max-h-80"
+                  columns={[
+                    { key: 'name', header: 'Name' },
                   ]}
                 />
               </div>
@@ -350,6 +395,21 @@ const Settings = () => {
             onSubmit={handleWorkOrderStatusSubmit}
             loading={loading}
             customLayout={customLayout("Add WorkOrder Status", handleWorkOrderStatusSubmit, workOrderStatusFormFields)}
+          />
+        </DialogContent>
+      </Dialog>
+
+      {/* Weight Class Dialog */}
+      <Dialog open={dialogOpen === 'weightClass'} onOpenChange={(open) => !open && setDialogOpen(null)}>
+        <DialogContent className="max-w-md max-h-[80vh] overflow-hidden">
+          <DialogHeader>
+            <DialogTitle>Create New Weight Class</DialogTitle>
+          </DialogHeader>
+          <ApiForm
+            fields={weightClassFormFields}
+            onSubmit={handleWeightClassSubmit}
+            loading={loading}
+            customLayout={customLayout("Create New Weight Class", handleWeightClassSubmit, weightClassFormFields)}
           />
         </DialogContent>
       </Dialog>
