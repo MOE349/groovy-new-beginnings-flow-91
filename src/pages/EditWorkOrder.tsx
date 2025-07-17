@@ -41,7 +41,7 @@ const EditWorkOrder = () => {
 
   const handleSubmit = async (data: Record<string, any>) => {
     try {
-      await apiCall(`/work-orders/work_order/${id}`, { method: 'PUT', body: data });
+      await apiCall(`/work-orders/work_order/${id}`, { method: 'PATCH', body: data });
       toast({
         title: "Success",
         description: "Work order updated successfully!",
@@ -80,7 +80,7 @@ const EditWorkOrder = () => {
   const handleEditChecklistSubmit = async (data: Record<string, any>) => {
     try {
       await apiCall(`/work-orders/work_orders/checklists/${selectedChecklistItem.id}`, { 
-        method: 'PUT', 
+        method: 'PATCH', 
         body: data 
       });
       // Invalidate and refetch the checklist table
@@ -158,7 +158,7 @@ const EditWorkOrder = () => {
   const handleEditServicesSubmit = async (data: Record<string, any>) => {
     try {
       await apiCall(`/work-orders/work_order_misc_cost/${selectedServiceItem.id}`, { 
-        method: 'PUT', 
+        method: 'PATCH', 
         body: data 
       });
       // Invalidate and refetch the services table
