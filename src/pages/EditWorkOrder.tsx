@@ -109,6 +109,17 @@ const EditWorkOrder = () => {
     }
   };
 
+  const handleCompletionFieldChange = async (name: string, value: any, allFormData: Record<string, any>) => {
+    // Auto-save on field change
+    const dataToSave = { ...allFormData, [name]: value };
+    try {
+      await apiCall('/work-orders/work_order_completion_note', { method: 'POST', body: dataToSave });
+    } catch (error: any) {
+      // Silently fail auto-save, user can manually save if needed
+      console.error('Auto-save failed:', error);
+    }
+  };
+
   const handleRowClick = (row: any) => {
     setSelectedChecklistItem(row);
     setIsEditChecklistDialogOpen(true);
@@ -296,8 +307,26 @@ const EditWorkOrder = () => {
               <ApiForm
                 fields={completionFormFields}
                 onSubmit={handleCompletionSubmit}
-                submitText="Save Completion Notes"
                 initialData={{ work_order: id }}
+                customLayout={({ fields, formData, handleFieldChange, renderField }) => (
+                  <div className="space-y-4">
+                    {fields.map(field => {
+                      if (field.inputType === "hidden") {
+                        return renderField(field);
+                      }
+                      
+                      // Clone the field render and add onBlur auto-save
+                      const originalField = renderField(field);
+                      return (
+                        <div key={field.name} onBlur={() => {
+                          handleCompletionFieldChange(field.name, formData[field.name], formData);
+                        }}>
+                          {originalField}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               />
             </div>
           </TabsContent>
