@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ApiForm from '@/components/ApiForm';
 import ApiInput from '@/components/ApiInput';
 import { apiPost, apiPut, apiGet } from '@/utils/apis';
 import { useToast } from '@/hooks/use-toast';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 interface FinancialReportFormProps {
   assetId: string;
@@ -18,14 +19,13 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
   containerType
 }) => {
   const { toast } = useToast();
-  const [loading, setLoading] = useState(false);
-  const [existingData, setExistingData] = useState<Record<string, any> | null>(null);
+  const queryClient = useQueryClient();
 
-  // Fetch existing financial data
-  useEffect(() => {
-    const fetchExistingData = async () => {
+  // Fetch existing financial data using React Query
+  const { data: existingData, isLoading: loading } = useQuery({
+    queryKey: ['financial-reports', assetId],
+    queryFn: async () => {
       try {
-        setLoading(true);
         const response = await apiGet(`/financial-reports/${assetId}`);
         
         // Add detailed logging to debug data structure
@@ -37,17 +37,16 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
         const actualData = response.data?.data || response.data;
         console.log('Actual data to use:', actualData);
         
-        setExistingData(actualData);
+        return actualData;
       } catch (error) {
         console.error('Failed to fetch existing financial data:', error);
-        // If no data exists, that's fine - it will be a create operation
-      } finally {
-        setLoading(false);
+        // If no data exists, return null for create operation
+        return null;
       }
-    };
-
-    fetchExistingData();
-  }, [assetId]);
+    },
+    retry: false, // Don't retry on failure since it might be a 404 for new records
+    staleTime: 0 // Always refetch when query is invalidated
+  });
   const formTemplate = [
     {
       label: "Asset",
@@ -208,14 +207,10 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
         description: existingData ? "Financial data updated successfully" : "Financial data saved successfully",
       });
 
-      // Refetch the updated data to refresh the form
-      try {
-        const response = await apiGet(`/financial-reports/${assetId}`);
-        const actualData = response.data?.data || response.data;
-        setExistingData(actualData);
-      } catch (error) {
-        console.error('Failed to refetch data after save:', error);
-      }
+      // Invalidate and refetch the query to refresh the form data
+      await queryClient.invalidateQueries({
+        queryKey: ['financial-reports', assetId]
+      });
 
       // Call onSuccess to refresh the right-side data
       if (onSuccess) {
