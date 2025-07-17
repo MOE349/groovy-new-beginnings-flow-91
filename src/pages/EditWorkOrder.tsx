@@ -166,13 +166,6 @@ const EditWorkOrder = () => {
       required: true,
     },
     {
-      name: "completion_notes",
-      type: "textarea",
-      label: "Completion Notes",
-      required: false,
-      rows: 6,
-    },
-    {
       name: "problem",
       type: "textarea",
       label: "Problem",
@@ -195,6 +188,13 @@ const EditWorkOrder = () => {
       required: false,
       rows: 6,
       placeholder: "(short description of the solution, if any)",
+    },
+    {
+      name: "completion_notes",
+      type: "textarea",
+      label: "Completion Notes",
+      required: false,
+      rows: 6,
     },
     {
       name: "admin_notes",
