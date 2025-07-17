@@ -24,6 +24,8 @@ const EditWorkOrder = () => {
   const [isEditChecklistDialogOpen, setIsEditChecklistDialogOpen] = useState(false);
   const [selectedChecklistItem, setSelectedChecklistItem] = useState<any>(null);
   const [isServicesDialogOpen, setIsServicesDialogOpen] = useState(false);
+  const [isEditServicesDialogOpen, setIsEditServicesDialogOpen] = useState(false);
+  const [selectedServiceItem, setSelectedServiceItem] = useState<any>(null);
 
   const { data: workOrderData, isLoading, isError, error } = useQuery({
     queryKey: ["work_order", id],
@@ -148,6 +150,35 @@ const EditWorkOrder = () => {
     }
   };
 
+  const handleServicesRowClick = (row: any) => {
+    setSelectedServiceItem(row);
+    setIsEditServicesDialogOpen(true);
+  };
+
+  const handleEditServicesSubmit = async (data: Record<string, any>) => {
+    try {
+      await apiCall(`/work-orders/work_order_misc_cost/${selectedServiceItem.id}`, { 
+        method: 'PUT', 
+        body: data 
+      });
+      // Invalidate and refetch the services table
+      queryClient.invalidateQueries({
+        queryKey: ["work_order_misc_cost", id]
+      });
+      toast({
+        title: "Success",
+        description: "Third-party service updated successfully!",
+      });
+      setIsEditServicesDialogOpen(false);
+      setSelectedServiceItem(null);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to update third-party service",
+        variant: "destructive",
+      });
+    }
+  };
   const handleRowClick = (row: any) => {
     setSelectedChecklistItem(row);
     setIsEditChecklistDialogOpen(true);
@@ -525,7 +556,28 @@ const EditWorkOrder = () => {
                 ]}
                 queryKey={["work_order_misc_cost", id]}
                 emptyMessage="No third-party services found"
+                onRowClick={handleServicesRowClick}
               />
+              
+              {/* Edit Services Dialog */}
+              <Dialog open={isEditServicesDialogOpen} onOpenChange={setIsEditServicesDialogOpen}>
+                <DialogContent className="max-w-2xl">
+                  <DialogHeader>
+                    <DialogTitle>Edit Third-party Service</DialogTitle>
+                  </DialogHeader>
+                  {selectedServiceItem && (
+                    <ApiForm
+                      fields={servicesFormTemplate}
+                      onSubmit={handleEditServicesSubmit}
+                      submitText="Update Service Entry"
+                      initialData={{
+                        ...selectedServiceItem,
+                        work_order: id,
+                      }}
+                    />
+                  )}
+                </DialogContent>
+              </Dialog>
             </div>
           </TabsContent>
           
