@@ -93,6 +93,22 @@ const EditWorkOrder = () => {
     }
   };
 
+  const handleCompletionSubmit = async (data: Record<string, any>) => {
+    try {
+      await apiCall('/work-orders/work_order_completion_note', { method: 'POST', body: data });
+      toast({
+        title: "Success",
+        description: "Completion notes saved successfully!",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to save completion notes",
+        variant: "destructive",
+      });
+    }
+  };
+
   const handleRowClick = (row: any) => {
     setSelectedChecklistItem(row);
     setIsEditChecklistDialogOpen(true);
@@ -129,6 +145,53 @@ const EditWorkOrder = () => {
       required: false,
       inputType: "text",
     }
+  ];
+
+  const completionFormFields: FormField[] = [
+    {
+      name: "work_order",
+      type: "input",
+      inputType: "text",
+      required: true,
+    },
+    {
+      name: "completion_notes",
+      type: "textarea",
+      label: "Completion Notes",
+      required: false,
+      rows: 3,
+    },
+    {
+      name: "problem",
+      type: "textarea",
+      label: "Problem",
+      required: false,
+      rows: 3,
+      placeholder: "(briefly outline the problem, if any)",
+    },
+    {
+      name: "root_cause",
+      type: "textarea",
+      label: "Root Cause",
+      required: false,
+      rows: 3,
+      placeholder: "(short description of the cause of issue, if any)",
+    },
+    {
+      name: "solution",
+      type: "textarea",
+      label: "Solution",
+      required: false,
+      rows: 3,
+      placeholder: "(short description of the solution, if any)",
+    },
+    {
+      name: "admin_notes",
+      type: "textarea",
+      label: "Admin Notes",
+      required: false,
+      rows: 3,
+    },
   ];
 
   if (isLoading) {
@@ -229,8 +292,13 @@ const EditWorkOrder = () => {
           {/* Tab Content Panels - Compact */}
           <TabsContent value="completion" className="mt-1">
             <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
-              <h3 className="text-h3 font-medium text-foreground">Completion</h3>
-              <p className="text-caption text-muted-foreground">Completion tracking and details will go here</p>
+              <h3 className="text-h3 font-medium text-foreground mb-4">Completion</h3>
+              <ApiForm
+                fields={completionFormFields}
+                onSubmit={handleCompletionSubmit}
+                submitText="Save Completion Notes"
+                initialData={{ work_order: id }}
+              />
             </div>
           </TabsContent>
           
