@@ -39,6 +39,13 @@ const weightClassFormFields = [
     label: "Name",
     required: true,
     inputType: "text" as const
+  },
+  {
+    name: "weight",
+    type: "input" as const,
+    label: "Weight",
+    required: true,
+    inputType: "text" as const
   }
 ];
 
@@ -161,13 +168,13 @@ const Settings = () => {
   const handleWeightClassSubmit = async (data: Record<string, any>) => {
     try {
       setLoading(true);
-      await apiCall("/assets/weight_class", { method: 'POST', body: data });
+      await apiCall("/equipment_weight_class", { method: 'POST', body: data });
       toast({
         title: "Success",
         description: "Weight class created successfully",
       });
       // Invalidate and refetch the weight class query
-      await queryClient.invalidateQueries({ queryKey: ["/assets/weight_class"] });
+      await queryClient.invalidateQueries({ queryKey: ["/equipment_weight_class"] });
       setDialogOpen(null);
     } catch (error: any) {
       toast({
@@ -297,7 +304,7 @@ const Settings = () => {
                 
                 <ApiTable
                   title="Weight Classes"
-                  endpoint="/assets/weight_class"
+                  endpoint="/equipment_weight_class"
                   onCreateNew={() => setDialogOpen('weightClass')}
                   createNewText="New Weight Class"
                   className="h-fit"
@@ -305,6 +312,7 @@ const Settings = () => {
                   maxHeight="max-h-80"
                   columns={[
                     { key: 'name', header: 'Name' },
+                    { key: 'weight', header: 'Weight' },
                   ]}
                 />
               </div>
