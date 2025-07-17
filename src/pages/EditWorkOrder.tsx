@@ -23,6 +23,7 @@ const EditWorkOrder = () => {
   const [isChecklistDialogOpen, setIsChecklistDialogOpen] = useState(false);
   const [isEditChecklistDialogOpen, setIsEditChecklistDialogOpen] = useState(false);
   const [selectedChecklistItem, setSelectedChecklistItem] = useState<any>(null);
+  const [isServicesDialogOpen, setIsServicesDialogOpen] = useState(false);
 
   const { data: workOrderData, isLoading, isError, error } = useQuery({
     queryKey: ["work_order", id],
@@ -126,6 +127,27 @@ const EditWorkOrder = () => {
     }
   };
 
+  const handleServicesSubmit = async (data: Record<string, any>) => {
+    try {
+      await apiCall('/work-orders/work_order_misc_cost', { method: 'POST', body: data });
+      // Invalidate and refetch the services table
+      queryClient.invalidateQueries({
+        queryKey: ["work_order_misc_cost", id]
+      });
+      toast({
+        title: "Success",
+        description: "Third-party service created successfully!",
+      });
+      setIsServicesDialogOpen(false);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to create third-party service",
+        variant: "destructive",
+      });
+    }
+  };
+
   const handleRowClick = (row: any) => {
     setSelectedChecklistItem(row);
     setIsEditChecklistDialogOpen(true);
@@ -208,6 +230,29 @@ const EditWorkOrder = () => {
       label: "Admin Notes",
       required: false,
       rows: 6,
+    },
+  ];
+
+  const servicesFormTemplate: FormField[] = [
+    {
+      name: "work_order",
+      type: "input",
+      inputType: "hidden",
+      required: true,
+    },
+    {
+      name: "total_cost",
+      type: "input",
+      label: "Total Cost",
+      required: true,
+      inputType: "text",
+    },
+    {
+      name: "description",
+      type: "textarea",
+      label: "Description",
+      required: false,
+      rows: 3,
     },
   ];
 
@@ -451,8 +496,36 @@ const EditWorkOrder = () => {
           
           <TabsContent value="services" className="mt-1">
             <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
-              <h3 className="text-h3 font-medium text-foreground">Third-party services</h3>
-              <p className="text-caption text-muted-foreground">Third-party services and contractors will go here</p>
+              <div className="flex justify-between items-center mb-4">
+                <Dialog open={isServicesDialogOpen} onOpenChange={setIsServicesDialogOpen}>
+                  <DialogTrigger asChild>
+                    <Button size="sm">
+                      <Plus className="h-4 w-4 mr-2" />
+                      Add Third-party Service
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-2xl">
+                    <DialogHeader>
+                      <DialogTitle>Add Third-party Service</DialogTitle>
+                    </DialogHeader>
+                    <ApiForm
+                      fields={servicesFormTemplate}
+                      onSubmit={handleServicesSubmit}
+                      submitText="Create Service Entry"
+                      initialData={{ work_order: id }}
+                    />
+                  </DialogContent>
+                </Dialog>
+              </div>
+              <ApiTable
+                endpoint={`/work-orders/work_order_misc_cost?work_order=${id}`}
+                columns={[
+                  { key: 'total_cost', header: 'Total Cost', type: 'string' },                  
+                  { key: 'description', header: 'Description', type: 'string' },
+                ]}
+                queryKey={["work_order_misc_cost", id]}
+                emptyMessage="No third-party services found"
+              />
             </div>
           </TabsContent>
           
