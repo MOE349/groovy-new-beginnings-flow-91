@@ -229,8 +229,71 @@ const EditWorkOrder = () => {
           {/* Tab Content Panels - Compact */}
           <TabsContent value="completion" className="mt-1">
             <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
-              <h3 className="text-h3 font-medium text-foreground">Completion</h3>
-              <p className="text-caption text-muted-foreground">Completion tracking and details will go here</p>
+              <ApiForm
+                fields={[
+                  {
+                    name: "work_order",
+                    type: "input",
+                    inputType: "text",
+                    required: true,
+                  },
+                  {
+                    name: "completion_notes",
+                    type: "textarea",
+                    label: "Completion Notes",
+                    required: false,
+                    rows: 3,
+                  },
+                  {
+                    name: "problem",
+                    type: "textarea",
+                    label: "Problem",
+                    placeholder: "(briefly outline the problem, if any)",
+                    required: false,
+                    rows: 3,
+                  },
+                  {
+                    name: "root_cause",
+                    type: "textarea",
+                    label: "Root Cause",
+                    placeholder: "(short description of the cause of issue, if any)",
+                    required: false,
+                    rows: 3,
+                  },
+                  {
+                    name: "solution",
+                    type: "textarea",
+                    label: "Solution",
+                    placeholder: "(short description of the solution, if any)",
+                    required: false,
+                    rows: 3,
+                  },
+                  {
+                    name: "admin_notes",
+                    type: "textarea",
+                    label: "Admin Notes",
+                    required: false,
+                    rows: 3,
+                  },
+                ]}
+                onSubmit={async (data) => {
+                  try {
+                    await apiCall('/work_orders/completion', { method: 'POST', body: data });
+                    toast({
+                      title: "Success",
+                      description: "Work order completion recorded successfully!",
+                    });
+                  } catch (error: any) {
+                    toast({
+                      title: "Error",
+                      description: error.message || "Failed to record completion",
+                      variant: "destructive",
+                    });
+                  }
+                }}
+                submitText="Complete Work Order"
+                initialData={{ work_order: id }}
+              />
             </div>
           </TabsContent>
           
