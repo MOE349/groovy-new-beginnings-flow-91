@@ -32,6 +32,26 @@ export const equipmentFormConfig: FormLayoutConfig = {
         { name: "make", label: "Make", type: "input", required: true, inputType: "text" },
         { name: "model", label: "Model", type: "input", required: true, inputType: "text" },
         { name: "serial_number", label: "Serial #", type: "input", required: true, inputType: "text" },
+        {
+          name: "year",
+          label: "Year",
+          type: "dropdown",
+          required: false,
+          options: Array.from({ length: 46 }, (_, i) => {
+            const year = new Date().getFullYear() - i;
+            return { id: year.toString(), name: year.toString() };
+          }),
+        },
+        {
+          name: "weight_class",
+          label: "Weight Class",
+          type: "dropdown",
+          required: false,
+          endpoint: "/assets/equipment_weight_class",
+          queryKey: ["equipment_weight_class"],
+          optionValueKey: "id",
+          optionLabelKey: "name",
+        },
       ]
     },
     {
