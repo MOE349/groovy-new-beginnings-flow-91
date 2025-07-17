@@ -30,6 +30,12 @@ const EditWorkOrder = () => {
     enabled: !!id,
   });
 
+  const { data: completionData, isLoading: isCompletionLoading } = useQuery({
+    queryKey: ["work_order_completion_note", id],
+    queryFn: () => apiCall(`/work-orders/work_order_completion_note?work_order_id=${id}`),
+    enabled: !!id,
+  });
+
   const handleSubmit = async (data: Record<string, any>) => {
     try {
       await apiCall(`/work-orders/work_order/${id}`, { method: 'PUT', body: data });
@@ -311,11 +317,11 @@ const EditWorkOrder = () => {
                     onSubmit={handleCompletionSubmit}
                     initialData={{ 
                       work_order: id,
-                      problem: workOrder?.problem || "",
-                      root_cause: workOrder?.root_cause || "",
-                      solution: workOrder?.solution || "",
-                      completion_notes: workOrder?.completion_notes || "",
-                      admin_notes: workOrder?.admin_notes || "",
+                      problem: completionData?.data?.data?.problem || "",
+                      root_cause: completionData?.data?.data?.root_cause || "",
+                      solution: completionData?.data?.data?.solution || "",
+                      completion_notes: completionData?.data?.data?.completion_notes || "",
+                      admin_notes: completionData?.data?.data?.admin_notes || "",
                     }}
                     customLayout={({ fields, formData, handleFieldChange, renderField }) => (
                       <div className="space-y-6">
