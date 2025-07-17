@@ -182,16 +182,24 @@ const FormLayout = ({
                          return (
                            <div key="make-model-row" className="space-y-2">
                              <div className="flex items-start gap-2 h-10">
-                               <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">{field.label}</label>
-                               <div className="flex items-center gap-2 flex-grow">
-                                 <div className="flex-1">
-                                   {renderField({ ...field, label: "" })}
-                                 </div>
-                                 <label className="text-caption font-normal text-foreground shrink-0 -mt-4">{modelField.label}</label>
-                                 <div className="flex-1">
-                                   {renderField({ ...modelField, label: "" })}
-                                 </div>
-                               </div>
+                                <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">{field.label}</label>
+                                <div className="flex items-center gap-2 flex-grow">
+                                  <div className="flex-1">
+                                    {renderField({ 
+                                      ...field, 
+                                      label: "",
+                                      options: field.options ? field.options.map(opt => ({ value: opt.id, label: opt.name })) : undefined
+                                    })}
+                                  </div>
+                                  <label className="text-caption font-normal text-foreground shrink-0 -mt-4">{modelField.label}</label>
+                                  <div className="flex-1">
+                                    {renderField({ 
+                                      ...modelField, 
+                                      label: "",
+                                      options: modelField.options ? modelField.options.map(opt => ({ value: opt.id, label: opt.name })) : undefined
+                                    })}
+                                  </div>
+                                </div>
                              </div>
                            </div>
                          );
@@ -203,10 +211,14 @@ const FormLayout = ({
                        // Default single field rendering
                        return (
                          <div key={field.name} className="flex items-start gap-2 h-10">
-                           <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">{field.label}</label>
-                           <div className="flex-grow">
-                             {renderField({ ...field, label: "" })}
-                           </div>
+                            <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">{field.label}</label>
+                            <div className="flex-grow">
+                              {renderField({ 
+                                ...field, 
+                                label: "",
+                                options: field.options ? field.options.map(opt => ({ value: opt.id, label: opt.name })) : undefined
+                              })}
+                            </div>
                          </div>
                        );
                      })}
