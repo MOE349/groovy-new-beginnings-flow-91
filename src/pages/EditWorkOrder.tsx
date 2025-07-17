@@ -104,7 +104,14 @@ const EditWorkOrder = () => {
 
   const handleCompletionSubmit = async (data: Record<string, any>) => {
     try {
-      await apiCall('/work-orders/work_order_completion_note', { method: 'POST', body: data });
+      const completionId = completionData?.data?.data?.id;
+      if (completionId) {
+        // Update existing completion note with PATCH
+        await apiCall(`/work-orders/work_order_completion_note/${completionId}`, { method: 'PATCH', body: data });
+      } else {
+        // Create new completion note if none exists
+        await apiCall('/work-orders/work_order_completion_note', { method: 'POST', body: data });
+      }
       toast({
         title: "Success",
         description: "Completion notes saved successfully!",
@@ -122,7 +129,14 @@ const EditWorkOrder = () => {
     // Auto-save on field change
     const dataToSave = { ...allFormData, [name]: value };
     try {
-      await apiCall('/work-orders/work_order_completion_note', { method: 'POST', body: dataToSave });
+      const completionId = completionData?.data?.data?.id;
+      if (completionId) {
+        // Update existing completion note with PATCH
+        await apiCall(`/work-orders/work_order_completion_note/${completionId}`, { method: 'PATCH', body: dataToSave });
+      } else {
+        // Create new completion note if none exists
+        await apiCall('/work-orders/work_order_completion_note', { method: 'POST', body: dataToSave });
+      }
     } catch (error: any) {
       // Silently fail auto-save, user can manually save if needed
       console.error('Auto-save failed:', error);
