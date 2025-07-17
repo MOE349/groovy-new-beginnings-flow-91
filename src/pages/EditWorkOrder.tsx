@@ -32,7 +32,7 @@ const EditWorkOrder = () => {
 
   const { data: completionData, isLoading: isCompletionLoading } = useQuery({
     queryKey: ["work_order_completion_note", id],
-    queryFn: () => apiCall(`/work-orders/work_order_completion_note?work_order_id=${id}`),
+    queryFn: () => apiCall(`/work-orders/work_order_completion_note?work_order=${id}`),
     enabled: !!id,
   });
 
