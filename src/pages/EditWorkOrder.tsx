@@ -105,9 +105,22 @@ const EditWorkOrder = () => {
   const handleCompletionSubmit = async (data: Record<string, any>) => {
     try {
       const completionId = completionData?.data?.data?.id;
+      const initialData = completionData?.data?.data || {};
+      
+      // Only send fields that changed
+      const changedFields = Object.keys(data).reduce((acc: Record<string, any>, key) => {
+        if (data[key] !== initialData[key]) {
+          acc[key] = data[key];
+        }
+        return acc;
+      }, {});
+      
       if (completionId) {
-        // Update existing completion note with PATCH
-        await apiCall(`/work-orders/work_order_completion_note/${completionId}`, { method: 'PATCH', body: data });
+        // Update existing completion note with PATCH and only send changed fields
+        await apiCall(`/work-orders/work_order_completion_note/${completionId}`, { 
+          method: 'PATCH', 
+          body: changedFields 
+        });
       } else {
         // Create new completion note if none exists
         await apiCall('/work-orders/work_order_completion_note', { method: 'POST', body: data });
@@ -126,13 +139,23 @@ const EditWorkOrder = () => {
   };
 
   const handleCompletionFieldChange = async (name: string, value: any, allFormData: Record<string, any>) => {
-    // Auto-save on field change
-    const dataToSave = { ...allFormData, [name]: value };
     try {
       const completionId = completionData?.data?.data?.id;
+      const initialData = completionData?.data?.data || {};
+      
+      // For field change, we only need to send the changed field
+      const dataToSave = { [name]: value };
+      // Include work_order field if creating a new record
+      if (!completionId) {
+        dataToSave.work_order = id;
+      }
+      
       if (completionId) {
-        // Update existing completion note with PATCH
-        await apiCall(`/work-orders/work_order_completion_note/${completionId}`, { method: 'PATCH', body: dataToSave });
+        // Update existing completion note with PATCH and only send changed field
+        await apiCall(`/work-orders/work_order_completion_note/${completionId}`, { 
+          method: 'PATCH', 
+          body: dataToSave 
+        });
       } else {
         // Create new completion note if none exists
         await apiCall('/work-orders/work_order_completion_note', { method: 'POST', body: dataToSave });
