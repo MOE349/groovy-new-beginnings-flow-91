@@ -168,13 +168,13 @@ const Settings = () => {
   const handleWeightClassSubmit = async (data: Record<string, any>) => {
     try {
       setLoading(true);
-      await apiCall("/equipment_weight_class", { method: 'POST', body: data });
+      await apiCall("/assets/equipment_weight_class", { method: 'POST', body: data });
       toast({
         title: "Success",
         description: "Weight class created successfully",
       });
       // Invalidate and refetch the weight class query
-      await queryClient.invalidateQueries({ queryKey: ["/equipment_weight_class"] });
+      await queryClient.invalidateQueries({ queryKey: ["/assets/equipment_weight_class"] });
       setDialogOpen(null);
     } catch (error: any) {
       toast({
@@ -304,7 +304,7 @@ const Settings = () => {
                 
                 <ApiTable
                   title="Weight Classes"
-                  endpoint="/equipment_weight_class"
+                  endpoint="/assets/equipment_weight_class"
                   onCreateNew={() => setDialogOpen('weightClass')}
                   createNewText="New Weight Class"
                   className="h-fit"
