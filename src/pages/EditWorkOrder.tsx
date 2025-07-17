@@ -151,7 +151,7 @@ const EditWorkOrder = () => {
     {
       name: "work_order",
       type: "input",
-      inputType: "text",
+      inputType: "hidden",
       required: true,
     },
     {

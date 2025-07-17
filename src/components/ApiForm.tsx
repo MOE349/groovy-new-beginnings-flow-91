@@ -17,7 +17,7 @@ export interface FormField {
   required?: boolean;
   disabled?: boolean;
   // Input specific
-  inputType?: "text" | "email" | "password" | "number";
+  inputType?: "text" | "email" | "password" | "number" | "hidden";
   // TextArea specific
   rows?: number;
   // Switch specific

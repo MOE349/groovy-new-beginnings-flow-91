@@ -11,7 +11,7 @@ interface ApiInputProps {
   className?: string;
   required?: boolean;
   disabled?: boolean;
-  type?: "text" | "email" | "password" | "number";
+  type?: "text" | "email" | "password" | "number" | "hidden";
 }
 
 const ApiInput = ({
@@ -25,6 +25,19 @@ const ApiInput = ({
   disabled = false,
   type = "text",
 }: ApiInputProps) => {
+  // If type is hidden, render only the hidden input without label or wrapper
+  if (type === "hidden") {
+    return (
+      <Input
+        id={name}
+        name={name}
+        type="hidden"
+        value={value}
+        onChange={(e) => onChange?.(e.target.value)}
+      />
+    );
+  }
+
   return (
     <div className={cn("space-y-2", className)}>
       {label && (
