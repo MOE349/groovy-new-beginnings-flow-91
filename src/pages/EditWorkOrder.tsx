@@ -170,14 +170,14 @@ const EditWorkOrder = () => {
       type: "textarea",
       label: "Completion Notes",
       required: false,
-      rows: 3,
+      rows: 6,
     },
     {
       name: "problem",
       type: "textarea",
       label: "Problem",
       required: false,
-      rows: 3,
+      rows: 6,
       placeholder: "(briefly outline the problem, if any)",
     },
     {
@@ -185,7 +185,7 @@ const EditWorkOrder = () => {
       type: "textarea",
       label: "Root Cause",
       required: false,
-      rows: 3,
+      rows: 6,
       placeholder: "(short description of the cause of issue, if any)",
     },
     {
@@ -193,7 +193,7 @@ const EditWorkOrder = () => {
       type: "textarea",
       label: "Solution",
       required: false,
-      rows: 3,
+      rows: 6,
       placeholder: "(short description of the solution, if any)",
     },
     {
@@ -201,7 +201,7 @@ const EditWorkOrder = () => {
       type: "textarea",
       label: "Admin Notes",
       required: false,
-      rows: 3,
+      rows: 6,
     },
   ];
 
@@ -304,30 +304,37 @@ const EditWorkOrder = () => {
           <TabsContent value="completion" className="mt-1">
             <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
               <h3 className="text-h3 font-medium text-foreground mb-4">Completion</h3>
-              <ApiForm
-                fields={completionFormFields}
-                onSubmit={handleCompletionSubmit}
-                initialData={{ work_order: id }}
-                customLayout={({ fields, formData, handleFieldChange, renderField }) => (
-                  <div className="space-y-4">
-                    {fields.map(field => {
-                      if (field.inputType === "hidden") {
-                        return renderField(field);
-                      }
-                      
-                      // Clone the field render and add onBlur auto-save
-                      const originalField = renderField(field);
-                      return (
-                        <div key={field.name} onBlur={() => {
-                          handleCompletionFieldChange(field.name, formData[field.name], formData);
-                        }}>
-                          {originalField}
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-              />
+              <div className="flex">
+                <div className="w-1/2 pr-8">
+                  <ApiForm
+                    fields={completionFormFields}
+                    onSubmit={handleCompletionSubmit}
+                    initialData={{ work_order: id }}
+                    customLayout={({ fields, formData, handleFieldChange, renderField }) => (
+                      <div className="space-y-6">
+                        {fields.map(field => {
+                          if (field.inputType === "hidden") {
+                            return renderField(field);
+                          }
+                          
+                          // Clone the field render and add onBlur auto-save
+                          const originalField = renderField(field);
+                          return (
+                            <div key={field.name} className="space-y-2" onBlur={() => {
+                              handleCompletionFieldChange(field.name, formData[field.name], formData);
+                            }}>
+                              {originalField}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  />
+                </div>
+                <div className="w-1/2">
+                  {/* Right side empty for now */}
+                </div>
+              </div>
             </div>
           </TabsContent>
           
