@@ -211,25 +211,6 @@ const EditWorkOrder = () => {
     },
   ];
 
-  const readOnlyFields: FormField[] = [
-    {
-      name: "total_hrs_spent",
-      type: "input",
-      label: "Total Hours Spent",
-      inputType: "text",
-      required: false,
-      disabled: true,
-    },
-    {
-      name: "completed_by",
-      type: "input",
-      label: "Completed By",
-      inputType: "text",
-      required: false,
-      disabled: true,
-    },
-  ];
-
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-[400px]">
@@ -341,8 +322,6 @@ const EditWorkOrder = () => {
                       solution: completionData?.data?.data?.solution || "",
                       completion_notes: completionData?.data?.data?.completion_notes || "",
                       admin_notes: completionData?.data?.data?.admin_notes || "",
-                      total_hrs_spent: completionData?.data?.data?.total_hrs_spent || "",
-                      completed_by: completionData?.data?.data?.completed_by || "",
                     }}
                     customLayout={({ fields, formData, handleFieldChange, renderField }) => (
                       <div className="space-y-6">
@@ -365,18 +344,8 @@ const EditWorkOrder = () => {
                     )}
                   />
                 </div>
-                <div className="w-1/2 pl-4">
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-medium">Summary</h3>
-                    <ApiForm
-                      fields={readOnlyFields}
-                      onSubmit={() => {}} // No submit needed for read-only
-                      initialData={{
-                        total_hrs_spent: completionData?.data?.data?.total_hrs_spent || "",
-                        completed_by: completionData?.data?.data?.completed_by || "",
-                      }}
-                    />
-                  </div>
+                <div className="w-1/2">
+                  {/* Right side empty for now */}
                 </div>
               </div>
             </div>
