@@ -7,13 +7,7 @@ interface FinancialsTabContentProps {
 }
 
 const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({ assetId }) => {
-  const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [currentView, setCurrentView] = useState(0);
-
-  const handleFormSuccess = () => {
-    // Trigger a refresh of the financial data display
-    setRefreshTrigger(prev => prev + 1);
-  };
 
   const handleViewChange = (newView: number) => {
     setCurrentView(newView);
@@ -43,8 +37,7 @@ const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({ assetId }) 
               
               <div className="flex-grow space-y-4 overflow-auto">
                 <FinancialReportForm 
-                  assetId={assetId} 
-                  onSuccess={handleFormSuccess}
+                  assetId={assetId}
                   fieldsToShow={['purchase_cost', 'resale_cost', 'finance_years', 'interest_rate', 'expected_hours']}
                   containerType="ownership"
                 />
@@ -61,8 +54,7 @@ const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({ assetId }) 
               
               <div className="flex-grow space-y-4 overflow-auto">
                 <FinancialReportForm 
-                  assetId={assetId} 
-                  onSuccess={handleFormSuccess}
+                  assetId={assetId}
                   fieldsToShow={['capital_work_cost', 'monthly_payment', 'interst_amount', 'capital_cost_per_hr', 'maintnance_cost_per_hr']}
                   containerType="maintenance"
                 />
@@ -79,8 +71,7 @@ const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({ assetId }) 
               
               <div className="flex-grow space-y-4 overflow-auto">
                 <FinancialReportForm 
-                  assetId={assetId} 
-                  onSuccess={handleFormSuccess}
+                  assetId={assetId}
                   fieldsToShow={['operational_cost_per_year', 'yearly_hours', 'operational_cost_per_hr', 'total_cost_per_hr']}
                   containerType="operational"
                 />

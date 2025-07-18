@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ApiForm from '@/components/ApiForm';
 import ApiInput from '@/components/ApiInput';
-import { apiPost, apiPut, apiGet } from '@/utils/apis';
+import { apiPost, apiCall, apiGet } from '@/utils/apis';
 import { useToast } from '@/hooks/use-toast';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
@@ -189,16 +189,28 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
 
   const handleSubmit = async (data: Record<string, any>) => {
     try {
-      // Add the asset ID to the submission data
-      const submissionData = {
-        ...data,
-        asset: assetId
-      };
-
-      // Use PUT for updates if data exists, POST for new records
+      const initialData = existingData || {};
+      
+      // Only send fields that changed
+      const changedFields = Object.keys(data).reduce((acc: Record<string, any>, key) => {
+        if (data[key] !== initialData[key]) {
+          acc[key] = data[key];
+        }
+        return acc;
+      }, {});
+      
       if (existingData) {
-        await apiPut(`/financial-reports/${assetId}`, submissionData);
+        // Update existing record with PATCH and only send changed fields
+        await apiCall(`/financial-reports/${assetId}`, { 
+          method: 'PATCH', 
+          body: changedFields 
+        });
       } else {
+        // Create new record - add assetId to the data
+        const submissionData = {
+          ...data,
+          asset: assetId
+        };
         await apiPost(`/financial-reports/${assetId}`, submissionData);
       }
       
@@ -210,6 +222,11 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
       // Invalidate and refetch the query to refresh the form data
       await queryClient.invalidateQueries({
         queryKey: ['financial-reports', assetId]
+      });
+      
+      // Also invalidate the shared query key for the display component
+      await queryClient.invalidateQueries({
+        queryKey: ['financial-report', assetId]
       });
 
       // Call onSuccess to refresh the right-side data

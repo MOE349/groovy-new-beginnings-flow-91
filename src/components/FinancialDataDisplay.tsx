@@ -4,27 +4,26 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { useFinancialData } from '@/hooks/useFinancialData';
-import { RefreshCw } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useQuery } from '@tanstack/react-query';
+import { apiGet } from '@/utils/apis';
 
 interface FinancialDataDisplayProps {
   assetId: string;
-  refreshTrigger?: number;
 }
 
 const FinancialDataDisplay: React.FC<FinancialDataDisplayProps> = ({
-  assetId,
-  refreshTrigger
+  assetId
 }) => {
-  const { data, loading, error, refreshData } = useFinancialData(assetId);
-
-  // Refresh data when refreshTrigger changes
-  React.useEffect(() => {
-    if (refreshTrigger !== undefined) {
-      refreshData();
-    }
-  }, [refreshTrigger, refreshData]);
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['financial-report', assetId],
+    queryFn: async () => {
+      const response = await apiGet(`/financial-reports/${assetId}`);
+      return response.data?.data || response.data;
+    },
+    enabled: !!assetId,
+    staleTime: 0,
+    retry: false
+  });
 
   const formatCurrency = (value: string | number) => {
     const numValue = typeof value === 'string' ? parseFloat(value) || 0 : value;
@@ -44,21 +43,11 @@ const FinancialDataDisplay: React.FC<FinancialDataDisplayProps> = ({
     return data.table[key]?.toString() || '0';
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <Card className="h-full">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            Financial Data
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={refreshData}
-              disabled={loading}
-            >
-              <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
-            </Button>
-          </CardTitle>
+          <CardTitle>Financial Data</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {Array.from({ length: 8 }).map((_, index) => (
@@ -76,21 +65,12 @@ const FinancialDataDisplay: React.FC<FinancialDataDisplayProps> = ({
     return (
       <Card className="h-full">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            Financial Data
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={refreshData}
-            >
-              <RefreshCw className="h-4 w-4" />
-            </Button>
-          </CardTitle>
+          <CardTitle>Financial Data</CardTitle>
         </CardHeader>
         <CardContent>
           <Alert variant="destructive">
             <AlertDescription>
-              {error}
+              {error instanceof Error ? error.message : 'Failed to load financial data'}
             </AlertDescription>
           </Alert>
         </CardContent>
@@ -101,17 +81,7 @@ const FinancialDataDisplay: React.FC<FinancialDataDisplayProps> = ({
   return (
     <Card className="h-full">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          Financial Data
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={refreshData}
-            disabled={loading}
-          >
-            <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
-          </Button>
-        </CardTitle>
+        <CardTitle>Financial Data</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-1 gap-4">
