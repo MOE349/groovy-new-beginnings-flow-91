@@ -1,11 +1,11 @@
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { useQuery } from '@tanstack/react-query';
-import { apiGet } from '@/utils/apis';
+import { useFinancialDataOptimized } from '@/hooks/useFinancialDataOptimized';
 
 interface FinancialDataDisplayProps {
   assetId: string;
@@ -14,16 +14,7 @@ interface FinancialDataDisplayProps {
 const FinancialDataDisplay: React.FC<FinancialDataDisplayProps> = ({
   assetId
 }) => {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['financial-report', assetId],
-    queryFn: async () => {
-      const response = await apiGet(`/financial-reports/${assetId}`);
-      return response.data?.data || response.data;
-    },
-    enabled: !!assetId,
-    staleTime: 0,
-    retry: false
-  });
+  const { data, isLoading, error } = useFinancialDataOptimized(assetId);
 
   const formatCurrency = (value: string | number) => {
     const numValue = typeof value === 'string' ? parseFloat(value) || 0 : value;
@@ -33,14 +24,9 @@ const FinancialDataDisplay: React.FC<FinancialDataDisplayProps> = ({
     }).format(numValue);
   };
 
-  const formatPercentage = (value: string | number) => {
-    const numValue = typeof value === 'string' ? parseFloat(value) || 0 : value;
-    return `${(numValue * 100).toFixed(2)}%`;
-  };
-
   const getTableValue = (key: string): string => {
-    if (!data?.table) return '0';
-    return data.table[key]?.toString() || '0';
+    if (!data) return '0';
+    return data[key]?.toString() || '0';
   };
 
   if (isLoading) {

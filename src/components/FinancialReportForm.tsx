@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+
+import React from 'react';
 import ApiForm from '@/components/ApiForm';
 import ApiInput from '@/components/ApiInput';
-import { apiPost, apiCall, apiGet } from '@/utils/apis';
+import { apiCall } from '@/utils/apis';
 import { useToast } from '@/hooks/use-toast';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
+import { useFinancialDataOptimized } from '@/hooks/useFinancialDataOptimized';
 
 interface FinancialReportFormProps {
   assetId: string;
@@ -21,32 +23,9 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  // Fetch existing financial data using React Query
-  const { data: existingData, isLoading: loading } = useQuery({
-    queryKey: ['financial-reports', assetId],
-    queryFn: async () => {
-      try {
-        const response = await apiGet(`/financial-reports/${assetId}`);
-        
-        // Add detailed logging to debug data structure
-        console.log('Full API response:', response);
-        console.log('Response data:', response.data);
-        console.log('Response data type:', typeof response.data);
-        
-        // Check if data is nested under response.data.data
-        const actualData = response.data?.data || response.data;
-        console.log('Actual data to use:', actualData);
-        
-        return actualData;
-      } catch (error) {
-        console.error('Failed to fetch existing financial data:', error);
-        // If no data exists, return null for create operation
-        return null;
-      }
-    },
-    retry: false, // Don't retry on failure since it might be a 404 for new records
-    staleTime: 0 // Always refetch when query is invalidated
-  });
+  // Use the optimized hook for shared data
+  const { data: existingData, isLoading: loading } = useFinancialDataOptimized(assetId);
+
   const formTemplate = [
     {
       label: "Asset",
@@ -186,7 +165,6 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
       placeholder: field.editable === false ? '' : `Enter ${field.label.toLowerCase()}`
     }));
 
-
   const handleSubmit = async (data: Record<string, any>) => {
     try {
       const initialData = existingData || {};
@@ -199,19 +177,22 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
         return acc;
       }, {});
       
-      if (existingData) {
+      if (existingData && Object.keys(changedFields).length > 0) {
         // Update existing record with PATCH and only send changed fields
         await apiCall(`/financial-reports/${assetId}`, { 
           method: 'PATCH', 
           body: changedFields 
         });
-      } else {
+      } else if (!existingData) {
         // Create new record - add assetId to the data
         const submissionData = {
           ...data,
           asset: assetId
         };
-        await apiPost(`/financial-reports/${assetId}`, submissionData);
+        await apiCall(`/financial-reports/${assetId}`, {
+          method: 'POST',
+          body: submissionData
+        });
       }
       
       toast({
@@ -219,17 +200,11 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
         description: existingData ? "Financial data updated successfully" : "Financial data saved successfully",
       });
 
-      // Invalidate and refetch the query to refresh the form data
+      // Invalidate the shared query to refresh all components
       await queryClient.invalidateQueries({
-        queryKey: ['financial-reports', assetId]
-      });
-      
-      // Also invalidate the shared query key for the display component
-      await queryClient.invalidateQueries({
-        queryKey: ['financial-report', assetId]
+        queryKey: ['financial-data', assetId]
       });
 
-      // Call onSuccess to refresh the right-side data
       if (onSuccess) {
         onSuccess();
       }
@@ -248,20 +223,10 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
     if (field.value !== undefined) {
       acc[field.name] = field.value;
     } else if (existingData && existingData[field.name] !== undefined) {
-      // Handle values that might have currency symbols or be strings
-      let value = existingData[field.name];
-      if (typeof value === 'string' && value.includes('$')) {
-        // Keep the original string value for display fields
-        acc[field.name] = value;
-      } else {
-        acc[field.name] = value;
-      }
+      acc[field.name] = existingData[field.name];
     }
     return acc;
   }, {} as Record<string, any>);
-
-  console.log('Form initial data:', initialData);
-  console.log('Existing data:', existingData);
 
   return (
     <div className="h-full">
