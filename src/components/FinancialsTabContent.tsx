@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import FinancialReportForm from './FinancialReportForm';
-import { usePrefetchFinancialData } from '@/hooks/useFinancialDataOptimized';
+import { useFinancialDataOptimized } from '@/hooks/useFinancialDataOptimized';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface FinancialsTabContentProps {
   assetId: string;
@@ -10,18 +11,30 @@ interface FinancialsTabContentProps {
 
 const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({ assetId }) => {
   const [currentView, setCurrentView] = useState(0);
-  const prefetchFinancialData = usePrefetchFinancialData();
-
-  // Prefetch financial data when component mounts
-  useEffect(() => {
-    if (assetId) {
-      prefetchFinancialData(assetId);
-    }
-  }, [assetId, prefetchFinancialData]);
+  
+  // Use the optimized hook to get shared financial data
+  const { data: financialData, isLoading } = useFinancialDataOptimized(assetId);
 
   const handleViewChange = (newView: number) => {
     setCurrentView(newView);
   };
+
+  // Show skeleton loading for immediate feedback
+  const renderSkeletonForm = () => (
+    <div className="space-y-3">
+      {Array.from({ length: 5 }).map((_, index) => (
+        <div key={index} className="flex items-center gap-3">
+          <Skeleton className="h-4 w-[120px]" />
+          <div className="flex-1">
+            <Skeleton className="h-10 w-full" />
+          </div>
+        </div>
+      ))}
+      <div className="pt-4">
+        <Skeleton className="h-10 w-full" />
+      </div>
+    </div>
+  );
 
   return (
     <div className="bg-card rounded-sm shadow-xs p-2 h-full min-h-[500px] overflow-hidden">
@@ -46,11 +59,13 @@ const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({ assetId }) 
               </div>
               
               <div className="flex-grow space-y-4 overflow-auto">
-                <FinancialReportForm 
-                  assetId={assetId}
-                  fieldsToShow={['purchase_cost', 'resale_cost', 'finance_years', 'interest_rate', 'expected_hours']}
-                  containerType="ownership"
-                />
+                {isLoading ? renderSkeletonForm() : (
+                  <FinancialReportForm 
+                    assetId={assetId}
+                    fieldsToShow={['purchase_cost', 'resale_cost', 'finance_years', 'interest_rate', 'expected_hours']}
+                    containerType="ownership"
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -63,11 +78,13 @@ const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({ assetId }) 
               </div>
               
               <div className="flex-grow space-y-4 overflow-auto">
-                <FinancialReportForm 
-                  assetId={assetId}
-                  fieldsToShow={['capital_work_cost', 'monthly_payment', 'interst_amount', 'capital_cost_per_hr', 'maintnance_cost_per_hr']}
-                  containerType="maintenance"
-                />
+                {isLoading ? renderSkeletonForm() : (
+                  <FinancialReportForm 
+                    assetId={assetId}
+                    fieldsToShow={['capital_work_cost', 'monthly_payment', 'interst_amount', 'capital_cost_per_hr', 'maintnance_cost_per_hr']}
+                    containerType="maintenance"
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -80,11 +97,13 @@ const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({ assetId }) 
               </div>
               
               <div className="flex-grow space-y-4 overflow-auto">
-                <FinancialReportForm 
-                  assetId={assetId}
-                  fieldsToShow={['operational_cost_per_year', 'yearly_hours', 'operational_cost_per_hr', 'total_cost_per_hr']}
-                  containerType="operational"
-                />
+                {isLoading ? renderSkeletonForm() : (
+                  <FinancialReportForm 
+                    assetId={assetId}
+                    fieldsToShow={['operational_cost_per_year', 'yearly_hours', 'operational_cost_per_hr', 'total_cost_per_hr']}
+                    containerType="operational"
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -113,10 +132,26 @@ const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({ assetId }) 
               </div>
               
               <div className="flex-grow space-y-4 overflow-auto mt-8">
-                <FinancialReportForm 
-                  assetId={assetId}
-                  containerType="all"
-                />
+                {isLoading ? (
+                  <div className="space-y-4">
+                    {Array.from({ length: 12 }).map((_, index) => (
+                      <div key={index} className="flex items-center gap-3">
+                        <Skeleton className="h-4 w-[140px]" />
+                        <div className="flex-1">
+                          <Skeleton className="h-10 w-full" />
+                        </div>
+                      </div>
+                    ))}
+                    <div className="pt-4">
+                      <Skeleton className="h-10 w-full" />
+                    </div>
+                  </div>
+                ) : (
+                  <FinancialReportForm 
+                    assetId={assetId}
+                    containerType="all"
+                  />
+                )}
               </div>
             </div>
           </div>

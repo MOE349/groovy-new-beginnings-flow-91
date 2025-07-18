@@ -15,8 +15,10 @@ export const useFinancialDataOptimized = (assetId: string) => {
       }
     },
     enabled: !!assetId,
-    staleTime: 5 * 60 * 1000, // 5 minutes - financial data doesn't change frequently
-    retry: false
+    staleTime: 2 * 60 * 1000, // 2 minutes - reduced for more responsive updates
+    gcTime: 10 * 60 * 1000, // 10 minutes - keep in cache longer
+    retry: 1, // Only retry once for faster failure feedback
+    refetchOnWindowFocus: false // Prevent unnecessary refetches
   });
 };
 
@@ -34,7 +36,8 @@ export const usePrefetchFinancialData = () => {
           return null;
         }
       },
-      staleTime: 5 * 60 * 1000
+      staleTime: 2 * 60 * 1000,
+      gcTime: 10 * 60 * 1000
     });
   };
 };

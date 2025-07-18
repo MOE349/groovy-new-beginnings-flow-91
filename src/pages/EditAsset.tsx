@@ -24,22 +24,23 @@ import ApiSwitch from "@/components/ApiSwitch";
 import ApiDatePicker from "@/components/ApiDatePicker";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { usePrefetchFinancialData } from "@/hooks/useFinancialDataOptimized";
+
 const EditAsset = () => {
-  const {
-    id
-  } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const prefetchFinancialData = usePrefetchFinancialData();
+  
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isCodeDialogOpen, setIsCodeDialogOpen] = useState(false);
-  const [currentView, setCurrentView] = useState(0); // 0 for View 1, 1 for View 2
+  const [currentView, setCurrentView] = useState(0);
   const [activeTab, setActiveTab] = useState("");
   const [isMeterTriggerActive, setIsMeterTriggerActive] = useState(true);
   const [isTimeTriggerActive, setIsTimeTriggerActive] = useState(true);
   const [isEditMode, setIsEditMode] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
 
-  // Meter Reading Trigger form state - start empty
   const [meterTriggerData, setMeterTriggerData] = useState({
     name: "",
     interval_value: "",
@@ -49,8 +50,6 @@ const EditAsset = () => {
     is_active: true
   });
 
-
-  // Calendar Trigger form state
   const [calendarTriggerData, setCalendarTriggerData] = useState({
     name: "",
     interval_value: 30,
@@ -60,7 +59,6 @@ const EditAsset = () => {
     is_active: true
   });
 
-  // PM Settings query for the table
   const { data: pmSettingsData } = useQuery({
     queryKey: [`/pm-automation/pm-settings?asset=${id}`],
     queryFn: async () => {
@@ -68,26 +66,26 @@ const EditAsset = () => {
       return response.data.data || response.data;
     },
   });
-  const {
-    assetType,
-    assetData,
-    isLoading,
-    isError,
-    error
-  } = useAssetData(id);
-  const {
-    handleSubmit
-  } = useAssetSubmit(id, assetType);
 
-  // Reset to View 1 when switching away from scheduled-maintenance tab
+  const { assetType, assetData, isLoading, isError, error } = useAssetData(id);
+  const { handleSubmit } = useAssetSubmit(id, assetType);
+
+  useEffect(() => {
+    if (id) {
+      prefetchFinancialData(id);
+    }
+  }, [id, prefetchFinancialData]);
+
   useEffect(() => {
     if (activeTab !== "scheduled-maintenance") {
       setCurrentView(0);
     }
   }, [activeTab]);
+
   const handleViewChange = (viewIndex: number) => {
     setCurrentView(viewIndex);
   };
+
   const handleDeleteMeterReading = async (readingId: string) => {
     try {
       await apiCall(`/meter-readings/meter_reading/${readingId}`, {
@@ -111,6 +109,7 @@ const EditAsset = () => {
       });
     }
   };
+
   const handleDeleteCode = async (codeId: string) => {
     try {
       await apiCall(`/fault-codes/codes/${codeId}`, {
@@ -162,11 +161,19 @@ const EditAsset = () => {
       });
     }
   };
+
+  const handleFinancialsTabHover = () => {
+    if (id) {
+      prefetchFinancialData(id);
+    }
+  };
+
   if (isLoading) {
     return <div className="flex justify-center items-center min-h-[400px]">
         <GearSpinner fullscreen />
       </div>;
   }
+
   if (isError) {
     return <div className="space-y-6">
         <Alert variant="destructive">
@@ -177,34 +184,34 @@ const EditAsset = () => {
         </Alert>
       </div>;
   }
+
   if (!assetType || !assetData) {
     return <div className="flex justify-center items-center min-h-[400px]">
         <GearSpinner fullscreen />
       </div>;
   }
+
   const currentFields = assetType === "equipment" ? equipmentFields : attachmentFields;
   const assetTypeName = assetType === "equipment" ? "Equipment" : "Attachment";
 
-  // Transform date strings to Date objects and object values to IDs for dropdowns
   const initialData = {
     ...assetData,
     purchase_date: assetData?.purchase_date ? new Date(assetData.purchase_date) : undefined,
-    // Transform object values to their IDs for dropdown compatibility
     category: assetData?.category?.id || assetData?.category || "",
     location: assetData?.location?.id || assetData?.location || "",
     equipment: assetData?.equipment?.id || assetData?.equipment || ""
   };
+
   const customLayout = (props: any) => <FormLayout {...props} config={assetType === "attachment" ? attachmentFormConfig : equipmentFormConfig} />;
+
   return <div className="h-full overflow-x-auto min-w-0">
       <div className="space-y-4 min-w-[1440px]">
         <div>
           <ApiForm fields={currentFields} onSubmit={handleSubmit} initialData={initialData} customLayout={customLayout} />
         </div>
 
-        {/* Compact Tabs Section */}
         <div>
         <Tabs defaultValue="metering-events" className="h-full" onValueChange={setActiveTab}>
-          {/* Compact Pill-Style Tab List */}
           <div className="h-10 overflow-x-auto">
             <TabsList className="grid w-full grid-cols-8 h-10 bg-card border border-border rounded-md p-0">
               <TabsTrigger value="metering-events" className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary dark:data-[state=active]:text-secondary data-[state=active]:border-b-2 data-[state=active]:border-primary dark:data-[state=active]:border-secondary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none">
@@ -222,11 +229,7 @@ const EditAsset = () => {
               <TabsTrigger 
                 value="financials" 
                 className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary dark:data-[state=active]:text-secondary data-[state=active]:border-b-2 data-[state=active]:border-primary dark:data-[state=active]:border-secondary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
-                onClick={() => {
-                  queryClient.invalidateQueries({
-                    queryKey: ['financial-reports', id]
-                  });
-                }}
+                onMouseEnter={handleFinancialsTabHover}
               >
                 Financials
               </TabsTrigger>
@@ -242,7 +245,6 @@ const EditAsset = () => {
             </TabsList>
           </div>
           
-          {/* Tab Content Panels - Compact */}
           <TabsContent value="parts-bom" className="mt-1">
             <PartsBomTabContent assetId={id || ''} />
           </TabsContent>
@@ -250,9 +252,7 @@ const EditAsset = () => {
           <TabsContent value="metering-events" className="mt-1">
             <div className="bg-card rounded-sm shadow-xs p-4 h-[500px] overflow-auto">
               <div className="grid grid-cols-2 gap-6">
-                {/* Left side - Meter Readings */}
                 <div className="min-w-0">
-                  {/* Button */}
                   <div className="mb-1">
                     <Button variant="default" size="sm" className="flex items-center gap-2 px-3 py-1" onClick={() => setIsDialogOpen(true)}>
                       <Plus className="h-3 w-3" />
@@ -260,7 +260,6 @@ const EditAsset = () => {
                     </Button>
                   </div>
 
-                  {/* Table */}
                   <div className="w-full max-w-full">
                      <ApiTable endpoint={`/meter-readings/meter_reading?asset=${id}`} columns={[{
                        key: 'meter_reading',
@@ -297,9 +296,7 @@ const EditAsset = () => {
                   </div>
                 </div>
 
-                {/* Right side - Codes */}
                 <div className="min-w-0">
-                  {/* Button */}
                   <div className="mb-1">
                     <Button variant="default" size="sm" className="flex items-center gap-2 px-3 py-1" onClick={() => setIsCodeDialogOpen(true)}>
                       <Plus className="h-3 w-3" />
@@ -307,7 +304,6 @@ const EditAsset = () => {
                     </Button>
                   </div>
 
-                  {/* Table */}
                   <div className="w-full max-w-full">
                     <ApiTable endpoint={`/fault-codes/codes?asset=${id}`} columns={[{
                       key: 'code',
@@ -330,7 +326,6 @@ const EditAsset = () => {
                 </div>
               </div>
 
-              {/* Dialog for adding readings */}
               <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogContent className="sm:max-w-md">
                   <DialogHeader>
@@ -395,7 +390,6 @@ const EditAsset = () => {
                 </DialogContent>
               </Dialog>
 
-              {/* Dialog for adding codes */}
               <Dialog open={isCodeDialogOpen} onOpenChange={setIsCodeDialogOpen}>
                 <DialogContent className="sm:max-w-md">
                   <DialogHeader>
@@ -464,23 +458,15 @@ const EditAsset = () => {
           
           <TabsContent value="scheduled-maintenance" className="mt-1">
             <div className="bg-card rounded-sm shadow-xs p-2 h-full min-h-[500px] overflow-hidden">
-              
-              {/* View 1: Three Container Layout */}
               {currentView === 0 && <div className="flex gap-4 h-full relative animate-fade-in">
-                  
-                  {/* Navigation to View 2 */}
                   <button onClick={() => handleViewChange(1)} className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-primary/10 hover:bg-primary/20 border border-primary/30 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110">
                     <ChevronRight className="w-4 h-4 text-primary" />
                   </button>
-                  
-                  {/* Meter Reading Trigger Container */}
                   <div className="w-1/4">
                      <div className="px-4 pt-4 pb-0 h-[474px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
                         <div className="flex items-center justify-center gap-4 mb-2 py-1 -mx-2 mt-0 bg-accent/20 border border-accent/30 rounded-md">
                           <h5 className="text-xs font-medium text-primary dark:text-secondary">Meter Reading Trigger</h5>
                         </div>
-                       
-                        {/* Custom Table with fixed 3 rows */}
                         <div className="mb-4">
                           <div className="overflow-auto h-[120px]">
                             <table className="w-full caption-bottom text-sm">
@@ -492,9 +478,7 @@ const EditAsset = () => {
                                 </tr>
                               </thead>
                                <tbody>
-                                 {/* Generate exactly 3 rows using pmSettingsData */}
                                  {(() => {
-                                   // Ensure exactly 3 rows
                                    const rows = [];
                                    for (let i = 0; i < 3; i++) {
                                      const item = pmSettingsData?.[i];
@@ -519,7 +503,6 @@ const EditAsset = () => {
                                                 setIsEditMode(true);
                                                 setSelectedItemId(item.id);
                                               } else {
-                                                // Empty row clicked - act as "new" button
                                                 setMeterTriggerData({
                                                   name: "",
                                                   interval_value: "",
@@ -551,10 +534,8 @@ const EditAsset = () => {
                             </table>
                           </div>
                         </div>
-                       
                           <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
                             <div className="space-y-1">
-                              {/* Name field */}
                               <div className="flex items-center justify-between">
                                 <span className="text-xs text-muted-foreground">Name</span>
                                 <div className="flex items-center gap-2">
@@ -569,8 +550,6 @@ const EditAsset = () => {
                                   />
                                 </div>
                               </div>
-
-                              {/* Every field */}
                               <div className="flex items-center justify-between">
                                 <span className="text-xs text-muted-foreground">Every</span>
                                 <div className="flex items-center gap-2">
@@ -601,8 +580,6 @@ const EditAsset = () => {
                                   </select>
                                 </div>
                               </div>
-
-                              {/* Starting at field */}
                               <div className="flex items-center justify-between">
                                 <span className="text-xs text-muted-foreground">Starting at</span>
                                 <div className="flex items-center gap-2">
@@ -618,8 +595,6 @@ const EditAsset = () => {
                                   <span className="text-xs text-muted-foreground w-20"></span>
                                 </div>
                               </div>
-
-                              {/* Create WO field */}
                               <div className="flex items-center justify-between">
                                 <span className="text-xs text-muted-foreground">Create WO</span>
                                 <div className="flex items-center gap-2">
@@ -635,8 +610,6 @@ const EditAsset = () => {
                                   <span className="text-xs text-muted-foreground w-20">before trigger</span>
                                 </div>
                               </div>
-
-                              {/* Active toggle */}
                               <div>
                                 <Button 
                                   className={`w-full h-8 text-xs ${meterTriggerData.is_active ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-500 hover:bg-gray-600 text-white'}`} 
@@ -649,8 +622,6 @@ const EditAsset = () => {
                                 </Button>
                               </div>
                             </div>
-                            
-                            {/* Save button - outside the space-y-1 container */}
                             <div className="mt-0.5">
                               <Button 
                                 className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-white" 
@@ -668,7 +639,6 @@ const EditAsset = () => {
                                   };
                                   try {
                                     if (isEditMode && selectedItemId) {
-                                      // Update existing item
                                       await apiCall(`/pm-automation/pm-settings/${selectedItemId}`, {
                                         method: 'PUT',
                                         body: submissionData
@@ -678,7 +648,6 @@ const EditAsset = () => {
                                         description: "PM Trigger settings updated successfully!"
                                       });
                                     } else {
-                                      // Create new item
                                       await apiCall('/pm-automation/pm-settings', {
                                         method: 'POST',
                                         body: submissionData
@@ -688,7 +657,6 @@ const EditAsset = () => {
                                         description: "PM Trigger settings created successfully!"
                                       });
                                     }
-                                    // Reset edit mode and refresh data
                                     setIsEditMode(false);
                                     setSelectedItemId(null);
                                     queryClient.invalidateQueries({
@@ -710,16 +678,13 @@ const EditAsset = () => {
                      </div>
                   </div>
 
-                  {/* Calendar Trigger Container */}
                   <div className="w-1/4">
                      <div className="px-4 pt-4 pb-0 h-[474px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
                        <div className="flex items-center justify-center gap-4 mb-2 py-1 -mx-2 mt-0 bg-accent/20 border border-accent/30 rounded-md">
                          <h5 className="text-xs font-medium text-primary dark:text-secondary">Calendar Trigger</h5>
                        </div>
-                       
                           <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
                             <div className="space-y-1">
-                              {/* Name field */}
                               <div className="flex items-center justify-between">
                                 <span className="text-xs text-muted-foreground">Name</span>
                                 <div className="flex items-center gap-2">
@@ -734,8 +699,6 @@ const EditAsset = () => {
                                   />
                                 </div>
                               </div>
-
-                             {/* Every field */}
                             <div className="flex items-center justify-between">
                               <span className="text-xs text-muted-foreground">Every</span>
                               <div className="flex items-center gap-2">
@@ -754,8 +717,6 @@ const EditAsset = () => {
                                 </select>
                               </div>
                             </div>
-
-                              {/* Starting at field */}
                               <div className="flex items-center justify-between">
                                 <span className="text-xs text-muted-foreground">Starting at</span>
                                    <div className="flex items-center gap-2 pr-0">
@@ -766,8 +727,6 @@ const EditAsset = () => {
                                      <span className="text-xs text-muted-foreground w-20"></span>
                                   </div>
                               </div>
-
-                            {/* Create WO field */}
                             <div className="flex items-center justify-between">
                               <span className="text-xs text-muted-foreground">Create WO</span>
                               <div className="flex items-center gap-2">
@@ -778,8 +737,6 @@ const EditAsset = () => {
                                 <span className="text-xs text-muted-foreground w-20">days in advance</span>
                               </div>
                             </div>
-
-                            {/* Active toggle */}
                             <div>
                               <Button className={`w-full h-8 text-xs ${calendarTriggerData.is_active ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-500 hover:bg-gray-600 text-white'}`} onClick={() => setCalendarTriggerData(prev => ({
                               ...prev,
@@ -789,8 +746,6 @@ const EditAsset = () => {
                               </Button>
                             </div>
                           </div>
-                        
-                        {/* Save button - outside the space-y-1 container */}
                         <div className="mt-0.5">
                           <Button className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-white" onClick={handleSaveCalendarTrigger}>
                             Save
@@ -800,13 +755,11 @@ const EditAsset = () => {
                      </div>
                   </div>
 
-                  {/* Log Container */}
                   <div className="w-1/2">
                     <div className="p-6 h-[474px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
                       <div className="flex items-center justify-center gap-4 mb-6 py-1 -mx-2 -mt-3 bg-accent/20 border border-accent/30 rounded-md">
                         <h4 className="text-sm font-medium text-primary dark:text-secondary">Log</h4>
                       </div>
-                      
                       <div className="flex-grow space-y-4 overflow-auto">
                         <div className="p-4 text-center text-muted-foreground">
                           Schedule configuration content coming soon...
@@ -814,25 +767,17 @@ const EditAsset = () => {
                       </div>
                     </div>
                   </div>
-                  
                 </div>}
 
-              {/* View 2: Single Big Container Layout */}
               {currentView === 1 && <div className="h-full relative animate-fade-in">
-                  
-                  {/* Navigation back to View 1 */}
                   <button onClick={() => handleViewChange(0)} className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-primary/10 hover:bg-primary/20 border border-primary/30 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110">
                     <ChevronLeft className="w-4 h-4 text-primary" />
                   </button>
-
-                  {/* Single Big Container */}
                   <div className="h-full">
                     <div className="p-8 h-[474px] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
-                      
                       <div className="absolute top-1 left-8 right-8 flex items-center justify-center gap-4 py-1 bg-accent/20 border border-accent/30 rounded-md z-10">
                         <h4 className="text-sm font-medium text-primary dark:text-secondary">PM Checklist/Parts</h4>
                       </div>
-                      
                       <div className="flex-grow space-y-4 overflow-auto mt-8">
                         <div className="p-4 text-center text-muted-foreground">
                           All scheduled maintenance content coming soon...
@@ -840,14 +785,12 @@ const EditAsset = () => {
                       </div>
                     </div>
                   </div>
-                  
                 </div>}
-              
             </div>
           </TabsContent>
           
           <TabsContent value="financials" className="mt-1">
-            <FinancialsTabContent assetId={id} />
+            <FinancialsTabContent assetId={id || ''} />
           </TabsContent>
           
           <TabsContent value="files" className="mt-1">
@@ -886,4 +829,5 @@ const EditAsset = () => {
       </div>
     </div>;
 };
+
 export default EditAsset;
