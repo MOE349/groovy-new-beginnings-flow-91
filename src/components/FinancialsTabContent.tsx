@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import FinancialReportForm from './FinancialReportForm';
 import { useFinancialDataOptimized } from '@/hooks/useFinancialDataOptimized';
 import { Skeleton } from '@/components/ui/skeleton';
+import { ScrollArea } from './ui/scroll-area';
 
 interface FinancialsTabContentProps {
   assetId: string;
@@ -58,15 +59,17 @@ const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({ assetId }) 
                 <h4 className="text-sm font-medium text-primary dark:text-secondary">Ownership Cost</h4>
               </div>
               
-              <div className="flex-grow space-y-4 overflow-auto">
-                {isLoading ? renderSkeletonForm() : (
-                  <FinancialReportForm 
-                    assetId={assetId}
-                    fieldsToShow={['purchase_cost', 'resale_cost', 'finance_years', 'interest_rate', 'expected_hours']}
-                    containerType="ownership"
-                  />
-                )}
-              </div>
+              <ScrollArea className="flex-grow">
+                <div className="pr-4">
+                  {isLoading ? renderSkeletonForm() : (
+                    <FinancialReportForm 
+                      assetId={assetId}
+                      fieldsToShow={['purchase_cost', 'resale_cost', 'finance_years', 'interest_rate', 'expected_hours']}
+                      containerType="ownership"
+                    />
+                  )}
+                </div>
+              </ScrollArea>
             </div>
           </div>
 
@@ -77,15 +80,17 @@ const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({ assetId }) 
                 <h4 className="text-sm font-medium text-primary dark:text-secondary">Maintenance Cost</h4>
               </div>
               
-              <div className="flex-grow space-y-4 overflow-auto">
-                {isLoading ? renderSkeletonForm() : (
-                  <FinancialReportForm 
-                    assetId={assetId}
-                    fieldsToShow={['capital_work_cost', 'monthly_payment', 'interst_amount', 'capital_cost_per_hr', 'maintnance_cost_per_hr']}
-                    containerType="maintenance"
-                  />
-                )}
-              </div>
+              <ScrollArea className="flex-grow">
+                <div className="pr-4">
+                  {isLoading ? renderSkeletonForm() : (
+                    <FinancialReportForm 
+                      assetId={assetId}
+                      fieldsToShow={['capital_work_cost', 'monthly_payment', 'interst_amount', 'capital_cost_per_hr', 'maintnance_cost_per_hr']}
+                      containerType="maintenance"
+                    />
+                  )}
+                </div>
+              </ScrollArea>
             </div>
           </div>
 
@@ -96,15 +101,17 @@ const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({ assetId }) 
                 <h4 className="text-sm font-medium text-primary dark:text-secondary">Operational Cost</h4>
               </div>
               
-              <div className="flex-grow space-y-4 overflow-auto">
-                {isLoading ? renderSkeletonForm() : (
-                  <FinancialReportForm 
-                    assetId={assetId}
-                    fieldsToShow={['operational_cost_per_year', 'yearly_hours', 'operational_cost_per_hr', 'total_cost_per_hr']}
-                    containerType="operational"
-                  />
-                )}
-              </div>
+              <ScrollArea className="flex-grow">
+                <div className="pr-4">
+                  {isLoading ? renderSkeletonForm() : (
+                    <FinancialReportForm 
+                      assetId={assetId}
+                      fieldsToShow={['operational_cost_per_year', 'yearly_hours', 'operational_cost_per_hr', 'total_cost_per_hr']}
+                      containerType="operational"
+                    />
+                  )}
+                </div>
+              </ScrollArea>
             </div>
           </div>
           
@@ -131,28 +138,30 @@ const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({ assetId }) 
                 <h4 className="text-sm font-medium text-primary dark:text-secondary">All Financial Data</h4>
               </div>
               
-              <div className="flex-grow space-y-4 overflow-auto mt-8">
-                {isLoading ? (
-                  <div className="space-y-4">
-                    {Array.from({ length: 12 }).map((_, index) => (
-                      <div key={index} className="flex items-center gap-3">
-                        <Skeleton className="h-4 w-[140px]" />
-                        <div className="flex-1">
-                          <Skeleton className="h-10 w-full" />
+              <ScrollArea className="flex-grow mt-8">
+                <div className="pr-4">
+                  {isLoading ? (
+                    <div className="space-y-4">
+                      {Array.from({ length: 12 }).map((_, index) => (
+                        <div key={index} className="flex items-center gap-3">
+                          <Skeleton className="h-4 w-[140px]" />
+                          <div className="flex-1">
+                            <Skeleton className="h-10 w-full" />
+                          </div>
                         </div>
+                      ))}
+                      <div className="pt-4">
+                        <Skeleton className="h-10 w-full" />
                       </div>
-                    ))}
-                    <div className="pt-4">
-                      <Skeleton className="h-10 w-full" />
                     </div>
-                  </div>
-                ) : (
-                  <FinancialReportForm 
-                    assetId={assetId}
-                    containerType="all"
-                  />
-                )}
-              </div>
+                  ) : (
+                    <FinancialReportForm 
+                      assetId={assetId}
+                      containerType="all"
+                    />
+                  )}
+                </div>
+              </ScrollArea>
             </div>
           </div>
           

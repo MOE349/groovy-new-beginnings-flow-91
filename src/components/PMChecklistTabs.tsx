@@ -1,6 +1,8 @@
+
 import React, { useState } from 'react';
 import { ChevronLeft, Plus, X } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from './ui/tabs';
+import { ScrollArea } from './ui/scroll-area';
 
 interface PMChecklistTabsProps {
   assetId: string;
@@ -131,57 +133,59 @@ const PMChecklistTabs: React.FC<PMChecklistTabsProps> = ({ assetId, onNavigateBa
         <div className="flex-1 overflow-hidden">
           {tabs.map((tab) => (
             <TabsContent key={tab.id} value={tab.id} className="h-full p-4 m-0">
-              <div className="grid grid-cols-2 gap-6 h-full">
-                
-                {/* Checklist Section */}
-                <div className="border border-border/20 rounded-lg p-4 bg-card">
-                  <h5 className="text-sm font-medium text-foreground mb-4 border-b border-border/20 pb-2">
-                    Checklist
-                  </h5>
-                  <div className="space-y-3 text-sm">
-                    <div className="flex items-center gap-2">
-                      <input type="checkbox" className="w-4 h-4" />
-                      <span>Check oil level</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <input type="checkbox" className="w-4 h-4" />
-                      <span>Inspect belts</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <input type="checkbox" className="w-4 h-4" />
-                      <span>Check filters</span>
-                    </div>
-                    <div className="text-xs text-muted-foreground pt-2">
-                      {tab.name} maintenance items...
-                    </div>
-                  </div>
-                </div>
-
-                {/* Parts Section */}
-                <div className="border border-border/20 rounded-lg p-4 bg-card">
-                  <h5 className="text-sm font-medium text-foreground mb-4 border-b border-border/20 pb-2">
-                    Parts
-                  </h5>
-                  <div className="space-y-3 text-sm">
-                    <div className="flex justify-between">
-                      <span>Oil Filter</span>
-                      <span className="text-xs text-muted-foreground">Qty: 1</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Air Filter</span>
-                      <span className="text-xs text-muted-foreground">Qty: 1</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Hydraulic Oil</span>
-                      <span className="text-xs text-muted-foreground">Qty: 5L</span>
-                    </div>
-                    <div className="text-xs text-muted-foreground pt-2">
-                      {tab.name} required parts...
+              <ScrollArea className="h-full">
+                <div className="grid grid-cols-2 gap-6 pr-4">
+                  
+                  {/* Checklist Section */}
+                  <div className="border border-border/20 rounded-lg p-4 bg-card">
+                    <h5 className="text-sm font-medium text-foreground mb-4 border-b border-border/20 pb-2">
+                      Checklist
+                    </h5>
+                    <div className="space-y-3 text-sm">
+                      <div className="flex items-center gap-2">
+                        <input type="checkbox" className="w-4 h-4" />
+                        <span>Check oil level</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <input type="checkbox" className="w-4 h-4" />
+                        <span>Inspect belts</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <input type="checkbox" className="w-4 h-4" />
+                        <span>Check filters</span>
+                      </div>
+                      <div className="text-xs text-muted-foreground pt-2">
+                        {tab.name} maintenance items...
+                      </div>
                     </div>
                   </div>
-                </div>
 
-              </div>
+                  {/* Parts Section */}
+                  <div className="border border-border/20 rounded-lg p-4 bg-card">
+                    <h5 className="text-sm font-medium text-foreground mb-4 border-b border-border/20 pb-2">
+                      Parts
+                    </h5>
+                    <div className="space-y-3 text-sm">
+                      <div className="flex justify-between">
+                        <span>Oil Filter</span>
+                        <span className="text-xs text-muted-foreground">Qty: 1</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Air Filter</span>
+                        <span className="text-xs text-muted-foreground">Qty: 1</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Hydraulic Oil</span>
+                        <span className="text-xs text-muted-foreground">Qty: 5L</span>
+                      </div>
+                      <div className="text-xs text-muted-foreground pt-2">
+                        {tab.name} required parts...
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </ScrollArea>
             </TabsContent>
           ))}
         </div>
