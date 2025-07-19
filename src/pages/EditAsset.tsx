@@ -250,7 +250,7 @@ const EditAsset = () => {
           </TabsContent>
           
           <TabsContent value="metering-events" className="mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4">
+            <div className="bg-card rounded-sm shadow-xs p-4 h-[calc(100vh-10rem)] overflow-auto">
               <div className="grid grid-cols-2 gap-6">
                 <div className="min-w-0">
                   <div className="mb-3">
