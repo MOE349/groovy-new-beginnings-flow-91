@@ -83,13 +83,10 @@ export function Layout({ children }: LayoutProps) {
           </header>
           
           <main className="flex-1 overflow-hidden min-w-0">
-            <div className="h-[calc(100vh-4rem)] overflow-x-auto overflow-y-auto p-1">
+            <div className="h-[calc(100vh-2rem)] overflow-x-auto overflow-y-auto p-1">
               {children}
             </div>
           </main>
-          
-          <footer className="h-8 flex items-center justify-between border-t bg-primary text-primary-foreground px-4">
-          </footer>
         </div>
       </div>
     </SidebarProvider>
