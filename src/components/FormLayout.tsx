@@ -68,19 +68,21 @@ const FormLayout = ({
             <ArrowLeft className="h-4 w-4" />
             Back
           </Button>
-          <h3 className="text-h3 font-medium text-primary dark:text-secondary">
-            {config.title}
-            {config.title.includes("Work Order") && formData?.code && (
-              <span className="ml-4 text-muted-foreground">Code: {formData.code}</span>
+          <div className="flex items-center gap-4">
+            <h3 className="text-h3 font-medium text-primary dark:text-secondary">
+              {config.title}
+              {config.title.includes("Work Order") && formData?.code && (
+                <span className="ml-4 text-muted-foreground">Code: {formData.code}</span>
+              )}
+            </h3>
+            {!config.title.includes("Work Order") && (formData?.code || formData?.name) && (
+              <span className="text-h3 font-medium text-muted-foreground">
+                {formData?.code && `(${formData.code})`} {formData?.name}
+              </span>
             )}
-          </h3>
+          </div>
         </div>
         <div className="flex items-center gap-4">
-          {!config.title.includes("Work Order") && (formData?.code || formData?.name) && (
-            <span className="text-h3 font-medium text-muted-foreground">
-              {formData?.code && `(${formData.code})`} {formData?.name}
-            </span>
-          )}
           <Button 
             onClick={handleSubmit} 
             disabled={loading} 
