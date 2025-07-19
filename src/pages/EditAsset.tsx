@@ -250,78 +250,88 @@ const EditAsset = () => {
           </TabsContent>
           
           <TabsContent value="metering-events" className="mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4 h-[500px] overflow-auto">
-              <div className="grid grid-cols-2 gap-6">
-                <div className="min-w-0">
-                  <div className="mb-1">
+            <div className="bg-card rounded-sm shadow-xs p-4">
+              <div className="grid grid-cols-2 gap-6 h-[500px]">
+                <div className="min-w-0 flex flex-col">
+                  <div className="mb-1 flex-shrink-0">
                     <Button variant="default" size="sm" className="flex items-center gap-2 px-3 py-1" onClick={() => setIsDialogOpen(true)}>
                       <Plus className="h-3 w-3" />
                       Update Reading
                     </Button>
                   </div>
 
-                  <div className="w-full max-w-full">
-                     <ApiTable endpoint={`/meter-readings/meter_reading?asset=${id}`} columns={[{
-                       key: 'meter_reading',
-                       header: 'Meter Reading'
-                     }, {
-                       key: 'created_at',
-                       header: 'Creation Date',
-                       render: (value: any) => value ? new Date(value).toLocaleDateString() : '-'
-                     }, {
-                       key: 'created_by',
-                       header: 'Created By',
-                       render: (value: any) => {
-                         if (typeof value === 'object' && value) {
-                           return value.name || value.email || value.id || '-';
+                  <div className="w-full max-w-full flex-1 min-h-0">
+                     <ApiTable 
+                       endpoint={`/meter-readings/meter_reading?asset=${id}`} 
+                       columns={[{
+                         key: 'meter_reading',
+                         header: 'Meter Reading'
+                       }, {
+                         key: 'created_at',
+                         header: 'Creation Date',
+                         render: (value: any) => value ? new Date(value).toLocaleDateString() : '-'
+                       }, {
+                         key: 'created_by',
+                         header: 'Created By',
+                         render: (value: any) => {
+                           if (typeof value === 'object' && value) {
+                             return value.name || value.email || value.id || '-';
+                           }
+                           return value || '-';
                          }
-                         return value || '-';
-                       }
-                     }, {
-                       key: 'actions',
-                       header: '',
-                       render: (value: any, row: any) => (
-                         <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex justify-end">
-                           <Button
-                             variant="ghost"
-                             size="sm"
-                             className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
-                             onClick={() => handleDeleteMeterReading(row.id)}
-                           >
-                             <Trash2 className="h-4 w-4" />
-                           </Button>
-                         </div>
-                       )
-                     }]} tableId={`meter-readings-${id}`} />
+                       }, {
+                         key: 'actions',
+                         header: '',
+                         render: (value: any, row: any) => (
+                           <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex justify-end">
+                             <Button
+                               variant="ghost"
+                               size="sm"
+                               className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
+                               onClick={() => handleDeleteMeterReading(row.id)}
+                             >
+                               <Trash2 className="h-4 w-4" />
+                             </Button>
+                           </div>
+                         )
+                       }]} 
+                       tableId={`meter-readings-${id}`}
+                       height="100%"
+                     />
                   </div>
                 </div>
 
-                <div className="min-w-0">
-                  <div className="mb-1">
+                <div className="min-w-0 flex flex-col">
+                  <div className="mb-1 flex-shrink-0">
                     <Button variant="default" size="sm" className="flex items-center gap-2 px-3 py-1" onClick={() => setIsCodeDialogOpen(true)}>
                       <Plus className="h-3 w-3" />
                       Update Code
                     </Button>
                   </div>
 
-                  <div className="w-full max-w-full">
-                    <ApiTable endpoint={`/fault-codes/codes?asset=${id}`} columns={[{
-                      key: 'code',
-                      header: 'Code'
-                    }, {
-                      key: 'created_at',
-                      header: 'Creation Date',
-                      render: (value: any) => value ? new Date(value).toLocaleDateString() : '-'
-                    }, {
-                      key: 'created_by',
-                      header: 'Created By',
-                      render: (value: any) => {
-                        if (typeof value === 'object' && value) {
-                          return value.name || value.email || value.id || '-';
+                  <div className="w-full max-w-full flex-1 min-h-0">
+                    <ApiTable 
+                      endpoint={`/fault-codes/codes?asset=${id}`} 
+                      columns={[{
+                        key: 'code',
+                        header: 'Code'
+                      }, {
+                        key: 'created_at',
+                        header: 'Creation Date',
+                        render: (value: any) => value ? new Date(value).toLocaleDateString() : '-'
+                      }, {
+                        key: 'created_by',
+                        header: 'Created By',
+                        render: (value: any) => {
+                          if (typeof value === 'object' && value) {
+                            return value.name || value.email || value.id || '-';
+                          }
+                          return value || '-';
                         }
-                        return value || '-';
-                      }
-                    }]} tableId={`codes-${id}`} />
+                      }]} 
+                      tableId={`codes-${id}`}
+                      height="100%"
+                    />
                   </div>
                 </div>
               </div>
