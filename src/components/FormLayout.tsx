@@ -58,7 +58,7 @@ const FormLayout = ({
   return (
     <div className="space-y-0">
       {/* Top Bar */}
-      <div className="h-10 flex items-center justify-between px-4 py-1 bg-secondary border-b-2 border-primary">
+      <div className="h-10 flex items-center justify-between px-4 py-1 bg-secondary border-b-2 border-primary -mt-1">
         <div className="flex items-center gap-4">
           <Button 
             variant="ghost" 
