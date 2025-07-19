@@ -216,7 +216,11 @@ const FormLayout = ({
                          // Default single field rendering
                          return (
                            <div key={field.name} className="flex items-start gap-2 h-8">
-                              <label className={`text-caption font-normal w-16 text-foreground shrink-0 ${field.name === 'weight_class' ? 'pt-0.5 text-right' : field.name === 'description' ? 'pt-2 text-left' : 'pt-2 text-right'}`}>{field.label}</label>
+                              <label className={`text-caption font-normal text-foreground shrink-0 ${
+                                field.name === 'weight_class' ? 'pt-0.5 text-right w-16' : 
+                                field.name === 'description' ? 'pt-2 text-left w-20' : 
+                                'pt-2 text-right w-16'
+                              }`}>{field.label}</label>
                               <div className="flex-grow">
                                 {renderField({ 
                                   ...field, 
