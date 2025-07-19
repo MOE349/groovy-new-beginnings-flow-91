@@ -165,7 +165,7 @@ const FormLayout = ({
             
             {/* Right Section - Form fields in columns */}
             <div className="flex-1 max-w-full">
-            <div className={`grid gap-x-6 gap-y-3 ${
+            <div className={`grid gap-x-4 gap-y-3 ${
                 config.columns.length === 1 
                   ? 'grid-cols-1' 
                   : config.columns.length === 2 && config.title.includes("Work Order")
