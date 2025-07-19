@@ -805,7 +805,7 @@ const EditAsset = () => {
           </TabsContent>
           
           <TabsContent value="files" className="mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4 h-[calc(100vh-180px)] overflow-auto">
+            <div className="bg-card rounded-sm shadow-xs p-4 h-[calc(100vh-10rem)] overflow-auto">
               <div className="p-4 text-center text-muted-foreground">
                 Files content coming soon...
               </div>
