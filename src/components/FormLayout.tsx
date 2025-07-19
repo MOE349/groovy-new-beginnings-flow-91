@@ -58,7 +58,7 @@ const FormLayout = ({
   return (
     <div className="space-y-0">
       {/* Top Bar */}
-      <div className="h-10 flex items-center justify-between px-4 py-1 bg-secondary border-b border-border">
+      <div className="h-10 flex items-center justify-between px-4 py-1 pb-4 bg-secondary border-b border-border">
         <div className="flex items-center gap-4">
           <Button 
             variant="ghost" 
@@ -95,7 +95,7 @@ const FormLayout = ({
       </div>
       
       {/* Form Information Card */}
-      <div className="bg-card rounded-md shadow-sm px-2 py-1 mt-16">
+      <div className="bg-card rounded-md shadow-sm px-2 py-1 mt-24">
         <form onSubmit={handleSubmit} className="h-full">
           
           {/* Layout */}
