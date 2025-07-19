@@ -19,7 +19,7 @@ export const equipmentFields: FormField[] = [
     name: "description",
     type: "textarea",
     label: "Description",
-    rows: 3,
+    rows: 1,
     required: false,
   },
   {
