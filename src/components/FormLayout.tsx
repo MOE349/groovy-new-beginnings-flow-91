@@ -97,7 +97,7 @@ const FormLayout = ({
       </div>
       
       {/* Form Information Card */}
-      <div className="bg-card rounded-md shadow-sm px-2 py-1 mt-4">
+      <div className="bg-card rounded-md shadow-sm px-2 py-1 mt-3">
         <form onSubmit={handleSubmit} className="h-full">
           
           {/* Layout */}
