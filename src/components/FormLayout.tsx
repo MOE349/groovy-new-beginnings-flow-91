@@ -102,11 +102,11 @@ const FormLayout = ({
           <div className="flex gap-8 items-center -mt-2 pb-1">
             {/* Left Section - Image, toggle, location */}
             {(config.showImage || config.showOnlineToggle || config.showSpecialSections?.location || config.showSpecialSections?.equipment) && (
-              <div className="flex flex-col space-y-1 w-48 pl-4">
+              <div className="flex flex-col space-y-1 w-52 pl-4">
                 {config.showOnlineToggle && (
                   <div className="flex items-center space-x-0">
                     <div 
-                      className={`flex items-center cursor-pointer transition-all duration-300 rounded border w-36 h-6 ${
+                      className={`flex items-center cursor-pointer transition-all duration-300 rounded border w-40 h-7 ${
                         formData?.is_online 
                           ? 'bg-green-500 border-green-600' 
                           : 'bg-red-500 border-red-600'
@@ -131,7 +131,7 @@ const FormLayout = ({
                   </div>
                 )}
                 {config.showImage && (
-                  <div className="w-36 h-24 bg-muted rounded border-2 border-border overflow-hidden">
+                  <div className="w-40 h-28 bg-muted rounded border-2 border-border overflow-hidden">
                     <img 
                       src="/lovable-uploads/cf9d21df-6820-4bea-ae16-54c41a67117e.png" 
                       alt={config.title} 
@@ -140,7 +140,7 @@ const FormLayout = ({
                   </div>
                 )}
                 {config.showSpecialSections?.location && (
-                  <div className="space-y-1 w-36">
+                  <div className="space-y-1 w-40">
                     <label className="block text-xs font-normal text-foreground text-center">Location</label>
                     {config.title.includes("Work Order") ? (
                        <div className="w-full p-1.5 bg-muted rounded border text-xs text-foreground text-center">
