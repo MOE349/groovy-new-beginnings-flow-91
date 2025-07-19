@@ -211,8 +211,8 @@ const EditAsset = () => {
         </div>
 
         <div>
-        <Tabs defaultValue="metering-events" className="flex flex-col h-full" onValueChange={setActiveTab}>
-          <div className="h-10 overflow-x-auto flex-shrink-0">
+        <Tabs defaultValue="metering-events" className="h-full" onValueChange={setActiveTab}>
+          <div className="h-10 overflow-x-auto">
             <TabsList className="grid w-full grid-cols-8 h-10 bg-card border border-border rounded-md p-0">
               <TabsTrigger value="metering-events" className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary dark:data-[state=active]:text-secondary data-[state=active]:border-b-2 data-[state=active]:border-primary dark:data-[state=active]:border-secondary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none">
                 Metering/Events
@@ -249,9 +249,9 @@ const EditAsset = () => {
             <PartsBomTabContent assetId={id || ''} />
           </TabsContent>
           
-          <TabsContent value="metering-events" className="mt-1 flex-1 flex flex-col">
-            <div className="bg-card rounded-sm shadow-xs p-4 flex-1 flex flex-col">
-              <div className="grid grid-cols-2 gap-6 flex-1">
+          <TabsContent value="metering-events" className="mt-1">
+            <div className="bg-card rounded-sm shadow-xs p-4 h-[500px] overflow-auto">
+              <div className="grid grid-cols-2 gap-6">
                 <div className="min-w-0">
                   <div className="mb-1">
                     <Button variant="default" size="sm" className="flex items-center gap-2 px-3 py-1" onClick={() => setIsDialogOpen(true)}>
@@ -260,60 +260,10 @@ const EditAsset = () => {
                     </Button>
                   </div>
 
-                  <div className="w-full max-w-full flex-1 flex flex-col">
-                     <ApiTable 
-                       endpoint={`/meter-readings/meter_reading?asset=${id}`} 
-                       className="flex-1"
-                       columns={[{
-                        key: 'meter_reading',
-                        header: 'Meter Reading'
-                      }, {
-                        key: 'created_at',
-                        header: 'Creation Date',
-                        render: (value: any) => value ? new Date(value).toLocaleDateString() : '-'
-                      }, {
-                        key: 'created_by',
-                        header: 'Created By',
-                        render: (value: any) => {
-                          if (typeof value === 'object' && value) {
-                            return value.name || value.email || value.id || '-';
-                          }
-                          return value || '-';
-                        }
-                      }, {
-                        key: 'actions',
-                        header: '',
-                        render: (value: any, row: any) => (
-                          <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex justify-end">
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
-                              onClick={() => handleDeleteMeterReading(row.id)}
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        )
-                      }]} tableId={`meter-readings-${id}`} />
-                  </div>
-                </div>
-
-                <div className="min-w-0">
-                  <div className="mb-1">
-                    <Button variant="default" size="sm" className="flex items-center gap-2 px-3 py-1" onClick={() => setIsCodeDialogOpen(true)}>
-                      <Plus className="h-3 w-3" />
-                      Update Code
-                    </Button>
-                  </div>
-
-                  <div className="w-full max-w-full flex-1 flex flex-col">
-                    <ApiTable 
-                      endpoint={`/fault-codes/codes?asset=${id}`} 
-                      className="flex-1"
-                      columns={[{
-                       key: 'code',
-                       header: 'Code'
+                  <div className="w-full max-w-full">
+                     <ApiTable endpoint={`/meter-readings/meter_reading?asset=${id}`} columns={[{
+                       key: 'meter_reading',
+                       header: 'Meter Reading'
                      }, {
                        key: 'created_at',
                        header: 'Creation Date',
@@ -327,7 +277,51 @@ const EditAsset = () => {
                          }
                          return value || '-';
                        }
-                     }]} tableId={`codes-${id}`} />
+                     }, {
+                       key: 'actions',
+                       header: '',
+                       render: (value: any, row: any) => (
+                         <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex justify-end">
+                           <Button
+                             variant="ghost"
+                             size="sm"
+                             className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
+                             onClick={() => handleDeleteMeterReading(row.id)}
+                           >
+                             <Trash2 className="h-4 w-4" />
+                           </Button>
+                         </div>
+                       )
+                     }]} tableId={`meter-readings-${id}`} />
+                  </div>
+                </div>
+
+                <div className="min-w-0">
+                  <div className="mb-1">
+                    <Button variant="default" size="sm" className="flex items-center gap-2 px-3 py-1" onClick={() => setIsCodeDialogOpen(true)}>
+                      <Plus className="h-3 w-3" />
+                      Update Code
+                    </Button>
+                  </div>
+
+                  <div className="w-full max-w-full">
+                    <ApiTable endpoint={`/fault-codes/codes?asset=${id}`} columns={[{
+                      key: 'code',
+                      header: 'Code'
+                    }, {
+                      key: 'created_at',
+                      header: 'Creation Date',
+                      render: (value: any) => value ? new Date(value).toLocaleDateString() : '-'
+                    }, {
+                      key: 'created_by',
+                      header: 'Created By',
+                      render: (value: any) => {
+                        if (typeof value === 'object' && value) {
+                          return value.name || value.email || value.id || '-';
+                        }
+                        return value || '-';
+                      }
+                    }]} tableId={`codes-${id}`} />
                   </div>
                 </div>
               </div>
@@ -463,7 +457,7 @@ const EditAsset = () => {
           </TabsContent>
           
           <TabsContent value="scheduled-maintenance" className="mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4 flex-1 flex flex-col">
+            <div className="bg-card rounded-sm shadow-xs p-2 h-full min-h-[500px] overflow-hidden">
               {currentView === 0 && <div className="flex gap-4 h-full relative animate-fade-in">
                   <button onClick={() => handleViewChange(1)} className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-primary/10 hover:bg-primary/20 border border-primary/30 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110">
                     <ChevronRight className="w-4 h-4 text-primary" />
