@@ -778,11 +778,12 @@ const EditAsset = () => {
                       <div className="absolute top-1 left-8 right-8 flex items-center justify-center gap-4 py-1 bg-accent/20 border border-accent/30 rounded-md z-10">
                         <h4 className="text-sm font-medium text-primary dark:text-secondary">PM Checklist/Parts</h4>
                       </div>
-                      <div className="flex-grow space-y-4 overflow-auto mt-8">
-                        <div className="p-4 text-center text-muted-foreground">
-                          All scheduled maintenance content coming soon...
-                        </div>
-                      </div>
+                       <div className="flex-grow overflow-auto mt-8">
+                         <PMChecklistTabs 
+                           assetId={id || ''} 
+                           onNavigateBack={() => handleViewChange(0)}
+                         />
+                       </div>
                     </div>
                   </div>
                 </div>}
