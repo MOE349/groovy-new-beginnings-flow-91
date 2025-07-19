@@ -44,9 +44,8 @@ const ApiDatePicker = ({
             id={name}
             variant="outline"
             className={cn(
-              "w-full justify-start text-left font-normal h-9",
-              !value && "text-muted-foreground",
-              value ? "bg-blue-50/70" : ""
+              "w-full justify-start text-left font-normal",
+              !value && "text-muted-foreground"
             )}
             disabled={disabled}
           >
