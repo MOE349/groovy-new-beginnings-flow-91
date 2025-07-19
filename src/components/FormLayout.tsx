@@ -181,7 +181,7 @@ const FormLayout = ({
                          const modelField = column.fields[fieldIndex + 1];
                          return (
                            <div key="make-model-row" className="space-y-2">
-                             <div className="flex items-start gap-2 min-h-10">
+                             <div className="flex items-start gap-2 h-10">
                                 <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">{field.label}</label>
                                 <div className="flex items-center gap-2 flex-grow">
                                   <div className="flex-1">
@@ -214,7 +214,7 @@ const FormLayout = ({
                         }
                         // Default single field rendering
                         return (
-                          <div key={field.name} className="flex items-start gap-2 min-h-10">
+                          <div key={field.name} className="flex items-start gap-2 h-10">
                              <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">{field.label}</label>
                              <div className="flex-grow">
                                {renderField({ 
