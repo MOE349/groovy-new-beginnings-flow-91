@@ -56,7 +56,7 @@ export function Layout({ children }: LayoutProps) {
       <div className="min-h-screen flex w-full">
         <AppSidebar />
         
-        <div className="flex-1 flex flex-col min-h-screen">
+        <div className="flex-1 flex flex-col">
           <header className="h-8 flex items-center justify-between border-b bg-primary text-primary-foreground px-4">
             <div className="flex items-center">
               <SidebarTrigger className="mr-4" />
@@ -82,9 +82,14 @@ export function Layout({ children }: LayoutProps) {
             </div>
           </header>
           
-          <main className="flex-1 overflow-auto p-1">
-            {children}
+          <main className="flex-1 overflow-hidden min-w-0">
+            <div className="h-[calc(100vh-4rem)] overflow-x-auto overflow-y-auto p-1">
+              {children}
+            </div>
           </main>
+          
+          <footer className="h-8 flex items-center justify-between border-t bg-primary text-primary-foreground px-4">
+          </footer>
         </div>
       </div>
     </SidebarProvider>
