@@ -137,9 +137,6 @@ const PMChecklistTabs: React.FC<PMChecklistTabsProps> = ({ assetId, onNavigateBa
               )}
             </TabsList>
           </div>
-          
-          {/* Blue line separator */}
-          <div className="h-0.5 bg-blue-500"></div>
 
           {/* Tab Content */}
           <div className="flex-1 overflow-hidden">

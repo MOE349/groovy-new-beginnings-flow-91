@@ -212,7 +212,6 @@ const EditAsset = () => {
 
         <div>
         <Tabs defaultValue="metering-events" className="h-full" onValueChange={setActiveTab}>
-          <div className="h-0.5 bg-primary w-full"></div>
           <div className="h-10 overflow-x-auto">
             <TabsList className="grid w-full grid-cols-8 h-10 bg-card border border-border rounded-md p-0">
               <TabsTrigger value="metering-events" className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary dark:data-[state=active]:text-secondary data-[state=active]:border-b-2 data-[state=active]:border-primary dark:data-[state=active]:border-secondary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none">
@@ -246,14 +245,12 @@ const EditAsset = () => {
             </TabsList>
           </div>
           
-          <div className="h-0.5 bg-primary w-full"></div>
-          
           <TabsContent value="parts-bom" className="mt-1">
             <PartsBomTabContent assetId={id || ''} />
           </TabsContent>
           
           <TabsContent value="metering-events" className="mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4 h-[500px] overflow-auto">
+            <div className="bg-card rounded-sm shadow-xs p-4 h-[500px] overflow-auto -mt-2">
               <div className="grid grid-cols-2 gap-6">
                 <div className="min-w-0">
                   <div className="mb-1">
