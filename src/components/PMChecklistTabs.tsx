@@ -50,14 +50,8 @@ const PMChecklistTabs: React.FC<PMChecklistTabsProps> = ({ assetId, onNavigateBa
 
   return (
     <div className="h-full flex flex-col">
-      {/* Header with back button */}
+      {/* Header */}
       <div className="flex items-center gap-2 p-4 border-b border-border/30">
-        <button
-          onClick={onNavigateBack}
-          className="w-8 h-8 bg-primary/10 hover:bg-primary/20 border border-primary/30 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
-        >
-          <ChevronLeft className="w-4 h-4 text-primary" />
-        </button>
         <h4 className="text-lg font-medium text-foreground">PM Checklist/Parts</h4>
       </div>
 
