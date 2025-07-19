@@ -37,11 +37,11 @@ const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({ assetId }) 
   );
 
   return (
-    <div className="bg-card rounded-sm shadow-xs p-2 h-full overflow-hidden">
+    <div className="tab-content-financials">
       
       {/* View 1: Three Container Layout */}
       {currentView === 0 && (
-        <div className="flex gap-14 h-full relative animate-fade-in">
+        <div className="tab-content-flex-gap">
           
           {/* Navigation to View 2 */}
           <button

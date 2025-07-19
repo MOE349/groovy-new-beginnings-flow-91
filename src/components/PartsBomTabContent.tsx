@@ -7,9 +7,9 @@ interface PartsBomTabContentProps {
 
 const PartsBomTabContent: React.FC<PartsBomTabContentProps> = ({ assetId }) => {
   return (
-    <div className="bg-card rounded-sm shadow-xs p-2 h-full overflow-hidden">
+    <div className="tab-content-parts">
       {/* Two Container Layout */}
-      <div className="flex gap-14 h-full">
+      <div className="tab-content-flex-gap">
         
         {/* Parts Container */}
         <div className="w-1/2 ml-8">

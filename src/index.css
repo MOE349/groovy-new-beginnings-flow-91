@@ -223,4 +223,46 @@
     @apply bg-card rounded-[4px] card-shadow p-6 border-0;
     @apply hover:card-shadow-hover transition-shadow duration-150;
   }
+
+  /* Tab Content Management Classes */
+  .tab-content-container {
+    @apply flex-1 mt-1;
+  }
+
+  .tab-content-body {
+    @apply bg-card rounded-sm shadow-xs p-4 h-full overflow-hidden;
+  }
+
+  .tab-content-scrollable {
+    @apply bg-card rounded-sm shadow-xs p-4 h-full overflow-auto;
+  }
+
+  .tab-content-grid-2 {
+    @apply grid grid-cols-2 gap-6 h-full;
+  }
+
+  .tab-content-flex-gap {
+    @apply flex gap-14 h-full relative animate-fade-in;
+  }
+
+  /* Specialized tab content variations */
+  .tab-content-metering {
+    @apply tab-content-scrollable;
+  }
+
+  .tab-content-maintenance {
+    @apply tab-content-body;
+  }
+
+  .tab-content-parts {
+    @apply tab-content-body;
+  }
+
+  .tab-content-financials {
+    @apply tab-content-body;
+  }
+
+  .tab-content-generic {
+    @apply tab-content-scrollable;
+  }
 }

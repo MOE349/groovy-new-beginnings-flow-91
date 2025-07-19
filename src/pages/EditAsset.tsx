@@ -245,13 +245,13 @@ const EditAsset = () => {
             </TabsList>
           </div>
           
-          <TabsContent value="parts-bom" className="flex-1 mt-1">
+          <TabsContent value="parts-bom" className="tab-content-container">
             <PartsBomTabContent assetId={id || ''} />
           </TabsContent>
           
-          <TabsContent value="metering-events" className="flex-1 mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4 h-full overflow-auto">
-              <div className="grid grid-cols-2 gap-6">
+          <TabsContent value="metering-events" className="tab-content-container">
+            <div className="tab-content-metering">
+              <div className="tab-content-grid-2">
                 <div className="min-w-0">
                   <div className="mb-1">
                     <Button variant="default" size="sm" className="flex items-center gap-2 px-3 py-1" onClick={() => setIsDialogOpen(true)}>
@@ -456,8 +456,8 @@ const EditAsset = () => {
             </div>
           </TabsContent>
           
-          <TabsContent value="scheduled-maintenance" className="flex-1 mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-2 h-full overflow-hidden">
+          <TabsContent value="scheduled-maintenance" className="tab-content-container">
+            <div className="tab-content-maintenance">
               {currentView === 0 && <div className="flex gap-4 h-full relative animate-fade-in">
                   <button onClick={() => handleViewChange(1)} className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-primary/10 hover:bg-primary/20 border border-primary/30 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110">
                     <ChevronRight className="w-4 h-4 text-primary" />
@@ -790,36 +790,36 @@ const EditAsset = () => {
             </div>
           </TabsContent>
           
-          <TabsContent value="financials" className="flex-1 mt-1">
+          <TabsContent value="financials" className="tab-content-container">
             <FinancialsTabContent assetId={id || ''} />
           </TabsContent>
           
-          <TabsContent value="files" className="flex-1 mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4 h-full overflow-auto">
+          <TabsContent value="files" className="tab-content-container">
+            <div className="tab-content-generic">
               <div className="p-4 text-center text-muted-foreground">
                 Files content coming soon...
               </div>
             </div>
           </TabsContent>
           
-          <TabsContent value="backlog" className="flex-1 mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4 h-full overflow-auto">
+          <TabsContent value="backlog" className="tab-content-container">
+            <div className="tab-content-generic">
               <div className="p-4 text-center text-muted-foreground">
                 Backlog content coming soon...
               </div>
             </div>
           </TabsContent>
           
-          <TabsContent value="components" className="flex-1 mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4 h-full overflow-auto">
+          <TabsContent value="components" className="tab-content-container">
+            <div className="tab-content-generic">
               <div className="p-4 text-center text-muted-foreground">
                 Components content coming soon...
               </div>
             </div>
           </TabsContent>
           
-          <TabsContent value="log" className="flex-1 mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4 h-full overflow-auto">
+          <TabsContent value="log" className="tab-content-container">
+            <div className="tab-content-generic">
               <div className="p-4 text-center text-muted-foreground">
                 Log content coming soon...
               </div>
