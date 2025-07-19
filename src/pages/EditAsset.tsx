@@ -245,7 +245,7 @@ const EditAsset = () => {
             </TabsList>
           </div>
           
-          <div className="h-0.5 bg-blue-500 w-full"></div>
+          <div className="h-0.5 bg-primary w-full"></div>
           
           <TabsContent value="parts-bom" className="mt-1">
             <PartsBomTabContent assetId={id || ''} />
