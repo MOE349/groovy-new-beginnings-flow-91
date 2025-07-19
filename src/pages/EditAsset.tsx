@@ -250,10 +250,10 @@ const EditAsset = () => {
           </TabsContent>
           
           <TabsContent value="metering-events" className="mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4 h-[500px] overflow-auto">
+            <div className="bg-card rounded-sm shadow-xs p-4">
               <div className="grid grid-cols-2 gap-6">
                 <div className="min-w-0">
-                  <div className="mb-1">
+                  <div className="mb-3">
                     <Button variant="default" size="sm" className="flex items-center gap-2 px-3 py-1" onClick={() => setIsDialogOpen(true)}>
                       <Plus className="h-3 w-3" />
                       Update Reading
@@ -261,43 +261,48 @@ const EditAsset = () => {
                   </div>
 
                   <div className="w-full max-w-full">
-                     <ApiTable endpoint={`/meter-readings/meter_reading?asset=${id}`} columns={[{
-                       key: 'meter_reading',
-                       header: 'Meter Reading'
-                     }, {
-                       key: 'created_at',
-                       header: 'Creation Date',
-                       render: (value: any) => value ? new Date(value).toLocaleDateString() : '-'
-                     }, {
-                       key: 'created_by',
-                       header: 'Created By',
-                       render: (value: any) => {
-                         if (typeof value === 'object' && value) {
-                           return value.name || value.email || value.id || '-';
+                     <ApiTable 
+                       endpoint={`/meter-readings/meter_reading?asset=${id}`} 
+                       columns={[{
+                         key: 'meter_reading',
+                         header: 'Meter Reading'
+                       }, {
+                         key: 'created_at',
+                         header: 'Creation Date',
+                         render: (value: any) => value ? new Date(value).toLocaleDateString() : '-'
+                       }, {
+                         key: 'created_by',
+                         header: 'Created By',
+                         render: (value: any) => {
+                           if (typeof value === 'object' && value) {
+                             return value.name || value.email || value.id || '-';
+                           }
+                           return value || '-';
                          }
-                         return value || '-';
-                       }
-                     }, {
-                       key: 'actions',
-                       header: '',
-                       render: (value: any, row: any) => (
-                         <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex justify-end">
-                           <Button
-                             variant="ghost"
-                             size="sm"
-                             className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
-                             onClick={() => handleDeleteMeterReading(row.id)}
-                           >
-                             <Trash2 className="h-4 w-4" />
-                           </Button>
-                         </div>
-                       )
-                     }]} tableId={`meter-readings-${id}`} />
+                       }, {
+                         key: 'actions',
+                         header: '',
+                         render: (value: any, row: any) => (
+                           <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex justify-end">
+                             <Button
+                               variant="ghost"
+                               size="sm"
+                               className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
+                               onClick={() => handleDeleteMeterReading(row.id)}
+                             >
+                               <Trash2 className="h-4 w-4" />
+                             </Button>
+                           </div>
+                         )
+                       }]} 
+                       tableId={`meter-readings-${id}`}
+                       maxHeight="h-[400px]"
+                     />
                   </div>
                 </div>
 
                 <div className="min-w-0">
-                  <div className="mb-1">
+                  <div className="mb-3">
                     <Button variant="default" size="sm" className="flex items-center gap-2 px-3 py-1" onClick={() => setIsCodeDialogOpen(true)}>
                       <Plus className="h-3 w-3" />
                       Update Code
@@ -305,23 +310,28 @@ const EditAsset = () => {
                   </div>
 
                   <div className="w-full max-w-full">
-                    <ApiTable endpoint={`/fault-codes/codes?asset=${id}`} columns={[{
-                      key: 'code',
-                      header: 'Code'
-                    }, {
-                      key: 'created_at',
-                      header: 'Creation Date',
-                      render: (value: any) => value ? new Date(value).toLocaleDateString() : '-'
-                    }, {
-                      key: 'created_by',
-                      header: 'Created By',
-                      render: (value: any) => {
-                        if (typeof value === 'object' && value) {
-                          return value.name || value.email || value.id || '-';
+                    <ApiTable 
+                      endpoint={`/fault-codes/codes?asset=${id}`} 
+                      columns={[{
+                        key: 'code',
+                        header: 'Code'
+                      }, {
+                        key: 'created_at',
+                        header: 'Creation Date',
+                        render: (value: any) => value ? new Date(value).toLocaleDateString() : '-'
+                      }, {
+                        key: 'created_by',
+                        header: 'Created By',
+                        render: (value: any) => {
+                          if (typeof value === 'object' && value) {
+                            return value.name || value.email || value.id || '-';
+                          }
+                          return value || '-';
                         }
-                        return value || '-';
-                      }
-                    }]} tableId={`codes-${id}`} />
+                      }]} 
+                      tableId={`codes-${id}`}
+                      maxHeight="h-[400px]"
+                    />
                   </div>
                 </div>
               </div>
@@ -795,7 +805,7 @@ const EditAsset = () => {
           </TabsContent>
           
           <TabsContent value="files" className="mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4">
+            <div className="bg-card rounded-sm shadow-xs p-4 h-[500px] overflow-auto">
               <div className="p-4 text-center text-muted-foreground">
                 Files content coming soon...
               </div>
@@ -803,7 +813,7 @@ const EditAsset = () => {
           </TabsContent>
           
           <TabsContent value="backlog" className="mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4">
+            <div className="bg-card rounded-sm shadow-xs p-4 h-[500px] overflow-auto">
               <div className="p-4 text-center text-muted-foreground">
                 Backlog content coming soon...
               </div>
@@ -811,7 +821,7 @@ const EditAsset = () => {
           </TabsContent>
           
           <TabsContent value="components" className="mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4">
+            <div className="bg-card rounded-sm shadow-xs p-4 h-[500px] overflow-auto">
               <div className="p-4 text-center text-muted-foreground">
                 Components content coming soon...
               </div>
@@ -819,7 +829,7 @@ const EditAsset = () => {
           </TabsContent>
           
           <TabsContent value="log" className="mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4">
+            <div className="bg-card rounded-sm shadow-xs p-4 h-[500px] overflow-auto">
               <div className="p-4 text-center text-muted-foreground">
                 Log content coming soon...
               </div>
