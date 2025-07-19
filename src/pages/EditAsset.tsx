@@ -251,16 +251,16 @@ const EditAsset = () => {
           
           <TabsContent value="metering-events" className="mt-1">
             <div className="bg-card rounded-sm shadow-xs p-4">
-              <div className="grid grid-cols-2 gap-6 h-[500px]">
-                <div className="min-w-0 flex flex-col">
-                  <div className="mb-1 flex-shrink-0">
+              <div className="grid grid-cols-2 gap-6">
+                <div className="min-w-0">
+                  <div className="mb-3">
                     <Button variant="default" size="sm" className="flex items-center gap-2 px-3 py-1" onClick={() => setIsDialogOpen(true)}>
                       <Plus className="h-3 w-3" />
                       Update Reading
                     </Button>
                   </div>
 
-                  <div className="w-full max-w-full flex-1 min-h-0">
+                  <div className="w-full max-w-full">
                      <ApiTable 
                        endpoint={`/meter-readings/meter_reading?asset=${id}`} 
                        columns={[{
@@ -296,20 +296,20 @@ const EditAsset = () => {
                          )
                        }]} 
                        tableId={`meter-readings-${id}`}
-                       height="100%"
+                       maxHeight="h-[400px]"
                      />
                   </div>
                 </div>
 
-                <div className="min-w-0 flex flex-col">
-                  <div className="mb-1 flex-shrink-0">
+                <div className="min-w-0">
+                  <div className="mb-3">
                     <Button variant="default" size="sm" className="flex items-center gap-2 px-3 py-1" onClick={() => setIsCodeDialogOpen(true)}>
                       <Plus className="h-3 w-3" />
                       Update Code
                     </Button>
                   </div>
 
-                  <div className="w-full max-w-full flex-1 min-h-0">
+                  <div className="w-full max-w-full">
                     <ApiTable 
                       endpoint={`/fault-codes/codes?asset=${id}`} 
                       columns={[{
@@ -330,7 +330,7 @@ const EditAsset = () => {
                         }
                       }]} 
                       tableId={`codes-${id}`}
-                      height="100%"
+                      maxHeight="h-[400px]"
                     />
                   </div>
                 </div>
