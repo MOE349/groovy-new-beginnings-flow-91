@@ -205,7 +205,7 @@ const EditAsset = () => {
   const customLayout = (props: any) => <FormLayout {...props} config={assetType === "attachment" ? attachmentFormConfig : equipmentFormConfig} />;
 
   return <div className="h-full overflow-x-auto min-w-0">
-      <div className="min-w-[1440px]">
+      <div className="space-y-4 min-w-[1440px]">
         <div>
           <ApiForm fields={currentFields} onSubmit={handleSubmit} initialData={initialData} customLayout={customLayout} />
         </div>
