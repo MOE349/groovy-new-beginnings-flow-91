@@ -191,7 +191,7 @@ const FormLayout = ({
                                        options: field.options ? field.options.map(opt => ({ value: opt.id, label: opt.name })) : undefined
                                      })}
                                    </div>
-                                   <label className="text-caption font-normal text-foreground shrink-0 -mt-4">{yearField.label}</label>
+                                   <label className="text-caption font-normal text-foreground shrink-0 -mt-2">{yearField.label}</label>
                                    <div className="flex-1">
                                      {renderField({ 
                                        ...yearField, 
