@@ -1,3 +1,4 @@
+
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Check, X } from "lucide-react";
@@ -182,7 +183,7 @@ const FormLayout = ({
                           return (
                             <div key="model-year-row" className="space-y-1">
                               <div className="flex items-start gap-2 h-8">
-                                 <label className="text-caption font-normal text-right w-24 text-foreground shrink-0 pt-2">{field.label}</label>
+                                 <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2">{field.label}</label>
                                  <div className="flex items-center gap-2 flex-grow">
                                    <div className="flex-1">
                                      {renderField({ 
@@ -216,9 +217,9 @@ const FormLayout = ({
                          return (
                            <div key={field.name} className="flex items-start gap-2 h-8">
                               <label className={`text-caption font-normal text-foreground shrink-0 ${
-                                field.name === 'weight_class' ? 'pt-0.5 text-right w-24' : 
-                                field.name === 'description' ? 'pt-2 text-left w-24' : 
-                                'pt-2 text-right w-24'
+                                field.name === 'weight_class' ? 'pt-0.5 text-right w-20' : 
+                                field.name === 'description' ? 'pt-2 text-left w-20' : 
+                                'pt-2 text-right w-20'
                               }`}>{field.label}</label>
                               <div className="flex-grow">
                                 {renderField({ 
