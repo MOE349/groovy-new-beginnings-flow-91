@@ -142,7 +142,7 @@ const PMChecklistTabs: React.FC<PMChecklistTabsProps> = ({ assetId, onNavigateBa
           <div className="flex-1 overflow-hidden">
             {tabs.map((tab) => (
               <TabsContent key={tab.id} value={tab.id} className="h-full mt-0">
-                <div className="min-h-[300px] flex-1 border border-border/30 rounded-b-lg rounded-tr-lg bg-background/50 p-4 overflow-auto">
+                <div className="min-h-[300px] flex-1 border border-border/30 rounded-tr-lg bg-background/50 p-4 overflow-auto">
                   
                    {/* Fixed Layout: Checklist and Parts */}
                    <div className="grid grid-cols-2 gap-4 h-full">
