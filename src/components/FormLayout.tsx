@@ -1,3 +1,4 @@
+
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Check, X } from "lucide-react";
@@ -164,7 +165,7 @@ const FormLayout = ({
             
             {/* Right Section - Form fields in columns */}
             <div className="flex-1 max-w-full">
-            <div className={`grid gap-x-6 gap-y-2 ${
+            <div className={`grid gap-x-4 gap-y-1 ${
                 config.columns.length === 1 
                   ? 'grid-cols-1' 
                   : config.columns.length === 2 && config.title.includes("Work Order")
@@ -174,15 +175,15 @@ const FormLayout = ({
                       : 'grid-cols-3'
               }`}>
                  {config.columns.map((column, colIndex) => (
-                    <div key={colIndex} className="p-6 space-y-2 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl min-w-0">
+                    <div key={colIndex} className="p-4 space-y-1 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-2xl min-w-0">
                      {column.fields.map((field, fieldIndex) => {
                         // Special handling for model and year to be on the same row
                         if (field.name === "model" && column.fields[fieldIndex + 1]?.name === "year") {
                           const yearField = column.fields[fieldIndex + 1];
                           return (
-                            <div key="model-year-row" className="space-y-2">
-                              <div className="flex items-start gap-2 h-10">
-                                 <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">{field.label}</label>
+                            <div key="model-year-row" className="space-y-1">
+                              <div className="flex items-start gap-2 h-8">
+                                 <label className="text-caption font-normal text-right w-16 text-foreground shrink-0 pt-2">{field.label}</label>
                                  <div className="flex items-center gap-2 flex-grow">
                                    <div className="flex-1">
                                      {renderField({ 
@@ -214,8 +215,8 @@ const FormLayout = ({
                         }
                         // Default single field rendering
                         return (
-                          <div key={field.name} className="flex items-start gap-2 h-10">
-                             <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">{field.label}</label>
+                          <div key={field.name} className="flex items-start gap-2 h-8">
+                             <label className="text-caption font-normal text-right w-16 text-foreground shrink-0 pt-2">{field.label}</label>
                              <div className="flex-grow">
                                {renderField({ 
                                  ...field, 
