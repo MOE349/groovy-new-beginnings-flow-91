@@ -103,11 +103,11 @@ const FormLayout = ({
           <div className="flex gap-8 items-center -mt-2 pb-1">
             {/* Left Section - Image, toggle, location */}
             {(config.showImage || config.showOnlineToggle || config.showSpecialSections?.location || config.showSpecialSections?.equipment) && (
-              <div className="flex flex-col space-y-1 w-64 pl-6">
+              <div className="flex flex-col space-y-1 w-48 pl-4">
                 {config.showOnlineToggle && (
                   <div className="flex items-center space-x-0">
                     <div 
-                      className={`flex items-center cursor-pointer transition-all duration-300 rounded border w-48 h-8 ${
+                      className={`flex items-center cursor-pointer transition-all duration-300 rounded border w-36 h-6 ${
                         formData?.is_online 
                           ? 'bg-green-500 border-green-600' 
                           : 'bg-red-500 border-red-600'
@@ -115,15 +115,15 @@ const FormLayout = ({
                       onClick={() => handleFieldChange("is_online", !formData?.is_online)}
                      >
                        {/* Status text with icon */}
-                       <div className="flex items-center justify-center gap-1 text-sm font-medium text-white w-full">
+                       <div className="flex items-center justify-center gap-1 text-xs font-medium text-white w-full">
                          {formData?.is_online ? (
                            <>
-                             <Check size={12} />
+                             <Check size={10} />
                              Online
                            </>
                          ) : (
                            <>
-                             <X size={12} />
+                             <X size={10} />
                              Offline
                            </>
                          )}
@@ -132,7 +132,7 @@ const FormLayout = ({
                   </div>
                 )}
                 {config.showImage && (
-                  <div className="w-48 h-32 bg-muted rounded border-2 border-border overflow-hidden">
+                  <div className="w-36 h-24 bg-muted rounded border-2 border-border overflow-hidden">
                     <img 
                       src="/lovable-uploads/cf9d21df-6820-4bea-ae16-54c41a67117e.png" 
                       alt={config.title} 
@@ -141,10 +141,10 @@ const FormLayout = ({
                   </div>
                 )}
                 {config.showSpecialSections?.location && (
-                  <div className="space-y-1 w-48">
-                    <label className="block text-caption font-normal text-foreground text-center">Location</label>
+                  <div className="space-y-1 w-36">
+                    <label className="block text-xs font-normal text-foreground text-center">Location</label>
                     {config.title.includes("Work Order") ? (
-                       <div className="w-full p-2 bg-muted rounded border text-sm text-foreground text-center">
+                       <div className="w-full p-1.5 bg-muted rounded border text-xs text-foreground text-center">
                          {initialData?.["asset.location"] || "No location assigned"}
                        </div>
                     ) : (
