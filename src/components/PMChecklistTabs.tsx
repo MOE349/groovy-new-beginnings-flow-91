@@ -69,7 +69,7 @@ const PMChecklistTabs: React.FC<PMChecklistTabsProps> = ({ assetId, onNavigateBa
         <Tabs value={activeTab} onValueChange={setActiveTab} className="h-full flex flex-col">
           
           {/* Tab Headers with Folder Style */}
-          <div className="flex items-end mb-2 border-b border-border/30">
+          <div className="flex items-end border-b border-border/30">
             <TabsList className="h-auto bg-transparent p-0 flex items-end gap-1">
               {tabs.map((tab) => (
                 <div key={tab.id} className="relative group">
