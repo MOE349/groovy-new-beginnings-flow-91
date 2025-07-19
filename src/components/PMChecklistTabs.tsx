@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ChevronLeft, Plus, X } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from './ui/tabs';
@@ -142,8 +141,8 @@ const PMChecklistTabs: React.FC<PMChecklistTabsProps> = ({ assetId, onNavigateBa
           {/* Tab Content */}
           <div className="flex-1 overflow-hidden">
             {tabs.map((tab) => (
-              <TabsContent key={tab.id} value={tab.id} className="h-full mt-0">
-                <div className="min-h-[300px] flex-1 border-l border-r border-b border-border/30 rounded-tr-lg bg-background/50 p-4 overflow-auto">
+              <TabsContent key={tab.id} value={tab.id} className="h-full p-0 m-0">
+                <div className="min-h-[300px] flex-1 border-l border-r border-b border-border/30 bg-background/50 p-4 overflow-auto">
                   
                    {/* Fixed Layout: Checklist and Parts */}
                    <div className="grid grid-cols-2 gap-4 h-full">
