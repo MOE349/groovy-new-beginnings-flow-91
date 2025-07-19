@@ -37,7 +37,7 @@ const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({ assetId }) 
   );
 
   return (
-    <div className="bg-card rounded-sm shadow-xs p-2 h-full min-h-[500px] overflow-hidden">
+    <div className="bg-card rounded-sm shadow-xs p-2 h-full overflow-hidden">
       
       {/* View 1: Three Container Layout */}
       {currentView === 0 && (

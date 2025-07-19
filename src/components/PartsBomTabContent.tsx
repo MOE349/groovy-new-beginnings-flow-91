@@ -7,7 +7,7 @@ interface PartsBomTabContentProps {
 
 const PartsBomTabContent: React.FC<PartsBomTabContentProps> = ({ assetId }) => {
   return (
-    <div className="bg-card rounded-sm shadow-xs p-2 h-full min-h-[500px] overflow-hidden">
+    <div className="bg-card rounded-sm shadow-xs p-2 h-full overflow-hidden">
       {/* Two Container Layout */}
       <div className="flex gap-14 h-full">
         
@@ -19,7 +19,9 @@ const PartsBomTabContent: React.FC<PartsBomTabContentProps> = ({ assetId }) => {
             </div>
             
             <div className="flex-grow space-y-4 overflow-auto">
-              {/* Empty container - parts content will go here */}
+              <div className="p-4 text-center text-muted-foreground h-full flex items-center justify-center">
+                Parts content coming soon...
+              </div>
             </div>
           </div>
         </div>
@@ -32,7 +34,9 @@ const PartsBomTabContent: React.FC<PartsBomTabContentProps> = ({ assetId }) => {
             </div>
             
             <div className="flex-grow space-y-4 overflow-auto">
-              {/* Empty container - purchase orders content will go here */}
+              <div className="p-4 text-center text-muted-foreground h-full flex items-center justify-center">
+                Purchase orders content coming soon...
+              </div>
             </div>
           </div>
         </div>
