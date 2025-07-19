@@ -1,6 +1,5 @@
 
 import React, { useState } from 'react';
-import { ScrollArea } from './ui/scroll-area';
 
 interface PartsBomTabContentProps {
   assetId: string;
@@ -19,11 +18,9 @@ const PartsBomTabContent: React.FC<PartsBomTabContentProps> = ({ assetId }) => {
               <h4 className="text-base font-medium text-primary dark:text-secondary">Parts</h4>
             </div>
             
-            <ScrollArea className="flex-grow">
-              <div className="space-y-4 pr-4">
-                {/* Empty container - parts content will go here */}
-              </div>
-            </ScrollArea>
+            <div className="flex-grow space-y-4 overflow-auto">
+              {/* Empty container - parts content will go here */}
+            </div>
           </div>
         </div>
 
@@ -34,11 +31,9 @@ const PartsBomTabContent: React.FC<PartsBomTabContentProps> = ({ assetId }) => {
               <h4 className="text-base font-medium text-primary dark:text-secondary">Purchase Orders</h4>
             </div>
             
-            <ScrollArea className="flex-grow">
-              <div className="space-y-4 pr-4">
-                {/* Empty container - purchase orders content will go here */}
-              </div>
-            </ScrollArea>
+            <div className="flex-grow space-y-4 overflow-auto">
+              {/* Empty container - purchase orders content will go here */}
+            </div>
           </div>
         </div>
         
