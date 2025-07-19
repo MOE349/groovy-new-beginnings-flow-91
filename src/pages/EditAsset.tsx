@@ -250,7 +250,7 @@ const EditAsset = () => {
           </TabsContent>
           
           <TabsContent value="metering-events" className="mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4 h-[calc(100vh-10rem)] overflow-auto">
+            <div className="bg-card rounded-sm shadow-xs p-4 h-full overflow-auto">
               <div className="grid grid-cols-2 gap-6">
                 <div className="min-w-0">
                   <div className="mb-3">
@@ -467,7 +467,7 @@ const EditAsset = () => {
           </TabsContent>
           
           <TabsContent value="scheduled-maintenance" className="mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-2 h-[calc(100vh-12rem)] overflow-auto">
+            <div className="bg-card rounded-sm shadow-xs p-2 h-full overflow-auto">
               {currentView === 0 && <div className="flex gap-4 h-full relative animate-fade-in">
                   <button onClick={() => handleViewChange(1)} className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-primary/10 hover:bg-primary/20 border border-primary/30 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110">
                     <ChevronRight className="w-4 h-4 text-primary" />
@@ -805,7 +805,7 @@ const EditAsset = () => {
           </TabsContent>
           
           <TabsContent value="files" className="mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4 h-[calc(100vh-10rem)] overflow-auto">
+            <div className="bg-card rounded-sm shadow-xs p-4 h-full overflow-auto">
               <div className="p-4 text-center text-muted-foreground">
                 Files content coming soon...
               </div>
@@ -813,7 +813,7 @@ const EditAsset = () => {
           </TabsContent>
           
           <TabsContent value="backlog" className="mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4 h-[calc(100vh-10rem)] overflow-auto">
+            <div className="bg-card rounded-sm shadow-xs p-4 h-full overflow-auto">
               <div className="p-4 text-center text-muted-foreground">
                 Backlog content coming soon...
               </div>
@@ -821,7 +821,7 @@ const EditAsset = () => {
           </TabsContent>
           
           <TabsContent value="components" className="mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4 h-[calc(100vh-10rem)] overflow-auto">
+            <div className="bg-card rounded-sm shadow-xs p-4 h-full overflow-auto">
               <div className="p-4 text-center text-muted-foreground">
                 Components content coming soon...
               </div>
@@ -829,7 +829,7 @@ const EditAsset = () => {
           </TabsContent>
           
           <TabsContent value="log" className="mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4 h-[calc(100vh-10rem)] overflow-auto">
+            <div className="bg-card rounded-sm shadow-xs p-4 h-full overflow-auto">
               <div className="p-4 text-center text-muted-foreground">
                 Log content coming soon...
               </div>
