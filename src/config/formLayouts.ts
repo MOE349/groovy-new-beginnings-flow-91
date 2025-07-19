@@ -15,6 +15,7 @@ export const equipmentFormConfig: FormLayoutConfig = {
         { name: "code", label: "Code", type: "input", required: true, inputType: "text" },
         { name: "name", label: "Name", type: "input", required: true, inputType: "text" },
         { name: "description", label: "Description", type: "textarea", rows: 2 },
+        { name: "spacer", label: "", type: "spacer" },
         { 
           name: "category", 
           label: "Category", 

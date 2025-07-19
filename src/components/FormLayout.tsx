@@ -207,20 +207,24 @@ const FormLayout = ({
                        // Skip rendering model field separately since it's handled above
                        if (field.name === "model" && column.fields[fieldIndex - 1]?.name === "make") {
                          return null;
-                       }
-                       // Default single field rendering
-                       return (
-                         <div key={field.name} className="flex items-start gap-2 h-10">
-                            <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">{field.label}</label>
-                            <div className="flex-grow">
-                              {renderField({ 
-                                ...field, 
-                                label: "",
-                                options: field.options ? field.options.map(opt => ({ value: opt.id, label: opt.name })) : undefined
-                              })}
-                            </div>
-                         </div>
-                       );
+                        }
+                        // Handle spacer field type
+                        if (field.type === "spacer") {
+                          return <div key={field.name} className="h-2"></div>;
+                        }
+                        // Default single field rendering
+                        return (
+                          <div key={field.name} className="flex items-start gap-2 h-10">
+                             <label className="text-caption font-normal text-right w-20 text-foreground shrink-0 pt-2.5">{field.label}</label>
+                             <div className="flex-grow">
+                               {renderField({ 
+                                 ...field, 
+                                 label: "",
+                                 options: field.options ? field.options.map(opt => ({ value: opt.id, label: opt.name })) : undefined
+                               })}
+                             </div>
+                          </div>
+                        );
                      })}
                    </div>
                 ))}
