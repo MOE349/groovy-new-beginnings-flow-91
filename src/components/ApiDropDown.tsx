@@ -1,4 +1,3 @@
-
 import { useQuery } from "@tanstack/react-query";
 import { Label } from "@/components/ui/label";
 import {
@@ -92,7 +91,6 @@ const ApiDropDown = ({
         disabled={disabled || isLoading}
       >
         <SelectTrigger className={cn(
-          "h-8 text-sm", // Force consistent height and text size
           value ? "bg-blue-50/70" : ""
         )}>
           <SelectValue placeholder={isLoading ? "Loading..." : placeholder} />
