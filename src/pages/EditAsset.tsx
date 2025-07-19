@@ -211,8 +211,8 @@ const EditAsset = () => {
         </div>
 
         <div>
-        <Tabs defaultValue="metering-events" className="h-full" onValueChange={setActiveTab}>
-          <div className="h-10 overflow-x-auto">
+        <Tabs defaultValue="metering-events" className="flex flex-col h-full" onValueChange={setActiveTab}>
+          <div className="h-10 overflow-x-auto flex-shrink-0">
             <TabsList className="grid w-full grid-cols-8 h-10 bg-card border border-border rounded-md p-0">
               <TabsTrigger value="metering-events" className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary dark:data-[state=active]:text-secondary data-[state=active]:border-b-2 data-[state=active]:border-primary dark:data-[state=active]:border-secondary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none">
                 Metering/Events
@@ -249,9 +249,9 @@ const EditAsset = () => {
             <PartsBomTabContent assetId={id || ''} />
           </TabsContent>
           
-          <TabsContent value="metering-events" className="mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
-              <div className="grid grid-cols-2 gap-6">
+          <TabsContent value="metering-events" className="mt-1 flex-1 flex flex-col">
+            <div className="bg-card rounded-sm shadow-xs p-4 flex-1 flex flex-col">
+              <div className="grid grid-cols-2 gap-6 flex-1">
                 <div className="min-w-0">
                   <div className="mb-1">
                     <Button variant="default" size="sm" className="flex items-center gap-2 px-3 py-1" onClick={() => setIsDialogOpen(true)}>
@@ -260,10 +260,10 @@ const EditAsset = () => {
                     </Button>
                   </div>
 
-                  <div className="w-full max-w-full">
+                  <div className="w-full max-w-full flex-1 flex flex-col">
                      <ApiTable 
                        endpoint={`/meter-readings/meter_reading?asset=${id}`} 
-                       maxHeight="h-[300px]"
+                       className="flex-1"
                        columns={[{
                         key: 'meter_reading',
                         header: 'Meter Reading'
@@ -307,10 +307,10 @@ const EditAsset = () => {
                     </Button>
                   </div>
 
-                  <div className="w-full max-w-full">
+                  <div className="w-full max-w-full flex-1 flex flex-col">
                     <ApiTable 
                       endpoint={`/fault-codes/codes?asset=${id}`} 
-                      maxHeight="h-[300px]"
+                      className="flex-1"
                       columns={[{
                        key: 'code',
                        header: 'Code'
