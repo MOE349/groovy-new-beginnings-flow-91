@@ -99,7 +99,7 @@ const FormLayout = ({
         <form onSubmit={handleSubmit} className="h-full">
           
           {/* Layout */}
-          <div className="flex gap-8 items-center -mt-2 pb-1">
+          <div className="flex gap-8 items-center pb-1">
             {/* Left Section - Image, toggle, location */}
             {(config.showImage || config.showOnlineToggle || config.showSpecialSections?.location || config.showSpecialSections?.equipment) && (
               <div className="flex flex-col space-y-1 w-52 pl-4">
