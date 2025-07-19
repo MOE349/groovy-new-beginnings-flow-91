@@ -213,19 +213,19 @@ const FormLayout = ({
                         if (field.type === "spacer") {
                           return <div key={field.name} className="h-2"></div>;
                         }
-                        // Default single field rendering
-                        return (
-                          <div key={field.name} className="flex items-start gap-2 h-8">
-                             <label className="text-caption font-normal text-right w-16 text-foreground shrink-0 pt-2">{field.label}</label>
-                             <div className="flex-grow">
-                               {renderField({ 
-                                 ...field, 
-                                 label: "",
-                                 options: field.options ? field.options.map(opt => ({ value: opt.id, label: opt.name })) : undefined
-                               })}
-                             </div>
-                          </div>
-                        );
+                         // Default single field rendering
+                         return (
+                           <div key={field.name} className="flex items-start gap-2 h-8">
+                              <label className={`text-caption font-normal text-right w-16 text-foreground shrink-0 ${field.name === 'weight_class' ? 'pt-1' : 'pt-2'}`}>{field.label}</label>
+                              <div className="flex-grow">
+                                {renderField({ 
+                                  ...field, 
+                                  label: "",
+                                  options: field.options ? field.options.map(opt => ({ value: opt.id, label: opt.name })) : undefined
+                                })}
+                              </div>
+                           </div>
+                         );
                      })}
                    </div>
                 ))}
