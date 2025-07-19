@@ -59,44 +59,44 @@ const FormLayout = ({
     <div className="space-y-0">
       {/* Top Bar */}
       <div className="h-10 flex items-center justify-between px-4 py-1 bg-secondary border-b border-border">
-        <Button 
-          variant="ghost" 
-          onClick={() => navigate(config.backRoute)}
-          className="flex items-center gap-2 text-black dark:text-black hover:scale-105 transition-transform px-4 py-1 h-8 text-sm"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back
-        </Button>
-        <Button 
-          onClick={handleSubmit} 
-          disabled={loading} 
-          className="bg-secondary-foreground text-secondary hover:bg-secondary-foreground/90 px-4 py-1 h-8 text-sm font-medium shadow-lg border border-secondary-foreground/20 hover:shadow-md transition-all duration-200"
-          style={{
-            boxShadow: '0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.2)'
-          }}
-        >
-          {loading ? "Loading..." : "Save"}
-        </Button>
+        <div className="flex items-center gap-4">
+          <Button 
+            variant="ghost" 
+            onClick={() => navigate(config.backRoute)}
+            className="flex items-center gap-2 text-black dark:text-black hover:scale-105 transition-transform px-4 py-1 h-8 text-sm"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Back
+          </Button>
+          <h3 className="text-h3 font-medium text-primary dark:text-secondary">
+            {config.title}
+            {config.title.includes("Work Order") && formData?.code && (
+              <span className="ml-4 text-muted-foreground">Code: {formData.code}</span>
+            )}
+          </h3>
+        </div>
+        <div className="flex items-center gap-4">
+          {!config.title.includes("Work Order") && (formData?.code || formData?.name) && (
+            <span className="text-h3 font-medium text-muted-foreground">
+              {formData?.code && `(${formData.code})`} {formData?.name}
+            </span>
+          )}
+          <Button 
+            onClick={handleSubmit} 
+            disabled={loading} 
+            className="bg-secondary-foreground text-secondary hover:bg-secondary-foreground/90 px-4 py-1 h-8 text-sm font-medium shadow-lg border border-secondary-foreground/20 hover:shadow-md transition-all duration-200"
+            style={{
+              boxShadow: '0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.2)'
+            }}
+          >
+            {loading ? "Loading..." : "Save"}
+          </Button>
+        </div>
       </div>
       
       {/* Form Information Card */}
-      <div className="bg-card rounded-md shadow-sm px-2 py-1 mt-4">
+      <div className="bg-card rounded-md shadow-sm px-2 py-1">
         <form onSubmit={handleSubmit} className="h-full">
-          <div 
-            className="flex items-center justify-between gap-4 mb-4 py-1 -mx-2 bg-accent/20 border border-accent/30 rounded-md" 
-          >
-            <h3 className="text-h3 font-medium text-primary dark:text-secondary ml-6">
-              {config.title}
-              {config.title.includes("Work Order") && formData?.code && (
-                <span className="ml-4 text-muted-foreground">Code: {formData.code}</span>
-              )}
-            </h3>
-            {!config.title.includes("Work Order") && (formData?.code || formData?.name) && (
-              <span className="text-h3 font-medium text-muted-foreground mr-6">
-                {formData?.code && `(${formData.code})`} {formData?.name}
-              </span>
-            )}
-          </div>
           
           {/* Layout */}
           <div className="flex gap-8 items-center -mt-2 pb-1">
