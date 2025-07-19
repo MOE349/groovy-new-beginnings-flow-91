@@ -15,10 +15,6 @@ export const equipmentFormConfig: FormLayoutConfig = {
         { name: "code", label: "Code", type: "input", required: true, inputType: "text" },
         { name: "name", label: "Name", type: "input", required: true, inputType: "text" },
         { name: "description", label: "Description", type: "textarea", rows: 2 },
-      ]
-    },
-    {
-      fields: [
         { 
           name: "category", 
           label: "Category", 
@@ -29,9 +25,13 @@ export const equipmentFormConfig: FormLayoutConfig = {
           optionValueKey: "id", 
           optionLabelKey: "name"
         },
+      ]
+    },
+    {
+      fields: [
+        { name: "serial_number", label: "Serial #", type: "input", required: true, inputType: "text" },
         { name: "make", label: "Make", type: "input", required: true, inputType: "text" },
         { name: "model", label: "Model", type: "input", required: true, inputType: "text" },
-        { name: "serial_number", label: "Serial #", type: "input", required: true, inputType: "text" },
         {
           name: "year",
           label: "Year",
