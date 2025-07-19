@@ -116,7 +116,6 @@ const ApiForm = ({
       label: field.label,
       required: field.required,
       disabled: field.disabled || loading,
-      className: "mb-4",
     };
 
     switch (field.type) {
