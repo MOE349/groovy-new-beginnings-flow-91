@@ -211,7 +211,7 @@ const EditAsset = () => {
         </div>
 
         <div>
-        <Tabs defaultValue="metering-events" className="h-screen max-h-screen overflow-hidden" onValueChange={setActiveTab}>
+        <Tabs defaultValue="metering-events" className="h-full" onValueChange={setActiveTab}>
           <div className="h-10 overflow-x-auto">
             <TabsList className="grid w-full grid-cols-8 h-10 bg-card border border-border rounded-md p-0">
               <TabsTrigger value="metering-events" className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary dark:data-[state=active]:text-secondary data-[state=active]:border-b-2 data-[state=active]:border-primary dark:data-[state=active]:border-secondary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none">
