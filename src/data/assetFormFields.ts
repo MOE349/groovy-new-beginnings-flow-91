@@ -23,13 +23,6 @@ export const equipmentFields: FormField[] = [
     required: false,
   },
   {
-    name: "code",
-    type: "input",
-    label: "Code",
-    required: true,
-    inputType: "text",
-  },
-  {
     name: "category",
     type: "dropdown",
     label: "Category",
@@ -38,6 +31,20 @@ export const equipmentFields: FormField[] = [
     queryKey: ["equipment_category"],
     optionValueKey: "id",
     optionLabelKey: "name",
+  },
+  {
+    name: "code",
+    type: "input",
+    label: "Code",
+    required: true,
+    inputType: "text",
+  },
+  {
+    name: "serial_number",
+    type: "input",
+    label: "Serial Number",
+    required: true,
+    inputType: "text",
   },
   {
     name: "make",
@@ -50,13 +57,6 @@ export const equipmentFields: FormField[] = [
     name: "model",
     type: "input",
     label: "Model",
-    required: true,
-    inputType: "text",
-  },
-  {
-    name: "serial_number",
-    type: "input",
-    label: "Serial Number",
     required: true,
     inputType: "text",
   },
