@@ -83,7 +83,7 @@ const FormLayout = ({
       <div className="bg-card rounded-md shadow-sm px-2 py-1 mt-4">
         <form onSubmit={handleSubmit} className="h-full">
           <div 
-            className="flex items-center gap-4 mb-4 py-1 -mx-2 bg-accent/20 border border-accent/30 rounded-md" 
+            className="flex items-center justify-between gap-4 mb-4 py-1 -mx-2 bg-accent/20 border border-accent/30 rounded-md" 
           >
             <h3 className="text-h3 font-medium text-primary dark:text-secondary ml-6">
               {config.title}
@@ -92,7 +92,7 @@ const FormLayout = ({
               )}
             </h3>
             {!config.title.includes("Work Order") && (formData?.code || formData?.name) && (
-              <span className="text-h3 font-medium text-muted-foreground ml-16">
+              <span className="text-h3 font-medium text-muted-foreground mr-6">
                 {formData?.code && `(${formData.code})`} {formData?.name}
               </span>
             )}
