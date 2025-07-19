@@ -771,7 +771,7 @@ const EditAsset = () => {
                         <h4 className="text-sm font-medium text-primary dark:text-secondary">Log</h4>
                       </div>
                       <div className="flex-grow space-y-4 overflow-auto">
-                        <div className="p-4 text-center text-muted-foreground">
+                        <div className="p-4 text-center text-muted-foreground h-full flex items-center justify-center">
                           Schedule configuration content coming soon...
                         </div>
                       </div>
@@ -806,7 +806,7 @@ const EditAsset = () => {
           
           <TabsContent value="files" className="mt-1 flex-1">
             <div className="bg-card rounded-sm shadow-xs p-4 h-full overflow-auto">
-              <div className="p-4 text-center text-muted-foreground">
+              <div className="p-4 text-center text-muted-foreground h-full flex items-center justify-center">
                 Files content coming soon...
               </div>
             </div>
@@ -814,7 +814,7 @@ const EditAsset = () => {
           
           <TabsContent value="backlog" className="mt-1 flex-1">
             <div className="bg-card rounded-sm shadow-xs p-4 h-full overflow-auto">
-              <div className="p-4 text-center text-muted-foreground">
+              <div className="p-4 text-center text-muted-foreground h-full flex items-center justify-center">
                 Backlog content coming soon...
               </div>
             </div>
@@ -822,7 +822,7 @@ const EditAsset = () => {
           
           <TabsContent value="components" className="mt-1 flex-1">
             <div className="bg-card rounded-sm shadow-xs p-4 h-full overflow-auto">
-              <div className="p-4 text-center text-muted-foreground">
+              <div className="p-4 text-center text-muted-foreground h-full flex items-center justify-center">
                 Components content coming soon...
               </div>
             </div>
@@ -830,7 +830,7 @@ const EditAsset = () => {
           
           <TabsContent value="log" className="mt-1 flex-1">
             <div className="bg-card rounded-sm shadow-xs p-4 h-full overflow-auto">
-              <div className="p-4 text-center text-muted-foreground">
+              <div className="p-4 text-center text-muted-foreground h-full flex items-center justify-center">
                 Log content coming soon...
               </div>
             </div>
