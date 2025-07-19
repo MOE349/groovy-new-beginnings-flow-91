@@ -795,7 +795,7 @@ const EditAsset = () => {
           </TabsContent>
           
           <TabsContent value="files" className="mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4 h-[500px] overflow-auto">
+            <div className="bg-card rounded-sm shadow-xs p-4">
               <div className="p-4 text-center text-muted-foreground">
                 Files content coming soon...
               </div>
@@ -803,7 +803,7 @@ const EditAsset = () => {
           </TabsContent>
           
           <TabsContent value="backlog" className="mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4 h-[500px] overflow-auto">
+            <div className="bg-card rounded-sm shadow-xs p-4">
               <div className="p-4 text-center text-muted-foreground">
                 Backlog content coming soon...
               </div>
@@ -811,7 +811,7 @@ const EditAsset = () => {
           </TabsContent>
           
           <TabsContent value="components" className="mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4 h-[500px] overflow-auto">
+            <div className="bg-card rounded-sm shadow-xs p-4">
               <div className="p-4 text-center text-muted-foreground">
                 Components content coming soon...
               </div>
@@ -819,7 +819,7 @@ const EditAsset = () => {
           </TabsContent>
           
           <TabsContent value="log" className="mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4 h-[500px] overflow-auto">
+            <div className="bg-card rounded-sm shadow-xs p-4">
               <div className="p-4 text-center text-muted-foreground">
                 Log content coming soon...
               </div>
