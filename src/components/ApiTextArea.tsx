@@ -26,7 +26,7 @@ const ApiTextArea = ({
   rows = 1,
 }: ApiTextAreaProps) => {
   return (
-    <div className={cn("space-y-2", className)}>
+    <div className={cn("space-y-1", className)}>
       {label && (
         <Label htmlFor={name} className={required ? "after:content-['*'] after:text-destructive" : ""}>
           {label}
