@@ -1,12 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { ChevronDown } from "lucide-react";
 import { apiCall } from "@/utils/apis";
 import { cn } from "@/lib/utils";
 import GearSpinner from "@/components/ui/gear-spinner";
@@ -44,11 +38,8 @@ const LocationEquipmentDropdown = ({
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredLocationId, setHoveredLocationId] = useState<string | null>(null);
   const [equipmentMenuPosition, setEquipmentMenuPosition] = useState({ top: 0, left: 0 });
-  const [isHoveringEquipment, setIsHoveringEquipment] = useState(false);
   
-  const selectContentRef = useRef<HTMLDivElement>(null);
-  const equipmentMenuRef = useRef<HTMLDivElement>(null);
-  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Fetch locations
   const {
@@ -120,7 +111,8 @@ const LocationEquipmentDropdown = ({
   const handleLocationSelect = (locationId: string) => {
     console.log('Location selected:', locationId);
     onLocationChange?.(locationId);
-    // Don't close dropdown immediately to allow equipment selection
+    setIsOpen(false);
+    setHoveredLocationId(null);
   };
 
   const handleEquipmentSelect = (equipmentId: string) => {
@@ -129,57 +121,19 @@ const LocationEquipmentDropdown = ({
     console.log('Equipment name:', equipmentName);
     onEquipmentChange?.(equipmentId);
     setHoveredLocationId(null);
-    setIsHoveringEquipment(false);
-    setIsOpen(false); // Close the dropdown after equipment selection
+    setIsOpen(false);
   };
 
   const handleLocationHover = (locationId: string, event: React.MouseEvent) => {
-    // Clear any existing timeout
-    if (hoverTimeoutRef.current) {
-      clearTimeout(hoverTimeoutRef.current);
-      hoverTimeoutRef.current = null;
-    }
-    
     console.log('Hovering over location:', locationId);
     setHoveredLocationId(locationId);
-    setIsHoveringEquipment(false);
     
     // Calculate position for equipment menu
     const rect = event.currentTarget.getBoundingClientRect();
     setEquipmentMenuPosition({
       top: rect.top,
-      left: rect.right + 2, // Very small gap to prevent mouse gaps
+      left: rect.right + 4,
     });
-  };
-
-  const handleLocationLeave = () => {
-    console.log('Leaving location, starting timeout');
-    // Add a delay before hiding to allow mouse to reach equipment menu
-    hoverTimeoutRef.current = setTimeout(() => {
-      console.log('Timeout executed, isHoveringEquipment:', isHoveringEquipment);
-      if (!isHoveringEquipment) {
-        setHoveredLocationId(null);
-      }
-    }, 200); // Increased delay to 200ms
-  };
-
-  const handleEquipmentEnter = () => {
-    console.log('Entering equipment menu');
-    // Clear the timeout and mark that we're hovering equipment
-    if (hoverTimeoutRef.current) {
-      clearTimeout(hoverTimeoutRef.current);
-      hoverTimeoutRef.current = null;
-    }
-    setIsHoveringEquipment(true);
-  };
-
-  const handleEquipmentLeave = () => {
-    console.log('Leaving equipment menu');
-    setIsHoveringEquipment(false);
-    // Immediate hide when leaving equipment menu
-    setTimeout(() => {
-      setHoveredLocationId(null);
-    }, 50);
   };
 
   // Debug: Track prop changes
@@ -188,63 +142,74 @@ const LocationEquipmentDropdown = ({
     console.log('LocationEquipmentDropdown - locationValue changed:', locationValue);
   }, [equipmentValue, locationValue]);
 
-  // Cleanup timeout on unmount
+  // Close dropdown when clicking outside
   useEffect(() => {
-    return () => {
-      if (hoverTimeoutRef.current) {
-        clearTimeout(hoverTimeoutRef.current);
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+        setHoveredLocationId(null);
       }
     };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
-    <div className={cn("relative", className)}>
-      <Select
-        value={locationValue}
-        onValueChange={handleLocationSelect}
+    <div className={cn("relative", className)} ref={dropdownRef}>
+      {/* Custom dropdown trigger */}
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
         disabled={disabled || isLoading}
-        open={isOpen}
-        onOpenChange={setIsOpen}
+        className={cn(
+          "w-full p-1.5 bg-muted rounded border text-xs text-foreground text-left flex items-center justify-between",
+          (locationValue || equipmentValue) && "bg-blue-50/70",
+          "hover:bg-muted/80 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
+        )}
       >
-        <SelectTrigger className={cn(
-          "w-full p-1.5 bg-muted rounded border text-xs text-foreground",
-          (locationValue || equipmentValue) && "bg-blue-50/70"
-        )}>
-          {isLoading ? (
-            <>
-              <span>Loading...</span>
-              <GearSpinner />
-            </>
-          ) : (
+        {isLoading ? (
+          <>
+            <span>Loading...</span>
+            <GearSpinner />
+          </>
+        ) : (
+          <>
             <span className="truncate">
               {getDisplayText() || "Select location"}
             </span>
-          )}
-        </SelectTrigger>
-        <SelectContent 
-          ref={selectContentRef}
-          onCloseAutoFocus={(e) => e.preventDefault()}
-        >
-          {!locations || locations.length === 0 ? (
-            <SelectItem value="__empty__" disabled>
-              No locations available
-            </SelectItem>
-          ) : (
-            locations.map((location: Location) => {
-              const locationEquipment = getEquipmentForLocation(location.id);
-              
-              return (
-                <div 
-                  key={location.id}
-                  className="relative"
-                  onMouseEnter={(e) => handleLocationHover(location.id, e)}
-                  onMouseLeave={handleLocationLeave}
-                >
-                  <SelectItem 
-                    value={location.id}
-                    className="cursor-pointer"
+            <ChevronDown className="h-3 w-3 shrink-0" />
+          </>
+        )}
+      </button>
+
+      {/* Custom dropdown content */}
+      {isOpen && !isLoading && (
+        <div className="absolute top-full left-0 z-50 mt-1 w-full bg-popover border rounded-md shadow-lg">
+          <div className="max-h-60 overflow-auto p-1">
+            {!locations || locations.length === 0 ? (
+              <div className="px-3 py-2 text-xs text-muted-foreground">
+                No locations available
+              </div>
+            ) : (
+              locations.map((location: Location) => {
+                const locationEquipment = getEquipmentForLocation(location.id);
+                const isSelected = locationValue === location.id;
+                
+                return (
+                  <div
+                    key={location.id}
+                    className="relative"
+                    onMouseEnter={(e) => handleLocationHover(location.id, e)}
+                    onMouseLeave={() => setHoveredLocationId(null)}
                   >
-                    <div className="flex items-center justify-between w-full">
+                    <div
+                      className={cn(
+                        "w-full px-3 py-2 text-xs text-left hover:bg-accent hover:text-accent-foreground rounded-sm cursor-pointer flex items-center justify-between",
+                        isSelected && "bg-accent text-accent-foreground"
+                      )}
+                      onClick={() => handleLocationSelect(location.id)}
+                    >
                       <span>{location.name}</span>
                       {locationEquipment.length > 0 && (
                         <span className="text-xs text-muted-foreground ml-2">
@@ -252,81 +217,58 @@ const LocationEquipmentDropdown = ({
                         </span>
                       )}
                     </div>
-                  </SelectItem>
-                </div>
-              );
-            })
-          )}
-        </SelectContent>
-      </Select>
-
-      {/* Equipment submenu - positioned absolutely relative to viewport */}
-      {hoveredLocationId && isOpen && (
-        <>
-          {/* Invisible bridge to prevent mouse leave gaps */}
-          <div
-            className="fixed z-[99]"
-            style={{
-              top: equipmentMenuPosition.top,
-              left: equipmentMenuPosition.left - 2,
-              width: 2,
-              height: 40, // Height of a typical menu item
-            }}
-            onMouseEnter={handleEquipmentEnter}
-          />
-          
-          <div
-            ref={equipmentMenuRef}
-            className="fixed z-[100] w-48 bg-popover border rounded-md shadow-lg pointer-events-auto"
-            style={{
-              top: equipmentMenuPosition.top,
-              left: equipmentMenuPosition.left,
-            }}
-            onMouseEnter={handleEquipmentEnter}
-            onMouseLeave={handleEquipmentLeave}
-          >
-            <div className="max-h-48 overflow-auto p-1">
-              <div className="px-2 py-1 text-xs font-medium text-muted-foreground border-b">
-                Equipment in {getLocationName(hoveredLocationId)}
-              </div>
-              {(() => {
-                const locationEquipment = getEquipmentForLocation(hoveredLocationId);
-                
-                if (locationEquipment.length === 0) {
-                  return (
-                    <div className="px-2 py-2 text-xs text-muted-foreground">
-                      No equipment available
-                    </div>
-                  );
-                }
-
-                return locationEquipment.map((equipment: Equipment) => (
-                  <div
-                    key={equipment.id}
-                    className={cn(
-                      "w-full px-2 py-1.5 text-xs text-left hover:bg-accent hover:text-accent-foreground rounded-sm transition-colors cursor-pointer",
-                      equipmentValue === equipment.id && "bg-accent text-accent-foreground"
-                    )}
-                    onMouseDown={(e) => {
-                      console.log('Equipment div mousedown:', equipment.id, equipment.name);
-                      e.preventDefault();
-                      e.stopPropagation();
-                      handleEquipmentSelect(equipment.id);
-                    }}
-                    onClick={(e) => {
-                      console.log('Equipment div clicked:', equipment.id, equipment.name);
-                      e.preventDefault();
-                      e.stopPropagation();
-                      handleEquipmentSelect(equipment.id);
-                    }}
-                  >
-                    {equipment.name}
                   </div>
-                ));
-              })()}
-            </div>
+                );
+              })
+            )}
           </div>
-        </>
+        </div>
+      )}
+
+      {/* Equipment submenu - completely separate from main dropdown */}
+      {hoveredLocationId && isOpen && (
+        <div
+          className="fixed z-[100] w-48 bg-popover border rounded-md shadow-lg"
+          style={{
+            top: equipmentMenuPosition.top,
+            left: equipmentMenuPosition.left,
+          }}
+          onMouseEnter={() => setHoveredLocationId(hoveredLocationId)}
+          onMouseLeave={() => setHoveredLocationId(null)}
+        >
+          <div className="max-h-48 overflow-auto p-1">
+            <div className="px-2 py-1 text-xs font-medium text-muted-foreground border-b">
+              Equipment in {getLocationName(hoveredLocationId)}
+            </div>
+            {(() => {
+              const locationEquipment = getEquipmentForLocation(hoveredLocationId);
+              
+              if (locationEquipment.length === 0) {
+                return (
+                  <div className="px-2 py-2 text-xs text-muted-foreground">
+                    No equipment available
+                  </div>
+                );
+              }
+
+              return locationEquipment.map((equipment: Equipment) => (
+                <div
+                  key={equipment.id}
+                  className={cn(
+                    "w-full px-2 py-1.5 text-xs text-left hover:bg-accent hover:text-accent-foreground rounded-sm transition-colors cursor-pointer",
+                    equipmentValue === equipment.id && "bg-accent text-accent-foreground"
+                  )}
+                  onClick={() => {
+                    console.log('Equipment clicked directly:', equipment.id, equipment.name);
+                    handleEquipmentSelect(equipment.id);
+                  }}
+                >
+                  {equipment.name}
+                </div>
+              ));
+            })()}
+          </div>
+        </div>
       )}
     </div>
   );
