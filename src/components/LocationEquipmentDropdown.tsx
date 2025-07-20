@@ -301,29 +301,27 @@ const LocationEquipmentDropdown = ({
                 }
 
                 return locationEquipment.map((equipment: Equipment) => (
-                  <button
+                  <div
                     key={equipment.id}
-                    type="button"
                     className={cn(
                       "w-full px-2 py-1.5 text-xs text-left hover:bg-accent hover:text-accent-foreground rounded-sm transition-colors cursor-pointer",
                       equipmentValue === equipment.id && "bg-accent text-accent-foreground"
                     )}
                     onMouseDown={(e) => {
-                      // Use onMouseDown instead of onClick to ensure it fires before other events
+                      console.log('Equipment div mousedown:', equipment.id, equipment.name);
                       e.preventDefault();
                       e.stopPropagation();
-                      console.log('Equipment button mousedown:', equipment.id, equipment.name);
                       handleEquipmentSelect(equipment.id);
                     }}
                     onClick={(e) => {
+                      console.log('Equipment div clicked:', equipment.id, equipment.name);
                       e.preventDefault();
                       e.stopPropagation();
-                      console.log('Equipment button clicked:', equipment.id, equipment.name);
                       handleEquipmentSelect(equipment.id);
                     }}
                   >
                     {equipment.name}
-                  </button>
+                  </div>
                 ));
               })()}
             </div>
