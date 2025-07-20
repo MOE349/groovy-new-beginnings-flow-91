@@ -304,13 +304,20 @@ const LocationEquipmentDropdown = ({
                     key={equipment.id}
                     type="button"
                     className={cn(
-                      "w-full px-2 py-1.5 text-xs text-left hover:bg-accent hover:text-accent-foreground rounded-sm transition-colors",
+                      "w-full px-2 py-1.5 text-xs text-left hover:bg-accent hover:text-accent-foreground rounded-sm transition-colors cursor-pointer",
                       equipmentValue === equipment.id && "bg-accent text-accent-foreground"
                     )}
+                    onMouseDown={(e) => {
+                      // Use onMouseDown instead of onClick to ensure it fires before other events
+                      e.preventDefault();
+                      e.stopPropagation();
+                      console.log('Equipment button mousedown:', equipment.id, equipment.name);
+                      handleEquipmentSelect(equipment.id);
+                    }}
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
-                      console.log('Equipment clicked:', equipment.id, equipment.name);
+                      console.log('Equipment button clicked:', equipment.id, equipment.name);
                       handleEquipmentSelect(equipment.id);
                     }}
                   >
