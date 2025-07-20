@@ -91,6 +91,27 @@ const LocationEquipmentDropdown = ({
     return location?.name || "";
   };
 
+  // Get equipment name  
+  const getEquipmentName = (equipmentId: string) => {
+    if (!allEquipment) return "";
+    const equipment = allEquipment.find((eq: Equipment) => eq.id === equipmentId);
+    return equipment?.name || "";
+  };
+
+  // Get display text for the select trigger
+  const getDisplayText = () => {
+    const locationName = locationValue ? getLocationName(locationValue) : "";
+    const equipmentName = equipmentValue ? getEquipmentName(equipmentValue) : "";
+    
+    if (locationName && equipmentName) {
+      return `${locationName} → ${equipmentName}`;
+    } else if (locationName) {
+      return locationName;
+    } else {
+      return "";
+    }
+  };
+
   const isLoading = locationsLoading || equipmentLoading;
 
   const handleLocationSelect = (locationId: string) => {
@@ -173,10 +194,18 @@ const LocationEquipmentDropdown = ({
       >
         <SelectTrigger className={cn(
           "w-full p-1.5 bg-muted rounded border text-xs text-foreground",
-          locationValue && "bg-blue-50/70"
+          (locationValue || equipmentValue) && "bg-blue-50/70"
         )}>
-          <SelectValue placeholder={isLoading ? "Loading..." : "Select location"} />
-          {isLoading && <GearSpinner />}
+          {isLoading ? (
+            <>
+              <span>Loading...</span>
+              <GearSpinner />
+            </>
+          ) : (
+            <span className="truncate">
+              {getDisplayText() || "Select location"}
+            </span>
+          )}
         </SelectTrigger>
         <SelectContent 
           ref={selectContentRef}
