@@ -68,7 +68,7 @@ const FormLayout = ({
             <ArrowLeft className="h-4 w-4" />
             Back
           </Button>
-          <div className="flex items-center gap-4 ml-4">
+          <div className="flex items-center gap-4">
             <h3 className="text-h3 font-medium text-primary dark:text-secondary">
               {config.title}
               {config.title.includes("Work Order") && formData?.code && (
