@@ -118,9 +118,9 @@ const LocationEquipmentDropdown = ({
   const isLoading = locationsLoading || equipmentLoading;
 
   const handleLocationSelect = (locationId: string) => {
+    console.log('Location selected:', locationId);
     onLocationChange?.(locationId);
-    setIsOpen(false);
-    setHoveredLocationId(null);
+    // Don't close dropdown immediately to allow equipment selection
   };
 
   const handleEquipmentSelect = (equipmentId: string) => {
@@ -130,6 +130,7 @@ const LocationEquipmentDropdown = ({
     onEquipmentChange?.(equipmentId);
     setHoveredLocationId(null);
     setIsHoveringEquipment(false);
+    setIsOpen(false); // Close the dropdown after equipment selection
   };
 
   const handleLocationHover = (locationId: string, event: React.MouseEvent) => {
