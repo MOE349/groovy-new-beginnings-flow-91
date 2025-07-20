@@ -487,39 +487,10 @@ const EditAsset = () => {
                                    for (let i = 0; i < 3; i++) {
                                      const item = pmSettingsData?.[i];
                                      rows.push(
-                                        <tr 
-                                          key={i} 
-                                          className={`border-b transition-colors cursor-pointer ${
-                                            item && selectedItemId === item.id 
-                                              ? 'bg-primary/20 hover:bg-primary/25' 
-                                              : 'hover:bg-muted/50 even:bg-muted/20 hover:bg-primary/10'
-                                          }`}
-                                           onClick={() => {
-                                             if (item) {
-                                                setMeterTriggerData({
-                                                  name: item.name ?? "",
-                                                  interval_value: String(item.interval_value ?? ""),
-                                                  interval_unit: item.interval_unit ?? "hours",
-                                                  start_threshold_value: String(item.start_threshold_value ?? ""),
-                                                  lead_time_value: String(item.lead_time_value ?? ""),
-                                                  is_active: item.is_active !== undefined ? item.is_active : true
-                                                });
-                                                setIsEditMode(true);
-                                                setSelectedItemId(item.id);
-                                              } else {
-                                                setMeterTriggerData({
-                                                  name: "",
-                                                  interval_value: "",
-                                                  interval_unit: "hours",
-                                                  start_threshold_value: "",
-                                                  lead_time_value: "",
-                                                  is_active: true
-                                                });
-                                               setIsEditMode(false);
-                                               setSelectedItemId(null);
-                                             }
-                                           }}
-                                        >
+                                         <tr 
+                                           key={i} 
+                                           className="border-b"
+                                         >
                                           <td className="px-2 py-1 text-left align-middle text-xs">
                                             <input 
                                               type="radio" 
