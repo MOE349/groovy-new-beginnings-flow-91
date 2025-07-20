@@ -108,38 +108,49 @@ const LocationEquipmentDropdown = ({
     // Clear any existing timeout
     if (hoverTimeoutRef.current) {
       clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
     }
     
+    console.log('Hovering over location:', locationId);
     setHoveredLocationId(locationId);
+    setIsHoveringEquipment(false);
     
     // Calculate position for equipment menu
     const rect = event.currentTarget.getBoundingClientRect();
     setEquipmentMenuPosition({
       top: rect.top,
-      left: rect.right + 4, // Reduced gap to make it easier to hover
+      left: rect.right + 2, // Very small gap to prevent mouse gaps
     });
   };
 
   const handleLocationLeave = () => {
-    // Add a small delay before hiding to allow mouse to reach equipment menu
+    console.log('Leaving location, starting timeout');
+    // Add a delay before hiding to allow mouse to reach equipment menu
     hoverTimeoutRef.current = setTimeout(() => {
+      console.log('Timeout executed, isHoveringEquipment:', isHoveringEquipment);
       if (!isHoveringEquipment) {
         setHoveredLocationId(null);
       }
-    }, 150); // 150ms delay
+    }, 200); // Increased delay to 200ms
   };
 
   const handleEquipmentEnter = () => {
+    console.log('Entering equipment menu');
     // Clear the timeout and mark that we're hovering equipment
     if (hoverTimeoutRef.current) {
       clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
     }
     setIsHoveringEquipment(true);
   };
 
   const handleEquipmentLeave = () => {
+    console.log('Leaving equipment menu');
     setIsHoveringEquipment(false);
-    setHoveredLocationId(null);
+    // Immediate hide when leaving equipment menu
+    setTimeout(() => {
+      setHoveredLocationId(null);
+    }, 50);
   };
 
   // Cleanup timeout on unmount
@@ -180,22 +191,26 @@ const LocationEquipmentDropdown = ({
               const locationEquipment = getEquipmentForLocation(location.id);
               
               return (
-                <SelectItem 
-                  key={location.id} 
-                  value={location.id}
+                <div 
+                  key={location.id}
+                  className="relative"
                   onMouseEnter={(e) => handleLocationHover(location.id, e)}
                   onMouseLeave={handleLocationLeave}
-                  className="relative cursor-pointer"
                 >
-                  <div className="flex items-center justify-between w-full">
-                    <span>{location.name}</span>
-                    {locationEquipment.length > 0 && (
-                      <span className="text-xs text-muted-foreground ml-2">
-                        {locationEquipment.length} equipment →
-                      </span>
-                    )}
-                  </div>
-                </SelectItem>
+                  <SelectItem 
+                    value={location.id}
+                    className="cursor-pointer"
+                  >
+                    <div className="flex items-center justify-between w-full">
+                      <span>{location.name}</span>
+                      {locationEquipment.length > 0 && (
+                        <span className="text-xs text-muted-foreground ml-2">
+                          {locationEquipment.length} equipment →
+                        </span>
+                      )}
+                    </div>
+                  </SelectItem>
+                </div>
               );
             })
           )}
@@ -204,47 +219,66 @@ const LocationEquipmentDropdown = ({
 
       {/* Equipment submenu - positioned absolutely relative to viewport */}
       {hoveredLocationId && isOpen && (
-        <div
-          ref={equipmentMenuRef}
-          className="fixed z-[100] w-48 bg-popover border rounded-md shadow-lg"
-          style={{
-            top: equipmentMenuPosition.top,
-            left: equipmentMenuPosition.left,
-          }}
-          onMouseEnter={handleEquipmentEnter}
-          onMouseLeave={handleEquipmentLeave}
-        >
-          <div className="max-h-48 overflow-auto p-1">
-            <div className="px-2 py-1 text-xs font-medium text-muted-foreground border-b">
-              Equipment in {getLocationName(hoveredLocationId)}
-            </div>
-            {(() => {
-              const locationEquipment = getEquipmentForLocation(hoveredLocationId);
-              
-              if (locationEquipment.length === 0) {
-                return (
-                  <div className="px-2 py-2 text-xs text-muted-foreground">
-                    No equipment available
-                  </div>
-                );
-              }
+        <>
+          {/* Invisible bridge to prevent mouse leave gaps */}
+          <div
+            className="fixed z-[99]"
+            style={{
+              top: equipmentMenuPosition.top,
+              left: equipmentMenuPosition.left - 2,
+              width: 2,
+              height: 40, // Height of a typical menu item
+            }}
+            onMouseEnter={handleEquipmentEnter}
+          />
+          
+          <div
+            ref={equipmentMenuRef}
+            className="fixed z-[100] w-48 bg-popover border rounded-md shadow-lg pointer-events-auto"
+            style={{
+              top: equipmentMenuPosition.top,
+              left: equipmentMenuPosition.left,
+            }}
+            onMouseEnter={handleEquipmentEnter}
+            onMouseLeave={handleEquipmentLeave}
+          >
+            <div className="max-h-48 overflow-auto p-1">
+              <div className="px-2 py-1 text-xs font-medium text-muted-foreground border-b">
+                Equipment in {getLocationName(hoveredLocationId)}
+              </div>
+              {(() => {
+                const locationEquipment = getEquipmentForLocation(hoveredLocationId);
+                
+                if (locationEquipment.length === 0) {
+                  return (
+                    <div className="px-2 py-2 text-xs text-muted-foreground">
+                      No equipment available
+                    </div>
+                  );
+                }
 
-              return locationEquipment.map((equipment: Equipment) => (
-                <button
-                  key={equipment.id}
-                  type="button"
-                  className={cn(
-                    "w-full px-2 py-1.5 text-xs text-left hover:bg-accent hover:text-accent-foreground rounded-sm",
-                    equipmentValue === equipment.id && "bg-accent text-accent-foreground"
-                  )}
-                  onClick={() => handleEquipmentSelect(equipment.id)}
-                >
-                  {equipment.name}
-                </button>
-              ));
-            })()}
+                return locationEquipment.map((equipment: Equipment) => (
+                  <button
+                    key={equipment.id}
+                    type="button"
+                    className={cn(
+                      "w-full px-2 py-1.5 text-xs text-left hover:bg-accent hover:text-accent-foreground rounded-sm transition-colors",
+                      equipmentValue === equipment.id && "bg-accent text-accent-foreground"
+                    )}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      console.log('Equipment clicked:', equipment.id, equipment.name);
+                      handleEquipmentSelect(equipment.id);
+                    }}
+                  >
+                    {equipment.name}
+                  </button>
+                ));
+              })()}
+            </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );
