@@ -49,8 +49,75 @@ const weightClassFormFields = [
   }
 ];
 
+const projectFormFields = [
+  {
+    name: "name",
+    type: "input" as const,
+    label: "Name",
+    required: true,
+    inputType: "text" as const
+  }
+];
+
+const accountCodeFormFields = [
+  {
+    name: "name",
+    type: "input" as const,
+    label: "Name",
+    required: true,
+    inputType: "text" as const
+  },
+  {
+    name: "project",
+    type: "dropdown" as const,
+    label: "Project",
+    required: true,
+    endpoint: "/projects/projects",
+    optionValueKey: "id",
+    optionLabelKey: "name"
+  }
+];
+
+const jobCodeFormFields = [
+  {
+    name: "name",
+    type: "input" as const,
+    label: "Name",
+    required: true,
+    inputType: "text" as const
+  },
+  {
+    name: "acount_code",
+    type: "dropdown" as const,
+    label: "Account Code",
+    required: true,
+    endpoint: "/projects/acount-codes",
+    optionValueKey: "id",
+    optionLabelKey: "name"
+  }
+];
+
+const assetStatusFormFields = [
+  {
+    name: "name",
+    type: "input" as const,
+    label: "Name",
+    required: true,
+    inputType: "text" as const
+  },
+  {
+    name: "job_code",
+    type: "dropdown" as const,
+    label: "Job Code",
+    required: true,
+    endpoint: "/projects/job-codes",
+    optionValueKey: "id",
+    optionLabelKey: "name"
+  }
+];
+
 const Settings = () => {
-  const [dialogOpen, setDialogOpen] = useState<'site' | 'location' | 'equipmentCategory' | 'attachmentCategory' | 'workOrderStatus' | 'weightClass' | null>(null);
+  const [dialogOpen, setDialogOpen] = useState<'site' | 'location' | 'equipmentCategory' | 'attachmentCategory' | 'workOrderStatus' | 'weightClass' | 'project' | 'accountCode' | 'jobCode' | 'assetStatus' | null>(null);
   const [loading, setLoading] = useState(false);
   const [editingItem, setEditingItem] = useState<Record<string, any> | null>(null);
   const navigate = useNavigate();
@@ -242,8 +309,128 @@ const Settings = () => {
     }
   };
 
+  const handleProjectSubmit = async (data: Record<string, any>) => {
+    try {
+      setLoading(true);
+      if (editingItem) {
+        await apiCall(`/projects/projects/${editingItem.id}`, { method: 'PUT', body: data });
+        toast({
+          title: "Success",
+          description: "Project updated successfully",
+        });
+      } else {
+        await apiCall("/projects/projects", { method: 'POST', body: data });
+        toast({
+          title: "Success",
+          description: "Project created successfully",
+        });
+      }
+      await queryClient.invalidateQueries({ queryKey: ["/projects/projects"] });
+      setDialogOpen(null);
+      setEditingItem(null);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || `Failed to ${editingItem ? 'update' : 'create'} project`,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAccountCodeSubmit = async (data: Record<string, any>) => {
+    try {
+      setLoading(true);
+      if (editingItem) {
+        await apiCall(`/projects/acount-codes/${editingItem.id}`, { method: 'PUT', body: data });
+        toast({
+          title: "Success",
+          description: "Account code updated successfully",
+        });
+      } else {
+        await apiCall("/projects/acount-codes", { method: 'POST', body: data });
+        toast({
+          title: "Success",
+          description: "Account code created successfully",
+        });
+      }
+      await queryClient.invalidateQueries({ queryKey: ["/projects/acount-codes"] });
+      setDialogOpen(null);
+      setEditingItem(null);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || `Failed to ${editingItem ? 'update' : 'create'} account code`,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleJobCodeSubmit = async (data: Record<string, any>) => {
+    try {
+      setLoading(true);
+      if (editingItem) {
+        await apiCall(`/projects/job-codes/${editingItem.id}`, { method: 'PUT', body: data });
+        toast({
+          title: "Success",
+          description: "Job code updated successfully",
+        });
+      } else {
+        await apiCall("/projects/job-codes", { method: 'POST', body: data });
+        toast({
+          title: "Success",
+          description: "Job code created successfully",
+        });
+      }
+      await queryClient.invalidateQueries({ queryKey: ["/projects/job-codes"] });
+      setDialogOpen(null);
+      setEditingItem(null);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || `Failed to ${editingItem ? 'update' : 'create'} job code`,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAssetStatusSubmit = async (data: Record<string, any>) => {
+    try {
+      setLoading(true);
+      if (editingItem) {
+        await apiCall(`/projects/asset-statuses/${editingItem.id}`, { method: 'PUT', body: data });
+        toast({
+          title: "Success",
+          description: "Asset status updated successfully",
+        });
+      } else {
+        await apiCall("/projects/asset-statuses", { method: 'POST', body: data });
+        toast({
+          title: "Success",
+          description: "Asset status created successfully",
+        });
+      }
+      await queryClient.invalidateQueries({ queryKey: ["/projects/asset-statuses"] });
+      setDialogOpen(null);
+      setEditingItem(null);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || `Failed to ${editingItem ? 'update' : 'create'} asset status`,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Helper function to handle row clicks for editing
-  const handleRowClick = (row: any, type: 'site' | 'location' | 'equipmentCategory' | 'attachmentCategory' | 'workOrderStatus' | 'weightClass') => {
+  const handleRowClick = (row: any, type: 'site' | 'location' | 'equipmentCategory' | 'attachmentCategory' | 'workOrderStatus' | 'weightClass' | 'project' | 'accountCode' | 'jobCode' | 'assetStatus') => {
     setEditingItem(row);
     setDialogOpen(type);
   };
@@ -292,8 +479,9 @@ const Settings = () => {
     <div className="h-full overflow-x-auto min-w-0">
       <div className="space-y-6 min-w-[1440px]">
         <Tabs defaultValue="sites" className="w-full mt-8">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="sites">Tables</TabsTrigger>
+            <TabsTrigger value="projects">Projects</TabsTrigger>
             <TabsTrigger value="categories">Users</TabsTrigger>
             <TabsTrigger value="workorder-settings">WorkOrder Settings</TabsTrigger>
           </TabsList>
@@ -402,6 +590,75 @@ const Settings = () => {
             </div>
           </TabsContent>
           
+          <TabsContent value="projects" className="space-y-3">
+            <div className="grid grid-cols-2 gap-4">
+              {/* Left Column - Projects and Account Codes */}
+              <div className="space-y-4">
+                <ApiTable
+                  title="Projects"
+                  endpoint="/projects/projects"
+                  onCreateNew={() => { setEditingItem(null); setDialogOpen('project'); }}
+                  onRowClick={(row) => handleRowClick(row, 'project')}
+                  createNewText="New Project"
+                  className="h-fit"
+                  tableClassName="text-xs"
+                  maxHeight="max-h-80"
+                  columns={[
+                    { key: 'name', header: 'Name' },
+                  ]}
+                />
+                
+                <ApiTable
+                  title="Account Codes"
+                  endpoint="/projects/acount-codes"
+                  onCreateNew={() => { setEditingItem(null); setDialogOpen('accountCode'); }}
+                  onRowClick={(row) => handleRowClick(row, 'accountCode')}
+                  createNewText="New Account Code"
+                  className="h-fit"
+                  tableClassName="text-xs"
+                  maxHeight="max-h-80"
+                  columns={[
+                    { key: 'name', header: 'Name' },
+                    { key: 'project', header: 'Project', type: 'object' },
+                  ]}
+                />
+              </div>
+              
+              {/* Right Column - Job Codes and Asset Status */}
+              <div className="space-y-4">
+                <ApiTable
+                  title="Job Codes"
+                  endpoint="/projects/job-codes"
+                  onCreateNew={() => { setEditingItem(null); setDialogOpen('jobCode'); }}
+                  onRowClick={(row) => handleRowClick(row, 'jobCode')}
+                  createNewText="New Job Code"
+                  className="h-fit"
+                  tableClassName="text-xs"
+                  maxHeight="max-h-80"
+                  columns={[
+                    { key: 'name', header: 'Name' },
+                    { key: 'acount_code', header: 'Account Code', type: 'object' },
+                  ]}
+                />
+                
+                <ApiTable
+                  title="Asset Status"
+                  endpoint="/projects/asset-statuses"
+                  onCreateNew={() => { setEditingItem(null); setDialogOpen('assetStatus'); }}
+                  onRowClick={(row) => handleRowClick(row, 'assetStatus')}
+                  createNewText="New Asset Status"
+                  className="h-fit"
+                  tableClassName="text-xs"
+                  maxHeight="max-h-80"
+                  columns={[
+                    { key: 'name', header: 'Name' },
+                    { key: 'job_code', header: 'Job Code', type: 'object' },
+                  ]}
+                />
+              </div>
+            </div>
+          </TabsContent>
+
           <TabsContent value="categories" className="space-y-4">
             <div className="text-center text-muted-foreground py-8">
               Equipment and Attachment Categories have been moved to the Sites tab.
@@ -507,6 +764,70 @@ const Settings = () => {
             loading={loading}
             initialData={editingItem ? prepareInitialData(editingItem, weightClassFormFields) : {}}
             customLayout={customLayout(editingItem ? 'Edit Weight Class' : 'Create New Weight Class', handleWeightClassSubmit, weightClassFormFields)}
+          />
+        </DialogContent>
+      </Dialog>
+
+      {/* Project Dialog */}
+      <Dialog open={dialogOpen === 'project'} onOpenChange={(open) => { if (!open) { setDialogOpen(null); setEditingItem(null); } }}>
+        <DialogContent className="max-w-md max-h-[80vh] overflow-hidden">
+          <DialogHeader>
+            <DialogTitle>{editingItem ? 'Edit Project' : 'Create New Project'}</DialogTitle>
+          </DialogHeader>
+          <ApiForm
+            fields={projectFormFields}
+            onSubmit={handleProjectSubmit}
+            loading={loading}
+            initialData={editingItem ? prepareInitialData(editingItem, projectFormFields) : {}}
+            customLayout={customLayout(editingItem ? 'Edit Project' : 'Create New Project', handleProjectSubmit, projectFormFields)}
+          />
+        </DialogContent>
+      </Dialog>
+
+      {/* Account Code Dialog */}
+      <Dialog open={dialogOpen === 'accountCode'} onOpenChange={(open) => { if (!open) { setDialogOpen(null); setEditingItem(null); } }}>
+        <DialogContent className="max-w-md max-h-[80vh] overflow-hidden">
+          <DialogHeader>
+            <DialogTitle>{editingItem ? 'Edit Account Code' : 'Create New Account Code'}</DialogTitle>
+          </DialogHeader>
+          <ApiForm
+            fields={accountCodeFormFields}
+            onSubmit={handleAccountCodeSubmit}
+            loading={loading}
+            initialData={editingItem ? prepareInitialData(editingItem, accountCodeFormFields) : {}}
+            customLayout={customLayout(editingItem ? 'Edit Account Code' : 'Create New Account Code', handleAccountCodeSubmit, accountCodeFormFields)}
+          />
+        </DialogContent>
+      </Dialog>
+
+      {/* Job Code Dialog */}
+      <Dialog open={dialogOpen === 'jobCode'} onOpenChange={(open) => { if (!open) { setDialogOpen(null); setEditingItem(null); } }}>
+        <DialogContent className="max-w-md max-h-[80vh] overflow-hidden">
+          <DialogHeader>
+            <DialogTitle>{editingItem ? 'Edit Job Code' : 'Create New Job Code'}</DialogTitle>
+          </DialogHeader>
+          <ApiForm
+            fields={jobCodeFormFields}
+            onSubmit={handleJobCodeSubmit}
+            loading={loading}
+            initialData={editingItem ? prepareInitialData(editingItem, jobCodeFormFields) : {}}
+            customLayout={customLayout(editingItem ? 'Edit Job Code' : 'Create New Job Code', handleJobCodeSubmit, jobCodeFormFields)}
+          />
+        </DialogContent>
+      </Dialog>
+
+      {/* Asset Status Dialog */}
+      <Dialog open={dialogOpen === 'assetStatus'} onOpenChange={(open) => { if (!open) { setDialogOpen(null); setEditingItem(null); } }}>
+        <DialogContent className="max-w-md max-h-[80vh] overflow-hidden">
+          <DialogHeader>
+            <DialogTitle>{editingItem ? 'Edit Asset Status' : 'Create New Asset Status'}</DialogTitle>
+          </DialogHeader>
+          <ApiForm
+            fields={assetStatusFormFields}
+            onSubmit={handleAssetStatusSubmit}
+            loading={loading}
+            initialData={editingItem ? prepareInitialData(editingItem, assetStatusFormFields) : {}}
+            customLayout={customLayout(editingItem ? 'Edit Asset Status' : 'Create New Asset Status', handleAssetStatusSubmit, assetStatusFormFields)}
           />
         </DialogContent>
       </Dialog>
