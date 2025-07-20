@@ -66,15 +66,6 @@ const accountCodeFormFields = [
     label: "Name",
     required: true,
     inputType: "text" as const
-  },
-  {
-    name: "project",
-    type: "dropdown" as const,
-    label: "Project",
-    required: true,
-    endpoint: "/projects/projects",
-    optionValueKey: "id",
-    optionLabelKey: "name"
   }
 ];
 
@@ -85,15 +76,6 @@ const jobCodeFormFields = [
     label: "Name",
     required: true,
     inputType: "text" as const
-  },
-  {
-    name: "acount_code",
-    type: "dropdown" as const,
-    label: "Account Code",
-    required: true,
-    endpoint: "/projects/account-codes",
-    optionValueKey: "id",
-    optionLabelKey: "name"
   }
 ];
 
@@ -104,15 +86,6 @@ const assetStatusFormFields = [
     label: "Name",
     required: true,
     inputType: "text" as const
-  },
-  {
-    name: "job_code",
-    type: "dropdown" as const,
-    label: "Job Code",
-    required: true,
-    endpoint: "/projects/job-codes",
-    optionValueKey: "id",
-    optionLabelKey: "name"
   }
 ];
 
