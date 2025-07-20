@@ -492,14 +492,39 @@ const EditAsset = () => {
                                            className="border-b"
                                          >
                                           <td className="px-2 py-1 text-left align-middle text-xs">
-                                            <input 
-                                              type="radio" 
-                                              name="pm-selection" 
-                                              value={item?.id || i} 
-                                              checked={selectedRadioId === (item?.id || i.toString())}
-                                              onChange={() => setSelectedRadioId(item?.id || i.toString())}
-                                              className="w-3 h-3"
-                                            />
+                                             <input 
+                                               type="radio" 
+                                               name="pm-selection" 
+                                               value={item?.id || i} 
+                                               checked={selectedRadioId === (item?.id || i.toString())}
+                                               onChange={() => {
+                                                 setSelectedRadioId(item?.id || i.toString());
+                                                 if (item) {
+                                                   setMeterTriggerData({
+                                                     name: item.name ?? "",
+                                                     interval_value: String(item.interval_value ?? ""),
+                                                     interval_unit: item.interval_unit ?? "hours",
+                                                     start_threshold_value: String(item.start_threshold_value ?? ""),
+                                                     lead_time_value: String(item.lead_time_value ?? ""),
+                                                     is_active: item.is_active !== undefined ? item.is_active : true
+                                                   });
+                                                   setIsEditMode(true);
+                                                   setSelectedItemId(item.id);
+                                                 } else {
+                                                   setMeterTriggerData({
+                                                     name: "",
+                                                     interval_value: "",
+                                                     interval_unit: "hours",
+                                                     start_threshold_value: "",
+                                                     lead_time_value: "",
+                                                     is_active: true
+                                                   });
+                                                   setIsEditMode(false);
+                                                   setSelectedItemId(null);
+                                                 }
+                                               }}
+                                               className="w-3 h-3"
+                                             />
                                           </td>
                                           <td className="px-2 py-1 text-left align-middle text-xs">
                                             {item?.name || '-'}
