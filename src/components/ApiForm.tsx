@@ -107,6 +107,13 @@ const ApiForm = ({
       }
     });
     
+    // Always include hidden required fields in submission
+    fields.forEach(field => {
+      if (field.inputType === 'hidden' && field.required && formData[field.name] !== undefined) {
+        updatedData[field.name] = formData[field.name];
+      }
+    });
+    
     onSubmit?.(updatedData);
   };
 
