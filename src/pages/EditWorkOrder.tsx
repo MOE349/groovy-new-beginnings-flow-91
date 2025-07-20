@@ -439,7 +439,7 @@ const EditWorkOrder = () => {
                       solution: completionData?.data?.data?.solution || "",
                     }}
                     customLayout={({ fields, formData, handleFieldChange, renderField }) => (
-                      <div className="space-y-3">
+                      <div className="space-y-2">
                         {fields.map(field => {
                           if (field.inputType === "hidden") {
                             return renderField(field);
@@ -448,7 +448,7 @@ const EditWorkOrder = () => {
                           // Clone the field render and add onBlur auto-save
                           const originalField = renderField(field);
                           return (
-                            <div key={field.name} className="space-y-1" onBlur={() => {
+                            <div key={field.name} onBlur={() => {
                               handleCompletionFieldChange(field.name, formData[field.name], formData);
                             }}>
                               {originalField}
