@@ -149,6 +149,18 @@ const FormLayout = ({
                        <div className="w-full p-1.5 bg-muted rounded border text-xs text-foreground text-center">
                          {initialData?.["asset.location"] || "No location assigned"}
                        </div>
+                    ) : config.title.includes("Attachment") ? (
+                      <LocationEquipmentDropdown
+                        locationValue={formData?.location}
+                        equipmentValue={formData?.equipment}
+                        onLocationChange={(locationId) => {
+                          handleFieldChange("location", locationId);
+                        }}
+                        onEquipmentChange={(equipmentId) => {
+                          handleFieldChange("equipment", equipmentId);
+                        }}
+                        className="w-full"
+                      />
                     ) : (
                       renderField({ 
                         name: "location", 
@@ -160,21 +172,6 @@ const FormLayout = ({
                         optionLabelKey: "name"
                       })
                     )}
-                  </div>
-                )}
-                {config.showSpecialSections?.equipment && (
-                  <div className="space-y-1 w-40">
-                    <LocationEquipmentDropdown
-                      locationValue={formData?.location}
-                      equipmentValue={formData?.equipment}
-                      onLocationChange={(locationId, locationName) => {
-                        handleFieldChange("location", locationId);
-                      }}
-                      onEquipmentChange={(equipmentId, equipmentName) => {
-                        handleFieldChange("equipment", equipmentId);
-                      }}
-                      required={true}
-                    />
                   </div>
                 )}
               </div>

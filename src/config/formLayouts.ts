@@ -156,7 +156,7 @@ export const attachmentFormConfig: FormLayoutConfig = {
   showImage: true,
   showOnlineToggle: true,
   showSpecialSections: {
-    equipment: true, // Changed from location to equipment to show custom location/equipment selector
+    location: true,
   },
   columns: [
     {
