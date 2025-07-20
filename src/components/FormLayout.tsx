@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Check, X } from "lucide-react";
+import LocationEquipmentDropdown from "@/components/LocationEquipmentDropdown";
 
 export interface FormLayoutConfig {
   title: string;
@@ -159,6 +160,21 @@ const FormLayout = ({
                         optionLabelKey: "name"
                       })
                     )}
+                  </div>
+                )}
+                {config.showSpecialSections?.equipment && (
+                  <div className="space-y-1 w-40">
+                    <LocationEquipmentDropdown
+                      locationValue={formData?.location}
+                      equipmentValue={formData?.equipment}
+                      onLocationChange={(locationId, locationName) => {
+                        handleFieldChange("location", locationId);
+                      }}
+                      onEquipmentChange={(equipmentId, equipmentName) => {
+                        handleFieldChange("equipment", equipmentId);
+                      }}
+                      required={true}
+                    />
                   </div>
                 )}
               </div>
