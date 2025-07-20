@@ -58,9 +58,7 @@ const EditWorkOrder = () => {
 
   const handleChecklistSubmit = async (data: Record<string, any>) => {
     try {
-      // Add work order ID to the data
-      const dataWithWorkOrder = { ...data, work_order: id };
-      await apiCall('/work-orders/work_orders/checklists', { method: 'POST', body: dataWithWorkOrder });
+      await apiCall('/work-orders/work_orders/checklists', { method: 'POST', body: data });
       // Invalidate and refetch the checklist table
       queryClient.invalidateQueries({
         queryKey: ["work_order_checklists", id]
@@ -220,12 +218,19 @@ const EditWorkOrder = () => {
       });
     }
   };
+
   const handleRowClick = (row: any) => {
     setSelectedChecklistItem(row);
     setIsEditChecklistDialogOpen(true);
   };
 
   const checklistFormTemplate: FormField[] = [  
+    {
+      name: "work_order",
+      type: "input",
+      inputType: "hidden",
+      required: true,
+    },
     {
       name: "description",
       type: "textarea",
@@ -342,7 +347,7 @@ const EditWorkOrder = () => {
     );
   }
 
-    if (!workOrderData || !workOrderData.data || !workOrderData.data.data) {
+  if (!workOrderData || !workOrderData.data || !workOrderData.data.data) {
     return (
       <div className="flex justify-center items-center min-h-[400px]">
         <GearSpinner fullscreen />
