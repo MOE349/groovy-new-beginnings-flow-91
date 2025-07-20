@@ -479,16 +479,15 @@ const Settings = () => {
     <div className="h-full overflow-x-auto min-w-0">
       <div className="space-y-6 min-w-[1440px]">
         <Tabs defaultValue="sites" className="w-full mt-8">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="sites">Tables</TabsTrigger>
-            <TabsTrigger value="projects">Projects</TabsTrigger>
             <TabsTrigger value="categories">Users</TabsTrigger>
             <TabsTrigger value="workorder-settings">WorkOrder Settings</TabsTrigger>
           </TabsList>
           
           <TabsContent value="sites" className="space-y-3">
-            <div className="grid grid-cols-3 gap-4">
-              {/* Left Column - Sites and Locations */}
+            <div className="grid grid-cols-4 gap-4">
+              {/* First Column - Sites and Locations */}
               <div className="space-y-4">
                 <ApiTable
                   title="Sites"
@@ -522,7 +521,7 @@ const Settings = () => {
                 />
               </div>
               
-              {/* Middle Column - Equipment and Attachment Categories */}
+              {/* Second Column - Equipment and Attachment Categories */}
               <div className="space-y-4">
                 <ApiTable
                   title="Equipment Categories"
@@ -555,7 +554,7 @@ const Settings = () => {
                 />
               </div>
               
-              {/* Right Column - WorkOrder Status and Weight Class */}
+              {/* Third Column - WorkOrder Status and Weight Class */}
               <div className="space-y-4">
                 <ApiTable
                   title="WorkOrder Status"
@@ -587,12 +586,8 @@ const Settings = () => {
                   ]}
                 />
               </div>
-            </div>
-          </TabsContent>
-          
-          <TabsContent value="projects" className="space-y-3">
-            <div className="grid grid-cols-2 gap-4">
-              {/* Left Column - Projects and Account Codes */}
+
+              {/* Fourth Column - Project Related Tables */}
               <div className="space-y-4">
                 <ApiTable
                   title="Projects"
@@ -602,7 +597,7 @@ const Settings = () => {
                   createNewText="New Project"
                   className="h-fit"
                   tableClassName="text-xs"
-                  maxHeight="max-h-80"
+                  maxHeight="max-h-52"
                   columns={[
                     { key: 'name', header: 'Name' },
                   ]}
@@ -616,16 +611,13 @@ const Settings = () => {
                   createNewText="New Account Code"
                   className="h-fit"
                   tableClassName="text-xs"
-                  maxHeight="max-h-80"
+                  maxHeight="max-h-52"
                   columns={[
                     { key: 'name', header: 'Name' },
                     { key: 'project', header: 'Project', type: 'object' },
                   ]}
                 />
-              </div>
-              
-              {/* Right Column - Job Codes and Asset Status */}
-              <div className="space-y-4">
+
                 <ApiTable
                   title="Job Codes"
                   endpoint="/projects/job-codes"
@@ -634,7 +626,7 @@ const Settings = () => {
                   createNewText="New Job Code"
                   className="h-fit"
                   tableClassName="text-xs"
-                  maxHeight="max-h-80"
+                  maxHeight="max-h-52"
                   columns={[
                     { key: 'name', header: 'Name' },
                     { key: 'acount_code', header: 'Account Code', type: 'object' },
@@ -649,7 +641,7 @@ const Settings = () => {
                   createNewText="New Asset Status"
                   className="h-fit"
                   tableClassName="text-xs"
-                  maxHeight="max-h-80"
+                  maxHeight="max-h-52"
                   columns={[
                     { key: 'name', header: 'Name' },
                     { key: 'job_code', header: 'Job Code', type: 'object' },
@@ -658,6 +650,7 @@ const Settings = () => {
               </div>
             </div>
           </TabsContent>
+          
 
           <TabsContent value="categories" className="space-y-4">
             <div className="text-center text-muted-foreground py-8">
