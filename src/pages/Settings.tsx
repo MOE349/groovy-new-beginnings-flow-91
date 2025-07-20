@@ -614,7 +614,6 @@ const Settings = () => {
                   maxHeight="max-h-52"
                   columns={[
                     { key: 'name', header: 'Name' },
-                    { key: 'project', header: 'Project', type: 'object' },
                   ]}
                 />
 
@@ -629,7 +628,6 @@ const Settings = () => {
                   maxHeight="max-h-52"
                   columns={[
                     { key: 'name', header: 'Name' },
-                    { key: 'acount_code', header: 'Account Code', type: 'object' },
                   ]}
                 />
                 
@@ -644,7 +642,6 @@ const Settings = () => {
                   maxHeight="max-h-52"
                   columns={[
                     { key: 'name', header: 'Name' },
-                    { key: 'job_code', header: 'Job Code', type: 'object' },
                   ]}
                 />
               </div>
