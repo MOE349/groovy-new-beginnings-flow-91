@@ -168,7 +168,9 @@ const EditWorkOrder = () => {
 
   const handleServicesSubmit = async (data: Record<string, any>) => {
     try {
-      await apiCall('/work-orders/work_order_misc_cost', { method: 'POST', body: data });
+      // Add work order ID to the data
+      const dataWithWorkOrder = { ...data, work_order: id };
+      await apiCall('/work-orders/work_order_misc_cost', { method: 'POST', body: dataWithWorkOrder });
       // Invalidate and refetch the services table
       queryClient.invalidateQueries({
         queryKey: ["work_order_misc_cost", id]
