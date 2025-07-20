@@ -103,6 +103,9 @@ const LocationEquipmentDropdown = ({
     const locationName = locationValue ? getLocationName(locationValue) : "";
     const equipmentName = equipmentValue ? getEquipmentName(equipmentValue) : "";
     
+    console.log('getDisplayText - locationValue:', locationValue, 'locationName:', locationName);
+    console.log('getDisplayText - equipmentValue:', equipmentValue, 'equipmentName:', equipmentName);
+    
     if (locationName && equipmentName) {
       return `${locationName} → ${equipmentName}`;
     } else if (locationName) {
@@ -121,8 +124,12 @@ const LocationEquipmentDropdown = ({
   };
 
   const handleEquipmentSelect = (equipmentId: string) => {
+    console.log('Equipment selected:', equipmentId);
+    const equipmentName = getEquipmentName(equipmentId);
+    console.log('Equipment name:', equipmentName);
     onEquipmentChange?.(equipmentId);
     setHoveredLocationId(null);
+    setIsHoveringEquipment(false);
   };
 
   const handleLocationHover = (locationId: string, event: React.MouseEvent) => {
@@ -173,6 +180,12 @@ const LocationEquipmentDropdown = ({
       setHoveredLocationId(null);
     }, 50);
   };
+
+  // Debug: Track prop changes
+  useEffect(() => {
+    console.log('LocationEquipmentDropdown - equipmentValue changed:', equipmentValue);
+    console.log('LocationEquipmentDropdown - locationValue changed:', locationValue);
+  }, [equipmentValue, locationValue]);
 
   // Cleanup timeout on unmount
   useEffect(() => {
