@@ -44,9 +44,11 @@ const LocationEquipmentDropdown = ({
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredLocationId, setHoveredLocationId] = useState<string | null>(null);
   const [equipmentMenuPosition, setEquipmentMenuPosition] = useState({ top: 0, left: 0 });
+  const [isHoveringEquipment, setIsHoveringEquipment] = useState(false);
   
   const selectContentRef = useRef<HTMLDivElement>(null);
   const equipmentMenuRef = useRef<HTMLDivElement>(null);
+  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Fetch locations
   const {
@@ -103,15 +105,51 @@ const LocationEquipmentDropdown = ({
   };
 
   const handleLocationHover = (locationId: string, event: React.MouseEvent) => {
+    // Clear any existing timeout
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+    
     setHoveredLocationId(locationId);
     
     // Calculate position for equipment menu
     const rect = event.currentTarget.getBoundingClientRect();
     setEquipmentMenuPosition({
       top: rect.top,
-      left: rect.right + 8, // 8px gap from the location item
+      left: rect.right + 4, // Reduced gap to make it easier to hover
     });
   };
+
+  const handleLocationLeave = () => {
+    // Add a small delay before hiding to allow mouse to reach equipment menu
+    hoverTimeoutRef.current = setTimeout(() => {
+      if (!isHoveringEquipment) {
+        setHoveredLocationId(null);
+      }
+    }, 150); // 150ms delay
+  };
+
+  const handleEquipmentEnter = () => {
+    // Clear the timeout and mark that we're hovering equipment
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+    setIsHoveringEquipment(true);
+  };
+
+  const handleEquipmentLeave = () => {
+    setIsHoveringEquipment(false);
+    setHoveredLocationId(null);
+  };
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <div className={cn("relative", className)}>
@@ -146,7 +184,7 @@ const LocationEquipmentDropdown = ({
                   key={location.id} 
                   value={location.id}
                   onMouseEnter={(e) => handleLocationHover(location.id, e)}
-                  onMouseLeave={() => setHoveredLocationId(null)}
+                  onMouseLeave={handleLocationLeave}
                   className="relative cursor-pointer"
                 >
                   <div className="flex items-center justify-between w-full">
@@ -173,8 +211,8 @@ const LocationEquipmentDropdown = ({
             top: equipmentMenuPosition.top,
             left: equipmentMenuPosition.left,
           }}
-          onMouseEnter={() => setHoveredLocationId(hoveredLocationId)}
-          onMouseLeave={() => setHoveredLocationId(null)}
+          onMouseEnter={handleEquipmentEnter}
+          onMouseLeave={handleEquipmentLeave}
         >
           <div className="max-h-48 overflow-auto p-1">
             <div className="px-2 py-1 text-xs font-medium text-muted-foreground border-b">
