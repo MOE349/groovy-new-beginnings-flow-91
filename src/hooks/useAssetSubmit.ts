@@ -12,11 +12,10 @@ export const useAssetSubmit = (id: string | undefined, assetType: AssetType | nu
     try {
       const endpoint = assetType === "equipment" ? `/assets/equipments/${id}` : `/assets/attachments/${id}`;
       await apiCall(endpoint, { method: 'PATCH', body: data });
-      toast({
-        title: "Success",
-        description: `${assetType === "equipment" ? "Equipment" : "Attachment"} updated successfully!`,
-      });
-      navigate("/asset");
+    toast({
+      title: "Success",
+      description: `${assetType === "equipment" ? "Equipment" : "Attachment"} updated successfully!`,
+    });
     } catch (error: any) {
       toast({
         title: "Error",
