@@ -200,6 +200,7 @@ const EditAsset = () => {
     category: assetData?.category?.id || assetData?.category || "",
     location: assetData?.location?.id || assetData?.location || "",
     weight_class: assetData?.weight_class?.id || assetData?.weight_class || "",
+    year: assetData?.year ? assetData.year.toString() : "",
     equipment: assetData?.equipment?.id || assetData?.equipment || ""
   };
 
