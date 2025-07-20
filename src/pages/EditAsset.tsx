@@ -829,9 +829,37 @@ const EditAsset = () => {
           </TabsContent>
           
           <TabsContent value="log" className="tab-content-container">
-            <div className="tab-content-generic">
-              <div className="p-4 text-center text-muted-foreground">
-                Log content coming soon...
+            <div className="tab-content-generic space-y-6">
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Active Work Orders</h3>
+                <ApiTable
+                  endpoint={`/work-orders/work_order?asset_id=${id}&status__control__name=Active`}
+                  columns={[
+                    { key: 'code', header: 'Code', type: 'string' },
+                    { key: 'description', header: 'Description', type: 'string' },
+                    { key: 'status', header: 'Status', type: 'object', render: (value: any) => value?.control?.name || value?.name || '-' },
+                    { key: 'maint_type', header: 'Maint Type', type: 'string' },
+                    { key: 'completion_end_date', header: 'Completion Date', type: 'string' }
+                  ]}
+                  queryKey={['active-work-orders', id]}
+                  tableId={`active-work-orders-${id}`}
+                />
+              </div>
+              
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Completed Work Orders</h3>
+                <ApiTable
+                  endpoint={`/work-orders/work_order?asset_id=${id}`}
+                  columns={[
+                    { key: 'code', header: 'Code', type: 'string' },
+                    { key: 'description', header: 'Description', type: 'string' },
+                    { key: 'status', header: 'Status', type: 'object', render: (value: any) => value?.control?.name || value?.name || '-' },
+                    { key: 'maint_type', header: 'Maint Type', type: 'string' },
+                    { key: 'completion_end_date', header: 'Completion Date', type: 'string' }
+                  ]}
+                  queryKey={['all-work-orders', id]}
+                  tableId={`all-work-orders-${id}`}
+                />
               </div>
             </div>
           </TabsContent>
