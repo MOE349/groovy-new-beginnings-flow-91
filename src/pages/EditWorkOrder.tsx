@@ -58,7 +58,9 @@ const EditWorkOrder = () => {
 
   const handleChecklistSubmit = async (data: Record<string, any>) => {
     try {
-      await apiCall('/work-orders/work_orders/checklists', { method: 'POST', body: data });
+      // Add work order ID to the data
+      const dataWithWorkOrder = { ...data, work_order: id };
+      await apiCall('/work-orders/work_orders/checklists', { method: 'POST', body: dataWithWorkOrder });
       // Invalidate and refetch the checklist table
       queryClient.invalidateQueries({
         queryKey: ["work_order_checklists", id]
