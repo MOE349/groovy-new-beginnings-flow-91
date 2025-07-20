@@ -91,7 +91,7 @@ const jobCodeFormFields = [
     type: "dropdown" as const,
     label: "Account Code",
     required: true,
-    endpoint: "/projects/acount-codes",
+    endpoint: "/projects/account-codes",
     optionValueKey: "id",
     optionLabelKey: "name"
   }
@@ -343,19 +343,19 @@ const Settings = () => {
     try {
       setLoading(true);
       if (editingItem) {
-        await apiCall(`/projects/acount-codes/${editingItem.id}`, { method: 'PUT', body: data });
+        await apiCall(`/projects/account-codes/${editingItem.id}`, { method: 'PUT', body: data });
         toast({
           title: "Success",
           description: "Account code updated successfully",
         });
       } else {
-        await apiCall("/projects/acount-codes", { method: 'POST', body: data });
+        await apiCall("/projects/account-codes", { method: 'POST', body: data });
         toast({
           title: "Success",
           description: "Account code created successfully",
         });
       }
-      await queryClient.invalidateQueries({ queryKey: ["/projects/acount-codes"] });
+      await queryClient.invalidateQueries({ queryKey: ["/projects/account-codes"] });
       setDialogOpen(null);
       setEditingItem(null);
     } catch (error: any) {
@@ -605,7 +605,7 @@ const Settings = () => {
                 
                 <ApiTable
                   title="Account Codes"
-                  endpoint="/projects/acount-codes"
+                  endpoint="/projects/account-codes"
                   onCreateNew={() => { setEditingItem(null); setDialogOpen('accountCode'); }}
                   onRowClick={(row) => handleRowClick(row, 'accountCode')}
                   createNewText="New Account Code"
