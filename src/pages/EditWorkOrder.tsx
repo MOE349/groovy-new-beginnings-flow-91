@@ -59,7 +59,6 @@ const EditWorkOrder = () => {
   const handleChecklistSubmit = async (data: Record<string, any>) => {
     try {
       await apiCall('/work-orders/work_orders/checklists', { method: 'POST', body: data });
-      // Invalidate and refetch the checklist table
       queryClient.invalidateQueries({
         queryKey: ["work_order_checklists", id]
       });
@@ -83,7 +82,6 @@ const EditWorkOrder = () => {
         method: 'PATCH', 
         body: data 
       });
-      // Invalidate and refetch the checklist table
       queryClient.invalidateQueries({
         queryKey: ["work_order_checklists", id]
       });
@@ -107,7 +105,6 @@ const EditWorkOrder = () => {
       const completionId = completionData?.data?.data?.id;
       const initialData = completionData?.data?.data || {};
       
-      // Only send fields that changed
       const changedFields = Object.keys(data).reduce((acc: Record<string, any>, key) => {
         if (data[key] !== initialData[key]) {
           acc[key] = data[key];
@@ -116,15 +113,19 @@ const EditWorkOrder = () => {
       }, {});
       
       if (completionId) {
-        // Update existing completion note with PATCH and only send changed fields
         await apiCall(`/work-orders/work_order_completion_note/${completionId}`, { 
           method: 'PATCH', 
           body: changedFields 
         });
       } else {
-        // Create new completion note if none exists
         await apiCall('/work-orders/work_order_completion_note', { method: 'POST', body: data });
       }
+      
+      // Refresh completion data after successful save
+      queryClient.invalidateQueries({
+        queryKey: ["work_order_completion_note", id]
+      });
+      
       toast({
         title: "Success",
         description: "Completion notes saved successfully!",
@@ -138,38 +139,9 @@ const EditWorkOrder = () => {
     }
   };
 
-  const handleCompletionFieldChange = async (name: string, value: any, allFormData: Record<string, any>) => {
-    try {
-      const completionId = completionData?.data?.data?.id;
-      const initialData = completionData?.data?.data || {};
-      
-      // For field change, we only need to send the changed field
-      const dataToSave = { [name]: value };
-      // Include work_order field if creating a new record
-      if (!completionId) {
-        dataToSave.work_order = id;
-      }
-      
-      if (completionId) {
-        // Update existing completion note with PATCH and only send changed field
-        await apiCall(`/work-orders/work_order_completion_note/${completionId}`, { 
-          method: 'PATCH', 
-          body: dataToSave 
-        });
-      } else {
-        // Create new completion note if none exists
-        await apiCall('/work-orders/work_order_completion_note', { method: 'POST', body: dataToSave });
-      }
-    } catch (error: any) {
-      // Silently fail auto-save, user can manually save if needed
-      console.error('Auto-save failed:', error);
-    }
-  };
-
   const handleServicesSubmit = async (data: Record<string, any>) => {
     try {
       await apiCall('/work-orders/work_order_misc_cost', { method: 'POST', body: data });
-      // Invalidate and refetch the services table
       queryClient.invalidateQueries({
         queryKey: ["work_order_misc_cost", id]
       });
@@ -198,7 +170,6 @@ const EditWorkOrder = () => {
         method: 'PATCH', 
         body: data 
       });
-      // Invalidate and refetch the services table
       queryClient.invalidateQueries({
         queryKey: ["work_order_misc_cost", id]
       });
@@ -216,6 +187,7 @@ const EditWorkOrder = () => {
       });
     }
   };
+
   const handleRowClick = (row: any) => {
     setSelectedChecklistItem(row);
     setIsEditChecklistDialogOpen(true);
@@ -353,16 +325,13 @@ const EditWorkOrder = () => {
     );
   }
 
-  // Transform date strings to Date objects and object values to IDs for dropdowns
   const workOrder = workOrderData.data.data as any;
   const initialData = {
     ...workOrder,
     suggested_start_date: workOrder?.suggested_start_date ? new Date(workOrder.suggested_start_date) : undefined,
     completion_end_date: workOrder?.completion_end_date ? new Date(workOrder.completion_end_date) : undefined,
-    // Transform object values to their IDs for dropdown compatibility
     asset: typeof workOrder?.asset === 'object' ? workOrder?.asset?.id : workOrder?.asset || "",
     status: typeof workOrder?.status === 'object' ? workOrder?.status?.id : workOrder?.status || "",
-    // Handle asset.location field - extract location name from nested object
     "asset.location": workOrder?.asset?.location?.name || workOrder?.asset?.location || "",
   };
 
@@ -427,66 +396,47 @@ const EditWorkOrder = () => {
           {/* Tab Content Panels - Compact */}
           <TabsContent value="completion" className="mt-1">
             <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
+              {/* Separate containers to break the connection */}
               
-              <div className="flex">
-                <div className="w-1/2 pr-8">
-                  <ApiForm
-                    fields={completionFormFields}
-                    onSubmit={handleCompletionSubmit}
-                    initialData={{ 
-                      work_order: id,
-                      problem: completionData?.data?.data?.problem || "",
-                      root_cause: completionData?.data?.data?.root_cause || "",
-                      solution: completionData?.data?.data?.solution || "",
-                      completion_notes: completionData?.data?.data?.completion_notes || "",
-                      admin_notes: completionData?.data?.data?.admin_notes || "",
-                    }}
-                    customLayout={({ fields, formData, handleFieldChange, renderField }) => (
-                      <div className="space-y-6">
-                        {fields.map(field => {
-                          if (field.inputType === "hidden") {
-                            return renderField(field);
-                          }
-                          
-                          // Clone the field render and add onBlur auto-save
-                          const originalField = renderField(field);
-                          return (
-                            <div key={field.name} className="space-y-2" onBlur={() => {
-                              handleCompletionFieldChange(field.name, formData[field.name], formData);
-                            }}>
-                              {originalField}
-                            </div>
-                          );
-                        })}
-                      </div>
-                    )}
-                  />
-                </div>
-                <div className="w-1/2 pl-4">
-                  <div className="space-y-6">
-                    <div>
-                      <h3 className="text-lg font-medium mb-4">Summary</h3>
-                      <div className="space-y-4">
-                        <div>
-                          <label className="block text-sm font-medium text-foreground mb-1">
-                            Total Hours Spent
-                          </label>
-                          <div className="p-3 bg-muted rounded-md text-sm text-muted-foreground">
-                            {completionData?.data?.data?.total_hrs_spent || "Not specified"}
-                          </div>
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-foreground mb-1">
-                            Completed By
-                          </label>
-                          <div className="p-3 bg-muted rounded-md text-sm text-muted-foreground">
-                            {completionData?.data?.data?.completed_by || "Not specified"}
-                          </div>
-                        </div>
-                      </div>
+              {/* Independent Summary Section */}
+              <div className="mb-6">
+                <h3 className="text-lg font-medium mb-4">Summary</h3>
+                <div className="grid grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-1">
+                      Total Hours Spent
+                    </label>
+                    <div className="p-3 bg-muted rounded-md text-sm text-muted-foreground">
+                      {completionData?.data?.data?.total_hrs_spent || "Not specified"}
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-1">
+                      Completed By
+                    </label>
+                    <div className="p-3 bg-muted rounded-md text-sm text-muted-foreground">
+                      {completionData?.data?.data?.completed_by || "Not specified"}
                     </div>
                   </div>
                 </div>
+              </div>
+
+              {/* Separate Description Form Section */}
+              <div>
+                <h3 className="text-lg font-medium mb-4">Completion Details</h3>
+                <ApiForm
+                  fields={completionFormFields}
+                  onSubmit={handleCompletionSubmit}
+                  submitText="Save Completion Notes"
+                  initialData={{ 
+                    work_order: id,
+                    problem: completionData?.data?.data?.problem || "",
+                    root_cause: completionData?.data?.data?.root_cause || "",
+                    solution: completionData?.data?.data?.solution || "",
+                    completion_notes: completionData?.data?.data?.completion_notes || "",
+                    admin_notes: completionData?.data?.data?.admin_notes || "",
+                  }}
+                />
               </div>
             </div>
           </TabsContent>
