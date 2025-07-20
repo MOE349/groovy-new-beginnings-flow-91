@@ -199,6 +199,7 @@ const EditAsset = () => {
     purchase_date: assetData?.purchase_date ? new Date(assetData.purchase_date) : undefined,
     category: assetData?.category?.id || assetData?.category || "",
     location: assetData?.location?.id || assetData?.location || "",
+    weight_class: assetData?.weight_class?.id || assetData?.weight_class || "",
     equipment: assetData?.equipment?.id || assetData?.equipment || ""
   };
 
