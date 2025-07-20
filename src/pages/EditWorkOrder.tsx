@@ -448,7 +448,7 @@ const EditWorkOrder = () => {
                           // Clone the field render and add onBlur auto-save
                           const originalField = renderField(field);
                           return (
-                            <div key={field.name} onBlur={() => {
+                            <div key={field.name} className="space-y-0" onBlur={() => {
                               handleCompletionFieldChange(field.name, formData[field.name], formData);
                             }}>
                               {originalField}
