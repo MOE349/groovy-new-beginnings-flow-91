@@ -40,6 +40,7 @@ const EditAsset = () => {
   const [isTimeTriggerActive, setIsTimeTriggerActive] = useState(true);
   const [isEditMode, setIsEditMode] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
+  const [selectedRadioId, setSelectedRadioId] = useState<string | null>(null);
 
   const [meterTriggerData, setMeterTriggerData] = useState({
     name: "",
@@ -473,11 +474,12 @@ const EditAsset = () => {
                           <div className="overflow-auto h-[120px]">
                             <table className="w-full caption-bottom text-sm">
                               <thead>
-                                <tr className="border-b">
-                                  <th className="h-6 px-2 py-1 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Name</th>
-                                  <th className="h-6 px-2 py-1 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Next Trigger</th>
-                                  <th className="h-6 px-2 py-1 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Status</th>
-                                </tr>
+                                 <tr className="border-b">
+                                   <th className="h-6 px-2 py-1 text-left align-middle font-medium text-primary-foreground bg-primary text-xs w-8"></th>
+                                   <th className="h-6 px-2 py-1 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Name</th>
+                                   <th className="h-6 px-2 py-1 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Next Trigger</th>
+                                   <th className="h-6 px-2 py-1 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Status</th>
+                                 </tr>
                               </thead>
                                <tbody>
                                  {(() => {
@@ -517,17 +519,27 @@ const EditAsset = () => {
                                                setSelectedItemId(null);
                                              }
                                            }}
-                                       >
-                                         <td className="px-2 py-1 text-left align-middle text-xs">
-                                           {item?.name || '-'}
-                                         </td>
-                                         <td className="px-2 py-1 text-left align-middle text-xs">
-                                           {item?.next_trigger_value || '-'}
-                                         </td>
-                                         <td className="px-2 py-1 text-left align-middle text-xs">
-                                           {item?.is_active ? 'Active' : item?.is_active === false ? 'Inactive' : '-'}
-                                         </td>
-                                       </tr>
+                                        >
+                                          <td className="px-2 py-1 text-left align-middle text-xs">
+                                            <input 
+                                              type="radio" 
+                                              name="pm-selection" 
+                                              value={item?.id || i} 
+                                              checked={selectedRadioId === (item?.id || i.toString())}
+                                              onChange={() => setSelectedRadioId(item?.id || i.toString())}
+                                              className="w-3 h-3"
+                                            />
+                                          </td>
+                                          <td className="px-2 py-1 text-left align-middle text-xs">
+                                            {item?.name || '-'}
+                                          </td>
+                                          <td className="px-2 py-1 text-left align-middle text-xs">
+                                            {item?.next_trigger_value || '-'}
+                                          </td>
+                                          <td className="px-2 py-1 text-left align-middle text-xs">
+                                            {item?.is_active ? 'Active' : item?.is_active === false ? 'Inactive' : '-'}
+                                          </td>
+                                        </tr>
                                      );
                                    }
                                    return rows;
