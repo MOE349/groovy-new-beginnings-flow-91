@@ -266,7 +266,7 @@ const EditWorkOrder = () => {
       type: "textarea",
       label: "Problem",
       required: false,
-      rows: 6,
+      rows: 4,
       placeholder: "(briefly outline the problem, if any)",
     },
     {
@@ -274,7 +274,7 @@ const EditWorkOrder = () => {
       type: "textarea",
       label: "Root Cause",
       required: false,
-      rows: 6,
+      rows: 4,
       placeholder: "(short description of the cause of issue, if any)",
     },
     {
@@ -282,20 +282,13 @@ const EditWorkOrder = () => {
       type: "textarea",
       label: "Solution",
       required: false,
-      rows: 6,
+      rows: 4,
       placeholder: "(short description of the solution, if any)",
     },
     {
       name: "completion_notes",
       type: "textarea",
       label: "Completion Notes",
-      required: false,
-      rows: 6,
-    },
-    {
-      name: "admin_notes",
-      type: "textarea",
-      label: "Admin Notes",
       required: false,
       rows: 6,
     },
@@ -428,21 +421,25 @@ const EditWorkOrder = () => {
           <TabsContent value="completion" className="mt-1">
             <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
               
-              <div className="flex">
-                <div className="w-1/2 pr-8">
+              <div className="flex gap-6">
+                {/* Left Column - Problem, Root Cause, Solution */}
+                <div className="w-1/2">
                   <ApiForm
-                    fields={completionFormFields}
+                    fields={completionFormFields.filter(field => 
+                      field.name === "work_order" || 
+                      field.name === "problem" || 
+                      field.name === "root_cause" || 
+                      field.name === "solution"
+                    )}
                     onSubmit={handleCompletionSubmit}
                     initialData={{ 
                       work_order: id,
                       problem: completionData?.data?.data?.problem || "",
                       root_cause: completionData?.data?.data?.root_cause || "",
                       solution: completionData?.data?.data?.solution || "",
-                      completion_notes: completionData?.data?.data?.completion_notes || "",
-                      admin_notes: completionData?.data?.data?.admin_notes || "",
                     }}
                     customLayout={({ fields, formData, handleFieldChange, renderField }) => (
-                      <div className="space-y-6">
+                      <div className="space-y-3">
                         {fields.map(field => {
                           if (field.inputType === "hidden") {
                             return renderField(field);
@@ -451,7 +448,7 @@ const EditWorkOrder = () => {
                           // Clone the field render and add onBlur auto-save
                           const originalField = renderField(field);
                           return (
-                            <div key={field.name} className="space-y-2" onBlur={() => {
+                            <div key={field.name} className="space-y-1" onBlur={() => {
                               handleCompletionFieldChange(field.name, formData[field.name], formData);
                             }}>
                               {originalField}
@@ -462,11 +459,14 @@ const EditWorkOrder = () => {
                     )}
                   />
                 </div>
-                <div className="w-1/2 pl-4">
-                  <div className="space-y-6">
+
+                {/* Right Column - Summary and Completion Notes */}
+                <div className="w-1/2">
+                  <div className="space-y-4">
+                    {/* Summary Section */}
                     <div>
-                      <h3 className="text-lg font-medium mb-4">Summary</h3>
-                      <div className="space-y-4">
+                      <h3 className="text-lg font-medium mb-3">Summary</h3>
+                      <div className="space-y-3">
                         <div>
                           <label className="block text-sm font-medium text-foreground mb-1">
                             Total Hours Spent
@@ -484,6 +484,39 @@ const EditWorkOrder = () => {
                           </div>
                         </div>
                       </div>
+                    </div>
+
+                    {/* Completion Notes Section */}
+                    <div>
+                      <ApiForm
+                        fields={completionFormFields.filter(field => 
+                          field.name === "work_order" || field.name === "completion_notes"
+                        )}
+                        onSubmit={handleCompletionSubmit}
+                        initialData={{ 
+                          work_order: id,
+                          completion_notes: completionData?.data?.data?.completion_notes || "",
+                        }}
+                        customLayout={({ fields, formData, handleFieldChange, renderField }) => (
+                          <div className="space-y-3">
+                            {fields.map(field => {
+                              if (field.inputType === "hidden") {
+                                return renderField(field);
+                              }
+                              
+                              // Clone the field render and add onBlur auto-save
+                              const originalField = renderField(field);
+                              return (
+                                <div key={field.name} className="space-y-1" onBlur={() => {
+                                  handleCompletionFieldChange(field.name, formData[field.name], formData);
+                                }}>
+                                  {originalField}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
+                      />
                     </div>
                   </div>
                 </div>
