@@ -183,7 +183,7 @@ const FormLayout = ({
                 config.columns.length === 1 
                   ? 'grid-cols-1' 
                   : config.columns.length === 2 && config.title.includes("Work Order")
-                    ? 'grid-cols-[3fr_4fr]' 
+                    ? 'grid-cols-[2fr_1fr]' 
                     : config.columns.length === 2 
                       ? 'grid-cols-2' 
                       : 'grid-cols-3'
