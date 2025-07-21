@@ -849,7 +849,7 @@ const EditAsset = () => {
               <div>
                 <h3 className="text-lg font-semibold mb-4">Completed Work Orders</h3>
                 <ApiTable
-                  endpoint={`/work-orders/work_order?asset=${id}`}
+                  endpoint={`/work-orders/work_order?asset=${id}&status__control__name=Closed`}
                   columns={[
                     { key: 'code', header: 'Code', type: 'string' },
                     { key: 'description', header: 'Description', type: 'string' },
@@ -857,8 +857,8 @@ const EditAsset = () => {
                     { key: 'maint_type', header: 'Maint Type', type: 'string' },
                     { key: 'completion_end_date', header: 'Completion Date', type: 'string' }
                   ]}
-                  queryKey={['all-work-orders', id]}
-                  tableId={`all-work-orders-${id}`}
+                  queryKey={['completed-work-orders', id]}
+                  tableId={`completed-work-orders-${id}`}
                 />
               </div>
             </div>
