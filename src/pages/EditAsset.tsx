@@ -875,7 +875,7 @@ const EditAsset = () => {
                 <h3 className="text-lg font-semibold mb-4">Asset Move History</h3>
                 <div className="max-h-[280px] overflow-auto border rounded-md">
                   <ApiTable
-                    endpoint="/assets/movement-log"
+                    endpoint={`/assets/movement-log?asset=${id}`}
                     columns={[
                       { key: 'from_location', header: 'From Location', type: 'object' },
                       { key: 'to_location', header: 'To Location', type: 'object' },
