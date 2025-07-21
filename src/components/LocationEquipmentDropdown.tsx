@@ -140,15 +140,15 @@ const LocationEquipmentDropdown = ({
     const rect = event.currentTarget.getBoundingClientRect();
     setEquipmentMenuPosition({
       top: rect.top,
-      left: rect.right + 4,
+      left: rect.right + 2, // Reduced gap
     });
   };
 
   const handleLocationLeave = () => {
-    // Add a delay before hiding the submenu
+    // Add a longer delay before hiding the submenu
     const timeout = setTimeout(() => {
       setHoveredLocationId(null);
-    }, 150); // 150ms delay to allow moving to submenu
+    }, 300); // Increased delay to 300ms
     
     setHideTimeout(timeout);
   };
@@ -162,12 +162,12 @@ const LocationEquipmentDropdown = ({
   };
 
   const handleEquipmentMenuLeave = () => {
-    // Hide immediately when leaving the equipment menu
-    setHoveredLocationId(null);
-    if (hideTimeout) {
-      clearTimeout(hideTimeout);
-      setHideTimeout(null);
-    }
+    // Add a small delay when leaving the equipment menu too
+    const timeout = setTimeout(() => {
+      setHoveredLocationId(null);
+    }, 100);
+    
+    setHideTimeout(timeout);
   };
 
   // Debug: Track prop changes
