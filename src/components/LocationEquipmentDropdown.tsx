@@ -38,6 +38,7 @@ const LocationEquipmentDropdown = ({
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredLocationId, setHoveredLocationId] = useState<string | null>(null);
   const [equipmentMenuPosition, setEquipmentMenuPosition] = useState({ top: 0, left: 0 });
+  const [hideTimeout, setHideTimeout] = useState<NodeJS.Timeout | null>(null);
   
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -126,6 +127,13 @@ const LocationEquipmentDropdown = ({
 
   const handleLocationHover = (locationId: string, event: React.MouseEvent) => {
     console.log('Hovering over location:', locationId);
+    
+    // Clear any existing timeout
+    if (hideTimeout) {
+      clearTimeout(hideTimeout);
+      setHideTimeout(null);
+    }
+    
     setHoveredLocationId(locationId);
     
     // Calculate position for equipment menu
@@ -134,6 +142,32 @@ const LocationEquipmentDropdown = ({
       top: rect.top,
       left: rect.right + 4,
     });
+  };
+
+  const handleLocationLeave = () => {
+    // Add a delay before hiding the submenu
+    const timeout = setTimeout(() => {
+      setHoveredLocationId(null);
+    }, 150); // 150ms delay to allow moving to submenu
+    
+    setHideTimeout(timeout);
+  };
+
+  const handleEquipmentMenuEnter = () => {
+    // Keep the submenu open when hovering over it
+    if (hideTimeout) {
+      clearTimeout(hideTimeout);
+      setHideTimeout(null);
+    }
+  };
+
+  const handleEquipmentMenuLeave = () => {
+    // Hide immediately when leaving the equipment menu
+    setHoveredLocationId(null);
+    if (hideTimeout) {
+      clearTimeout(hideTimeout);
+      setHideTimeout(null);
+    }
   };
 
   // Debug: Track prop changes
@@ -148,12 +182,21 @@ const LocationEquipmentDropdown = ({
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false);
         setHoveredLocationId(null);
+        if (hideTimeout) {
+          clearTimeout(hideTimeout);
+          setHideTimeout(null);
+        }
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      if (hideTimeout) {
+        clearTimeout(hideTimeout);
+      }
+    };
+  }, [hideTimeout]);
 
   return (
     <div className={cn("relative", className)} ref={dropdownRef}>
@@ -201,7 +244,7 @@ const LocationEquipmentDropdown = ({
                     key={location.id}
                     className="relative"
                     onMouseEnter={(e) => handleLocationHover(location.id, e)}
-                    onMouseLeave={() => setHoveredLocationId(null)}
+                    onMouseLeave={handleLocationLeave}
                   >
                     <div
                       className={cn(
@@ -233,8 +276,8 @@ const LocationEquipmentDropdown = ({
             top: equipmentMenuPosition.top,
             left: equipmentMenuPosition.left,
           }}
-          onMouseEnter={() => setHoveredLocationId(hoveredLocationId)}
-          onMouseLeave={() => setHoveredLocationId(null)}
+          onMouseEnter={handleEquipmentMenuEnter}
+          onMouseLeave={handleEquipmentMenuLeave}
         >
           <div className="max-h-48 overflow-auto p-1">
             <div className="px-2 py-1 text-xs font-medium text-muted-foreground border-b">
