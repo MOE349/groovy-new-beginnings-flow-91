@@ -111,7 +111,7 @@ export const equipmentFields: FormField[] = [
     type: "dropdown",
     label: "Account Code",
     required: false,
-    endpoint: "/projects/acount-codes",
+    endpoint: "/projects/account-codes",
     queryKey: ["account_codes"],
     optionValueKey: "id",
     optionLabelKey: "name",
