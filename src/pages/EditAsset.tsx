@@ -833,7 +833,7 @@ const EditAsset = () => {
               <div>
                 <h3 className="text-lg font-semibold mb-4">Active Work Orders</h3>
                 <ApiTable
-                  endpoint={`/work-orders/work_order?asset=${id}&status__control__name=Active&status__control__name=Draft&status__control__name=Pending`}
+                  endpoint={`/work-orders/work_order?asset=${id}&status__control__name__in=Active,Draft,Pending`}
                   columns={[
                     { key: 'code', header: 'Code', type: 'string' },
                     { key: 'description', header: 'Description', type: 'string' },
