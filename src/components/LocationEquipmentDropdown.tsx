@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronDown } from "lucide-react";
 import { apiCall } from "@/utils/apis";
@@ -38,11 +38,8 @@ const LocationEquipmentDropdown = ({
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredLocationId, setHoveredLocationId] = useState<string | null>(null);
   const [equipmentMenuPosition, setEquipmentMenuPosition] = useState({ top: 0, left: 0 });
-  const [hideTimeout, setHideTimeout] = useState<NodeJS.Timeout | null>(null);
-  const [isHoveringEquipment, setIsHoveringEquipment] = useState(false);
   
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const equipmentMenuRef = useRef<HTMLDivElement>(null);
 
   // Fetch locations
   const {
@@ -70,32 +67,35 @@ const LocationEquipmentDropdown = ({
     },
   });
 
-  // Memoized equipment lookup for a specific location
-  const getEquipmentForLocation = useCallback((locationId: string) => {
+  // Get equipment for a specific location
+  const getEquipmentForLocation = (locationId: string) => {
     if (!allEquipment) return [];
     return allEquipment.filter((equipment: any) => 
       equipment.location?.id === locationId
     );
-  }, [allEquipment]);
+  };
 
-  // Memoized location lookup
-  const getLocationName = useCallback((locationId: string) => {
+  // Get location name
+  const getLocationName = (locationId: string) => {
     if (!locations) return "";
     const location = locations.find((loc: Location) => loc.id === locationId);
     return location?.name || "";
-  }, [locations]);
+  };
 
-  // Memoized equipment lookup  
-  const getEquipmentName = useCallback((equipmentId: string) => {
+  // Get equipment name  
+  const getEquipmentName = (equipmentId: string) => {
     if (!allEquipment) return "";
     const equipment = allEquipment.find((eq: Equipment) => eq.id === equipmentId);
     return equipment?.name || "";
-  }, [allEquipment]);
+  };
 
-  // Memoized display text for the select trigger
-  const getDisplayText = useMemo(() => {
+  // Get display text for the select trigger
+  const getDisplayText = () => {
     const locationName = locationValue ? getLocationName(locationValue) : "";
     const equipmentName = equipmentValue ? getEquipmentName(equipmentValue) : "";
+    
+    console.log('getDisplayText - locationValue:', locationValue, 'locationName:', locationName);
+    console.log('getDisplayText - equipmentValue:', equipmentValue, 'equipmentName:', equipmentName);
     
     if (locationName && equipmentName) {
       return `${locationName} → ${equipmentName}`;
@@ -104,69 +104,37 @@ const LocationEquipmentDropdown = ({
     } else {
       return "";
     }
-  }, [locationValue, equipmentValue, getLocationName, getEquipmentName]);
+  };
 
   const isLoading = locationsLoading || equipmentLoading;
 
-  const clearHideTimeout = useCallback(() => {
-    if (hideTimeout) {
-      clearTimeout(hideTimeout);
-      setHideTimeout(null);
-    }
-  }, [hideTimeout]);
-
-  const setHideSubMenuTimeout = useCallback(() => {
-    clearHideTimeout();
-    const timeout = setTimeout(() => {
-      setHoveredLocationId(null);
-      setIsHoveringEquipment(false);
-    }, 150);
-    setHideTimeout(timeout);
-  }, [clearHideTimeout]);
-
-  const handleLocationSelect = useCallback((locationId: string) => {
+  const handleLocationSelect = (locationId: string) => {
+    console.log('Location selected:', locationId);
     onLocationChange?.(locationId);
     setIsOpen(false);
     setHoveredLocationId(null);
-    clearHideTimeout();
-  }, [onLocationChange, clearHideTimeout]);
+  };
 
-  const handleEquipmentSelect = useCallback((equipmentId: string) => {
+  const handleEquipmentSelect = (equipmentId: string) => {
+    console.log('Equipment selected:', equipmentId);
+    const equipmentName = getEquipmentName(equipmentId);
+    console.log('Equipment name:', equipmentName);
     onEquipmentChange?.(equipmentId);
     setHoveredLocationId(null);
     setIsOpen(false);
-    setIsHoveringEquipment(false);
-    clearHideTimeout();
-  }, [onEquipmentChange, clearHideTimeout]);
+  };
 
-  const handleLocationHover = useCallback((locationId: string, event: React.MouseEvent) => {
-    clearHideTimeout();
+  const handleLocationHover = (locationId: string, event: React.MouseEvent) => {
+    console.log('Hovering over location:', locationId);
     setHoveredLocationId(locationId);
     
     // Calculate position for equipment menu
     const rect = event.currentTarget.getBoundingClientRect();
     setEquipmentMenuPosition({
       top: rect.top,
-      left: rect.right, // No gap for seamless transition
+      left: rect.right + 4,
     });
-  }, [clearHideTimeout]);
-
-  const handleLocationLeave = useCallback(() => {
-    // Only hide if not hovering over equipment menu
-    if (!isHoveringEquipment) {
-      setHideSubMenuTimeout();
-    }
-  }, [isHoveringEquipment, setHideSubMenuTimeout]);
-
-  const handleEquipmentMenuEnter = useCallback(() => {
-    setIsHoveringEquipment(true);
-    clearHideTimeout();
-  }, [clearHideTimeout]);
-
-  const handleEquipmentMenuLeave = useCallback(() => {
-    setIsHoveringEquipment(false);
-    setHideSubMenuTimeout();
-  }, [setHideSubMenuTimeout]);
+  };
 
   // Debug: Track prop changes
   useEffect(() => {
@@ -180,21 +148,12 @@ const LocationEquipmentDropdown = ({
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false);
         setHoveredLocationId(null);
-        if (hideTimeout) {
-          clearTimeout(hideTimeout);
-          setHideTimeout(null);
-        }
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      if (hideTimeout) {
-        clearTimeout(hideTimeout);
-      }
-    };
-  }, [hideTimeout]);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <div className={cn("relative", className)} ref={dropdownRef}>
@@ -217,7 +176,7 @@ const LocationEquipmentDropdown = ({
         ) : (
           <>
             <span className="truncate">
-              {getDisplayText || "Select location"}
+              {getDisplayText() || "Select location"}
             </span>
             <ChevronDown className="h-3 w-3 shrink-0" />
           </>
@@ -242,7 +201,7 @@ const LocationEquipmentDropdown = ({
                     key={location.id}
                     className="relative"
                     onMouseEnter={(e) => handleLocationHover(location.id, e)}
-                    onMouseLeave={handleLocationLeave}
+                    onMouseLeave={() => setHoveredLocationId(null)}
                   >
                     <div
                       className={cn(
@@ -266,30 +225,16 @@ const LocationEquipmentDropdown = ({
         </div>
       )}
 
-      {/* Bridge element to prevent mouse leave gaps */}
+      {/* Equipment submenu - completely separate from main dropdown */}
       {hoveredLocationId && isOpen && (
         <div
-          className="fixed z-[99] pointer-events-none"
-          style={{
-            top: equipmentMenuPosition.top,
-            left: equipmentMenuPosition.left - 10,
-            width: '10px',
-            height: '100px',
-          }}
-        />
-      )}
-
-      {/* Equipment submenu - with smooth transitions */}
-      {hoveredLocationId && isOpen && (
-        <div
-          ref={equipmentMenuRef}
-          className="fixed z-[100] w-48 bg-popover border rounded-md shadow-lg transition-all duration-200 ease-out animate-scale-in"
+          className="fixed z-[100] w-48 bg-popover border rounded-md shadow-lg"
           style={{
             top: equipmentMenuPosition.top,
             left: equipmentMenuPosition.left,
           }}
-          onMouseEnter={handleEquipmentMenuEnter}
-          onMouseLeave={handleEquipmentMenuLeave}
+          onMouseEnter={() => setHoveredLocationId(hoveredLocationId)}
+          onMouseLeave={() => setHoveredLocationId(null)}
         >
           <div className="max-h-48 overflow-auto p-1">
             <div className="px-2 py-1 text-xs font-medium text-muted-foreground border-b">
@@ -310,10 +255,13 @@ const LocationEquipmentDropdown = ({
                 <div
                   key={equipment.id}
                   className={cn(
-                    "w-full px-2 py-1.5 text-xs text-left hover:bg-accent hover:text-accent-foreground rounded-sm transition-all duration-150 cursor-pointer",
+                    "w-full px-2 py-1.5 text-xs text-left hover:bg-accent hover:text-accent-foreground rounded-sm transition-colors cursor-pointer",
                     equipmentValue === equipment.id && "bg-accent text-accent-foreground"
                   )}
-                  onClick={() => handleEquipmentSelect(equipment.id)}
+                  onClick={() => {
+                    console.log('Equipment clicked directly:', equipment.id, equipment.name);
+                    handleEquipmentSelect(equipment.id);
+                  }}
                 >
                   {equipment.name}
                 </div>
