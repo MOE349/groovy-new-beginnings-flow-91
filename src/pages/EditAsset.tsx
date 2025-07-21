@@ -14,6 +14,7 @@ import { useAssetSubmit } from "@/hooks/useAssetSubmit";
 import { equipmentFields, attachmentFields } from "@/data/assetFormFields";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
 import FormLayout from "@/components/FormLayout";
 import { equipmentFormConfig, attachmentFormConfig } from "@/config/formLayouts";
@@ -836,34 +837,38 @@ const EditAsset = () => {
             <div className="tab-content-generic space-y-6">
               <div>
                 <h3 className="text-lg font-semibold mb-4">Active Work Orders</h3>
-                <ApiTable
-                  endpoint={`/work-orders/work_order?asset=${id}&status__control__name__in=Active,Draft,Pending`}
-                  columns={[
-                    { key: 'code', header: 'Code', type: 'string' },
-                    { key: 'description', header: 'Description', type: 'string' },
-                    { key: 'status', header: 'Status', type: 'object', render: (value: any) => value?.control?.name || value?.name || '-' },
-                    { key: 'maint_type', header: 'Maint Type', type: 'string' },
-                    { key: 'completion_end_date', header: 'Completion Date', type: 'string' }
-                  ]}
-                  queryKey={['active-work-orders', id]}
-                  tableId={`active-work-orders-${id}`}
-                />
+                <ScrollArea className="h-[280px] border rounded-md">
+                  <ApiTable
+                    endpoint={`/work-orders/work_order?asset=${id}&status__control__name__in=Active,Draft,Pending`}
+                    columns={[
+                      { key: 'code', header: 'Code', type: 'string' },
+                      { key: 'description', header: 'Description', type: 'string' },
+                      { key: 'status', header: 'Status', type: 'object', render: (value: any) => value?.control?.name || value?.name || '-' },
+                      { key: 'maint_type', header: 'Maint Type', type: 'string' },
+                      { key: 'completion_end_date', header: 'Completion Date', type: 'string' }
+                    ]}
+                    queryKey={['active-work-orders', id]}
+                    tableId={`active-work-orders-${id}`}
+                  />
+                </ScrollArea>
               </div>
               
               <div>
                 <h3 className="text-lg font-semibold mb-4">Completed Work Orders</h3>
-                <ApiTable
-                  endpoint={`/work-orders/work_order?asset=${id}&status__control__name=Closed`}
-                  columns={[
-                    { key: 'code', header: 'Code', type: 'string' },
-                    { key: 'description', header: 'Description', type: 'string' },
-                    { key: 'status', header: 'Status', type: 'object', render: (value: any) => value?.control?.name || value?.name || '-' },
-                    { key: 'maint_type', header: 'Maint Type', type: 'string' },
-                    { key: 'completion_end_date', header: 'Completion Date', type: 'string' }
-                  ]}
-                  queryKey={['completed-work-orders', id]}
-                  tableId={`completed-work-orders-${id}`}
-                />
+                <ScrollArea className="h-[280px] border rounded-md">
+                  <ApiTable
+                    endpoint={`/work-orders/work_order?asset=${id}&status__control__name=Closed`}
+                    columns={[
+                      { key: 'code', header: 'Code', type: 'string' },
+                      { key: 'description', header: 'Description', type: 'string' },
+                      { key: 'status', header: 'Status', type: 'object', render: (value: any) => value?.control?.name || value?.name || '-' },
+                      { key: 'maint_type', header: 'Maint Type', type: 'string' },
+                      { key: 'completion_end_date', header: 'Completion Date', type: 'string' }
+                    ]}
+                    queryKey={['completed-work-orders', id]}
+                    tableId={`completed-work-orders-${id}`}
+                  />
+                </ScrollArea>
               </div>
             </div>
           </TabsContent>
