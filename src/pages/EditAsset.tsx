@@ -837,7 +837,7 @@ const EditAsset = () => {
             <div className="tab-content-generic space-y-6">
               <div>
                 <h3 className="text-lg font-semibold mb-4">Active Work Orders</h3>
-                <ScrollArea className="h-[280px] border rounded-md">
+                <div className="max-h-[280px] overflow-auto border rounded-md">
                   <ApiTable
                     endpoint={`/work-orders/work_order?asset=${id}&status__control__name__in=Active,Draft,Pending`}
                     columns={[
@@ -850,12 +850,12 @@ const EditAsset = () => {
                     queryKey={['active-work-orders', id]}
                     tableId={`active-work-orders-${id}`}
                   />
-                </ScrollArea>
+                </div>
               </div>
               
               <div>
                 <h3 className="text-lg font-semibold mb-4">Completed Work Orders</h3>
-                <ScrollArea className="h-[280px] border rounded-md">
+                <div className="max-h-[280px] overflow-auto border rounded-md">
                   <ApiTable
                     endpoint={`/work-orders/work_order?asset=${id}&status__control__name=Closed`}
                     columns={[
@@ -868,7 +868,7 @@ const EditAsset = () => {
                     queryKey={['completed-work-orders', id]}
                     tableId={`completed-work-orders-${id}`}
                   />
-                </ScrollArea>
+                </div>
               </div>
             </div>
           </TabsContent>
