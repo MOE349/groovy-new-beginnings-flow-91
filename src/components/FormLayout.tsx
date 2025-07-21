@@ -194,15 +194,13 @@ const FormLayout = ({
                  {config.columns.map((column, colIndex) => (
                     <div key={colIndex} className="p-4 space-y-3 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-2xl min-w-0">
                      {column.fields.map((field, fieldIndex) => {
-                        // Special handling for model and year to be on the same row
+                         // Special handling for model and year to be on the same row
                         if (field.name === "model" && column.fields[fieldIndex + 1]?.name === "year") {
                           const yearField = column.fields[fieldIndex + 1];
                           return (
                             <div key="model-year-row" className="space-y-1">
                               <div className="flex items-start gap-2 h-8">
-                                 <label className={`text-caption font-normal text-right text-foreground shrink-0 pt-2 ${
-                                   isWorkOrderForm ? 'w-20' : 'w-40'
-                                 }`}>{field.label}</label>
+                                 <label className="text-caption font-normal text-right w-40 text-foreground shrink-0 pt-2">{field.label}</label>
                                  <div className="flex items-center gap-2 flex-grow">
                                    <div className="flex-1">
                                      {renderField({ 
@@ -236,8 +234,8 @@ const FormLayout = ({
                          return (
                            <div key={field.name} className="flex items-start gap-2 h-8">
                                  <label className={`text-caption font-normal text-foreground shrink-0 ${
-                                   field.name === 'weight_class' ? 'pt-1.5 text-right' : 'pt-2 text-right'
-                                 } ${isWorkOrderForm ? 'w-20' : 'w-40'}`}>{field.label}</label>
+                                   field.name === 'weight_class' ? 'pt-1.5 text-right w-40' : 'pt-2 text-right w-40'
+                                 }`}>{field.label}</label>
                               <div className="flex-grow">
                                 {renderField({ 
                                   ...field, 
