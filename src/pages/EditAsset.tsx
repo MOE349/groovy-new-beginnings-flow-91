@@ -882,7 +882,7 @@ const EditAsset = () => {
                       { key: 'moved_by', header: 'Moved By', type: 'object' },
                       { key: 'timestamp', header: 'Moved At', type: 'date' }
                     ]}
-                    queryKey={['asset-movement-log', id, assetData?.updated_at]}
+                    queryKey={['asset-movement-log', id]}
                     tableId={`asset-movement-log-${id}`}
                   />
                 </div>
