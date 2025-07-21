@@ -428,39 +428,102 @@ const EditWorkOrder = () => {
           
           {/* Tab Content Panels - Compact */}
           <TabsContent value="completion" className="mt-1">
-            <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
+            <div className="bg-card rounded-lg border p-6 space-y-6 min-h-[600px]">
               
-              <div className="flex gap-6">
-                {/* Left Column - Problem, Root Cause, Solution */}
-                <div className="w-1/2">
+              {/* Problem Analysis Section */}
+              <div className="bg-background/50 rounded-lg border p-4 space-y-4">
+                <h3 className="text-h3 font-medium text-foreground border-b border-border pb-2">Problem Analysis</h3>
+                <ApiForm
+                  fields={completionFormFields.filter(field => 
+                    field.name === "work_order" || 
+                    field.name === "problem" || 
+                    field.name === "root_cause"
+                  )}
+                  onSubmit={handleCompletionSubmit}
+                  initialData={{ 
+                    work_order: id,
+                    problem: completionData?.data?.data?.problem || "",
+                    root_cause: completionData?.data?.data?.root_cause || "",
+                  }}
+                  customLayout={({ fields, formData, renderField }) => (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {fields.map(field => {
+                        if (field.inputType === "hidden") {
+                          return renderField(field);
+                        }
+                        
+                        return (
+                          <div key={field.name} onBlur={() => {
+                            handleCompletionFieldChange(field.name, formData[field.name], formData);
+                          }}>
+                            {renderField(field)}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                />
+              </div>
+
+              {/* Solution Section */}
+              <div className="bg-background/50 rounded-lg border p-4 space-y-4">
+                <h3 className="text-h3 font-medium text-foreground border-b border-border pb-2">Solution</h3>
+                <ApiForm
+                  fields={completionFormFields.filter(field => 
+                    field.name === "work_order" || field.name === "solution"
+                  )}
+                  onSubmit={handleCompletionSubmit}
+                  initialData={{ 
+                    work_order: id,
+                    solution: completionData?.data?.data?.solution || "",
+                  }}
+                  customLayout={({ fields, formData, renderField }) => (
+                    <div className="space-y-4">
+                      {fields.map(field => {
+                        if (field.inputType === "hidden") {
+                          return renderField(field);
+                        }
+                        
+                        return (
+                          <div key={field.name} onBlur={() => {
+                            handleCompletionFieldChange(field.name, formData[field.name], formData);
+                          }}>
+                            {renderField(field)}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                />
+              </div>
+
+              {/* Completion Details Grid */}
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                {/* Completion Notes - Takes 2 columns */}
+                <div className="lg:col-span-2 bg-background/50 rounded-lg border p-4 space-y-4">
+                  <h3 className="text-h3 font-medium text-foreground border-b border-border pb-2">Completion Notes</h3>
                   <ApiForm
                     fields={completionFormFields.filter(field => 
-                      field.name === "work_order" || 
-                      field.name === "problem" || 
-                      field.name === "root_cause" || 
-                      field.name === "solution"
+                      field.name === "work_order" || field.name === "completion_notes"
                     )}
                     onSubmit={handleCompletionSubmit}
                     initialData={{ 
                       work_order: id,
-                      problem: completionData?.data?.data?.problem || "",
-                      root_cause: completionData?.data?.data?.root_cause || "",
-                      solution: completionData?.data?.data?.solution || "",
+                      completion_notes: completionData?.data?.data?.completion_notes || "",
                     }}
-                    customLayout={({ fields, formData, handleFieldChange, renderField }) => (
-                      <div className="space-y-2">
+                    customLayout={({ fields, formData, renderField }) => (
+                      <div className="space-y-4">
                         {fields.map(field => {
                           if (field.inputType === "hidden") {
                             return renderField(field);
                           }
                           
-                          // Clone the field render and add onBlur auto-save
-                          const originalField = renderField(field);
                           return (
-                            <div key={field.name} className="space-y-0" onBlur={() => {
+                            <div key={field.name} onBlur={() => {
                               handleCompletionFieldChange(field.name, formData[field.name], formData);
                             }}>
-                              {originalField}
+                              {renderField(field)}
                             </div>
                           );
                         })}
@@ -469,63 +532,45 @@ const EditWorkOrder = () => {
                   />
                 </div>
 
-                {/* Right Column - Summary and Completion Notes */}
-                <div className="w-1/2">
+                {/* Summary Information - Takes 1 column */}
+                <div className="bg-primary/5 rounded-lg border border-primary/20 p-4 space-y-4">
+                  <h3 className="text-h3 font-medium text-foreground border-b border-border pb-2">Work Summary</h3>
                   <div className="space-y-4">
-                    {/* Summary Section */}
-                    <div>
-                      <h3 className="text-lg font-medium mb-3">Summary</h3>
-                      <div className="space-y-3">
-                        <div>
-                          <label className="block text-sm font-medium text-foreground mb-1">
-                            Total Hours Spent
-                          </label>
-                          <div className="p-3 bg-muted rounded-md text-sm text-muted-foreground">
-                            {completionData?.data?.data?.total_hrs_spent || "Not specified"}
-                          </div>
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-foreground mb-1">
-                            Completed By
-                          </label>
-                          <div className="p-3 bg-muted rounded-md text-sm text-muted-foreground">
-                            {completionData?.data?.data?.completed_by || "Not specified"}
-                          </div>
-                        </div>
+                    <div className="space-y-2">
+                      <label className="text-body-sm font-medium text-foreground">
+                        Total Hours Spent
+                      </label>
+                      <div className="bg-card rounded-md border px-3 py-2 text-body-sm text-muted-foreground">
+                        {completionData?.data?.data?.total_hrs_spent || "Not specified"}
                       </div>
                     </div>
-
-                    {/* Completion Notes Section */}
-                    <div>
-                      <ApiForm
-                        fields={completionFormFields.filter(field => 
-                          field.name === "work_order" || field.name === "completion_notes"
-                        )}
-                        onSubmit={handleCompletionSubmit}
-                        initialData={{ 
-                          work_order: id,
-                          completion_notes: completionData?.data?.data?.completion_notes || "",
-                        }}
-                        customLayout={({ fields, formData, handleFieldChange, renderField }) => (
-                          <div className="space-y-3">
-                            {fields.map(field => {
-                              if (field.inputType === "hidden") {
-                                return renderField(field);
-                              }
-                              
-                              // Clone the field render and add onBlur auto-save
-                              const originalField = renderField(field);
-                              return (
-                                <div key={field.name} className="space-y-1" onBlur={() => {
-                                  handleCompletionFieldChange(field.name, formData[field.name], formData);
-                                }}>
-                                  {originalField}
-                                </div>
-                              );
-                            })}
-                          </div>
-                        )}
-                      />
+                    <div className="space-y-2">
+                      <label className="text-body-sm font-medium text-foreground">
+                        Completed By
+                      </label>
+                      <div className="bg-card rounded-md border px-3 py-2 text-body-sm text-muted-foreground">
+                        {completionData?.data?.data?.completed_by || "Not specified"}
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-body-sm font-medium text-foreground">
+                        Status
+                      </label>
+                      <div className="bg-card rounded-md border px-3 py-2 text-body-sm">
+                        <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                          completionData?.data?.data?.completion_notes || 
+                          completionData?.data?.data?.problem || 
+                          completionData?.data?.data?.solution 
+                            ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' 
+                            : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
+                        }`}>
+                          {completionData?.data?.data?.completion_notes || 
+                           completionData?.data?.data?.problem || 
+                           completionData?.data?.data?.solution 
+                            ? 'In Progress' 
+                            : 'Not Started'}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
