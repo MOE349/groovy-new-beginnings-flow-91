@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronDown } from "lucide-react";
 import { apiCall } from "@/utils/apis";
@@ -39,8 +39,10 @@ const LocationEquipmentDropdown = ({
   const [hoveredLocationId, setHoveredLocationId] = useState<string | null>(null);
   const [equipmentMenuPosition, setEquipmentMenuPosition] = useState({ top: 0, left: 0 });
   const [hideTimeout, setHideTimeout] = useState<NodeJS.Timeout | null>(null);
+  const [isHoveringEquipment, setIsHoveringEquipment] = useState(false);
   
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const equipmentMenuRef = useRef<HTMLDivElement>(null);
 
   // Fetch locations
   const {
@@ -68,35 +70,32 @@ const LocationEquipmentDropdown = ({
     },
   });
 
-  // Get equipment for a specific location
-  const getEquipmentForLocation = (locationId: string) => {
+  // Memoized equipment lookup for a specific location
+  const getEquipmentForLocation = useCallback((locationId: string) => {
     if (!allEquipment) return [];
     return allEquipment.filter((equipment: any) => 
       equipment.location?.id === locationId
     );
-  };
+  }, [allEquipment]);
 
-  // Get location name
-  const getLocationName = (locationId: string) => {
+  // Memoized location lookup
+  const getLocationName = useCallback((locationId: string) => {
     if (!locations) return "";
     const location = locations.find((loc: Location) => loc.id === locationId);
     return location?.name || "";
-  };
+  }, [locations]);
 
-  // Get equipment name  
-  const getEquipmentName = (equipmentId: string) => {
+  // Memoized equipment lookup  
+  const getEquipmentName = useCallback((equipmentId: string) => {
     if (!allEquipment) return "";
     const equipment = allEquipment.find((eq: Equipment) => eq.id === equipmentId);
     return equipment?.name || "";
-  };
+  }, [allEquipment]);
 
-  // Get display text for the select trigger
-  const getDisplayText = () => {
+  // Memoized display text for the select trigger
+  const getDisplayText = useMemo(() => {
     const locationName = locationValue ? getLocationName(locationValue) : "";
     const equipmentName = equipmentValue ? getEquipmentName(equipmentValue) : "";
-    
-    console.log('getDisplayText - locationValue:', locationValue, 'locationName:', locationName);
-    console.log('getDisplayText - equipmentValue:', equipmentValue, 'equipmentName:', equipmentName);
     
     if (locationName && equipmentName) {
       return `${locationName} → ${equipmentName}`;
@@ -105,70 +104,69 @@ const LocationEquipmentDropdown = ({
     } else {
       return "";
     }
-  };
+  }, [locationValue, equipmentValue, getLocationName, getEquipmentName]);
 
   const isLoading = locationsLoading || equipmentLoading;
 
-  const handleLocationSelect = (locationId: string) => {
-    console.log('Location selected:', locationId);
-    onLocationChange?.(locationId);
-    setIsOpen(false);
-    setHoveredLocationId(null);
-  };
-
-  const handleEquipmentSelect = (equipmentId: string) => {
-    console.log('Equipment selected:', equipmentId);
-    const equipmentName = getEquipmentName(equipmentId);
-    console.log('Equipment name:', equipmentName);
-    onEquipmentChange?.(equipmentId);
-    setHoveredLocationId(null);
-    setIsOpen(false);
-  };
-
-  const handleLocationHover = (locationId: string, event: React.MouseEvent) => {
-    console.log('Hovering over location:', locationId);
-    
-    // Clear any existing timeout
+  const clearHideTimeout = useCallback(() => {
     if (hideTimeout) {
       clearTimeout(hideTimeout);
       setHideTimeout(null);
     }
-    
+  }, [hideTimeout]);
+
+  const setHideSubMenuTimeout = useCallback(() => {
+    clearHideTimeout();
+    const timeout = setTimeout(() => {
+      setHoveredLocationId(null);
+      setIsHoveringEquipment(false);
+    }, 150);
+    setHideTimeout(timeout);
+  }, [clearHideTimeout]);
+
+  const handleLocationSelect = useCallback((locationId: string) => {
+    onLocationChange?.(locationId);
+    setIsOpen(false);
+    setHoveredLocationId(null);
+    clearHideTimeout();
+  }, [onLocationChange, clearHideTimeout]);
+
+  const handleEquipmentSelect = useCallback((equipmentId: string) => {
+    onEquipmentChange?.(equipmentId);
+    setHoveredLocationId(null);
+    setIsOpen(false);
+    setIsHoveringEquipment(false);
+    clearHideTimeout();
+  }, [onEquipmentChange, clearHideTimeout]);
+
+  const handleLocationHover = useCallback((locationId: string, event: React.MouseEvent) => {
+    clearHideTimeout();
     setHoveredLocationId(locationId);
     
     // Calculate position for equipment menu
     const rect = event.currentTarget.getBoundingClientRect();
     setEquipmentMenuPosition({
       top: rect.top,
-      left: rect.right + 2, // Reduced gap
+      left: rect.right, // No gap for seamless transition
     });
-  };
+  }, [clearHideTimeout]);
 
-  const handleLocationLeave = () => {
-    // Add a longer delay before hiding the submenu
-    const timeout = setTimeout(() => {
-      setHoveredLocationId(null);
-    }, 300); // Increased delay to 300ms
-    
-    setHideTimeout(timeout);
-  };
-
-  const handleEquipmentMenuEnter = () => {
-    // Keep the submenu open when hovering over it
-    if (hideTimeout) {
-      clearTimeout(hideTimeout);
-      setHideTimeout(null);
+  const handleLocationLeave = useCallback(() => {
+    // Only hide if not hovering over equipment menu
+    if (!isHoveringEquipment) {
+      setHideSubMenuTimeout();
     }
-  };
+  }, [isHoveringEquipment, setHideSubMenuTimeout]);
 
-  const handleEquipmentMenuLeave = () => {
-    // Add a small delay when leaving the equipment menu too
-    const timeout = setTimeout(() => {
-      setHoveredLocationId(null);
-    }, 100);
-    
-    setHideTimeout(timeout);
-  };
+  const handleEquipmentMenuEnter = useCallback(() => {
+    setIsHoveringEquipment(true);
+    clearHideTimeout();
+  }, [clearHideTimeout]);
+
+  const handleEquipmentMenuLeave = useCallback(() => {
+    setIsHoveringEquipment(false);
+    setHideSubMenuTimeout();
+  }, [setHideSubMenuTimeout]);
 
   // Debug: Track prop changes
   useEffect(() => {
@@ -268,10 +266,24 @@ const LocationEquipmentDropdown = ({
         </div>
       )}
 
-      {/* Equipment submenu - completely separate from main dropdown */}
+      {/* Bridge element to prevent mouse leave gaps */}
       {hoveredLocationId && isOpen && (
         <div
-          className="fixed z-[100] w-48 bg-popover border rounded-md shadow-lg"
+          className="fixed z-[99] pointer-events-none"
+          style={{
+            top: equipmentMenuPosition.top,
+            left: equipmentMenuPosition.left - 10,
+            width: '10px',
+            height: '100px',
+          }}
+        />
+      )}
+
+      {/* Equipment submenu - with smooth transitions */}
+      {hoveredLocationId && isOpen && (
+        <div
+          ref={equipmentMenuRef}
+          className="fixed z-[100] w-48 bg-popover border rounded-md shadow-lg transition-all duration-200 ease-out animate-scale-in"
           style={{
             top: equipmentMenuPosition.top,
             left: equipmentMenuPosition.left,
@@ -298,13 +310,10 @@ const LocationEquipmentDropdown = ({
                 <div
                   key={equipment.id}
                   className={cn(
-                    "w-full px-2 py-1.5 text-xs text-left hover:bg-accent hover:text-accent-foreground rounded-sm transition-colors cursor-pointer",
+                    "w-full px-2 py-1.5 text-xs text-left hover:bg-accent hover:text-accent-foreground rounded-sm transition-all duration-150 cursor-pointer",
                     equipmentValue === equipment.id && "bg-accent text-accent-foreground"
                   )}
-                  onClick={() => {
-                    console.log('Equipment clicked directly:', equipment.id, equipment.name);
-                    handleEquipmentSelect(equipment.id);
-                  }}
+                  onClick={() => handleEquipmentSelect(equipment.id)}
                 >
                   {equipment.name}
                 </div>
