@@ -101,49 +101,44 @@ export const equipmentFormConfig: FormLayoutConfig = {
     {
       fields: [
         { 
-          name: "status", 
+          name: "asset_status", 
           label: "Asset Status", 
           type: "dropdown",
-          required: true,
-          options: [
-            { id: "active", name: "Active" },
-            { id: "inactive", name: "Inactive" },
-            { id: "maintenance", name: "Under Maintenance" },
-            { id: "retired", name: "Retired" }
-          ]
+          required: false,
+          endpoint: "/projects/asset-statuses",
+          queryKey: ["asset_statuses"],
+          optionValueKey: "id",
+          optionLabelKey: "name"
         },
         { 
           name: "job_code", 
           label: "Job Code", 
           type: "dropdown",
-          options: [
-            { id: "job001", name: "JOB-001" },
-            { id: "job002", name: "JOB-002" },
-            { id: "job003", name: "JOB-003" },
-            { id: "job004", name: "JOB-004" }
-          ]
+          required: false,
+          endpoint: "/projects/job-codes",
+          queryKey: ["job_codes"],
+          optionValueKey: "id",
+          optionLabelKey: "name"
         },
         { 
           name: "account_code", 
           label: "Account Code", 
           type: "dropdown",
-          options: [
-            { id: "acc001", name: "ACC-001" },
-            { id: "acc002", name: "ACC-002" },
-            { id: "acc003", name: "ACC-003" },
-            { id: "acc004", name: "ACC-004" }
-          ]
+          required: false,
+          endpoint: "/projects/account-codes",
+          queryKey: ["account_codes"],
+          optionValueKey: "id",
+          optionLabelKey: "name"
         },
         { 
           name: "project", 
           label: "Project", 
           type: "dropdown",
-          options: [
-            { id: "proj001", name: "Project Alpha" },
-            { id: "proj002", name: "Project Beta" },
-            { id: "proj003", name: "Project Gamma" },
-            { id: "proj004", name: "Project Delta" }
-          ]
+          required: false,
+          endpoint: "/projects/projects",
+          queryKey: ["projects"],
+          optionValueKey: "id",
+          optionLabelKey: "name"
         },
       ]
     }
@@ -250,49 +245,44 @@ export const attachmentFormConfig: FormLayoutConfig = {
     {
       fields: [
         { 
-          name: "status", 
+          name: "asset_status", 
           label: "Asset Status", 
           type: "dropdown",
-          required: true,
-          options: [
-            { id: "active", name: "Active" },
-            { id: "inactive", name: "Inactive" },
-            { id: "maintenance", name: "Under Maintenance" },
-            { id: "retired", name: "Retired" }
-          ]
+          required: false,
+          endpoint: "/projects/asset-statuses",
+          queryKey: ["asset_statuses"],
+          optionValueKey: "id",
+          optionLabelKey: "name"
         },
         { 
           name: "job_code", 
           label: "Job Code", 
           type: "dropdown",
-          options: [
-            { id: "job001", name: "JOB-001" },
-            { id: "job002", name: "JOB-002" },
-            { id: "job003", name: "JOB-003" },
-            { id: "job004", name: "JOB-004" }
-          ]
+          required: false,
+          endpoint: "/projects/job-codes",
+          queryKey: ["job_codes"],
+          optionValueKey: "id",
+          optionLabelKey: "name"
         },
         { 
           name: "account_code", 
           label: "Account Code", 
           type: "dropdown",
-          options: [
-            { id: "acc001", name: "ACC-001" },
-            { id: "acc002", name: "ACC-002" },
-            { id: "acc003", name: "ACC-003" },
-            { id: "acc004", name: "ACC-004" }
-          ]
+          required: false,
+          endpoint: "/projects/account-codes",
+          queryKey: ["account_codes"],
+          optionValueKey: "id",
+          optionLabelKey: "name"
         },
         { 
           name: "project", 
           label: "Project", 
           type: "dropdown",
-          options: [
-            { id: "proj001", name: "Project Alpha" },
-            { id: "proj002", name: "Project Beta" },
-            { id: "proj003", name: "Project Gamma" },
-            { id: "proj004", name: "Project Delta" }
-          ]
+          required: false,
+          endpoint: "/projects/projects",
+          queryKey: ["projects"],
+          optionValueKey: "id",
+          optionLabelKey: "name"
         },
       ]
     }
