@@ -17,7 +17,7 @@ export const useAssetSubmit = (id: string | undefined, assetType: AssetType | nu
       
       // Invalidate queries to refresh data
       queryClient.invalidateQueries({ queryKey: ["asset", id] });
-      queryClient.invalidateQueries({ queryKey: ["movement-log", id] });
+      queryClient.invalidateQueries({ queryKey: ["asset-movement-log", id] });
       
       toast({
         title: "Success",
