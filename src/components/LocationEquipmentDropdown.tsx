@@ -217,7 +217,7 @@ const LocationEquipmentDropdown = ({
         ) : (
           <>
             <span className="truncate">
-              {getDisplayText() || "Select location"}
+              {getDisplayText || "Select location"}
             </span>
             <ChevronDown className="h-3 w-3 shrink-0" />
           </>
