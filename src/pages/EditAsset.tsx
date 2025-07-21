@@ -870,6 +870,23 @@ const EditAsset = () => {
                   />
                 </div>
               </div>
+
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Asset Move History</h3>
+                <div className="max-h-[280px] overflow-auto border rounded-md">
+                  <ApiTable
+                    endpoint="/assets/movement-log"
+                    columns={[
+                      { key: 'from_location', header: 'From Location', type: 'object' },
+                      { key: 'to_location', header: 'To Location', type: 'object' },
+                      { key: 'moved_by', header: 'Moved By', type: 'object' },
+                      { key: 'timestamp', header: 'Moved At', type: 'date' }
+                    ]}
+                    queryKey={['asset-movement-log', id]}
+                    tableId={`asset-movement-log-${id}`}
+                  />
+                </div>
+              </div>
             </div>
           </TabsContent>
         </Tabs>
