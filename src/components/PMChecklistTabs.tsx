@@ -8,6 +8,7 @@ import ApiForm from './ApiForm';
 
 interface PMChecklistTabsProps {
   assetId: string;
+  selectedPmId?: string | null;
   onNavigateBack: () => void;
 }
 
@@ -17,7 +18,7 @@ interface TabItem {
   isDefault: boolean;
 }
 
-const PMChecklistTabs: React.FC<PMChecklistTabsProps> = ({ assetId, onNavigateBack }) => {
+const PMChecklistTabs: React.FC<PMChecklistTabsProps> = ({ assetId, selectedPmId, onNavigateBack }) => {
   const [tabs, setTabs] = useState<TabItem[]>([
     { id: '500-hour', name: '500 HOUR', isDefault: true },
     { id: '1000-hour', name: '1000 HOUR', isDefault: true },
@@ -144,7 +145,7 @@ const PMChecklistTabs: React.FC<PMChecklistTabsProps> = ({ assetId, onNavigateBa
                       <ApiTable
                         endpoint="/pm-automation/pm-settings-checklist"
                         filters={{
-                          pm_setting: tab.name
+                          pm_setting_id: selectedPmId
                         }}
                         columns={[
                           { key: "name", header: "Name", type: "string" }

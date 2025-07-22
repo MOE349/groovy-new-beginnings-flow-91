@@ -812,10 +812,11 @@ const EditAsset = () => {
                         <h4 className="text-sm font-medium text-primary dark:text-secondary">PM Checklist/Parts</h4>
                       </div>
                        <div className="flex-grow overflow-auto mt-8">
-                         <PMChecklistTabs 
-                           assetId={id || ''} 
-                           onNavigateBack={() => handleViewChange(0)}
-                         />
+                          <PMChecklistTabs 
+                            assetId={id || ''} 
+                            selectedPmId={selectedRadioId}
+                            onNavigateBack={() => handleViewChange(0)}
+                          />
                        </div>
                     </div>
                   </div>
