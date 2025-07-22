@@ -145,7 +145,7 @@ const PMChecklistTabs: React.FC<PMChecklistTabsProps> = ({ assetId, selectedPmId
                       <ApiTable
                         endpoint="/pm-automation/pm-settings-checklist"
                         filters={{
-                          pm_setting_id: selectedPmId
+                          pm_settings: selectedPmId
                         }}
                         columns={[
                           { key: "name", header: "Name", type: "string" }
