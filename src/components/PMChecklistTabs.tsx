@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { ChevronLeft, Plus, X } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from './ui/tabs';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
+import { Button } from './ui/button';
 import ApiTable from './ApiTable';
 import ApiForm from './ApiForm';
 
@@ -138,20 +140,34 @@ const PMChecklistTabs: React.FC<PMChecklistTabsProps> = ({ assetId, onNavigateBa
                   </h5>
                   
                   <div className="space-y-4">
-                    <ApiTable
-                      endpoint="/pm-automation/pm-settings-checklist"
-                      columns={[
-                        { key: "name", header: "Name", type: "string" }
-                      ]}
-                    />
-                    
-                    <ApiForm
-                      fields={[
-                        { name: "name", label: "Name", type: "input", inputType: "text" }
-                      ]}
-                      onSubmit={(data) => console.log('Form submitted:', data)}
-                      submitText="Add Item"
-                    />
+                    <div className="flex justify-between items-center">
+                      <ApiTable
+                        endpoint="/pm-automation/pm-settings-checklist"
+                        columns={[
+                          { key: "name", header: "Name", type: "string" }
+                        ]}
+                      />
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button variant="outline" size="sm">
+                            <Plus className="w-4 h-4 mr-2" />
+                            Add Item
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                          <DialogHeader>
+                            <DialogTitle>Add Checklist Item</DialogTitle>
+                          </DialogHeader>
+                          <ApiForm
+                            fields={[
+                              { name: "name", label: "Name", type: "input", inputType: "text" }
+                            ]}
+                            onSubmit={(data) => console.log('Form submitted:', data)}
+                            submitText="Add Item"
+                          />
+                        </DialogContent>
+                      </Dialog>
+                    </div>
                   </div>
                 </div>
 
