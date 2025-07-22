@@ -164,8 +164,10 @@ const PMChecklistTabs: React.FC<PMChecklistTabsProps> = ({ assetId, selectedPmId
                           </DialogHeader>
                           <ApiForm
                             fields={[
-                              { name: "name", label: "Name", type: "input", inputType: "text" }
+                              { name: "name", label: "Name", type: "input", inputType: "text" },
+                              { name: "pm_settings", label: "", type: "input", inputType: "hidden" }
                             ]}
+                            initialData={{ pm_settings: selectedPmId }}
                             onSubmit={(data) => console.log('Form submitted:', data)}
                             submitText="Add Item"
                           />
