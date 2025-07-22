@@ -245,7 +245,7 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
           <div className="space-y-3">
             {formFields.map(field => (
               <div key={field.name} className="flex items-center gap-3">
-                <label className="text-sm font-medium text-muted-foreground min-w-[120px] text-left">
+                <label className="text-sm font-medium text-muted-foreground min-w-[180px] text-left">
                   {field.label}
                   {field.required && <span className="text-destructive ml-1">*</span>}
                 </label>
