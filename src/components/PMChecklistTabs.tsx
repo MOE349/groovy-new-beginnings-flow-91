@@ -52,7 +52,6 @@ const PMChecklistTabs: React.FC<PMChecklistTabsProps> = ({ assetId, onNavigateBa
     <div className="h-full flex flex-col">
       {/* Header */}
       <div className="flex items-center gap-2 p-4 border-b border-border/30">
-        <h4 className="text-lg font-medium text-foreground">PM Checklist/Parts</h4>
       </div>
 
       {/* Tabs */}
