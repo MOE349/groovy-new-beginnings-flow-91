@@ -242,14 +242,14 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
         loading={loading}
         className="h-full"
         customLayout={containerType ? ({ handleSubmit, formData, handleFieldChange }) => (
-          <div className={containerType === 'all' ? "space-y-2" : "space-y-3"}>
+          <div className="space-y-2">
             {formFields.map(field => (
-              <div key={field.name} className={containerType === 'all' ? "space-y-1" : "flex items-center gap-3"}>
-                <label className={`text-sm font-medium text-muted-foreground ${containerType === 'all' ? '' : 'min-w-[120px] text-left'}`}>
+              <div key={field.name} className="space-y-1">
+                <label className="text-sm font-medium text-muted-foreground">
                   {field.label}
                   {field.required && <span className="text-destructive ml-1">*</span>}
                 </label>
-                <div className={containerType === 'all' ? '' : 'flex-1'}>
+                <div>
                   {field.disabled ? (
                     <span className="text-sm text-foreground">
                       {formData[field.name] || "-"}
