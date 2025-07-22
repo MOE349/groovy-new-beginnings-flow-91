@@ -143,6 +143,9 @@ const PMChecklistTabs: React.FC<PMChecklistTabsProps> = ({ assetId, onNavigateBa
                     <div className="flex justify-between items-center">
                       <ApiTable
                         endpoint="/pm-automation/pm-settings-checklist"
+                        filters={{
+                          pm_setting: tab.name
+                        }}
                         columns={[
                           { key: "name", header: "Name", type: "string" }
                         ]}
