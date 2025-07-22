@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { ChevronLeft, Plus, X } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from './ui/tabs';
+import ApiTable from './ApiTable';
+import ApiForm from './ApiForm';
 
 interface PMChecklistTabsProps {
   assetId: string;
@@ -134,6 +136,23 @@ const PMChecklistTabs: React.FC<PMChecklistTabsProps> = ({ assetId, onNavigateBa
                   <h5 className="text-sm font-medium text-foreground mb-4 border-b border-border/20 pb-2">
                     Checklist
                   </h5>
+                  
+                  <div className="space-y-4">
+                    <ApiTable
+                      endpoint="/pm-automation/pm-settings-checklist"
+                      columns={[
+                        { key: "name", header: "Name", type: "string" }
+                      ]}
+                    />
+                    
+                    <ApiForm
+                      fields={[
+                        { name: "name", label: "Name", type: "input", inputType: "text" }
+                      ]}
+                      onSubmit={(data) => console.log('Form submitted:', data)}
+                      submitText="Add Item"
+                    />
+                  </div>
                 </div>
 
                 {/* Parts Section */}
