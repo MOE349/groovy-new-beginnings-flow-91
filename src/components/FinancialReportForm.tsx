@@ -241,46 +241,110 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
         initialData={initialData}
         loading={loading}
         className="h-full"
-        customLayout={containerType ? ({ handleSubmit, formData, handleFieldChange }) => (
-          <div className="space-y-2">
-            {formFields.map(field => (
-              <div key={field.name} className="space-y-1">
-                <label className="text-sm font-medium text-muted-foreground">
-                  {field.label}
-                  {field.required && <span className="text-destructive ml-1">*</span>}
-                </label>
-                <div>
-                  {field.disabled ? (
-                    <span className="text-sm text-foreground">
-                      {formData[field.name] || "-"}
-                    </span>
-                  ) : (
-                    <ApiInput
-                      name={field.name}
-                      type={field.inputType}
-                      placeholder={field.placeholder}
-                      value={formData[field.name] || ""}
-                      onChange={(value) => handleFieldChange(field.name, value)}
-                      disabled={field.disabled}
-                      className="mb-0"
-                    />
-                  )}
+        customLayout={containerType ? ({ handleSubmit, formData, handleFieldChange }) => {
+          if (containerType === "ownership") {
+            // Group fields by type for ownership cost container
+            const editableFields = formFields.filter(field => !field.disabled);
+            const readOnlyFields = formFields.filter(field => field.disabled);
+
+            return (
+              <div className="space-y-4">
+                {/* Editable fields - 2 per row */}
+                {editableFields.length > 0 && (
+                  <div className="grid grid-cols-2 gap-4">
+                    {editableFields.map(field => (
+                      <div key={field.name} className="space-y-1">
+                        <label className="text-sm font-medium text-muted-foreground">
+                          {field.label}
+                          {field.required && <span className="text-destructive ml-1">*</span>}
+                        </label>
+                        <ApiInput
+                          name={field.name}
+                          type={field.inputType}
+                          placeholder={field.placeholder}
+                          value={formData[field.name] || ""}
+                          onChange={(value) => handleFieldChange(field.name, value)}
+                          disabled={field.disabled}
+                          className="mb-0"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Read-only fields - 2 per row */}
+                {readOnlyFields.length > 0 && (
+                  <div className="grid grid-cols-2 gap-4">
+                    {readOnlyFields.map(field => (
+                      <div key={field.name} className="space-y-1">
+                        <label className="text-sm font-medium text-muted-foreground">
+                          {field.label}
+                        </label>
+                        <span className="text-sm text-foreground block">
+                          {formData[field.name] || "-"}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {!allFieldsDisabled && (
+                  <div className="pt-4">
+                    <button
+                      type="button"
+                      onClick={handleSubmit}
+                      className="w-full px-3 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 rounded-md transition-colors"
+                    >
+                      {existingData ? "Update" : "Save"}
+                    </button>
+                  </div>
+                )}
+              </div>
+            );
+          }
+
+          // Default layout for other container types
+          return (
+            <div className="space-y-2">
+              {formFields.map(field => (
+                <div key={field.name} className="space-y-1">
+                  <label className="text-sm font-medium text-muted-foreground">
+                    {field.label}
+                    {field.required && <span className="text-destructive ml-1">*</span>}
+                  </label>
+                  <div>
+                    {field.disabled ? (
+                      <span className="text-sm text-foreground">
+                        {formData[field.name] || "-"}
+                      </span>
+                    ) : (
+                      <ApiInput
+                        name={field.name}
+                        type={field.inputType}
+                        placeholder={field.placeholder}
+                        value={formData[field.name] || ""}
+                        onChange={(value) => handleFieldChange(field.name, value)}
+                        disabled={field.disabled}
+                        className="mb-0"
+                      />
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
-            {!allFieldsDisabled && (
-              <div className="pt-4">
-                <button
-                  type="button"
-                  onClick={handleSubmit}
-                  className="w-full px-3 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 rounded-md transition-colors"
-                >
-                  {existingData ? "Update" : "Save"}
-                </button>
-              </div>
-            )}
-          </div>
-        ) : undefined}
+              ))}
+              {!allFieldsDisabled && (
+                <div className="pt-4">
+                  <button
+                    type="button"
+                    onClick={handleSubmit}
+                    className="w-full px-3 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 rounded-md transition-colors"
+                  >
+                    {existingData ? "Update" : "Save"}
+                  </button>
+                </div>
+              )}
+            </div>
+          );
+        } : undefined}
       />
     </div>
   );
