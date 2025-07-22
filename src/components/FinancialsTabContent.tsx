@@ -62,7 +62,7 @@ const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({ assetId }) 
                 {isLoading ? renderSkeletonForm() : (
                   <FinancialReportForm 
                     assetId={assetId}
-                    fieldsToShow={['purchase_cost', 'resale_cost', 'finance_years', 'interest_rate', 'expected_hours']}
+                    fieldsToShow={['purchase_cost', 'resale_cost', 'finance_years', 'interest_rate', 'expected_hours', 'capital_work_cost', 'monthly_payment', 'interst_amount', 'capital_cost_per_hr', 'yearly_hours']}
                     containerType="ownership"
                   />
                 )}
@@ -81,7 +81,7 @@ const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({ assetId }) 
                 {isLoading ? renderSkeletonForm() : (
                   <FinancialReportForm 
                     assetId={assetId}
-                    fieldsToShow={['capital_work_cost', 'monthly_payment', 'interst_amount', 'capital_cost_per_hr', 'maintnance_cost_per_hr']}
+                    fieldsToShow={['maintnance_cost_per_hr']}
                     containerType="maintenance"
                   />
                 )}
@@ -100,7 +100,7 @@ const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({ assetId }) 
                 {isLoading ? renderSkeletonForm() : (
                   <FinancialReportForm 
                     assetId={assetId}
-                    fieldsToShow={['operational_cost_per_year', 'yearly_hours', 'operational_cost_per_hr', 'total_cost_per_hr']}
+                    fieldsToShow={['operational_cost_per_year', 'operational_cost_per_hr', 'total_cost_per_hr']}
                     containerType="operational"
                   />
                 )}
