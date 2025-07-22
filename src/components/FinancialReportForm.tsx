@@ -249,7 +249,7 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
                   {field.label}
                   {field.required && <span className="text-destructive ml-1">*</span>}
                 </label>
-                <div className="flex-1">
+                <div className="w-48">
                   <ApiInput
                     name={field.name}
                     type={field.inputType}
