@@ -149,6 +149,7 @@ const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({ assetId }) 
                 ) : (
                   <FinancialReportForm 
                     assetId={assetId}
+                    fieldsToShow={['capital_cost_per_hr', 'maintnance_cost_per_hr', 'operational_cost_per_hr', 'total_cost_per_hr']}
                     containerType="all"
                   />
                 )}
