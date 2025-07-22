@@ -18,7 +18,6 @@ const CreateEquipment = () => {
         title: "Success",
         description: "Equipment created successfully!",
       });
-      navigate("/asset");
     } catch (error: any) {
       toast({
         title: "Error",

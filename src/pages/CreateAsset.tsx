@@ -23,7 +23,6 @@ const CreateAsset = () => {
         title: "Success",
         description: `${assetType === "equipment" ? "Equipment" : "Attachment"} created successfully!`,
       });
-      navigate("/asset");
     } catch (error: any) {
       toast({
         title: "Error",

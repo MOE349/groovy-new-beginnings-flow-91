@@ -17,7 +17,6 @@ const CreateWorkOrder = () => {
         title: "Success",
         description: "Work order created successfully!",
       });
-      navigate("/workorders");
     } catch (error: any) {
       toast({
         title: "Error",
