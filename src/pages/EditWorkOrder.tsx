@@ -300,13 +300,6 @@ const EditWorkOrder = () => {
       required: false,
       rows: 6,
     },
-    {
-      name: "completion_meter_reading",
-      type: "input",
-      label: "Completion Meter Reading",
-      required: false,
-      inputType: "text",
-    },
   ];
 
   const servicesFormTemplate: FormField[] = [
@@ -496,39 +489,12 @@ const EditWorkOrder = () => {
                     />
                     
                     {/* Compact Summary */}
-                    <div className="grid grid-cols-3 gap-2 text-xs">
+                    <div className="grid grid-cols-2 gap-2 text-xs">
                       <div>
                         <span className="font-medium">Hours:</span>
                         <div className="bg-card rounded border px-2 py-1 mt-1">
                           {completionData?.data?.data?.total_hrs_spent || "Not set"}
                         </div>
-                      </div>
-                      <div>
-                        <span className="font-medium">Meter Reading:</span>
-                        <ApiForm
-                          fields={completionFormFields.filter(field => 
-                            field.name === "work_order" || field.name === "completion_meter_reading"
-                          )}
-                          onSubmit={handleCompletionSubmit}
-                          initialData={{ 
-                            work_order: id,
-                            completion_meter_reading: completionData?.data?.data?.completion_meter_reading || "",
-                          }}
-                          customLayout={({ fields, formData, renderField }) => (
-                            <div className="mt-1">
-                              {fields.map(field => {
-                                if (field.inputType === "hidden") return renderField(field);
-                                return (
-                                  <div key={field.name} onBlur={() => {
-                                    handleCompletionFieldChange(field.name, formData[field.name], formData);
-                                  }}>
-                                    {renderField(field)}
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          )}
-                        />
                       </div>
                       <div>
                         <span className="font-medium">By:</span>
