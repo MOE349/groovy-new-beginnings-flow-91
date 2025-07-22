@@ -3,6 +3,9 @@ import { ChevronLeft, Plus, X } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from './ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
 import { Button } from './ui/button';
+import { useToast } from '@/hooks/use-toast';
+import { useQueryClient } from '@tanstack/react-query';
+import { apiCall } from '@/utils/apis';
 import ApiTable from './ApiTable';
 import ApiForm from './ApiForm';
 
@@ -19,6 +22,8 @@ interface TabItem {
 }
 
 const PMChecklistTabs: React.FC<PMChecklistTabsProps> = ({ assetId, selectedPmId, onNavigateBack }) => {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
   const [tabs, setTabs] = useState<TabItem[]>([
     { id: '500-hour', name: '500 HOUR', isDefault: true },
     { id: '1000-hour', name: '1000 HOUR', isDefault: true },
@@ -27,6 +32,41 @@ const PMChecklistTabs: React.FC<PMChecklistTabsProps> = ({ assetId, selectedPmId
   const [activeTab, setActiveTab] = useState('500-hour');
   const [newTabName, setNewTabName] = useState('');
   const [isAddingTab, setIsAddingTab] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleSubmitChecklistItem = async (data: Record<string, any>) => {
+    try {
+      console.log('Submitting checklist item:', data);
+      
+      await apiCall('/pm-automation/pm-settings-checklist', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      toast({
+        title: "Success",
+        description: "Checklist item added successfully",
+      });
+
+      // Refresh the table data
+      queryClient.invalidateQueries({ 
+        queryKey: ['/pm-automation/pm-settings-checklist', { pm_settings: selectedPmId }] 
+      });
+
+      // Close the dialog
+      setIsDialogOpen(false);
+    } catch (error) {
+      console.error('Error submitting checklist item:', error);
+      toast({
+        title: "Error",
+        description: "Failed to add checklist item",
+        variant: "destructive",
+      });
+    }
+  };
 
   const handleAddTab = () => {
     if (newTabName.trim()) {
@@ -151,7 +191,7 @@ const PMChecklistTabs: React.FC<PMChecklistTabsProps> = ({ assetId, selectedPmId
                           { key: "name", header: "Name", type: "string" }
                         ]}
                       />
-                      <Dialog>
+                      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                         <DialogTrigger asChild>
                           <Button variant="outline" size="sm">
                             <Plus className="w-4 h-4 mr-2" />
@@ -168,7 +208,7 @@ const PMChecklistTabs: React.FC<PMChecklistTabsProps> = ({ assetId, selectedPmId
                               { name: "pm_settings", label: "", type: "input", inputType: "hidden" }
                             ]}
                             initialData={{ pm_settings: selectedPmId }}
-                            onSubmit={(data) => console.log('Form submitted:', data)}
+                            onSubmit={handleSubmitChecklistItem}
                             submitText="Add Item"
                           />
                         </DialogContent>
