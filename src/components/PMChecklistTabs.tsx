@@ -141,23 +141,6 @@ const PMChecklistTabs: React.FC<PMChecklistTabsProps> = ({ assetId, onNavigateBa
                   <h5 className="text-sm font-medium text-foreground mb-4 border-b border-border/20 pb-2">
                     Parts
                   </h5>
-                  <div className="space-y-3 text-sm">
-                    <div className="flex justify-between">
-                      <span>Oil Filter</span>
-                      <span className="text-xs text-muted-foreground">Qty: 1</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Air Filter</span>
-                      <span className="text-xs text-muted-foreground">Qty: 1</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Hydraulic Oil</span>
-                      <span className="text-xs text-muted-foreground">Qty: 5L</span>
-                    </div>
-                    <div className="text-xs text-muted-foreground pt-2">
-                      {tab.name} required parts...
-                    </div>
-                  </div>
                 </div>
 
               </div>
