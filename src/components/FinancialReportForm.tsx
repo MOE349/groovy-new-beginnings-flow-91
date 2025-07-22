@@ -165,6 +165,9 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
       placeholder: field.editable === false ? '' : `Enter ${field.label.toLowerCase()}`
     }));
 
+  // Check if all fields are disabled (read-only)
+  const allFieldsDisabled = formFields.every(field => field.disabled);
+
   const handleSubmit = async (data: Record<string, any>) => {
     try {
       const initialData = existingData || {};
@@ -259,15 +262,17 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
                 </div>
               </div>
             ))}
-            <div className="pt-4">
-              <button
-                type="button"
-                onClick={handleSubmit}
-                className="w-full px-3 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 rounded-md transition-colors"
-              >
-                {existingData ? "Update" : "Save"}
-              </button>
-            </div>
+            {!allFieldsDisabled && (
+              <div className="pt-4">
+                <button
+                  type="button"
+                  onClick={handleSubmit}
+                  className="w-full px-3 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 rounded-md transition-colors"
+                >
+                  {existingData ? "Update" : "Save"}
+                </button>
+              </div>
+            )}
           </div>
         ) : undefined}
       />
