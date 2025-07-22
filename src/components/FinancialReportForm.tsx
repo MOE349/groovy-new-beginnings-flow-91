@@ -250,15 +250,9 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
                   {field.required && <span className="text-destructive ml-1">*</span>}
                 </label>
                 <div className="w-32">
-                  <ApiInput
-                    name={field.name}
-                    type={field.inputType}
-                    placeholder={field.placeholder}
-                    value={formData[field.name] || ""}
-                    onChange={(value) => handleFieldChange(field.name, value)}
-                    disabled={field.disabled}
-                    className="mb-0"
-                  />
+                  <span className="text-sm text-foreground">
+                    {formData[field.name] || "-"}
+                  </span>
                 </div>
               </div>
             ))}
