@@ -37,10 +37,19 @@ const PMChecklistTabs: React.FC<PMChecklistTabsProps> = ({ assetId, selectedPmId
   const handleSubmitChecklistItem = async (data: Record<string, any>) => {
     try {
       console.log('Submitting checklist item:', data);
+      console.log('Selected PM ID:', selectedPmId);
+      
+      // Ensure pm_settings is included in the payload
+      const submitData = {
+        ...data,
+        pm_settings: selectedPmId
+      };
+      
+      console.log('Final submit data:', submitData);
       
       await apiCall('/pm-automation/pm-settings-checklist', {
         method: 'POST',
-        body: JSON.stringify(data),
+        body: JSON.stringify(submitData),
         headers: {
           'Content-Type': 'application/json'
         }
