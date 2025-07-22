@@ -814,7 +814,7 @@ const EditAsset = () => {
                        <div className="flex-grow overflow-auto mt-8">
                           <PMChecklistTabs 
                             assetId={id || ''} 
-                            selectedPmId={selectedRadioId}
+                            selectedPmId={selectedItemId}
                             onNavigateBack={() => handleViewChange(0)}
                           />
                        </div>
