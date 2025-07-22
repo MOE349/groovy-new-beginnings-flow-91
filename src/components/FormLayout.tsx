@@ -31,6 +31,7 @@ export interface FormFieldConfig {
   optionValueKey?: string;
   optionLabelKey?: string;
   options?: Array<{ id: string; name: string }>;
+  disabled?: boolean;
 }
 
 interface FormLayoutProps {
@@ -200,19 +201,21 @@ const FormLayout = ({
                                  <label className="text-caption font-normal text-right w-24 text-foreground shrink-0 pt-2">{field.label}</label>
                                  <div className="flex items-center gap-2 flex-grow">
                                    <div className="flex-1">
-                                     {renderField({ 
-                                       ...field, 
-                                       label: "",
-                                       options: field.options ? field.options.map(opt => ({ value: opt.id, label: opt.name })) : undefined
-                                     })}
-                                   </div>
-                                   <label className="text-caption font-normal text-foreground shrink-0 -mt-2">{yearField.label}</label>
-                                   <div className="flex-1">
-                                     {renderField({ 
-                                       ...yearField, 
-                                       label: "",
-                                       options: yearField.options ? yearField.options.map(opt => ({ value: opt.id, label: opt.name })) : undefined
-                                     })}
+                                      {renderField({ 
+                                        ...field, 
+                                        label: "",
+                                        options: field.options ? field.options.map(opt => ({ value: opt.id, label: opt.name })) : undefined,
+                                        disabled: field.disabled
+                                      })}
+                                    </div>
+                                    <label className="text-caption font-normal text-foreground shrink-0 -mt-2">{yearField.label}</label>
+                                    <div className="flex-1">
+                                      {renderField({ 
+                                        ...yearField, 
+                                        label: "",
+                                        options: yearField.options ? yearField.options.map(opt => ({ value: opt.id, label: opt.name })) : undefined,
+                                        disabled: yearField.disabled
+                                      })}
                                    </div>
                                  </div>
                               </div>
@@ -234,13 +237,14 @@ const FormLayout = ({
                                   field.name === 'weight_class' ? 'pt-1.5 text-right w-24' : 
                                   'pt-2 text-right w-24'
                                 }`}>{field.label}</label>
-                              <div className="flex-grow">
-                                {renderField({ 
-                                  ...field, 
-                                  label: "",
-                                  options: field.options ? field.options.map(opt => ({ value: opt.id, label: opt.name })) : undefined
-                                })}
-                              </div>
+                               <div className="flex-grow">
+                                 {renderField({ 
+                                   ...field, 
+                                   label: "",
+                                   options: field.options ? field.options.map(opt => ({ value: opt.id, label: opt.name })) : undefined,
+                                   disabled: field.disabled
+                                 })}
+                               </div>
                            </div>
                          );
                      })}
