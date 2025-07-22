@@ -46,7 +46,6 @@ const EditWorkOrder = () => {
         title: "Success",
         description: "Work order updated successfully!",
       });
-      navigate("/workorders");
     } catch (error: any) {
       toast({
         title: "Error",
