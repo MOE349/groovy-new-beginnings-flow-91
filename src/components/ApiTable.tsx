@@ -47,6 +47,7 @@ export interface TableColumn<T = any> {
 
 interface ApiTableProps<T = any> {
   endpoint: string;
+  filters?: Record<string, any>; // Object containing filter parameters for the endpoint
   secondaryEndpoint?: string; // Optional secondary endpoint to fetch additional data
   columns: TableColumn<T>[];
   title?: string;
@@ -241,6 +242,7 @@ const SortableTableHead = ({
 
 const ApiTable = <T extends Record<string, any>>({
   endpoint,
+  filters: endpointFilters,
   secondaryEndpoint,
   columns,
   title,
@@ -433,13 +435,32 @@ const ApiTable = <T extends Record<string, any>>({
     error,
     isError,
   } = useQuery({
-    queryKey: queryKey || (secondaryEndpoint ? [endpoint, secondaryEndpoint] : [endpoint]),
+    queryKey: queryKey || (secondaryEndpoint ? [endpoint, secondaryEndpoint, endpointFilters] : [endpoint, endpointFilters]),
     queryFn: async () => {
-      const promises = [apiCall(endpoint)];
+      // Construct endpoint with filters
+      const constructEndpoint = (baseEndpoint: string) => {
+        if (!endpointFilters || Object.keys(endpointFilters).length === 0) {
+          return baseEndpoint;
+        }
+        
+        const params = new URLSearchParams();
+        Object.entries(endpointFilters).forEach(([key, value]) => {
+          if (value !== undefined && value !== null) {
+            params.append(key, String(value));
+          }
+        });
+        
+        const separator = baseEndpoint.includes('?') ? '&' : '?';
+        return `${baseEndpoint}${separator}${params.toString()}`;
+      };
+
+      const primaryEndpoint = constructEndpoint(endpoint);
+      const promises = [apiCall(primaryEndpoint)];
       
       // Add secondary endpoint if provided
       if (secondaryEndpoint) {
-        promises.push(apiCall(secondaryEndpoint));
+        const secondaryEndpointWithFilters = constructEndpoint(secondaryEndpoint);
+        promises.push(apiCall(secondaryEndpointWithFilters));
       }
       
       const responses = await Promise.all(promises);

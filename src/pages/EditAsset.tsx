@@ -780,7 +780,11 @@ const EditAsset = () => {
                            <h3 className="text-lg font-semibold mb-4">Auto Generated Work Orders</h3>
                            <div className="max-h-[200px] overflow-auto border rounded-md">
                              <ApiTable
-                               endpoint={`/work-orders/work_order?asset=${id}&is_auto_generated=true`}
+                               endpoint="/work-orders/work_order"
+                               filters={{
+                                 asset: id,
+                                 is_auto_generated: true
+                               }}
                                columns={[
                                  { key: 'code', header: 'Code', type: 'string' },
                                  { key: 'description', header: 'Description', type: 'string' },
