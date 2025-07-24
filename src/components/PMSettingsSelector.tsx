@@ -101,28 +101,6 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
         </Select>
       </div>
 
-      {/* PM Settings Details */}
-      {selectedPMSetting && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">{selectedPMSetting.name}</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <div className="grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <span className="text-muted-foreground">Interval:</span>
-                <span className="ml-2">{selectedPMSetting.interval_value} {selectedPMSetting.interval_unit}</span>
-              </div>
-              <div>
-                <span className="text-muted-foreground">Status:</span>
-                <Badge variant={selectedPMSetting.is_active ? "default" : "secondary"} className="ml-2">
-                  {selectedPMSetting.is_active ? "Active" : "Inactive"}
-                </Badge>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
 
       {/* Iterations Tabs */}
       {iterations.length > 0 && (
