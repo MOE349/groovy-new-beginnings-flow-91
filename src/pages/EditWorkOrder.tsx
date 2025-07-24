@@ -593,7 +593,11 @@ const EditWorkOrder = () => {
                         description: "Backlog items imported successfully!",
                       });
                     } catch (error: any) {
-                      console.error("Import backlog error:", error);
+                      console.error("Import backlog error - Full error object:", error);
+                      console.error("Error message:", error?.message);
+                      console.error("Error response:", error?.response);
+                      console.error("Error status:", error?.status);
+                      console.error("Error data:", error?.data);
                       toast({
                         title: "Error",
                         description: error?.message || error?.toString() || "Failed to import backlog items",
