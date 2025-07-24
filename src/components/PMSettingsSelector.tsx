@@ -153,6 +153,11 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
         </SelectContent>
       </Select>
 
+      {/* Debug info */}
+      <div className="text-xs text-muted-foreground">
+        PM Settings: {pmSettings.length} | Selected: {selectedPMSettingId ? 'Yes' : 'No'} | Iterations: {iterations.length}
+      </div>
+
 
       {/* Iterations Tabs */}
       {selectedPMSetting && (
