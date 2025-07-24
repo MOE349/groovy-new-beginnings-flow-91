@@ -9,6 +9,7 @@ import { Button } from './ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
 import { Plus } from 'lucide-react';
 import ApiForm from './ApiForm';
+import ApiTable from './ApiTable';
 import { useToast } from './ui/use-toast';
 
 interface ChecklistItem {
@@ -228,6 +229,14 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
               
               {iterations.map((iteration) => (
                 <TabsContent key={iteration.id} value={iteration.id}>
+                  <ApiTable
+                    endpoint="/pm-automation/pm-iteration-checklist"
+                    columns={[
+                      { key: 'name', header: 'Name' }
+                    ]}
+                    filters={{ iteration: iteration.id }}
+                    title="Checklist Items"
+                  />
                 </TabsContent>
               ))}
             </Tabs>
