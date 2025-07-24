@@ -577,21 +577,26 @@ const EditWorkOrder = () => {
                         });
                         return;
                       }
-                      
-                      await apiCall(`/work-orders/work_order/${id}/import-backlogs`, { 
-                        method: 'POST',
-                        body: { asset: workOrderData.data.data.asset.id }
-                      });
-                      
-                      // Refresh the checklist table
-                      queryClient.invalidateQueries({
-                        queryKey: ["work_order_checklists", id]
-                      });
-                      
-                      toast({
-                        title: "Success",
-                        description: "Backlog items imported successfully!",
-                      });
+                       
+                       const response = await apiCall(`/work-orders/work_order/${id}/import-backlogs`, { 
+                         method: 'POST',
+                         body: { asset: workOrderData.data.data.asset.id }
+                       });
+                       
+                       console.log("=== API CALL RESPONSE ===");
+                       console.log(response);
+                       console.log("=== RESPONSE STRINGIFIED ===");
+                       console.log(JSON.stringify(response, null, 2));
+                       
+                       // Refresh the checklist table
+                       queryClient.invalidateQueries({
+                         queryKey: ["work_order_checklists", id]
+                       });
+                       
+                       toast({
+                         title: "Success",
+                         description: "Backlog items imported successfully!",
+                       });
                     } catch (error: any) {
                       console.log("=== FULL ERROR OBJECT ===");
                       console.log(error);
