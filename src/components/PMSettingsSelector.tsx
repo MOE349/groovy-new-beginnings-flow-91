@@ -1,15 +1,10 @@
 import React, { useState } from 'react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { apiCall } from '@/utils/apis';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from './ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
-import { Button } from './ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
-import { Plus } from 'lucide-react';
-import ApiForm from './ApiForm';
-import { toast } from '@/hooks/use-toast';
 
 interface ChecklistItem {
   id: string;
@@ -42,8 +37,6 @@ interface PMSettingsSelectorProps {
 const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
   const [selectedPMSettingId, setSelectedPMSettingId] = useState<string>('');
   const [activeIterationId, setActiveIterationId] = useState<string>('');
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const queryClient = useQueryClient();
 
   // Fetch PM settings for the asset
   const { data: pmSettingsData, isLoading } = useQuery({
@@ -76,54 +69,6 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
     }
   }, [iterations, activeIterationId]);
 
-  // Handle form submission for new iteration
-  const handleIterationSubmit = async (formData: any) => {
-    try {
-      await apiCall('/pm-automation/pm-iterations', {
-        method: 'POST',
-        body: JSON.stringify(formData)
-      });
-      
-      // Refresh the PM settings data
-      queryClient.invalidateQueries({ queryKey: ['/pm-automation/pm-settings'] });
-      
-      setIsDialogOpen(false);
-      toast({
-        title: "Success",
-        description: "New iteration created successfully"
-      });
-    } catch (error) {
-      toast({
-        title: "Error", 
-        description: "Failed to create iteration",
-        variant: "destructive"
-      });
-    }
-  };
-
-  // Form fields for new iteration
-  const iterationFormFields = [
-    {
-      name: 'interval_value',
-      label: 'Interval Value (Multiplier)',
-      type: 'input' as const,
-      inputType: 'number' as const,
-      required: true,
-      placeholder: `Enter multiplier (e.g., 2 for ${selectedPMSetting ? selectedPMSetting.interval_value * 2 : 'double'} ${selectedPMSetting?.interval_unit || ''})`
-    }
-  ];
-
-  // Prepare form data with hidden fields
-  const getFormDataWithHiddenFields = (formData: any) => {
-    const intervalValue = parseInt(formData.interval_value) * (selectedPMSetting?.interval_value || 1);
-    return {
-      ...formData,
-      pm_settings: selectedPMSettingId,
-      interval_value: intervalValue,
-      name: `${intervalValue} ${selectedPMSetting?.interval_unit || ''}`
-    };
-  };
-
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-full">
@@ -153,54 +98,27 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
         </SelectContent>
       </Select>
 
-      {/* Debug info */}
-      <div className="text-xs text-muted-foreground">
-        PM Settings: {pmSettings.length} | Selected: {selectedPMSettingId ? 'Yes' : 'No'} | Iterations: {iterations.length}
-      </div>
-
 
       {/* Iterations Tabs */}
-      {selectedPMSetting && (
+      {iterations.length > 0 && (
         <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold">Iterations</h3>
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-              <DialogTrigger asChild>
-                <Button variant="outline" size="sm">
-                  <Plus className="h-4 w-4" />
-                  Add Iteration
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Add New Iteration</DialogTitle>
-                </DialogHeader>
-                <ApiForm
-                  fields={iterationFormFields}
-                  onSubmit={(formData) => handleIterationSubmit(getFormDataWithHiddenFields(formData))}
-                  submitText="Create Iteration"
-                />
-              </DialogContent>
-            </Dialog>
-          </div>
-          {iterations.length > 0 && (
-            <Tabs value={activeIterationId} onValueChange={setActiveIterationId}>
-              <TabsList className="w-fit grid grid-cols-3 gap-1">
-                {iterations
-                  .sort((a, b) => a.order - b.order)
-                  .map((iteration) => (
-                    <TabsTrigger key={iteration.id} value={iteration.id}>
-                      {iteration.name}
-                    </TabsTrigger>
-                  ))}
-              </TabsList>
-              
-              {iterations.map((iteration) => (
-                <TabsContent key={iteration.id} value={iteration.id}>
-                </TabsContent>
-              ))}
-            </Tabs>
-          )}
+          <h3 className="text-lg font-semibold">Iterations</h3>
+          <Tabs value={activeIterationId} onValueChange={setActiveIterationId}>
+            <TabsList className="w-fit grid grid-cols-3 gap-1">
+              {iterations
+                .sort((a, b) => a.order - b.order)
+                .map((iteration) => (
+                  <TabsTrigger key={iteration.id} value={iteration.id}>
+                    {iteration.name}
+                  </TabsTrigger>
+                ))}
+            </TabsList>
+            
+            {iterations.map((iteration) => (
+              <TabsContent key={iteration.id} value={iteration.id}>
+              </TabsContent>
+            ))}
+          </Tabs>
         </div>
       )}
 
