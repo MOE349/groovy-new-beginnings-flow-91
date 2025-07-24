@@ -44,6 +44,7 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
   const [selectedPMSettingId, setSelectedPMSettingId] = useState<string>('');
   const [activeIterationId, setActiveIterationId] = useState<string>('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isChecklistDialogOpen, setIsChecklistDialogOpen] = useState(false);
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
@@ -236,6 +237,8 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
                     ]}
                     filters={{ iteration: iteration.id }}
                     title="Checklist Items"
+                    onCreateNew={() => setIsChecklistDialogOpen(true)}
+                    createNewText="Add Checklist Item"
                   />
                 </TabsContent>
               ))}
@@ -251,10 +254,71 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
               </CardContent>
             </Card>
           )}
-        </div>
-      )}
+         </div>
+       )}
 
-    </div>
+       {/* Checklist Item Creation Dialog */}
+       <Dialog open={isChecklistDialogOpen} onOpenChange={setIsChecklistDialogOpen}>
+         <DialogContent>
+           <DialogHeader>
+             <DialogTitle>Add Checklist Item</DialogTitle>
+           </DialogHeader>
+           <ApiForm
+             fields={[
+               {
+                 name: 'iteration',
+                 label: 'Iteration',
+                 type: 'input',
+                 inputType: 'hidden'
+               },
+               {
+                 name: 'name',
+                 label: 'Checklist Item Name',
+                 type: 'input',
+                 inputType: 'text',
+                 required: true
+               }
+             ]}
+             initialData={{
+               iteration: activeIterationId,
+               name: ''
+             }}
+             title=""
+             onSubmit={async (data) => {
+               try {
+                 await apiCall('/pm-automation/pm-iteration-checklist', {
+                   method: 'POST',
+                   body: {
+                     iteration: activeIterationId,
+                     name: data.name
+                   }
+                 });
+                 
+                 toast({
+                   title: "Success",
+                   description: "Checklist item created successfully"
+                 });
+                 
+                 // Refresh the data
+                 queryClient.invalidateQueries({
+                   queryKey: ['/pm-automation/pm-iteration-checklist']
+                 });
+                 
+                 setIsChecklistDialogOpen(false);
+               } catch (error) {
+                 toast({
+                   title: "Error",
+                   description: "Failed to create checklist item",
+                   variant: "destructive"
+                 });
+               }
+             }}
+             submitText="Create Checklist Item"
+           />
+         </DialogContent>
+       </Dialog>
+
+     </div>
   );
 };
 
