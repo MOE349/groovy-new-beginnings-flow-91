@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { apiCall } from '@/utils/apis';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from './ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
-import { Button } from './ui/button';
-import { Plus } from 'lucide-react';
-import ApiInput from './ApiInput';
-import { useToast } from '@/hooks/use-toast';
 
 interface ChecklistItem {
   id: string;
@@ -41,11 +37,6 @@ interface PMSettingsSelectorProps {
 const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
   const [selectedPMSettingId, setSelectedPMSettingId] = useState<string>('');
   const [activeIterationId, setActiveIterationId] = useState<string>('');
-  const [isAddingIteration, setIsAddingIteration] = useState(false);
-  const [multiplierValue, setMultiplierValue] = useState<string>('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const queryClient = useQueryClient();
-  const { toast } = useToast();
 
   // Fetch PM settings for the asset
   const { data: pmSettingsData, isLoading } = useQuery({
@@ -78,48 +69,6 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
     }
   }, [iterations, activeIterationId]);
 
-  // Handle creating new iteration
-  const handleCreateIteration = async () => {
-    if (!selectedPMSetting || !multiplierValue) return;
-
-    setIsSubmitting(true);
-    try {
-      const intervalValue = selectedPMSetting.interval_value * parseFloat(multiplierValue);
-      const name = `${intervalValue} ${selectedPMSetting.interval_unit}`;
-
-      await apiCall('/pm-automation/pm-iterations', {
-        method: 'POST',
-        body: {
-          pm_settings: selectedPMSettingId,
-          interval_value: intervalValue,
-          name: name
-        }
-      });
-
-      // Refresh the PM settings data
-      queryClient.invalidateQueries({
-        queryKey: ['/pm-automation/pm-settings']
-      });
-
-      // Reset form
-      setIsAddingIteration(false);
-      setMultiplierValue('');
-      
-      toast({
-        title: "Success",
-        description: "New iteration created successfully"
-      });
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to create iteration",
-        variant: "destructive"
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-full">
@@ -151,90 +100,38 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
 
 
       {/* Iterations Tabs */}
-      {selectedPMSetting && (
+      {iterations.length > 0 && (
         <div className="space-y-4">
           <h3 className="text-lg font-semibold">Iterations</h3>
-          <div className="flex items-center gap-2">
-            {iterations.length > 0 ? (
-              <Tabs value={activeIterationId} onValueChange={setActiveIterationId}>
-                <TabsList className="w-fit grid gap-1" style={{ gridTemplateColumns: `repeat(${iterations.length}, minmax(0, 1fr))` }}>
-                  {iterations
-                    .sort((a, b) => a.order - b.order)
-                    .map((iteration) => (
-                      <TabsTrigger key={iteration.id} value={iteration.id}>
-                        {iteration.name}
-                      </TabsTrigger>
-                    ))}
-                </TabsList>
-                
-                {iterations.map((iteration) => (
-                  <TabsContent key={iteration.id} value={iteration.id}>
-                  </TabsContent>
+          <Tabs value={activeIterationId} onValueChange={setActiveIterationId}>
+            <TabsList className="w-fit grid grid-cols-3 gap-1">
+              {iterations
+                .sort((a, b) => a.order - b.order)
+                .map((iteration) => (
+                  <TabsTrigger key={iteration.id} value={iteration.id}>
+                    {iteration.name}
+                  </TabsTrigger>
                 ))}
-              </Tabs>
-            ) : (
-              <div className="text-muted-foreground">No iterations found for this PM setting.</div>
-            )}
+            </TabsList>
             
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => setIsAddingIteration(true)}
-              disabled={!selectedPMSetting}
-            >
-              <Plus className="h-4 w-4" />
-            </Button>
-          </div>
-
-          {/* Add New Iteration Form */}
-          {isAddingIteration && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Add New Iteration</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <p className="text-sm text-muted-foreground mb-2">
-                    Base interval: {selectedPMSetting.interval_value} {selectedPMSetting.interval_unit}
-                  </p>
-                  <ApiInput
-                    name="multiplier"
-                    label="Multiplier"
-                    placeholder="Enter multiplier (e.g., 2 for double the interval)"
-                    value={multiplierValue}
-                    onChange={setMultiplierValue}
-                    type="number"
-                    required
-                  />
-                  {multiplierValue && (
-                    <p className="text-sm text-muted-foreground mt-1">
-                      Result: {selectedPMSetting.interval_value * parseFloat(multiplierValue || '0')} {selectedPMSetting.interval_unit}
-                    </p>
-                  )}
-                </div>
-                <div className="flex gap-2">
-                  <Button 
-                    onClick={handleCreateIteration}
-                    disabled={!multiplierValue || isSubmitting}
-                  >
-                    {isSubmitting ? 'Creating...' : 'Create Iteration'}
-                  </Button>
-                  <Button 
-                    variant="outline"
-                    onClick={() => {
-                      setIsAddingIteration(false);
-                      setMultiplierValue('');
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          )}
+            {iterations.map((iteration) => (
+              <TabsContent key={iteration.id} value={iteration.id}>
+              </TabsContent>
+            ))}
+          </Tabs>
         </div>
       )}
 
+      {/* No iterations message */}
+      {selectedPMSetting && iterations.length === 0 && (
+        <Card>
+          <CardContent className="pt-6">
+            <div className="text-center text-muted-foreground">
+              No iterations found for this PM setting.
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 };
