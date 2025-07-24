@@ -134,6 +134,7 @@ export const apiCall = async <T = any>(
 
   try {
     const response = await fetch(url, config);
+    console.log("api call response", response);
     
     // Handle 401 unauthorized - try to refresh token first
     if (response.status === 401 && !endpoint.includes('/auth/refresh') && !endpoint.includes('/users/login')) {
