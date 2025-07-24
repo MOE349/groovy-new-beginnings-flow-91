@@ -78,28 +78,25 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
   }
 
   return (
-    <div className="p-6 space-y-6">
-      {/* PM Settings Dropdown */}
-      <div className="space-y-2">
-        <label className="text-sm font-medium">Select PM Settings</label>
-        <Select value={selectedPMSettingId} onValueChange={setSelectedPMSettingId}>
-          <SelectTrigger>
-            <SelectValue placeholder="Choose a PM setting..." />
-          </SelectTrigger>
-          <SelectContent>
-            {pmSettings.map((setting) => (
-              <SelectItem key={setting.id} value={setting.id}>
-                <div className="flex items-center gap-2">
-                  <span>{setting.name}</span>
-                  <Badge variant={setting.is_active ? "default" : "secondary"} className="text-xs">
-                    {setting.is_active ? "Active" : "Inactive"}
-                  </Badge>
-                </div>
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+    <div className="space-y-2">
+      <label className="text-sm font-medium">Select PM Settings</label>
+      <Select value={selectedPMSettingId} onValueChange={setSelectedPMSettingId}>
+        <SelectTrigger>
+          <SelectValue placeholder="Choose a PM setting..." />
+        </SelectTrigger>
+        <SelectContent>
+          {pmSettings.map((setting) => (
+            <SelectItem key={setting.id} value={setting.id}>
+              <div className="flex items-center gap-2">
+                <span>{setting.name}</span>
+                <Badge variant={setting.is_active ? "default" : "secondary"} className="text-xs">
+                  {setting.is_active ? "Active" : "Inactive"}
+                </Badge>
+              </div>
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
 
 
       {/* Iterations Tabs */}
