@@ -55,6 +55,13 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
   const selectedPMSetting = pmSettings.find(setting => setting.id === selectedPMSettingId);
   const iterations = selectedPMSetting?.iterations || [];
 
+  // Auto-select first PM setting if there's only one
+  React.useEffect(() => {
+    if (pmSettings.length === 1 && !selectedPMSettingId) {
+      setSelectedPMSettingId(pmSettings[0].id);
+    }
+  }, [pmSettings, selectedPMSettingId]);
+
   // Set default active iteration when PM setting changes
   React.useEffect(() => {
     if (iterations.length > 0 && !activeIterationId) {
