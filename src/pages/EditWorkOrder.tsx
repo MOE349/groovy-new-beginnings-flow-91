@@ -566,10 +566,21 @@ const EditWorkOrder = () => {
                   variant="outline"
                   onClick={async () => {
                     try {
-                      console.log("Asset payload:", { asset: workOrderData?.data?.asset?.id });
+                      console.log("Full workOrderData:", workOrderData);
+                      console.log("Asset payload:", { asset: workOrderData?.data?.data?.asset?.id });
+                      
+                      if (!workOrderData?.data?.data?.asset?.id) {
+                        toast({
+                          title: "Error",
+                          description: "Asset information not available. Please wait for the work order to load.",
+                          variant: "destructive",
+                        });
+                        return;
+                      }
+                      
                       await apiCall(`/work-orders/work_order/${id}/import-backlogs`, { 
                         method: 'POST',
-                        body: { asset: workOrderData?.data?.asset?.id }
+                        body: { asset: workOrderData.data.data.asset.id }
                       });
                       
                       // Refresh the checklist table
