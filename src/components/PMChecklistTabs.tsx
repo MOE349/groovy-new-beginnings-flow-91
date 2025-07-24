@@ -181,59 +181,6 @@ const PMChecklistTabs: React.FC<PMChecklistTabsProps> = ({ assetId, selectedPmId
         <div className="flex-1 overflow-hidden">
           {tabs.map((tab) => (
             <TabsContent key={tab.id} value={tab.id} className="h-full m-0">
-              <div className="grid grid-cols-2 gap-8 h-full">
-                
-                {/* Checklist Section */}
-                <div className="border border-border/20 rounded-lg p-4 bg-card">
-                  <h5 className="text-sm font-medium text-foreground mb-4 border-b border-border/20 pb-2">
-                    Checklist
-                  </h5>
-                  
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center">
-                      <ApiTable
-                        endpoint="/pm-automation/pm-settings-checklist"
-                        filters={{
-                          pm_settings: selectedPmId
-                        }}
-                        columns={[
-                          { key: "name", header: "Name", type: "string" }
-                        ]}
-                      />
-                      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                        <DialogTrigger asChild>
-                          <Button variant="outline" size="sm">
-                            <Plus className="w-4 h-4 mr-2" />
-                            Add Item
-                          </Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                          <DialogHeader>
-                            <DialogTitle>Add Checklist Item</DialogTitle>
-                          </DialogHeader>
-                          <ApiForm
-                            fields={[
-                              { name: "name", label: "Name", type: "input", inputType: "text" },
-                              { name: "pm_settings", label: "", type: "input", inputType: "hidden" }
-                            ]}
-                            initialData={{ pm_settings: selectedPmId }}
-                            onSubmit={handleSubmitChecklistItem}
-                            submitText="Add Item"
-                          />
-                        </DialogContent>
-                      </Dialog>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Parts Section */}
-                <div className="border border-border/20 rounded-lg p-4 bg-card">
-                  <h5 className="text-sm font-medium text-foreground mb-4 border-b border-border/20 pb-2">
-                    Parts
-                  </h5>
-                </div>
-
-              </div>
             </TabsContent>
           ))}
         </div>
