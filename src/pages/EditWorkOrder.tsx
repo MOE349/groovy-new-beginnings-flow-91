@@ -598,9 +598,17 @@ const EditWorkOrder = () => {
                       console.error("Error response:", error?.response);
                       console.error("Error status:", error?.status);
                       console.error("Error data:", error?.data);
+                      
+                      // Extract error message from response structure
+                      const errorMessage = error?.response?.errors?.error || 
+                                         error?.errors?.error || 
+                                         error?.message || 
+                                         error?.toString() || 
+                                         "Failed to import backlog items";
+                      
                       toast({
                         title: "Error",
-                        description: error?.message || error?.toString() || "Failed to import backlog items",
+                        description: errorMessage,
                         variant: "destructive",
                       });
                     }
