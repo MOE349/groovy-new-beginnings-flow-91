@@ -593,6 +593,10 @@ const EditWorkOrder = () => {
                         description: "Backlog items imported successfully!",
                       });
                     } catch (error: any) {
+                      console.log("=== FULL ERROR OBJECT ===");
+                      console.log(error);
+                      console.log("=== ERROR STRINGIFIED ===");
+                      console.log(JSON.stringify(error, null, 2));
                       console.error("Import backlog error - Full error object:", error);
                       console.error("Error message:", error?.message);
                       console.error("Error response:", error?.response);
