@@ -560,6 +560,36 @@ const EditWorkOrder = () => {
                     />
                   </DialogContent>
                 </Dialog>
+                
+                <Button 
+                  size="sm" 
+                  variant="outline"
+                  onClick={async () => {
+                    try {
+                      await apiCall(`/work-orders/work_order/${id}/import-backlogs`, { 
+                        method: 'POST' 
+                      });
+                      
+                      // Refresh the checklist table
+                      queryClient.invalidateQueries({
+                        queryKey: ["work_order_checklists", id]
+                      });
+                      
+                      toast({
+                        title: "Success",
+                        description: "Backlog items imported successfully!",
+                      });
+                    } catch (error: any) {
+                      toast({
+                        title: "Error",
+                        description: error.message || "Failed to import backlog items",
+                        variant: "destructive",
+                      });
+                    }
+                  }}
+                >
+                  Load Backlog
+                </Button>
               </div>
               <ApiTable
                 endpoint={`/work-orders/work_orders/checklists?work_order_id=${id}`}
