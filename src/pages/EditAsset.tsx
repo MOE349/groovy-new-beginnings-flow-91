@@ -35,6 +35,7 @@ const EditAsset = () => {
   
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isCodeDialogOpen, setIsCodeDialogOpen] = useState(false);
+  const [isBacklogDialogOpen, setIsBacklogDialogOpen] = useState(false);
   const [currentView, setCurrentView] = useState(0);
   const [activeTab, setActiveTab] = useState("");
   const [isMeterTriggerActive, setIsMeterTriggerActive] = useState(true);
@@ -838,9 +839,26 @@ const EditAsset = () => {
           
           <TabsContent value="backlog" className="tab-content-container">
             <div className="tab-content-generic">
-              <div className="p-4 text-center text-muted-foreground">
-                Backlog content coming soon...
+              <div className="mb-4">
+                <Button 
+                  variant="default" 
+                  size="sm" 
+                  className="flex items-center gap-2 px-3 py-1" 
+                  onClick={() => setIsBacklogDialogOpen(true)}
+                >
+                  <Plus className="h-3 w-3" />
+                  Add Backlog Item
+                </Button>
               </div>
+              <ApiTable 
+                endpoint={`/asset-backlogs/asset_backlog?asset=${id}`}
+                columns={[
+                  { key: 'name', header: 'Name' }
+                ]}
+                queryKey={['asset-backlogs', id]}
+                emptyMessage="No backlog items found"
+                className="w-full"
+              />
             </div>
           </TabsContent>
           
@@ -911,6 +929,67 @@ const EditAsset = () => {
         </Tabs>
         </div>
       </div>
+
+      {/* Backlog Item Creation Dialog */}
+      <Dialog open={isBacklogDialogOpen} onOpenChange={setIsBacklogDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add Backlog Item</DialogTitle>
+          </DialogHeader>
+          <ApiForm
+            fields={[
+              {
+                name: 'asset',
+                label: 'Asset',
+                type: 'input',
+                inputType: 'hidden'
+              },
+              {
+                name: 'name',
+                label: 'Name',
+                type: 'input',
+                inputType: 'text',
+                required: true
+              }
+            ]}
+            initialData={{
+              asset: id,
+              name: ''
+            }}
+            title=""
+            onSubmit={async (data) => {
+              try {
+                await apiCall('/asset-backlogs/asset_backlog', {
+                  method: 'POST',
+                  body: {
+                    asset: id,
+                    name: data.name
+                  }
+                });
+                
+                toast({
+                  title: "Success",
+                  description: "Backlog item created successfully"
+                });
+                
+                // Refresh the data
+                queryClient.invalidateQueries({
+                  queryKey: ['asset-backlogs', id]
+                });
+                
+                setIsBacklogDialogOpen(false);
+              } catch (error) {
+                toast({
+                  title: "Error",
+                  description: "Failed to create backlog item",
+                  variant: "destructive"
+                });
+              }
+            }}
+            submitText="Create Backlog Item"
+          />
+        </DialogContent>
+      </Dialog>
     </div>;
 };
 
