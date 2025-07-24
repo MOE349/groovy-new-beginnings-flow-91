@@ -119,20 +119,6 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
             
             {iterations.map((iteration) => (
               <TabsContent key={iteration.id} value={iteration.id}>
-                <div className="space-y-2">
-                  <div className="text-sm">
-                    <span className="text-muted-foreground">Interval Value:</span>
-                    <span className="ml-2">{iteration.interval_value} hours</span>
-                  </div>
-                  <div className="text-sm">
-                    <span className="text-muted-foreground">Order:</span>
-                    <span className="ml-2">{iteration.order}</span>
-                  </div>
-                  <div className="text-sm">
-                    <span className="text-muted-foreground">Checklist Items:</span>
-                    <span className="ml-2">{iteration.checklist_items.length} items</span>
-                  </div>
-                </div>
               </TabsContent>
             ))}
           </Tabs>
