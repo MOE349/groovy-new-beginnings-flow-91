@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { apiCall } from '@/utils/apis';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from './ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
+import { Button } from './ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
+import { Plus } from 'lucide-react';
+import ApiForm from './ApiForm';
+import { useToast } from './ui/use-toast';
 
 interface ChecklistItem {
   id: string;
@@ -37,6 +42,9 @@ interface PMSettingsSelectorProps {
 const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
   const [selectedPMSettingId, setSelectedPMSettingId] = useState<string>('');
   const [activeIterationId, setActiveIterationId] = useState<string>('');
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
 
   // Fetch PM settings for the asset
   const { data: pmSettingsData, isLoading } = useQuery({
@@ -100,38 +108,117 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
 
 
       {/* Iterations Tabs */}
-      {iterations.length > 0 && (
+      {selectedPMSetting && (
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Iterations</h3>
-          <Tabs value={activeIterationId} onValueChange={setActiveIterationId}>
-            <TabsList className="w-fit grid grid-cols-3 gap-1">
-              {iterations
-                .sort((a, b) => a.order - b.order)
-                .map((iteration) => (
-                  <TabsTrigger key={iteration.id} value={iteration.id}>
-                    {iteration.name}
-                  </TabsTrigger>
-                ))}
-            </TabsList>
-            
-            {iterations.map((iteration) => (
-              <TabsContent key={iteration.id} value={iteration.id}>
-              </TabsContent>
-            ))}
-          </Tabs>
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-semibold">Iterations</h3>
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <DialogTrigger asChild>
+                <Button variant="outline" size="sm">
+                  <Plus className="h-4 w-4" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Add New Iteration</DialogTitle>
+                </DialogHeader>
+                <ApiForm
+                  fields={[
+                    {
+                      name: 'pm_settings',
+                      label: 'PM Settings',
+                      type: 'input',
+                      inputType: 'hidden'
+                    },
+                    {
+                      name: 'interval_value',
+                      label: `Interval Value (Multiplier of ${selectedPMSetting.interval_value} ${selectedPMSetting.interval_unit})`,
+                      type: 'input',
+                      inputType: 'number',
+                      required: true
+                    },
+                    {
+                      name: 'name',
+                      label: 'Name',
+                      type: 'input',
+                      inputType: 'hidden'
+                    }
+                  ]}
+                  initialData={{
+                    pm_settings: selectedPMSettingId,
+                    name: ''
+                  }}
+                  title=""
+                  onSubmit={async (data) => {
+                    try {
+                      const intervalValue = parseFloat(data.interval_value) * selectedPMSetting.interval_value;
+                      const name = `${intervalValue} ${selectedPMSetting.interval_unit}`;
+                      
+                      await apiCall('/pm-automation/pm-iterations', {
+                        method: 'POST',
+                        body: {
+                          pm_settings: selectedPMSettingId,
+                          interval_value: intervalValue,
+                          name: name
+                        }
+                      });
+                      
+                      toast({
+                        title: "Success",
+                        description: "Iteration created successfully"
+                      });
+                      
+                      // Refresh the data
+                      queryClient.invalidateQueries({
+                        queryKey: ['/pm-automation/pm-settings']
+                      });
+                      
+                      setIsDialogOpen(false);
+                    } catch (error) {
+                      toast({
+                        title: "Error",
+                        description: "Failed to create iteration",
+                        variant: "destructive"
+                      });
+                    }
+                  }}
+                  submitText="Create Iteration"
+                />
+              </DialogContent>
+            </Dialog>
+          </div>
+          
+          {iterations.length > 0 && (
+            <Tabs value={activeIterationId} onValueChange={setActiveIterationId}>
+              <TabsList className="w-fit grid grid-cols-3 gap-1">
+                {iterations
+                  .sort((a, b) => a.order - b.order)
+                  .map((iteration) => (
+                    <TabsTrigger key={iteration.id} value={iteration.id}>
+                      {iteration.name}
+                    </TabsTrigger>
+                  ))}
+              </TabsList>
+              
+              {iterations.map((iteration) => (
+                <TabsContent key={iteration.id} value={iteration.id}>
+                </TabsContent>
+              ))}
+            </Tabs>
+          )}
+          
+          {iterations.length === 0 && (
+            <Card>
+              <CardContent className="pt-6">
+                <div className="text-center text-muted-foreground">
+                  No iterations found for this PM setting. Click the + button to add one.
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </div>
       )}
 
-      {/* No iterations message */}
-      {selectedPMSetting && iterations.length === 0 && (
-        <Card>
-          <CardContent className="pt-6">
-            <div className="text-center text-muted-foreground">
-              No iterations found for this PM setting.
-            </div>
-          </CardContent>
-        </Card>
-      )}
     </div>
   );
 };
