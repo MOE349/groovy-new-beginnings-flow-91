@@ -566,6 +566,7 @@ const EditWorkOrder = () => {
                   variant="outline"
                   onClick={async () => {
                     try {
+                      console.log("Asset payload:", { asset: workOrderData?.data?.asset });
                       await apiCall(`/work-orders/work_order/${id}/import-backlogs`, { 
                         method: 'POST',
                         body: { asset: workOrderData?.data?.asset }
