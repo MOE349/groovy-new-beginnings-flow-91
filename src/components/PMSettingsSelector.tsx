@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
-import { Plus } from 'lucide-react';
+import { Plus, X } from 'lucide-react';
 import ApiForm from './ApiForm';
 import { useToast } from './ui/use-toast';
 
@@ -188,24 +188,60 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
             </Dialog>
           </div>
           
-          {iterations.length > 0 && (
-            <Tabs value={activeIterationId} onValueChange={setActiveIterationId}>
-              <TabsList className="w-fit grid grid-cols-3 gap-1">
-                {iterations
-                  .sort((a, b) => a.order - b.order)
-                  .map((iteration) => (
-                    <TabsTrigger key={iteration.id} value={iteration.id}>
+          <Tabs value={activeIterationId} onValueChange={setActiveIterationId}>
+            <TabsList className="w-fit flex gap-1">
+              {iterations
+                .sort((a, b) => a.order - b.order)
+                .map((iteration) => (
+                  <div key={iteration.id} className="relative group">
+                    <TabsTrigger value={iteration.id} className="pr-8">
                       {iteration.name}
                     </TabsTrigger>
-                  ))}
-              </TabsList>
-              
-              {iterations.map((iteration) => (
-                <TabsContent key={iteration.id} value={iteration.id}>
-                </TabsContent>
-              ))}
-            </Tabs>
-          )}
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="absolute right-1 top-1/2 -translate-y-1/2 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 hover:bg-destructive hover:text-destructive-foreground"
+                      onClick={async (e) => {
+                        e.stopPropagation();
+                        try {
+                          await apiCall(`/pm-automation/pm-iterations/${iteration.id}`, {
+                            method: 'DELETE'
+                          });
+                          
+                          toast({
+                            title: "Success",
+                            description: "Iteration deleted successfully"
+                          });
+                          
+                          // Reset active iteration if we deleted the current one
+                          if (activeIterationId === iteration.id) {
+                            setActiveIterationId('');
+                          }
+                          
+                          // Refresh the data
+                          queryClient.invalidateQueries({
+                            queryKey: ['/pm-automation/pm-settings']
+                          });
+                        } catch (error) {
+                          toast({
+                            title: "Error",
+                            description: "Failed to delete iteration",
+                            variant: "destructive"
+                          });
+                        }
+                      }}
+                    >
+                      <X className="h-3 w-3" />
+                    </Button>
+                  </div>
+                ))}
+            </TabsList>
+            
+            {iterations.map((iteration) => (
+              <TabsContent key={iteration.id} value={iteration.id}>
+              </TabsContent>
+            ))}
+          </Tabs>
           
           {iterations.length === 0 && (
             <Card>
