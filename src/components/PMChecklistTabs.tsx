@@ -231,7 +231,6 @@ const PMChecklistTabs: React.FC<PMChecklistTabsProps> = ({ assetId, selectedPmId
                   <h5 className="text-sm font-medium text-foreground mb-4 border-b border-border/20 pb-2">
                     Parts
                   </h5>
-                  {/* Empty container - ready for new content */}
                 </div>
 
               </div>
