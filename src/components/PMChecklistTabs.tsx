@@ -30,7 +30,7 @@ const PMChecklistTabs: React.FC<PMChecklistTabsProps> = ({ assetId, selectedPmId
     { id: '1000-hour', name: '1000 HOUR', isDefault: true },
     { id: '2000-hour', name: '2000 HOUR', isDefault: true }
   ]);
-  const [activeTab, setActiveTab] = useState('500-hour');
+  const [activeTab, setActiveTab] = useState('pm-settings');
   const [newTabName, setNewTabName] = useState('');
   const [isAddingTab, setIsAddingTab] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
