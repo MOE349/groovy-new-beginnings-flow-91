@@ -169,6 +169,15 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
         </SelectContent>
       </Select>
 
+      {/* Debug info */}
+      <div className="p-2 bg-gray-100 text-xs">
+        <div>PM Settings Count: {pmSettings.length}</div>
+        <div>Selected PM Setting ID: {selectedPMSettingId}</div>
+        <div>Selected PM Setting: {selectedPMSetting ? 'Yes' : 'No'}</div>
+        <div>Iterations Count: {iterations.length}</div>
+        <div>Show iterations section: {(iterations.length > 0 || selectedPMSetting) ? 'Yes' : 'No'}</div>
+      </div>
+
 
       {/* Iterations Tabs */}
       {(iterations.length > 0 || selectedPMSetting) && (
