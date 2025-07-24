@@ -567,7 +567,8 @@ const EditWorkOrder = () => {
                   onClick={async () => {
                     try {
                       await apiCall(`/work-orders/work_order/${id}/import-backlogs`, { 
-                        method: 'POST' 
+                        method: 'POST',
+                        body: { asset: workOrderData?.data?.asset }
                       });
                       
                       // Refresh the checklist table
