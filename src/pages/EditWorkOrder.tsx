@@ -593,9 +593,10 @@ const EditWorkOrder = () => {
                         description: "Backlog items imported successfully!",
                       });
                     } catch (error: any) {
+                      console.error("Import backlog error:", error);
                       toast({
                         title: "Error",
-                        description: error.message || "Failed to import backlog items",
+                        description: error?.message || error?.toString() || "Failed to import backlog items",
                         variant: "destructive",
                       });
                     }
