@@ -50,7 +50,8 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
     enabled: !!assetId
   });
 
-  const pmSettings: PMSetting[] = pmSettingsData || [];
+  const pmSettings: PMSetting[] = pmSettingsData ? 
+    pmSettingsData.filter((setting: PMSetting) => setting.object_id === assetId) : [];
   const selectedPMSetting = pmSettings.find(setting => setting.id === selectedPMSettingId);
   const iterations = selectedPMSetting?.iterations || [];
 
