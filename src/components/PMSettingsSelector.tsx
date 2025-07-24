@@ -45,6 +45,9 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const queryClient = useQueryClient();
 
+  // Debug logging
+  console.log("PMSettingsSelector - Received assetId:", assetId);
+
   // Fetch PM settings for the asset
   const { data: pmSettingsData, isLoading } = useQuery({
     queryKey: ['/pm-automation/pm-settings', { object_id: assetId }],
@@ -52,6 +55,7 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
       const response = await apiCall('/pm-automation/pm-settings', {
         method: 'GET'
       });
+      console.log("PM Settings API response:", response.data);
       return response.data?.data || [];
     },
     enabled: !!assetId
@@ -59,6 +63,10 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
 
   const pmSettings: PMSetting[] = pmSettingsData ? 
     pmSettingsData.filter((setting: PMSetting) => setting.object_id === assetId) : [];
+  
+  console.log("pmSettingsData:", pmSettingsData);
+  console.log("filtered pmSettings:", pmSettings);
+  console.log("selectedPMSettingId:", selectedPMSettingId);
   const selectedPMSetting = pmSettings.find(setting => setting.id === selectedPMSettingId);
   const iterations = selectedPMSetting?.iterations || [];
 
