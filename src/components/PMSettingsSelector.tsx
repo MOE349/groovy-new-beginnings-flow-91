@@ -104,7 +104,7 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
         <div className="space-y-4">
           <h3 className="text-lg font-semibold">Iterations</h3>
           <Tabs value={activeIterationId} onValueChange={setActiveIterationId}>
-            <TabsList className="grid w-full grid-cols-3">
+            <TabsList className="w-fit grid grid-cols-3 gap-1">
               {iterations
                 .sort((a, b) => a.order - b.order)
                 .map((iteration) => (
