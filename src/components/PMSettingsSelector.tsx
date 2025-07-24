@@ -81,7 +81,7 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
     <div className="space-y-2">
       <label className="text-sm font-medium">Select PM Settings</label>
       <Select value={selectedPMSettingId} onValueChange={setSelectedPMSettingId}>
-        <SelectTrigger>
+        <SelectTrigger className="w-fit min-w-48">
           <SelectValue placeholder="Choose a PM setting..." />
         </SelectTrigger>
         <SelectContent>
