@@ -8,6 +8,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { apiCall } from '@/utils/apis';
 import ApiTable from './ApiTable';
 import ApiForm from './ApiForm';
+import PMSettingsSelector from './PMSettingsSelector';
 
 interface PMChecklistTabsProps {
   assetId: string;
@@ -111,10 +112,9 @@ const PMChecklistTabs: React.FC<PMChecklistTabsProps> = ({ assetId, selectedPmId
 
         {/* Tab Content */}
         <div className="flex-1 overflow-hidden">
-          {tabs.map((tab) => (
-            <TabsContent key={tab.id} value={tab.id} className="h-full m-0">
-            </TabsContent>
-          ))}
+          <TabsContent value="pm-settings" className="h-full m-0">
+            <PMSettingsSelector assetId={assetId} />
+          </TabsContent>
         </div>
       </Tabs>
     </div>
