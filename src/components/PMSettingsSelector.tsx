@@ -110,7 +110,7 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
       {/* Iterations Tabs */}
       {selectedPMSetting && (
         <div className="space-y-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
             <h3 className="text-lg font-semibold">Iterations</h3>
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
@@ -130,13 +130,13 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
                       type: 'input',
                       inputType: 'hidden'
                     },
-                     {
-                       name: 'interval_value',
-                       label: `Interval Value (${selectedPMSetting.interval_unit})`,
-                       type: 'input',
-                       inputType: 'number',
-                       required: true
-                     },
+                    {
+                      name: 'interval_value',
+                      label: `Interval Value (${selectedPMSetting.interval_unit})`,
+                      type: 'input',
+                      inputType: 'number',
+                      required: true
+                    },
                     {
                       name: 'name',
                       label: 'Name',
@@ -149,19 +149,19 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
                     name: ''
                   }}
                   title=""
-                   onSubmit={async (data) => {
-                     try {
-                       const intervalValue = parseFloat(data.interval_value);
-                       const name = `${intervalValue} ${selectedPMSetting.interval_unit}`;
-                       
-                       await apiCall('/pm-automation/pm-iterations', {
-                         method: 'POST',
-                         body: {
-                           pm_settings: selectedPMSettingId,
-                           interval_value: intervalValue,
-                           name: name
-                         }
-                       });
+                  onSubmit={async (data) => {
+                    try {
+                      const intervalValue = parseFloat(data.interval_value);
+                      const name = `${intervalValue} ${selectedPMSetting.interval_unit}`;
+                      
+                      await apiCall('/pm-automation/pm-iterations', {
+                        method: 'POST',
+                        body: {
+                          pm_settings: selectedPMSettingId,
+                          interval_value: intervalValue,
+                          name: name
+                        }
+                      });
                       
                       toast({
                         title: "Success",
