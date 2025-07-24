@@ -600,9 +600,9 @@ const EditWorkOrder = () => {
                       console.error("Error data:", error?.data);
                       
                       // Extract error message from response structure
-                      const errorMessage = error?.response?.data?.errors?.error || 
+                      const errorMessage = error?.errors?.error || 
+                                         error?.response?.data?.errors?.error || 
                                          error?.response?.errors?.error || 
-                                         error?.errors?.error || 
                                          error?.message || 
                                          error?.toString() || 
                                          "Failed to import backlog items";
