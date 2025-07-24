@@ -130,13 +130,13 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
                       type: 'input',
                       inputType: 'hidden'
                     },
-                    {
-                      name: 'interval_value',
-                      label: `Interval Value (Multiplier of ${selectedPMSetting.interval_value} ${selectedPMSetting.interval_unit})`,
-                      type: 'input',
-                      inputType: 'number',
-                      required: true
-                    },
+                     {
+                       name: 'interval_value',
+                       label: `Interval Value (${selectedPMSetting.interval_unit})`,
+                       type: 'input',
+                       inputType: 'number',
+                       required: true
+                     },
                     {
                       name: 'name',
                       label: 'Name',
@@ -149,19 +149,19 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
                     name: ''
                   }}
                   title=""
-                  onSubmit={async (data) => {
-                    try {
-                      const intervalValue = parseFloat(data.interval_value) * selectedPMSetting.interval_value;
-                      const name = `${intervalValue} ${selectedPMSetting.interval_unit}`;
-                      
-                      await apiCall('/pm-automation/pm-iterations', {
-                        method: 'POST',
-                        body: {
-                          pm_settings: selectedPMSettingId,
-                          interval_value: intervalValue,
-                          name: name
-                        }
-                      });
+                   onSubmit={async (data) => {
+                     try {
+                       const intervalValue = parseFloat(data.interval_value);
+                       const name = `${intervalValue} ${selectedPMSetting.interval_unit}`;
+                       
+                       await apiCall('/pm-automation/pm-iterations', {
+                         method: 'POST',
+                         body: {
+                           pm_settings: selectedPMSettingId,
+                           interval_value: intervalValue,
+                           name: name
+                         }
+                       });
                       
                       toast({
                         title: "Success",
@@ -194,8 +194,34 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
                 {iterations
                   .sort((a, b) => a.order - b.order)
                   .map((iteration) => (
-                    <TabsTrigger key={iteration.id} value={iteration.id}>
+                    <TabsTrigger key={iteration.id} value={iteration.id} className="group relative">
                       {iteration.name}
+                      <button
+                        onClick={async (e) => {
+                          e.stopPropagation();
+                          try {
+                            await apiCall(`/pm-automation/pm-iterations/${iteration.id}`, {
+                              method: 'DELETE'
+                            });
+                            toast({
+                              title: "Success",
+                              description: "Iteration deleted successfully"
+                            });
+                            queryClient.invalidateQueries({
+                              queryKey: ['/pm-automation/pm-settings']
+                            });
+                          } catch (error) {
+                            toast({
+                              title: "Error",
+                              description: "Failed to delete iteration",
+                              variant: "destructive"
+                            });
+                          }
+                        }}
+                        className="opacity-0 group-hover:opacity-100 absolute -top-1 -right-1 bg-destructive text-destructive-foreground rounded-full w-4 h-4 flex items-center justify-center text-xs hover:bg-destructive/80 transition-opacity"
+                      >
+                        ×
+                      </button>
                     </TabsTrigger>
                   ))}
               </TabsList>
