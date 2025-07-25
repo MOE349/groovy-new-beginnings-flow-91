@@ -6,13 +6,8 @@ export const useFinancialDataOptimized = (assetId: string) => {
   return useQuery({
     queryKey: ['financial-data', assetId],
     queryFn: async () => {
-      try {
-        const response = await apiGet(`/financial-reports/${assetId}`);
-        return response.data?.data || response.data;
-      } catch (error) {
-        console.error('Failed to fetch financial data:', error);
-        return null;
-      }
+      const response = await apiGet(`/financial-reports/${assetId}`);
+      return response.data?.data || response.data;
     },
     enabled: !!assetId,
     staleTime: 2 * 60 * 1000, // 2 minutes - reduced for more responsive updates
@@ -29,12 +24,8 @@ export const usePrefetchFinancialData = () => {
     queryClient.prefetchQuery({
       queryKey: ['financial-data', assetId],
       queryFn: async () => {
-        try {
-          const response = await apiGet(`/financial-reports/${assetId}`);
-          return response.data?.data || response.data;
-        } catch (error) {
-          return null;
-        }
+        const response = await apiGet(`/financial-reports/${assetId}`);
+        return response.data?.data || response.data;
       },
       staleTime: 2 * 60 * 1000,
       gcTime: 10 * 60 * 1000
