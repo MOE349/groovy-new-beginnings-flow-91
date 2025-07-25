@@ -3,6 +3,7 @@ import { toast } from "@/hooks/use-toast";
 import ApiForm from "@/components/ApiForm";
 import { apiCall } from "@/utils/apis";
 import { attachmentFields } from "@/data/assetFormFields";
+import { handleApiError } from "@/utils/errorHandling";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import FormLayout from "@/components/FormLayout";
 import { attachmentFormConfig } from "@/config/formLayouts";
@@ -18,11 +19,7 @@ const CreateAttachment = () => {
         description: "Attachment created successfully!",
       });
     } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to create attachment",
-        variant: "destructive",
-      });
+      handleApiError(error, "Creation Failed");
     }
   };
 

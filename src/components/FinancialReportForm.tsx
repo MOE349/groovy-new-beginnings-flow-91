@@ -6,6 +6,7 @@ import { apiCall } from '@/utils/apis';
 import { useToast } from '@/hooks/use-toast';
 import { useQueryClient } from '@tanstack/react-query';
 import { useFinancialDataOptimized } from '@/hooks/useFinancialDataOptimized';
+import { handleApiError } from '@/utils/errorHandling';
 
 interface FinancialReportFormProps {
   assetId: string;
@@ -213,11 +214,7 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
       }
     } catch (error) {
       console.error('Failed to submit financial data:', error);
-      toast({
-        title: "Error",
-        description: error instanceof Error ? error.message : "Failed to save financial data",
-        variant: "destructive",
-      });
+      handleApiError(error, "Save Failed");
     }
   };
 

@@ -8,6 +8,7 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { apiCall } from "@/utils/apis";
 import { equipmentFields, attachmentFields } from "@/data/assetFormFields";
+import { handleApiError } from "@/utils/errorHandling";
 
 const CreateAsset = () => {
   const navigate = useNavigate();
@@ -24,11 +25,7 @@ const CreateAsset = () => {
         description: `${assetType === "equipment" ? "Equipment" : "Attachment"} created successfully!`,
       });
     } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message || `Failed to create ${assetType}`,
-        variant: "destructive",
-      });
+      handleApiError(error, "Creation Failed");
     }
   };
 

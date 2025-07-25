@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
 import { apiCall } from "@/utils/apis";
 import ApiForm from "@/components/ApiForm";
+import { handleApiError } from "@/utils/errorHandling";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { locationFormFields } from "@/data/siteFormFields";
@@ -18,11 +19,7 @@ const CreateLocation = () => {
       });
       navigate("/settings");
     } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to create location",
-        variant: "destructive",
-      });
+      handleApiError(error, "Creation Failed");
     }
   };
 

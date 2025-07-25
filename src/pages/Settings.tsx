@@ -12,6 +12,7 @@ import ApiForm from "@/components/ApiForm";
 import { siteFormFields, locationFormFields } from "@/data/siteFormFields";
 import { equipmentCategoryFormFields, attachmentCategoryFormFields } from "@/data/categoryFormFields";
 import { apiCall } from "@/utils/apis";
+import { handleApiError } from "@/utils/errorHandling";
 
 const workOrderStatusFormFields = [
   {

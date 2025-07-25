@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { toast } from "@/hooks/use-toast";
 import ApiForm from "@/components/ApiForm";
+import { handleApiError } from "@/utils/errorHandling";
 import ApiTable from "@/components/ApiTable";
 import { apiCall } from "@/utils/apis";
 import GearSpinner from "@/components/ui/gear-spinner";
@@ -105,11 +106,7 @@ const EditAsset = () => {
         description: "Meter reading deleted successfully!"
       });
     } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to delete meter reading",
-        variant: "destructive"
-      });
+      handleApiError(error, "Delete Failed");
     }
   };
 
@@ -129,11 +126,7 @@ const EditAsset = () => {
         description: "Code deleted successfully!"
       });
     } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to delete code",
-        variant: "destructive"
-      });
+      handleApiError(error, "Delete Failed");
     }
   };
 
@@ -157,11 +150,7 @@ const EditAsset = () => {
         description: "Calendar Trigger settings saved successfully!"
       });
     } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to save Calendar Trigger settings",
-        variant: "destructive"
-      });
+      handleApiError(error, "Save Failed");
     }
   };
 
@@ -369,11 +358,7 @@ const EditAsset = () => {
                           description: "Meter reading added successfully!"
                         });
                       } catch (error: any) {
-                        toast({
-                          title: "Error",
-                          description: error.message || "Failed to add meter reading",
-                          variant: "destructive"
-                        });
+                        handleApiError(error, "Save Failed");
                       }
                     }} customLayout={({
                       handleSubmit,

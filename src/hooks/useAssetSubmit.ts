@@ -3,6 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "@/hooks/use-toast";
 import { apiCall } from "@/utils/apis";
 import { AssetType } from "./useAssetData";
+import { handleApiError } from "@/utils/errorHandling";
 
 export const useAssetSubmit = (id: string | undefined, assetType: AssetType | null) => {
   const queryClient = useQueryClient();
@@ -23,11 +24,7 @@ export const useAssetSubmit = (id: string | undefined, assetType: AssetType | nu
         description: `${assetType === "equipment" ? "Equipment" : "Attachment"} updated successfully!`,
       });
     } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message || `Failed to update ${assetType}`,
-        variant: "destructive",
-      });
+      handleApiError(error, "Update Failed");
     }
   };
 

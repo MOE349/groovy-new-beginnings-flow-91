@@ -4,6 +4,7 @@ import ApiForm from "@/components/ApiForm";
 import ApiTable from "@/components/ApiTable";
 import { apiCall } from "@/utils/apis";
 import { equipmentFields } from "@/data/assetFormFields";
+import { handleApiError } from "@/utils/errorHandling";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import FormLayout from "@/components/FormLayout";
 import { equipmentFormConfig } from "@/config/formLayouts";
@@ -19,11 +20,7 @@ const CreateEquipment = () => {
         description: "Equipment created successfully!",
       });
     } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to create equipment",
-        variant: "destructive",
-      });
+      handleApiError(error, "Creation Failed");
     }
   };
 

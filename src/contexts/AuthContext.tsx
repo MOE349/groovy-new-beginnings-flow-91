@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { apiCall } from '@/utils/apis';
 import { useToast } from '@/hooks/use-toast';
+import { handleApiError } from '@/utils/errorHandling';
 
 interface User {
   tenant_id: string;
@@ -109,11 +110,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       return true;
     } catch (error) {
       console.error('Login error:', error);
-      toast({
-        title: 'Login failed',
-        description: 'Invalid email or password. Please try again.',
-        variant: 'destructive',
-      });
+      handleApiError(error, 'Login failed');
       return false;
     }
   };
@@ -153,11 +150,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       
       return true;
     } catch (error) {
-      toast({
-        title: 'Registration failed',
-        description: 'Unable to create account. Please try again.',
-        variant: 'destructive',
-      });
+      handleApiError(error, 'Registration failed');
       return false;
     }
   };

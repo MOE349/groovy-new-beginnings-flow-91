@@ -1,6 +1,7 @@
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { apiGet } from '@/utils/apis';
+import { handleApiError } from '@/utils/errorHandling';
 
 export const useFinancialDataOptimized = (assetId: string) => {
   return useQuery({
