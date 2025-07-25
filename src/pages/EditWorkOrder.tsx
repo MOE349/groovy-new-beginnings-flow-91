@@ -567,20 +567,11 @@ const EditWorkOrder = () => {
                   onClick={async () => {
                     try {
                       console.log("Full workOrderData:", workOrderData);
-                      console.log("Asset payload:", { asset: workOrderData?.data?.data?.asset?.id });
+                      console.log("Work order ID payload:", { work_order_id: id });
                       
-                      if (!workOrderData?.data?.data?.asset?.id) {
-                        toast({
-                          title: "Error",
-                          description: "Asset information not available. Please wait for the work order to load.",
-                          variant: "destructive",
-                        });
-                        return;
-                      }
-                       
                        const response = await apiCall(`/work-orders/work_order/${id}/import-backlogs`, { 
                          method: 'POST',
-                         body: { asset: workOrderData.data.data.asset.id }
+                         body: { work_order_id: id }
                        });
                        
                        console.log("=== API CALL RESPONSE ===");
@@ -597,31 +588,40 @@ const EditWorkOrder = () => {
                          title: "Success",
                          description: "Backlog items imported successfully!",
                        });
-                    } catch (error: any) {
-                      console.log("=== FULL ERROR OBJECT ===");
-                      console.log(error);
-                      console.log("=== ERROR STRINGIFIED ===");
-                      console.log(JSON.stringify(error, null, 2));
-                      console.error("Import backlog error - Full error object:", error);
-                      console.error("Error message:", error?.message);
-                      console.error("Error response:", error?.response);
-                      console.error("Error status:", error?.status);
-                      console.error("Error data:", error?.data);
-                      
-                      // Extract error message from response structure
-                      const errorMessage = error?.errors?.error || 
-                                         error?.response?.data?.errors?.error || 
-                                         error?.response?.errors?.error || 
-                                         error?.message || 
-                                         error?.toString() || 
-                                         "Failed to import backlog items";
-                      
-                      toast({
-                        title: "Error",
-                        description: errorMessage,
-                        variant: "destructive",
-                      });
-                    }
+                     } catch (error: any) {
+                       console.log("=== FULL ERROR OBJECT ===");
+                       console.log(error);
+                       console.log("=== ERROR STRINGIFIED ===");
+                       console.log(JSON.stringify(error, null, 2));
+                       console.error("Import backlog error - Full error object:", error);
+                       console.error("Error message:", error?.message);
+                       console.error("Error response:", error?.response);
+                       console.error("Error status:", error?.status);
+                       console.error("Error data:", error?.data);
+                       
+                       // Custom alert format: title = key + status code, body = value
+                       if (error?.data?.errors && error?.status) {
+                         const errors = error.data.errors;
+                         const statusCode = error.status;
+                         
+                         // Get the first error key and value
+                         const errorKey = Object.keys(errors)[0];
+                         const errorValue = errors[errorKey];
+                         
+                         toast({
+                           title: `${errorKey} ${statusCode}`,
+                           description: errorValue,
+                           variant: "destructive",
+                         });
+                       } else {
+                         // Fallback to generic error message
+                         toast({
+                           title: "Error",
+                           description: error?.message || "Failed to import backlog items",
+                           variant: "destructive",
+                         });
+                       }
+                     }
                   }}
                 >
                   Load Backlog
