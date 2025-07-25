@@ -11,6 +11,7 @@ import { Plus } from 'lucide-react';
 import ApiForm from './ApiForm';
 import ApiTable from './ApiTable';
 import { useToast } from './ui/use-toast';
+import { handleApiError } from '@/utils/errorHandling';
 
 interface ChecklistItem {
   id: string;
@@ -177,11 +178,7 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
                       
                       setIsDialogOpen(false);
                     } catch (error) {
-                      toast({
-                        title: "Error",
-                        description: "Failed to create iteration",
-                        variant: "destructive"
-                      });
+                      handleApiError(error, "Creation Failed");
                     }
                   }}
                   submitText="Create Iteration"
@@ -213,11 +210,7 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
                               queryKey: ['/pm-automation/pm-settings']
                             });
                           } catch (error) {
-                            toast({
-                              title: "Error",
-                              description: "Failed to delete iteration",
-                              variant: "destructive"
-                            });
+                            handleApiError(error, "Delete Failed");
                           }
                         }}
                         className="opacity-0 group-hover:opacity-100 absolute -top-1 -right-1 bg-destructive text-destructive-foreground rounded-full w-4 h-4 flex items-center justify-center text-xs hover:bg-destructive/80 transition-opacity"
@@ -305,13 +298,9 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
                  });
                  
                  setIsChecklistDialogOpen(false);
-               } catch (error) {
-                 toast({
-                   title: "Error",
-                   description: "Failed to create checklist item",
-                   variant: "destructive"
-                 });
-               }
+                } catch (error) {
+                  handleApiError(error, "Creation Failed");
+                }
              }}
              submitText="Create Checklist Item"
            />
