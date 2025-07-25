@@ -170,12 +170,11 @@ export const apiCall = async <T = any>(
         }
       }
       
-      // If refresh failed, only clear tokens and redirect for auth-related endpoints
-      if (endpoint.includes('/auth/me') || endpoint.includes('/auth/')) {
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh_token');
-        window.location.href = '/login';
-      }
+      // If refresh failed, clear tokens and redirect to login
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
+      localStorage.removeItem('user_data');
+      window.location.href = '/login';
       
       throw new Error('Unauthorized - redirecting to login');
     }
