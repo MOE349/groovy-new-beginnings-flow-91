@@ -63,25 +63,37 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
-      const response = await apiCall<{
-        data: {
-          access: string;
-          refresh: string;
-          email: string;
-          name: string;
-          tenant_id: string;
-        };
-        meta_data: {
-          success: boolean;
-          total: number;
-          status_code: number;
-        };
-      }>('/users/login', {
+      const response = await apiCall<any>('/users/login', {
         method: 'POST',
         body: { email, password },
       });
 
-      const { access, refresh, email: userEmail, name, tenant_id } = response.data.data;
+      console.log('Login response:', response);
+      console.log('Login response data:', response.data);
+      
+      // Handle different possible response structures
+      let access, refresh, userEmail, name, tenant_id;
+      
+      if (response.data?.data) {
+        // Structure: { data: { data: { access, refresh, ... } } }
+        ({ access, refresh, email: userEmail, name, tenant_id } = response.data.data);
+      } else if (response.data?.access) {
+        // Structure: { data: { access, refresh, ... } }
+        ({ access, refresh, email: userEmail, name, tenant_id } = response.data);
+      } else if ((response as any).access) {
+        // Structure: { access, refresh, ... }
+        ({ access, refresh, email: userEmail, name, tenant_id } = response as any);
+      } else {
+        console.error('Unexpected login response structure:', response);
+        throw new Error('Invalid response structure');
+      }
+
+      console.log('Extracted data:', { access, refresh, userEmail, name, tenant_id });
+      
+      if (!access || !refresh) {
+        throw new Error('Missing access or refresh token');
+      }
+
       const userData = { tenant_id, email: userEmail, name };
       
       localStorage.setItem('access_token', access);
@@ -96,6 +108,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       
       return true;
     } catch (error) {
+      console.error('Login error:', error);
       toast({
         title: 'Login failed',
         description: 'Invalid email or password. Please try again.',
