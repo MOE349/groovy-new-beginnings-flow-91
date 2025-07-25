@@ -13,6 +13,25 @@ interface ApiResponse<T = any> {
 }
 
 /**
+ * Custom API Error class that preserves HTTP response details
+ */
+export class ApiError extends Error {
+  public status: number;
+  public statusText: string;
+  public response: Response;
+  public data: any;
+
+  constructor(message: string, status: number, statusText: string, response: Response, data: any) {
+    super(message);
+    this.name = 'ApiError';
+    this.status = status;
+    this.statusText = statusText;
+    this.response = response;
+    this.data = data;
+  }
+}
+
+/**
  * Get the current subdomain from the window location
  */
 const getSubdomain = (): string | null => {
@@ -209,7 +228,7 @@ export const apiCall = async <T = any>(
         }
       }
       
-      throw new Error(errorMessage);
+      throw new ApiError(errorMessage, response.status, response.statusText, response, data);
     }
 
     return {
