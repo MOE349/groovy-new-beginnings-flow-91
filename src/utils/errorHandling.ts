@@ -11,7 +11,17 @@ export const handleApiError = (error: any, customTitle?: string) => {
   if (error instanceof ApiError) {
     // Use custom error handling for ApiError instances
     title = `Error ${error.status}`;
-    description = error.message;
+    
+    // Extract the actual error message from the response data
+    if (error.data?.errors?.error) {
+      description = error.data.errors.error;
+    } else if (error.data?.error) {
+      description = error.data.error;
+    } else if (error.data?.message) {
+      description = error.data.message;
+    } else {
+      description = error.message;
+    }
   } else if (error?.message) {
     // Fallback for other error types
     description = error.message;
