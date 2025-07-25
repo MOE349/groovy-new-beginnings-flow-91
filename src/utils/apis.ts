@@ -174,9 +174,12 @@ export const apiCall = async <T = any>(
       localStorage.removeItem('access_token');
       localStorage.removeItem('refresh_token');
       localStorage.removeItem('user_data');
-      window.location.href = '/login';
       
-      throw new Error('Unauthorized - redirecting to login');
+      // Use replace to prevent back button issues
+      window.location.replace('/login');
+      
+      // Return a promise that never resolves to prevent further execution
+      return new Promise(() => {});
     }
     
     let data: T;
