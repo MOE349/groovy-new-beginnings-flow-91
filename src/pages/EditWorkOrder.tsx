@@ -567,21 +567,21 @@ const EditWorkOrder = () => {
                   onClick={async () => {
                     try {
                       console.log("Full workOrderData:", workOrderData);
-                      console.log("Asset payload:", { asset: workOrderData?.data?.data?.asset?.id });
-                      
-                      if (!workOrderData?.data?.data?.asset?.id) {
-                        toast({
-                          title: "Error",
-                          description: "Asset information not available. Please wait for the work order to load.",
-                          variant: "destructive",
-                        });
-                        return;
-                      }
+                       console.log("Work order ID payload:", { work_order_id: id });
                        
-                       const response = await apiCall(`/work-orders/work_order/${id}/import-backlogs`, { 
-                         method: 'POST',
-                         body: { asset: workOrderData.data.data.asset.id }
-                       });
+                       if (!id) {
+                         toast({
+                           title: "Error",
+                           description: "Work order ID not available.",
+                           variant: "destructive",
+                         });
+                         return;
+                       }
+                        
+                        const response = await apiCall(`/work-orders/work_order/${id}/import-backlogs`, { 
+                          method: 'POST',
+                          body: { work_order_id: id }
+                        });
                        
                        console.log("=== API CALL RESPONSE ===");
                        console.log(response);
