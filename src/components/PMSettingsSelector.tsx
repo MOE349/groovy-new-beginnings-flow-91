@@ -206,7 +206,7 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
                 {iterations
                   .sort((a, b) => a.order - b.order)
                   .map((iteration) => (
-                    <TabsTrigger key={iteration.id} value={iteration.id} className="group relative">
+                    <TabsTrigger key={iteration.id} value={iteration.id} className="group relative py-1">
                       {iteration.name}
                       <button
                         onClick={async (e) => {
