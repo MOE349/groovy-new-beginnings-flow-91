@@ -202,14 +202,14 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
         <div>
           {iterations.length > 0 && (
             <Tabs value={activeIterationId} onValueChange={setActiveIterationId}>
-              <TabsList className="w-fit flex items-center gap-0 bg-transparent border-b border-border p-0 h-auto">
+              <TabsList className="w-fit flex items-center gap-3 bg-transparent p-0 h-auto mb-4">
                 {iterations
                   .sort((a, b) => a.order - b.order)
                   .map((iteration) => (
                      <TabsTrigger 
                        key={iteration.id} 
                        value={iteration.id} 
-                       className="group relative px-4 py-3 bg-transparent text-muted-foreground data-[state=active]:text-primary border-b-2 border-transparent data-[state=active]:border-primary transition-all duration-200 hover:text-foreground font-medium text-sm rounded-none shadow-none"
+                       className="group relative px-4 py-2 bg-card border border-border text-muted-foreground data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary data-[state=active]:shadow-md transition-all duration-200 hover:bg-muted hover:text-foreground hover:border-muted-foreground/50 font-medium text-sm rounded-lg cursor-pointer min-w-[100px] shadow-sm"
                      >
                       {iteration.name}
                       <button
