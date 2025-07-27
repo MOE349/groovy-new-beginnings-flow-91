@@ -777,28 +777,27 @@ const EditAsset = () => {
                       <div className="flex items-center justify-center gap-4 mb-6 py-1 -mx-2 -mt-3 bg-accent/20 border border-accent/30 rounded-md">
                         <h4 className="text-sm font-medium text-primary dark:text-secondary">Log</h4>
                       </div>
-                        <div className="flex-grow space-y-4 overflow-hidden flex flex-col">
-                          <div className="flex-grow flex flex-col">
-                            <h3 className="text-lg font-semibold mb-4">Auto Generated Work Orders</h3>
-                            <div className="flex-grow overflow-auto border rounded-md">
-                              <ApiTable
-                                endpoint="/work-orders/work_order"
-                                filters={{
-                                  asset: id,
-                                  is_auto_generated: true
-                                }}
-                                columns={[
-                                  { key: 'code', header: 'Code', type: 'string' },
-                                  { key: 'description', header: 'Description', type: 'string' },
-                                  { key: 'status', header: 'Status', type: 'object', render: (value: any) => value?.control?.name || value?.name || '-' },
-                                  { key: 'completion_meter_reading', header: 'Completion Meter Reading', type: 'string' },
-                                  { key: 'trigger_meter_reading', header: 'Trigger Meter Reading', type: 'string' },
-                                ]}
-                                queryKey={['auto-generated-work-orders', id]}
-                                tableId={`auto-generated-work-orders-${id}`}
-                                height="100%"
-                              />
-                            </div>
+                       <div className="flex-grow space-y-4 overflow-auto">
+                         <div>
+                           <h3 className="text-lg font-semibold mb-4">Auto Generated Work Orders</h3>
+                           <div className="max-h-[200px] overflow-auto border rounded-md">
+                             <ApiTable
+                               endpoint="/work-orders/work_order"
+                               filters={{
+                                 asset: id,
+                                 is_auto_generated: true
+                               }}
+                               columns={[
+                                 { key: 'code', header: 'Code', type: 'string' },
+                                 { key: 'description', header: 'Description', type: 'string' },
+                                 { key: 'status', header: 'Status', type: 'object', render: (value: any) => value?.control?.name || value?.name || '-' },
+                                 { key: 'completion_meter_reading', header: 'Completion Meter Reading', type: 'string' },
+                                 { key: 'trigger_meter_reading', header: 'Trigger Meter Reading', type: 'string' },
+                               ]}
+                               queryKey={['auto-generated-work-orders', id]}
+                               tableId={`auto-generated-work-orders-${id}`}
+                             />
+                           </div>
                          </div>
                        </div>
                     </div>
