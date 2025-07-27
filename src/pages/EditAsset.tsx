@@ -518,7 +518,7 @@ const EditAsset = () => {
                                                 value={item?.id || i} 
                                                 checked={selectedRadioId === (item?.id || i.toString())}
                                                 onChange={() => {}} // Row click handler manages the selection
-                                                className="w-3 h-3 pointer-events-none"
+                                                className="w-3 h-3 pointer-events-none appearance-none border border-border bg-background rounded-sm checked:bg-primary checked:border-primary relative checked:after:content-[''] checked:after:absolute checked:after:inset-0 checked:after:bg-primary-foreground checked:after:rounded-[1px] checked:after:m-[1px]"
                                               />
                                            </td>
                                           <td className="px-2 py-1 text-left align-middle text-xs">
