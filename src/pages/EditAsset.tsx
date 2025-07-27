@@ -797,7 +797,7 @@ const EditAsset = () => {
                        <div className="absolute top-2 left-8 right-8 flex items-center justify-center gap-4 py-1 bg-accent/20 border border-accent/30 rounded-md z-10">
                          <h4 className="text-sm font-medium text-primary dark:text-secondary">PM Checklist/Parts</h4>
                        </div>
-                        <div className="flex-grow overflow-auto mt-4">
+                        <div className="flex-grow overflow-auto mt-6">
                           <PMChecklistTabs 
                             assetId={id || ''} 
                             selectedPmId={selectedItemId}
