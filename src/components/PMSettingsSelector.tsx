@@ -89,7 +89,7 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
   }
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 -mt-2">
       <div className="flex items-center justify-center gap-4">
         <label className="text-sm font-medium">Select PM Settings</label>
         <Select value={selectedPMSettingId} onValueChange={setSelectedPMSettingId}>
