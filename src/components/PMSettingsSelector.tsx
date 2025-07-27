@@ -205,35 +205,37 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
               <TabsList className="w-fit flex items-center gap-2 bg-muted/50 p-1 rounded-lg">
                 {iterations
                   .sort((a, b) => a.order - b.order)
-                  .map((iteration) => (
+                  .map((iteration, index) => (
                      <TabsTrigger 
                        key={iteration.id} 
                        value={iteration.id} 
                        className="group relative px-4 py-1 rounded-md bg-transparent text-muted-foreground data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm transition-all duration-200 hover:bg-background hover:text-foreground font-medium text-sm min-w-[80px]"
                      >
                       {iteration.name}
-                      <button
-                        onClick={async (e) => {
-                          e.stopPropagation();
-                          try {
-                            await apiCall(`/pm-automation/pm-iterations/${iteration.id}`, {
-                              method: 'DELETE'
-                            });
-                            toast({
-                              title: "Success",
-                              description: "Iteration deleted successfully"
-                            });
-                            queryClient.invalidateQueries({
-                              queryKey: ['/pm-automation/pm-settings']
-                            });
-                          } catch (error) {
-                            handleApiError(error, "Delete Failed");
-                          }
-                        }}
-                        className="opacity-0 group-hover:opacity-100 absolute -top-1 -right-1 bg-destructive text-destructive-foreground rounded-full w-4 h-4 flex items-center justify-center text-xs hover:bg-destructive/80 transition-opacity"
-                      >
-                        ×
-                      </button>
+                      {index > 0 && (
+                        <button
+                          onClick={async (e) => {
+                            e.stopPropagation();
+                            try {
+                              await apiCall(`/pm-automation/pm-iterations/${iteration.id}`, {
+                                method: 'DELETE'
+                              });
+                              toast({
+                                title: "Success",
+                                description: "Iteration deleted successfully"
+                              });
+                              queryClient.invalidateQueries({
+                                queryKey: ['/pm-automation/pm-settings']
+                              });
+                            } catch (error) {
+                              handleApiError(error, "Delete Failed");
+                            }
+                          }}
+                          className="opacity-0 group-hover:opacity-100 absolute -top-1 -right-1 bg-destructive text-destructive-foreground rounded-full w-4 h-4 flex items-center justify-center text-xs hover:bg-destructive/80 transition-opacity"
+                        >
+                          ×
+                        </button>
+                      )}
                     </TabsTrigger>
                   ))}
               </TabsList>
