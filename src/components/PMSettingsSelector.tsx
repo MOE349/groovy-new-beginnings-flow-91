@@ -90,30 +90,9 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
 
   return (
     <div className="space-y-2">
-      <div className="flex items-center justify-between gap-4 py-1">
-        <div className="flex items-center gap-4">
-          <label className="text-sm font-medium">Select PM Settings</label>
-          <Select value={selectedPMSettingId} onValueChange={setSelectedPMSettingId}>
-            <SelectTrigger className="w-fit min-w-48">
-              <SelectValue placeholder="Choose a PM setting..." />
-            </SelectTrigger>
-            <SelectContent>
-              {pmSettings.map((setting) => (
-                <SelectItem key={setting.id} value={setting.id}>
-                  <div className="flex items-center gap-2">
-                    <span>{setting.name}</span>
-                    <Badge variant={setting.is_active ? "default" : "secondary"} className="text-xs">
-                      {setting.is_active ? "Active" : "Inactive"}
-                    </Badge>
-                  </div>
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* Iterations Header - now on same row */}
-        {selectedPMSetting && (
+      <div className="flex items-center justify-between py-1">
+        {/* Iterations label on the left */}
+        {selectedPMSetting ? (
           <div className="flex items-center gap-2">
             <h3 className="text-lg font-semibold">Iterations</h3>
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -187,7 +166,34 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
               </DialogContent>
             </Dialog>
           </div>
+        ) : (
+          <div></div>
         )}
+
+        {/* Select PM Settings in center */}
+        <div className="flex items-center gap-4">
+          <label className="text-sm font-medium">Select PM Settings</label>
+          <Select value={selectedPMSettingId} onValueChange={setSelectedPMSettingId}>
+            <SelectTrigger className="w-fit min-w-48">
+              <SelectValue placeholder="Choose a PM setting..." />
+            </SelectTrigger>
+            <SelectContent>
+              {pmSettings.map((setting) => (
+                <SelectItem key={setting.id} value={setting.id}>
+                  <div className="flex items-center gap-2">
+                    <span>{setting.name}</span>
+                    <Badge variant={setting.is_active ? "default" : "secondary"} className="text-xs">
+                      {setting.is_active ? "Active" : "Inactive"}
+                    </Badge>
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Empty space on right for balance */}
+        <div></div>
       </div>
 
 
