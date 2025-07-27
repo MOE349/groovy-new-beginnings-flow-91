@@ -90,7 +90,7 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
 
   return (
     <div className="space-y-2">
-      <div className="flex items-center justify-between py-1">
+      <div className="flex items-center gap-4 py-1">
         {/* Iterations label on the left */}
         {selectedPMSetting ? (
           <div className="flex items-center gap-2">
