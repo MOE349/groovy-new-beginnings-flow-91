@@ -321,12 +321,12 @@ export const workOrderFormConfig: FormLayoutConfig = {
           optionValueKey: "id",
           optionLabelKey: "name"
         },
+        { name: "completion_meter_reading", label: "Completion Meter Reading", type: "input", required: false, inputType: "text", disabled: true },
         { name: "description", label: "Description", type: "textarea", required: false, rows: 3 },
       ]
     },
     {
       fields: [
-        { name: "completion_meter_reading", label: "Completion Meter Reading", type: "input", required: false, inputType: "text", disabled: true },
         { name: "maint_type", label: "Maint Type", type: "input", required: false, inputType: "text" },
         { name: "priority", label: "Priority", type: "input", required: false, inputType: "text" },
         { name: "suggested_start_date", label: "Suggested Start Date", type: "datepicker", required: false },
