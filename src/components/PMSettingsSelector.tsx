@@ -46,6 +46,8 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
   const [activeIterationId, setActiveIterationId] = useState<string>('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isChecklistDialogOpen, setIsChecklistDialogOpen] = useState(false);
+  const [isEditChecklistDialogOpen, setIsEditChecklistDialogOpen] = useState(false);
+  const [editingChecklistItem, setEditingChecklistItem] = useState<any>(null);
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
@@ -251,6 +253,10 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
                     title="Checklist Items"
                     onCreateNew={() => setIsChecklistDialogOpen(true)}
                     createNewText="Add Checklist Item"
+                    onRowClick={(row) => {
+                      setEditingChecklistItem(row);
+                      setIsEditChecklistDialogOpen(true);
+                    }}
                   />
                 </TabsContent>
               ))}
@@ -323,8 +329,65 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
              }}
              submitText="Create Checklist Item"
            />
-         </DialogContent>
-       </Dialog>
+          </DialogContent>
+        </Dialog>
+
+        {/* Checklist Item Edit Dialog */}
+        <Dialog open={isEditChecklistDialogOpen} onOpenChange={setIsEditChecklistDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Edit Checklist Item</DialogTitle>
+            </DialogHeader>
+            <ApiForm
+              fields={[
+                {
+                  name: 'iteration',
+                  label: 'Iteration',
+                  type: 'input',
+                  inputType: 'hidden'
+                },
+                {
+                  name: 'name',
+                  label: 'Checklist Item Name',
+                  type: 'input',
+                  inputType: 'text',
+                  required: true
+                }
+              ]}
+              initialData={{
+                iteration: editingChecklistItem?.iteration || activeIterationId,
+                name: editingChecklistItem?.name || ''
+              }}
+              title=""
+              onSubmit={async (data) => {
+                try {
+                  await apiCall(`/pm-automation/pm-iteration-checklist/${editingChecklistItem.id}`, {
+                    method: 'PATCH',
+                    body: {
+                      name: data.name
+                    }
+                  });
+                  
+                  toast({
+                    title: "Success",
+                    description: "Checklist item updated successfully"
+                  });
+                  
+                  // Refresh the data
+                  queryClient.invalidateQueries({
+                    queryKey: ['/pm-automation/pm-iteration-checklist']
+                  });
+                  
+                  setIsEditChecklistDialogOpen(false);
+                  setEditingChecklistItem(null);
+                 } catch (error) {
+                   handleApiError(error, "Update Failed");
+                 }
+              }}
+              submitText="Update Checklist Item"
+            />
+          </DialogContent>
+        </Dialog>
 
      </div>
   );
