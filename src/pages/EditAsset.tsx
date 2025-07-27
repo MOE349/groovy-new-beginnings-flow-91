@@ -44,6 +44,7 @@ const EditAsset = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const [selectedRadioId, setSelectedRadioId] = useState<string | null>(null);
+  const [isFieldsEditable, setIsFieldsEditable] = useState(false);
 
   const [meterTriggerData, setMeterTriggerData] = useState({
     name: "",
@@ -488,32 +489,34 @@ const EditAsset = () => {
                                                name="pm-selection" 
                                                value={item?.id || i} 
                                                checked={selectedRadioId === (item?.id || i.toString())}
-                                               onChange={() => {
-                                                 setSelectedRadioId(item?.id || i.toString());
-                                                 if (item) {
-                                                   setMeterTriggerData({
-                                                     name: item.name ?? "",
-                                                     interval_value: String(item.interval_value ?? ""),
-                                                     interval_unit: item.interval_unit ?? "hours",
-                                                     start_threshold_value: String(item.start_threshold_value ?? ""),
-                                                     lead_time_value: String(item.lead_time_value ?? ""),
-                                                     is_active: item.is_active !== undefined ? item.is_active : true
-                                                   });
-                                                   setIsEditMode(true);
-                                                   setSelectedItemId(item.id);
-                                                 } else {
-                                                   setMeterTriggerData({
-                                                     name: "",
-                                                     interval_value: "",
-                                                     interval_unit: "hours",
-                                                     start_threshold_value: "",
-                                                     lead_time_value: "",
-                                                     is_active: true
-                                                   });
-                                                   setIsEditMode(false);
-                                                   setSelectedItemId(null);
-                                                 }
-                                               }}
+                                                onChange={() => {
+                                                  setSelectedRadioId(item?.id || i.toString());
+                                                  if (item) {
+                                                    setMeterTriggerData({
+                                                      name: item.name ?? "",
+                                                      interval_value: String(item.interval_value ?? ""),
+                                                      interval_unit: item.interval_unit ?? "hours",
+                                                      start_threshold_value: String(item.start_threshold_value ?? ""),
+                                                      lead_time_value: String(item.lead_time_value ?? ""),
+                                                      is_active: item.is_active !== undefined ? item.is_active : true
+                                                    });
+                                                    setIsEditMode(true);
+                                                    setSelectedItemId(item.id);
+                                                    setIsFieldsEditable(false);
+                                                  } else {
+                                                    setMeterTriggerData({
+                                                      name: "",
+                                                      interval_value: "",
+                                                      interval_unit: "hours",
+                                                      start_threshold_value: "",
+                                                      lead_time_value: "",
+                                                      is_active: true
+                                                    });
+                                                    setIsEditMode(false);
+                                                    setSelectedItemId(null);
+                                                    setIsFieldsEditable(true);
+                                                  }
+                                                }}
                                                className="w-3 h-3"
                                              />
                                           </td>
@@ -540,37 +543,40 @@ const EditAsset = () => {
                               <div className="flex items-center justify-between">
                                 <span className="text-xs text-muted-foreground">Name</span>
                                 <div className="flex items-center gap-2">
-                                  <input 
-                                    type="text" 
-                                    value={meterTriggerData.name} 
-                                    onChange={e => setMeterTriggerData(prev => ({
-                                      ...prev,
-                                      name: e.target.value
-                                    }))} 
-                                    className="w-33 h-6 px-2 text-xs border rounded bg-background" 
-                                  />
+                                   <input 
+                                     type="text" 
+                                     value={meterTriggerData.name} 
+                                     onChange={e => setMeterTriggerData(prev => ({
+                                       ...prev,
+                                       name: e.target.value
+                                     }))} 
+                                     disabled={!isFieldsEditable}
+                                     className={`w-33 h-6 px-2 text-xs border rounded ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
+                                   />
                                 </div>
                               </div>
                               <div className="flex items-center justify-between">
                                 <span className="text-xs text-muted-foreground">Every</span>
                                 <div className="flex items-center gap-2">
-                                  <input 
-                                    type="number" 
-                                    value={meterTriggerData.interval_value} 
+                                   <input 
+                                     type="number" 
+                                     value={meterTriggerData.interval_value} 
+                                      onChange={e => setMeterTriggerData(prev => ({
+                                        ...prev,
+                                        interval_value: e.target.value
+                                      }))} 
+                                     disabled={!isFieldsEditable}
+                                     className={`w-16 h-6 px-2 text-xs border rounded ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
+                                   />
+                                   <select 
+                                     value={meterTriggerData.interval_unit} 
                                      onChange={e => setMeterTriggerData(prev => ({
                                        ...prev,
-                                       interval_value: e.target.value
+                                       interval_unit: e.target.value
                                      }))} 
-                                    className="w-16 h-6 px-2 text-xs border rounded bg-background" 
-                                  />
-                                  <select 
-                                    value={meterTriggerData.interval_unit} 
-                                    onChange={e => setMeterTriggerData(prev => ({
-                                      ...prev,
-                                      interval_unit: e.target.value
-                                    }))} 
-                                    className="h-6 px-2 text-xs border rounded bg-background w-20"
-                                  >
+                                     disabled={!isFieldsEditable}
+                                     className={`h-6 px-2 text-xs border rounded w-20 ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
+                                   >
                                     <option value="hours">hours</option>
                                     <option value="km">km</option>
                                     <option value="miles">miles</option>
@@ -584,96 +590,105 @@ const EditAsset = () => {
                               <div className="flex items-center justify-between">
                                 <span className="text-xs text-muted-foreground">Starting at</span>
                                 <div className="flex items-center gap-2">
-                                  <input 
-                                    type="number" 
-                                    value={meterTriggerData.start_threshold_value} 
-                                     onChange={e => setMeterTriggerData(prev => ({
-                                       ...prev,
-                                       start_threshold_value: e.target.value
-                                     }))} 
-                                    className="w-16 h-6 px-2 text-xs border rounded bg-background" 
-                                  />
+                                   <input 
+                                     type="number" 
+                                     value={meterTriggerData.start_threshold_value} 
+                                      onChange={e => setMeterTriggerData(prev => ({
+                                        ...prev,
+                                        start_threshold_value: e.target.value
+                                      }))} 
+                                     disabled={!isFieldsEditable}
+                                     className={`w-16 h-6 px-2 text-xs border rounded ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
+                                   />
                                   <span className="text-xs text-muted-foreground w-20"></span>
                                 </div>
                               </div>
                               <div className="flex items-center justify-between">
                                 <span className="text-xs text-muted-foreground">Create WO</span>
                                 <div className="flex items-center gap-2">
-                                  <input 
-                                    type="number" 
-                                    value={meterTriggerData.lead_time_value} 
-                                     onChange={e => setMeterTriggerData(prev => ({
-                                       ...prev,
-                                       lead_time_value: e.target.value
-                                     }))} 
-                                    className="w-16 h-6 px-2 text-xs border rounded bg-background" 
-                                  />
+                                   <input 
+                                     type="number" 
+                                     value={meterTriggerData.lead_time_value} 
+                                      onChange={e => setMeterTriggerData(prev => ({
+                                        ...prev,
+                                        lead_time_value: e.target.value
+                                      }))} 
+                                     disabled={!isFieldsEditable}
+                                     className={`w-16 h-6 px-2 text-xs border rounded ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
+                                   />
                                   <span className="text-xs text-muted-foreground w-20">before trigger</span>
                                 </div>
                               </div>
                               <div>
-                                <Button 
-                                  className={`w-full h-8 text-xs ${meterTriggerData.is_active ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-500 hover:bg-gray-600 text-white'}`} 
-                                  onClick={() => setMeterTriggerData(prev => ({
-                                    ...prev,
-                                    is_active: !prev.is_active
-                                  }))}
-                                >
-                                  {meterTriggerData.is_active ? '✓ Active' : '✗ Inactive'}
-                                </Button>
+                                 <Button 
+                                   className={`w-full h-8 text-xs ${meterTriggerData.is_active ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-500 hover:bg-gray-600 text-white'}`} 
+                                   onClick={() => isFieldsEditable && setMeterTriggerData(prev => ({
+                                     ...prev,
+                                     is_active: !prev.is_active
+                                   }))}
+                                   disabled={!isFieldsEditable}
+                                 >
+                                   {meterTriggerData.is_active ? '✓ Active' : '✗ Inactive'}
+                                 </Button>
                               </div>
                             </div>
                             <div className="mt-0.5">
-                              <Button 
-                                className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-white" 
-                                onClick={async () => {
-                                  const submissionData = {
-                                    name: meterTriggerData.name,
-                                    interval_value: meterTriggerData.interval_value,
-                                    interval_unit: meterTriggerData.interval_unit,
-                                    start_threshold_value: meterTriggerData.start_threshold_value,
-                                    start_threshold_unit: meterTriggerData.interval_unit,
-                                    lead_time_value: meterTriggerData.lead_time_value,
-                                    lead_time_unit: meterTriggerData.interval_unit,
-                                    is_active: meterTriggerData.is_active,
-                                    asset: id
-                                  };
-                                  try {
-                                    if (isEditMode && selectedItemId) {
-                                      await apiCall(`/pm-automation/pm-settings/${selectedItemId}`, {
-                                        method: 'PUT',
-                                        body: submissionData
-                                      });
-                                      toast({
-                                        title: "Success",
-                                        description: "PM Trigger settings updated successfully!"
-                                      });
-                                    } else {
-                                      await apiCall('/pm-automation/pm-settings', {
-                                        method: 'POST',
-                                        body: submissionData
-                                      });
-                                      toast({
-                                        title: "Success",
-                                        description: "PM Trigger settings created successfully!"
-                                      });
-                                    }
-                                    setIsEditMode(false);
-                                    setSelectedItemId(null);
-                                    queryClient.invalidateQueries({
-                                      queryKey: [`/pm-automation/pm-settings?asset=${id}`]
-                                    });
-                                  } catch (error: any) {
-                                    toast({
-                                      title: "Error",
-                                      description: error.message || `Failed to ${isEditMode ? 'update' : 'create'} PM Trigger settings`,
-                                      variant: "destructive"
-                                    });
-                                  }
-                                }}
-                              >
-                                {isEditMode ? 'Update' : 'Save'}
-                              </Button>
+                               <Button 
+                                 className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-white" 
+                                 onClick={async () => {
+                                   if (!isFieldsEditable) {
+                                     setIsFieldsEditable(true);
+                                     return;
+                                   }
+                                   
+                                   const submissionData = {
+                                     name: meterTriggerData.name,
+                                     interval_value: meterTriggerData.interval_value,
+                                     interval_unit: meterTriggerData.interval_unit,
+                                     start_threshold_value: meterTriggerData.start_threshold_value,
+                                     start_threshold_unit: meterTriggerData.interval_unit,
+                                     lead_time_value: meterTriggerData.lead_time_value,
+                                     lead_time_unit: meterTriggerData.interval_unit,
+                                     is_active: meterTriggerData.is_active,
+                                     asset: id
+                                   };
+                                   try {
+                                     if (isEditMode && selectedItemId) {
+                                       await apiCall(`/pm-automation/pm-settings/${selectedItemId}`, {
+                                         method: 'PUT',
+                                         body: submissionData
+                                       });
+                                       toast({
+                                         title: "Success",
+                                         description: "PM Trigger settings updated successfully!"
+                                       });
+                                     } else {
+                                       await apiCall('/pm-automation/pm-settings', {
+                                         method: 'POST',
+                                         body: submissionData
+                                       });
+                                       toast({
+                                         title: "Success",
+                                         description: "PM Trigger settings created successfully!"
+                                       });
+                                     }
+                                     setIsEditMode(false);
+                                     setSelectedItemId(null);
+                                     setIsFieldsEditable(false);
+                                     queryClient.invalidateQueries({
+                                       queryKey: [`/pm-automation/pm-settings?asset=${id}`]
+                                     });
+                                   } catch (error: any) {
+                                     toast({
+                                       title: "Error",
+                                       description: error.message || `Failed to ${isEditMode ? 'update' : 'create'} PM Trigger settings`,
+                                       variant: "destructive"
+                                     });
+                                   }
+                                 }}
+                               >
+                                 {!isFieldsEditable ? 'Edit' : (isEditMode ? 'Save' : 'Save')}
+                               </Button>
                             </div>
                           </div>
                      </div>
