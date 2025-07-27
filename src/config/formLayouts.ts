@@ -321,8 +321,8 @@ export const workOrderFormConfig: FormLayoutConfig = {
           optionValueKey: "id",
           optionLabelKey: "name"
         },
-        { name: "completion_meter_reading", label: "Completion Meter Reading", type: "input", required: false, inputType: "text", disabled: true },
         { name: "description", label: "Description", type: "textarea", required: false, rows: 3 },
+        { name: "completion_meter_reading", label: "Completion Meter Reading", type: "input", required: false, inputType: "text", disabled: true },
       ]
     },
     {
