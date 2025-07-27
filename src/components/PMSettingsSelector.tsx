@@ -90,7 +90,7 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
 
   return (
     <div className="space-y-2">
-      <div className="flex items-center justify-between py-1">
+      <div className="flex items-center gap-4 py-1">
         {/* Iterations label on the left */}
         {selectedPMSetting ? (
           <div className="flex items-center gap-2">
@@ -171,7 +171,7 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
         )}
 
         {/* Select PM Settings moved slightly left */}
-        <div className="flex items-center gap-4 -ml-8">
+        <div className="flex items-center gap-4 -ml-2">
           <label className="text-sm font-medium">Select PM Settings</label>
           <Select value={selectedPMSettingId} onValueChange={setSelectedPMSettingId}>
             <SelectTrigger className="w-fit min-w-48">
