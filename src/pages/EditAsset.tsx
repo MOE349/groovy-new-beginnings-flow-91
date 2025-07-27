@@ -479,47 +479,48 @@ const EditAsset = () => {
                                    for (let i = 0; i < 3; i++) {
                                      const item = pmSettingsData?.[i];
                                      rows.push(
-                                         <tr 
-                                           key={i} 
-                                           className="border-b"
-                                         >
-                                          <td className="px-2 py-1 text-left align-middle text-xs">
-                                             <input 
-                                               type="radio" 
-                                               name="pm-selection" 
-                                               value={item?.id || i} 
-                                               checked={selectedRadioId === (item?.id || i.toString())}
-                                                onChange={() => {
-                                                  setSelectedRadioId(item?.id || i.toString());
-                                                  if (item) {
-                                                    setMeterTriggerData({
-                                                      name: item.name ?? "",
-                                                      interval_value: String(item.interval_value ?? ""),
-                                                      interval_unit: item.interval_unit ?? "hours",
-                                                      start_threshold_value: String(item.start_threshold_value ?? ""),
-                                                      lead_time_value: String(item.lead_time_value ?? ""),
-                                                      is_active: item.is_active !== undefined ? item.is_active : true
-                                                    });
-                                                    setIsEditMode(true);
-                                                    setSelectedItemId(item.id);
-                                                    setIsFieldsEditable(false);
-                                                  } else {
-                                                    setMeterTriggerData({
-                                                      name: "",
-                                                      interval_value: "",
-                                                      interval_unit: "hours",
-                                                      start_threshold_value: "",
-                                                      lead_time_value: "",
-                                                      is_active: true
-                                                    });
-                                                    setIsEditMode(false);
-                                                    setSelectedItemId(null);
-                                                    setIsFieldsEditable(true);
-                                                  }
-                                                }}
-                                               className="w-3 h-3"
-                                             />
-                                          </td>
+                                          <tr 
+                                            key={i} 
+                                            className="border-b cursor-pointer hover:bg-muted/50"
+                                            onClick={() => {
+                                              setSelectedRadioId(item?.id || i.toString());
+                                              if (item) {
+                                                setMeterTriggerData({
+                                                  name: item.name ?? "",
+                                                  interval_value: String(item.interval_value ?? ""),
+                                                  interval_unit: item.interval_unit ?? "hours",
+                                                  start_threshold_value: String(item.start_threshold_value ?? ""),
+                                                  lead_time_value: String(item.lead_time_value ?? ""),
+                                                  is_active: item.is_active !== undefined ? item.is_active : true
+                                                });
+                                                setIsEditMode(true);
+                                                setSelectedItemId(item.id);
+                                                setIsFieldsEditable(false);
+                                              } else {
+                                                setMeterTriggerData({
+                                                  name: "",
+                                                  interval_value: "",
+                                                  interval_unit: "hours",
+                                                  start_threshold_value: "",
+                                                  lead_time_value: "",
+                                                  is_active: true
+                                                });
+                                                setIsEditMode(false);
+                                                setSelectedItemId(null);
+                                                setIsFieldsEditable(true);
+                                              }
+                                            }}
+                                          >
+                                           <td className="px-2 py-1 text-left align-middle text-xs">
+                                              <input 
+                                                type="radio" 
+                                                name="pm-selection" 
+                                                value={item?.id || i} 
+                                                checked={selectedRadioId === (item?.id || i.toString())}
+                                                onChange={() => {}} // Row click handler manages the selection
+                                                className="w-3 h-3 pointer-events-none"
+                                              />
+                                           </td>
                                           <td className="px-2 py-1 text-left align-middle text-xs">
                                             {item?.name || '-'}
                                           </td>
