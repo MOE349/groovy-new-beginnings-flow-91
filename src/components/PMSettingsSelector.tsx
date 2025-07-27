@@ -90,31 +90,30 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
 
   return (
     <div className="space-y-2">
-      <div className="flex items-center justify-center gap-4 py-1">
-        <label className="text-sm font-medium">Select PM Settings</label>
-        <Select value={selectedPMSettingId} onValueChange={setSelectedPMSettingId}>
-          <SelectTrigger className="w-fit min-w-48">
-            <SelectValue placeholder="Choose a PM setting..." />
-          </SelectTrigger>
-          <SelectContent>
-            {pmSettings.map((setting) => (
-              <SelectItem key={setting.id} value={setting.id}>
-                <div className="flex items-center gap-2">
-                  <span>{setting.name}</span>
-                  <Badge variant={setting.is_active ? "default" : "secondary"} className="text-xs">
-                    {setting.is_active ? "Active" : "Inactive"}
-                  </Badge>
-                </div>
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+      <div className="flex items-center justify-between gap-4 py-1">
+        <div className="flex items-center gap-4">
+          <label className="text-sm font-medium">Select PM Settings</label>
+          <Select value={selectedPMSettingId} onValueChange={setSelectedPMSettingId}>
+            <SelectTrigger className="w-fit min-w-48">
+              <SelectValue placeholder="Choose a PM setting..." />
+            </SelectTrigger>
+            <SelectContent>
+              {pmSettings.map((setting) => (
+                <SelectItem key={setting.id} value={setting.id}>
+                  <div className="flex items-center gap-2">
+                    <span>{setting.name}</span>
+                    <Badge variant={setting.is_active ? "default" : "secondary"} className="text-xs">
+                      {setting.is_active ? "Active" : "Inactive"}
+                    </Badge>
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
 
-
-      {/* Iterations Tabs */}
-      {selectedPMSetting && (
-        <div className="space-y-4">
+        {/* Iterations Header - now on same row */}
+        {selectedPMSetting && (
           <div className="flex items-center gap-2">
             <h3 className="text-lg font-semibold">Iterations</h3>
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -188,7 +187,13 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
               </DialogContent>
             </Dialog>
           </div>
-          
+        )}
+      </div>
+
+
+      {/* Iterations Tabs - moved up */}
+      {selectedPMSetting && (
+        <div>
           {iterations.length > 0 && (
             <Tabs value={activeIterationId} onValueChange={setActiveIterationId}>
               <TabsList className="w-fit grid grid-cols-3 gap-1">
@@ -249,8 +254,8 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
               </CardContent>
             </Card>
           )}
-         </div>
-       )}
+        </div>
+      )}
 
        {/* Checklist Item Creation Dialog */}
        <Dialog open={isChecklistDialogOpen} onOpenChange={setIsChecklistDialogOpen}>
