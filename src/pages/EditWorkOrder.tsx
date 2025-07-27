@@ -278,14 +278,6 @@ const EditWorkOrder = () => {
       placeholder: "(briefly outline the problem, if any)",
     },
     {
-      name: "root_cause",
-      type: "textarea",
-      label: "Root Cause",
-      required: false,
-      rows: 4,
-      placeholder: "(short description of the cause of issue, if any)",
-    },
-    {
       name: "solution",
       type: "textarea",
       label: "Solution",
@@ -435,13 +427,13 @@ const EditWorkOrder = () => {
                   <h4 className="text-sm font-medium text-foreground mb-2 border-b border-border pb-1">Problem Analysis</h4>
                   <ApiForm
                     fields={completionFormFields.filter(field => 
-                      field.name === "work_order" || field.name === "problem" || field.name === "root_cause"
+                      field.name === "work_order" || field.name === "problem" || field.name === "solution"
                     )}
                     onSubmit={handleCompletionSubmit}
                     initialData={{ 
                       work_order: id,
                       problem: completionData?.data?.data?.problem || "",
-                      root_cause: completionData?.data?.data?.root_cause || "",
+                      solution: completionData?.data?.data?.solution || "",
                     }}
                     customLayout={({ fields, formData, renderField }) => (
                       <div className="space-y-2">
@@ -461,32 +453,8 @@ const EditWorkOrder = () => {
                 </div>
 
                 <div className="bg-background/50 rounded border p-3">
-                  <h4 className="text-sm font-medium text-foreground mb-2 border-b border-border pb-1">Solution & Summary</h4>
+                  <h4 className="text-sm font-medium text-foreground mb-2 border-b border-border pb-1">Summary</h4>
                   <div className="space-y-3">
-                    <ApiForm
-                      fields={completionFormFields.filter(field => 
-                        field.name === "work_order" || field.name === "solution"
-                      )}
-                      onSubmit={handleCompletionSubmit}
-                      initialData={{ 
-                        work_order: id,
-                        solution: completionData?.data?.data?.solution || "",
-                      }}
-                      customLayout={({ fields, formData, renderField }) => (
-                        <div>
-                          {fields.map(field => {
-                            if (field.inputType === "hidden") return renderField(field);
-                            return (
-                              <div key={field.name} onBlur={() => {
-                                handleCompletionFieldChange(field.name, formData[field.name], formData);
-                              }}>
-                                {renderField(field)}
-                              </div>
-                            );
-                          })}
-                        </div>
-                      )}
-                    />
                     
                     {/* Compact Summary */}
                     <div className="grid grid-cols-2 gap-2 text-xs">
