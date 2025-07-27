@@ -170,8 +170,8 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
           <div></div>
         )}
 
-        {/* Select PM Settings in center */}
-        <div className="flex items-center gap-4">
+        {/* Select PM Settings moved slightly left */}
+        <div className="flex items-center gap-4 -ml-8">
           <label className="text-sm font-medium">Select PM Settings</label>
           <Select value={selectedPMSettingId} onValueChange={setSelectedPMSettingId}>
             <SelectTrigger className="w-fit min-w-48">
