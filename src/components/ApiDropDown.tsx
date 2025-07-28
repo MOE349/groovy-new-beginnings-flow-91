@@ -62,17 +62,25 @@ const ApiDropDown = ({
       try {
         const response = await apiCall(endpoint);
         console.log('ApiDropDown: API response:', response);
-        return response.data.data || response.data;
+        let data = response.data?.data || response.data || [];
+        
+        // Ensure we always return an array
+        if (!Array.isArray(data)) {
+          console.warn('ApiDropDown: API response is not an array, converting to array:', data);
+          data = data ? [data] : [];
+        }
+        
+        return data;
       } catch (err) {
         console.error('ApiDropDown: API error:', err);
-        throw err;
+        return []; // Return empty array on error
       }
     },
     enabled: !!endpoint,
   });
 
-  // Use static options or API options
-  const finalOptions = options || (apiOptions ? apiOptions.map((item: any) => ({
+  // Use static options or API options, ensuring apiOptions is always an array
+  const finalOptions = options || (Array.isArray(apiOptions) ? apiOptions.map((item: any) => ({
     value: item[optionValueKey],
     label: item[optionLabelKey],
   })) : []);
