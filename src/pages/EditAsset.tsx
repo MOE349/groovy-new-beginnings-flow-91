@@ -635,7 +635,7 @@ const EditAsset = () => {
                                          ...prev,
                                          next_iteration: value
                                        }))}
-                                       endpoint={`/pm-settings/manual-generation/${selectedItemId}`}
+                                       endpoint={`/pm-automation/pm-settings/manual-generation/${selectedItemId}`}
                                        optionValueKey="id"
                                        optionLabelKey="name"
                                        placeholder="Select iteration"
