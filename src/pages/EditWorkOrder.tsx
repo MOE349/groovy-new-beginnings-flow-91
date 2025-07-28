@@ -577,10 +577,10 @@ const EditWorkOrder = () => {
               <ApiTable
                 endpoint={`/work-orders/work_orders/checklists?work_order_id=${id}`}
                 columns={[
+                  { key: 'description', header: 'Description', type: 'string' },
+                  { key: 'hrs_spent', header: 'Hrs Spent', type: 'string' },
                   { key: 'completed_by', header: 'Completed By', type: 'object' },
                   { key: 'completion_date', header: 'Completion Date', type: 'date' },
-                  { key: 'hrs_spent', header: 'Hrs Spent', type: 'string' },
-                  { key: 'description', header: 'Description', type: 'string' },
                 ]}
                 queryKey={["work_order_checklists", id]}
                 emptyMessage="No checklist items found"
