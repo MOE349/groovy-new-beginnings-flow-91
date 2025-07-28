@@ -546,32 +546,6 @@ const EditAsset = () => {
                           <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
                             <div className="space-y-1">
                               <div className="flex items-center justify-between">
-                                <span className="text-xs text-muted-foreground">Next Iteration</span>
-                                <div className="flex items-center gap-2">
-                                  {selectedItemId ? (
-                                    <ApiDropDown
-                                      name="next_iteration"
-                                      value={meterTriggerData.next_iteration}
-                                      onChange={(value) => setMeterTriggerData(prev => ({
-                                        ...prev,
-                                        next_iteration: value
-                                      }))}
-                                      endpoint={`/pm-automation/pm-settings/manual-generation/${selectedItemId}`}
-                                      optionValueKey="id"
-                                      optionLabelKey="name"
-                                      placeholder="Select iteration"
-                                      disabled={!isFieldsEditable}
-                                      className=""
-                                    />
-                                  ) : (
-                                    <div className="w-33 h-6 px-2 text-xs border rounded flex items-center text-muted-foreground bg-muted/50">
-                                      No PM setting selected
-                                    </div>
-                                  )}
-                                  <span className="text-xs text-muted-foreground w-20"></span>
-                                </div>
-                              </div>
-                              <div className="flex items-center justify-between">
                                 <span className="text-xs text-muted-foreground">Name</span>
                                 <div className="flex items-center gap-2">
                                    <input 
@@ -648,6 +622,32 @@ const EditAsset = () => {
                                      className={`w-16 h-6 px-2 text-xs border rounded ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
                                    />
                                   <span className="text-xs text-muted-foreground w-20">before trigger</span>
+                                </div>
+                              </div>
+                              <div className="flex items-center justify-between">
+                                <span className="text-xs text-muted-foreground">Next Iteration</span>
+                                <div className="flex items-center gap-2">
+                                  {selectedItemId ? (
+                                    <ApiDropDown
+                                      name="next_iteration"
+                                      value={meterTriggerData.next_iteration}
+                                      onChange={(value) => setMeterTriggerData(prev => ({
+                                        ...prev,
+                                        next_iteration: value
+                                      }))}
+                                      endpoint={`/pm-automation/pm-settings/manual-generation/${selectedItemId}`}
+                                      optionValueKey="id"
+                                      optionLabelKey="name"
+                                      placeholder="Select iteration"
+                                      disabled={!isFieldsEditable}
+                                      className=""
+                                    />
+                                  ) : (
+                                    <div className="w-33 h-6 px-2 text-xs border rounded flex items-center text-muted-foreground bg-muted/50">
+                                      No PM setting selected
+                                    </div>
+                                  )}
+                                  <span className="text-xs text-muted-foreground w-20"></span>
                                 </div>
                               </div>
                               <div>
