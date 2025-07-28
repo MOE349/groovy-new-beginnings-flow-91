@@ -840,22 +840,23 @@ const EditAsset = () => {
                          <div>
                            <h3 className="text-lg font-semibold mb-4">Auto Generated Work Orders</h3>
                             <div className="max-h-[200px] overflow-auto border rounded-md">
-                              <ApiTable
-                                endpoint="/work-orders/work_order"
-                                filters={{
-                                  asset: id,
-                                  is_pm_generated: true
-                                }}
-                               columns={[
-                                 { key: 'code', header: 'Code', type: 'string' },
-                                 { key: 'description', header: 'Description', type: 'string' },
-                                 { key: 'status', header: 'Status', type: 'object', render: (value: any) => value?.control?.name || value?.name || '-' },
-                                 { key: 'completion_meter_reading', header: 'Completion Meter Reading', type: 'string' },
-                                 { key: 'trigger_meter_reading', header: 'Trigger Meter Reading', type: 'string' },
-                               ]}
-                               queryKey={['auto-generated-work-orders', id]}
-                               tableId={`auto-generated-work-orders-${id}`}
-                             />
+                               <ApiTable
+                                 endpoint="/work-orders/work_order"
+                                 filters={{
+                                   asset: id,
+                                   is_pm_generated: true
+                                 }}
+                                columns={[
+                                  { key: 'code', header: 'Code', type: 'string' },
+                                  { key: 'description', header: 'Description', type: 'string' },
+                                  { key: 'status', header: 'Status', type: 'object', render: (value: any) => value?.control?.name || value?.name || '-' },
+                                  { key: 'completion_meter_reading', header: 'Completion Meter Reading', type: 'string' },
+                                  { key: 'trigger_meter_reading', header: 'Trigger Meter Reading', type: 'string' },
+                                ]}
+                                queryKey={['auto-generated-work-orders', id]}
+                                tableId={`auto-generated-work-orders-${id}`}
+                                editRoutePattern="/workorders/edit/{id}"
+                              />
                            </div>
                          </div>
                        </div>
@@ -935,36 +936,38 @@ const EditAsset = () => {
               <div>
                 <h3 className="text-lg font-semibold mb-4">Active Work Orders</h3>
                 <div className="max-h-[280px] overflow-auto border rounded-md">
-                  <ApiTable
-                    endpoint={`/work-orders/work_order?asset=${id}&status__control__name__in=Active,Draft,Pending`}
-                    columns={[
-                      { key: 'code', header: 'Code', type: 'string' },
-                      { key: 'description', header: 'Description', type: 'string' },
-                      { key: 'status', header: 'Status', type: 'object', render: (value: any) => value?.control?.name || value?.name || '-' },
-                      { key: 'maint_type', header: 'Maint Type', type: 'string' },
-                      { key: 'completion_end_date', header: 'Completion Date', type: 'string' }
-                    ]}
-                    queryKey={['active-work-orders', id]}
-                    tableId={`active-work-orders-${id}`}
-                  />
+                   <ApiTable
+                     endpoint={`/work-orders/work_order?asset=${id}&status__control__name__in=Active,Draft,Pending`}
+                     columns={[
+                       { key: 'code', header: 'Code', type: 'string' },
+                       { key: 'description', header: 'Description', type: 'string' },
+                       { key: 'status', header: 'Status', type: 'object', render: (value: any) => value?.control?.name || value?.name || '-' },
+                       { key: 'maint_type', header: 'Maint Type', type: 'string' },
+                       { key: 'completion_end_date', header: 'Completion Date', type: 'string' }
+                     ]}
+                     queryKey={['active-work-orders', id]}
+                     tableId={`active-work-orders-${id}`}
+                     editRoutePattern="/workorders/edit/{id}"
+                   />
                 </div>
               </div>
               
               <div>
                 <h3 className="text-lg font-semibold mb-4">Completed Work Orders</h3>
                 <div className="max-h-[280px] overflow-auto border rounded-md">
-                  <ApiTable
-                    endpoint={`/work-orders/work_order?asset=${id}&status__control__name=Closed`}
-                    columns={[
-                      { key: 'code', header: 'Code', type: 'string' },
-                      { key: 'description', header: 'Description', type: 'string' },
-                      { key: 'status', header: 'Status', type: 'object', render: (value: any) => value?.control?.name || value?.name || '-' },
-                      { key: 'maint_type', header: 'Maint Type', type: 'string' },
-                      { key: 'completion_end_date', header: 'Completion Date', type: 'string' }
-                    ]}
-                    queryKey={['completed-work-orders', id]}
-                    tableId={`completed-work-orders-${id}`}
-                  />
+                   <ApiTable
+                     endpoint={`/work-orders/work_order?asset=${id}&status__control__name=Closed`}
+                     columns={[
+                       { key: 'code', header: 'Code', type: 'string' },
+                       { key: 'description', header: 'Description', type: 'string' },
+                       { key: 'status', header: 'Status', type: 'object', render: (value: any) => value?.control?.name || value?.name || '-' },
+                       { key: 'maint_type', header: 'Maint Type', type: 'string' },
+                       { key: 'completion_end_date', header: 'Completion Date', type: 'string' }
+                     ]}
+                     queryKey={['completed-work-orders', id]}
+                     tableId={`completed-work-orders-${id}`}
+                     editRoutePattern="/workorders/edit/{id}"
+                   />
                 </div>
               </div>
 
