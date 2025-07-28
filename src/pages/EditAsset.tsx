@@ -540,9 +540,37 @@ const EditAsset = () => {
                                    return rows;
                                  })()}
                                </tbody>
-                            </table>
-                          </div>
-                        </div>
+                             </table>
+                           </div>
+                           <div className="px-2 pb-2">
+                             <Button 
+                               variant="secondary" 
+                               size="sm" 
+                               className="w-full"
+                               disabled={!selectedItemId}
+                               onClick={async () => {
+                                 if (!selectedItemId) return;
+                                 try {
+                                   await apiCall(`/pm-automation/pm-settings/manual-generation/${selectedItemId}`, {
+                                     method: 'POST'
+                                   });
+                                   toast({
+                                     title: "Success",
+                                     description: "Work order generated successfully!"
+                                   });
+                                 } catch (error: any) {
+                                   toast({
+                                     title: "Error",
+                                     description: error.message || "Failed to generate work order",
+                                     variant: "destructive"
+                                   });
+                                 }
+                               }}
+                             >
+                               Generate WO Now
+                             </Button>
+                           </div>
+                         </div>
                           <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
                             <div className="space-y-1">
                               <div className="flex items-center justify-between">
