@@ -546,7 +546,7 @@ const EditAsset = () => {
                               <Button 
                                 variant="secondary" 
                                 size="sm" 
-                                className="text-secondary py-1"
+                                className="text-secondary py-1 px-3"
                                 disabled={!selectedItemId}
                                 onClick={async () => {
                                   if (!selectedItemId) return;
