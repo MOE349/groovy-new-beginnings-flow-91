@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronDown } from "lucide-react";
 import { apiCall } from "@/utils/apis";
@@ -40,6 +40,7 @@ const LocationEquipmentDropdown = ({
   const [equipmentMenuPosition, setEquipmentMenuPosition] = useState({ top: 0, left: 0 });
   
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Fetch locations
   const {
@@ -126,6 +127,13 @@ const LocationEquipmentDropdown = ({
 
   const handleLocationHover = (locationId: string, event: React.MouseEvent) => {
     console.log('Hovering over location:', locationId);
+    
+    // Clear any pending hide timeout
+    if (hideTimeoutRef.current) {
+      clearTimeout(hideTimeoutRef.current);
+      hideTimeoutRef.current = null;
+    }
+    
     setHoveredLocationId(locationId);
     
     // Calculate position for equipment menu
@@ -135,6 +143,26 @@ const LocationEquipmentDropdown = ({
       left: rect.right + 4,
     });
   };
+
+  const handleLocationLeave = useCallback(() => {
+    // Add a delay before hiding the equipment menu
+    hideTimeoutRef.current = setTimeout(() => {
+      setHoveredLocationId(null);
+    }, 300); // 300ms delay
+  }, []);
+
+  const handleEquipmentMenuEnter = useCallback(() => {
+    // Clear the hide timeout when entering equipment menu
+    if (hideTimeoutRef.current) {
+      clearTimeout(hideTimeoutRef.current);
+      hideTimeoutRef.current = null;
+    }
+  }, []);
+
+  const handleEquipmentMenuLeave = useCallback(() => {
+    // Hide immediately when leaving equipment menu
+    setHoveredLocationId(null);
+  }, []);
 
   // Debug: Track prop changes
   useEffect(() => {
@@ -152,7 +180,13 @@ const LocationEquipmentDropdown = ({
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      // Clean up timeout on unmount
+      if (hideTimeoutRef.current) {
+        clearTimeout(hideTimeoutRef.current);
+      }
+    };
   }, []);
 
   return (
@@ -201,7 +235,7 @@ const LocationEquipmentDropdown = ({
                     key={location.id}
                     className="relative"
                     onMouseEnter={(e) => handleLocationHover(location.id, e)}
-                    onMouseLeave={() => setHoveredLocationId(null)}
+                    onMouseLeave={handleLocationLeave}
                   >
                     <div
                       className={cn(
@@ -233,8 +267,8 @@ const LocationEquipmentDropdown = ({
             top: equipmentMenuPosition.top,
             left: equipmentMenuPosition.left,
           }}
-          onMouseEnter={() => setHoveredLocationId(hoveredLocationId)}
-          onMouseLeave={() => setHoveredLocationId(null)}
+          onMouseEnter={handleEquipmentMenuEnter}
+          onMouseLeave={handleEquipmentMenuLeave}
         >
           <div className="max-h-48 overflow-auto p-1">
             <div className="px-2 py-1 text-xs font-medium text-muted-foreground border-b">
