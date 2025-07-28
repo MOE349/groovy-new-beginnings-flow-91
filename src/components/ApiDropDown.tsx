@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -64,10 +65,20 @@ const ApiDropDown = ({
         console.log('ApiDropDown: API response:', response);
         let data = response.data?.data || response.data || [];
         
-        // Ensure we always return an array
+        // Handle different response formats
         if (!Array.isArray(data)) {
           console.warn('ApiDropDown: API response is not an array, converting to array:', data);
-          data = data ? [data] : [];
+          
+          // Check if it's a key-value object (like PM iterations)
+          if (typeof data === 'object' && data !== null) {
+            // Convert object to array format: {key: value} -> [{id: key, name: value}]
+            data = Object.entries(data).map(([key, value]) => ({
+              id: key,
+              name: `${value}` // Convert to string for display
+            }));
+          } else {
+            data = data ? [data] : [];
+          }
         }
         
         return data;
@@ -84,6 +95,22 @@ const ApiDropDown = ({
     value: item[optionValueKey],
     label: item[optionLabelKey],
   })) : []);
+
+  // Auto-select the lowest key by default (only for PM iteration dropdowns)
+  useEffect(() => {
+    if (!value && finalOptions.length > 0 && endpoint?.includes('manual-generation')) {
+      // Sort options by numeric value and select the lowest
+      const sortedOptions = [...finalOptions].sort((a, b) => {
+        const numA = parseInt(a.value) || 0;
+        const numB = parseInt(b.value) || 0;
+        return numA - numB;
+      });
+      
+      if (sortedOptions.length > 0 && onChange) {
+        onChange(sortedOptions[0].value);
+      }
+    }
+  }, [finalOptions, value, onChange, endpoint]);
 
   return (
     <div className={cn("space-y-2", className)}>
@@ -104,7 +131,7 @@ const ApiDropDown = ({
           <SelectValue placeholder={isLoading ? "Loading..." : placeholder} />
           {isLoading && <GearSpinner />}
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="bg-background border border-border shadow-md z-50">
           {error ? (
             <SelectItem value="__error__" disabled>
               Error loading options
