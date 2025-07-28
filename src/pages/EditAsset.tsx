@@ -542,62 +542,61 @@ const EditAsset = () => {
                                </tbody>
                              </table>
                            </div>
-                           <div className="px-2 pb-2">
-                             <Button 
-                               variant="secondary" 
-                               size="sm" 
-                               className="text-secondary self-start py-1"
-                               disabled={!selectedItemId}
-                               onClick={async () => {
-                                 if (!selectedItemId) return;
-                                 try {
-                                   await apiCall(`/pm-automation/pm-settings/manual-generation/${selectedItemId}`, {
-                                     method: 'POST'
-                                   });
-                                   toast({
-                                     title: "Success",
-                                     description: "Work order generated successfully!"
-                                   });
-                                 } catch (error: any) {
-                                   toast({
-                                     title: "Error",
-                                     description: error.message || "Failed to generate work order",
-                                     variant: "destructive"
-                                   });
-                                 }
-                               }}
-                             >
-                               Generate WO Now
-                             </Button>
-                           </div>
-                         </div>
-                          <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
-                            <div className="space-y-1">
-                              <div className="flex items-center justify-between">
+                            <div className="px-2 pb-2 flex items-center gap-4">
+                              <Button 
+                                variant="secondary" 
+                                size="sm" 
+                                className="text-secondary py-1"
+                                disabled={!selectedItemId}
+                                onClick={async () => {
+                                  if (!selectedItemId) return;
+                                  try {
+                                    await apiCall(`/pm-automation/pm-settings/manual-generation/${selectedItemId}`, {
+                                      method: 'POST'
+                                    });
+                                    toast({
+                                      title: "Success",
+                                      description: "Work order generated successfully!"
+                                    });
+                                  } catch (error: any) {
+                                    toast({
+                                      title: "Error",
+                                      description: error.message || "Failed to generate work order",
+                                      variant: "destructive"
+                                    });
+                                  }
+                                }}
+                              >
+                                Generate WO Now
+                              </Button>
+                              
+                              <div className="flex items-center gap-2">
                                 <span className="text-xs text-muted-foreground">Next Iteration</span>
-                                <div className="flex items-center gap-2">
-                                  {selectedItemId ? (
-                                    <ApiDropDown
-                                      name="next_iteration"
-                                      value={meterTriggerData.next_iteration}
-                                      onChange={(value) => setMeterTriggerData(prev => ({
-                                        ...prev,
-                                        next_iteration: value
-                                      }))}
-                                      endpoint={`/pm-automation/pm-settings/manual-generation/${selectedItemId}`}
-                                      optionValueKey="id"
-                                      optionLabelKey="name"
-                                      placeholder="Select iteration"
-                                      disabled={!isFieldsEditable}
-                                      className="w-33 h-6 text-xs"
-                                    />
-                                  ) : (
-                                    <div className="w-33 h-6 px-2 text-xs border rounded flex items-center text-muted-foreground bg-muted/50">
-                                      No PM setting selected
-                                    </div>
-                                  )}
-                                </div>
+                                {selectedItemId ? (
+                                  <ApiDropDown
+                                    name="next_iteration"
+                                    value={meterTriggerData.next_iteration}
+                                    onChange={(value) => setMeterTriggerData(prev => ({
+                                      ...prev,
+                                      next_iteration: value
+                                    }))}
+                                    endpoint={`/pm-automation/pm-settings/manual-generation/${selectedItemId}`}
+                                    optionValueKey="id"
+                                    optionLabelKey="name"
+                                    placeholder="Select iteration"
+                                    disabled={!isFieldsEditable}
+                                    className="w-33 h-6 text-xs"
+                                  />
+                                ) : (
+                                  <div className="w-33 h-6 px-2 text-xs border rounded flex items-center text-muted-foreground bg-muted/50">
+                                    No PM setting selected
+                                  </div>
+                                )}
                               </div>
+                            </div>
+                          </div>
+                           <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
+                             <div className="space-y-1">
                               <div className="flex items-center justify-between">
                                 <span className="text-xs text-muted-foreground">Name</span>
                                 <div className="flex items-center gap-2">
