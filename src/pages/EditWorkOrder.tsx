@@ -290,7 +290,7 @@ const EditWorkOrder = () => {
       type: "textarea",
       label: "Completion Notes",
       required: false,
-      rows: 6,
+      rows: 4,
     },
   ];
 
@@ -421,22 +421,23 @@ const EditWorkOrder = () => {
           <TabsContent value="completion" className="mt-1">
             <div className="bg-card rounded-lg border p-4 space-y-4">
               
-              {/* Problem Analysis - Side by side */}
+              {/* Problem Analysis and Summary - Side by side */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <div className="bg-background/50 rounded border p-3">
                   <h4 className="text-sm font-medium text-foreground mb-2 border-b border-border pb-1">Problem Analysis</h4>
                   <ApiForm
                     fields={completionFormFields.filter(field => 
-                      field.name === "work_order" || field.name === "problem" || field.name === "solution"
+                      field.name === "work_order" || field.name === "problem" || field.name === "solution" || field.name === "completion_notes"
                     )}
                     onSubmit={handleCompletionSubmit}
                     initialData={{ 
                       work_order: id,
                       problem: completionData?.data?.data?.problem || "",
                       solution: completionData?.data?.data?.solution || "",
+                      completion_notes: completionData?.data?.data?.completion_notes || "",
                     }}
                     customLayout={({ fields, formData, renderField }) => (
-                      <div className="space-y-2">
+                      <div className="space-y-3">
                         {fields.map(field => {
                           if (field.inputType === "hidden") return renderField(field);
                           return (
@@ -473,35 +474,6 @@ const EditWorkOrder = () => {
                     </div>
                   </div>
                 </div>
-              </div>
-
-              {/* Completion Notes - Full width but compact */}
-              <div className="bg-background/50 rounded border p-3">
-                <h4 className="text-sm font-medium text-foreground mb-2 border-b border-border pb-1">Completion Notes</h4>
-                <ApiForm
-                  fields={completionFormFields.filter(field => 
-                    field.name === "work_order" || field.name === "completion_notes"
-                  )}
-                  onSubmit={handleCompletionSubmit}
-                  initialData={{ 
-                    work_order: id,
-                    completion_notes: completionData?.data?.data?.completion_notes || "",
-                  }}
-                  customLayout={({ fields, formData, renderField }) => (
-                    <div>
-                      {fields.map(field => {
-                        if (field.inputType === "hidden") return renderField(field);
-                        return (
-                          <div key={field.name} onBlur={() => {
-                            handleCompletionFieldChange(field.name, formData[field.name], formData);
-                          }}>
-                            {renderField(field)}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
-                />
               </div>
             </div>
           </TabsContent>
