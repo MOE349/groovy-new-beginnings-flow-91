@@ -573,22 +573,24 @@ const EditAsset = () => {
                               <div className="flex items-center gap-2">
                                 <span className="text-xs text-muted-foreground">Next Iteration</span>
                                 {selectedItemId ? (
-                                  <ApiDropDown
-                                    name="next_iteration"
-                                    value={meterTriggerData.next_iteration}
-                                    onChange={(value) => setMeterTriggerData(prev => ({
-                                      ...prev,
-                                      next_iteration: value
-                                    }))}
-                                    endpoint={`/pm-automation/pm-settings/manual-generation/${selectedItemId}`}
-                                    optionValueKey="id"
-                                    optionLabelKey="name"
-                                    placeholder="Select iteration"
-                                    disabled={!isFieldsEditable}
-                                    className="w-33 h-6 text-xs"
-                                  />
+                                  <div className="next-iteration-dropdown">
+                                    <ApiDropDown
+                                      name="next_iteration"
+                                      value={meterTriggerData.next_iteration}
+                                      onChange={(value) => setMeterTriggerData(prev => ({
+                                        ...prev,
+                                        next_iteration: value
+                                      }))}
+                                      endpoint={`/pm-automation/pm-settings/manual-generation/${selectedItemId}`}
+                                      optionValueKey="id"
+                                      optionLabelKey="name"
+                                      placeholder="Select iteration"
+                                      disabled={!isFieldsEditable}
+                                      className="w-28 [&>button]:h-7 [&>button]:text-xs [&>button]:px-2 [&>button]:py-0 [&>button]:min-h-0 [&>button]:border-input [&>button]:bg-background [&>button]:hover:bg-accent [&>button]:focus:bg-accent [&>button]:rounded-sm [&>button]:shadow-sm [&>button]:transition-colors [&>button]:duration-150"
+                                    />
+                                  </div>
                                 ) : (
-                                  <div className="w-33 h-6 px-2 text-xs border rounded flex items-center text-muted-foreground bg-muted/50">
+                                  <div className="w-28 h-7 px-2 text-xs border border-input rounded-sm flex items-center text-muted-foreground bg-muted/50 shadow-sm">
                                     No PM setting selected
                                   </div>
                                 )}
