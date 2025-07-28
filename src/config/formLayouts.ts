@@ -111,12 +111,12 @@ export const equipmentFormConfig: FormLayoutConfig = {
           optionLabelKey: "name"
         },
         { 
-          name: "job_code", 
-          label: "Job Code", 
+          name: "project", 
+          label: "Project", 
           type: "dropdown",
           required: false,
-          endpoint: "/projects/job-codes",
-          queryKey: ["job_codes"],
+          endpoint: "/projects/projects",
+          queryKey: ["projects"],
           optionValueKey: "id",
           optionLabelKey: "name"
         },
@@ -131,12 +131,12 @@ export const equipmentFormConfig: FormLayoutConfig = {
           optionLabelKey: "name"
         },
         { 
-          name: "project", 
-          label: "Project", 
+          name: "job_code", 
+          label: "Job Code", 
           type: "dropdown",
           required: false,
-          endpoint: "/projects/projects",
-          queryKey: ["projects"],
+          endpoint: "/projects/job-codes",
+          queryKey: ["job_codes"],
           optionValueKey: "id",
           optionLabelKey: "name"
         },
@@ -255,12 +255,12 @@ export const attachmentFormConfig: FormLayoutConfig = {
           optionLabelKey: "name"
         },
         { 
-          name: "job_code", 
-          label: "Job Code", 
+          name: "project", 
+          label: "Project", 
           type: "dropdown",
           required: false,
-          endpoint: "/projects/job-codes",
-          queryKey: ["job_codes"],
+          endpoint: "/projects/projects",
+          queryKey: ["projects"],
           optionValueKey: "id",
           optionLabelKey: "name"
         },
@@ -275,12 +275,12 @@ export const attachmentFormConfig: FormLayoutConfig = {
           optionLabelKey: "name"
         },
         { 
-          name: "project", 
-          label: "Project", 
+          name: "job_code", 
+          label: "Job Code", 
           type: "dropdown",
           required: false,
-          endpoint: "/projects/projects",
-          queryKey: ["projects"],
+          endpoint: "/projects/job-codes",
+          queryKey: ["job_codes"],
           optionValueKey: "id",
           optionLabelKey: "name"
         },
