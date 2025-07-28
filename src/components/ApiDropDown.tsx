@@ -126,13 +126,10 @@ const ApiDropDown = ({
         disabled={disabled || isLoading}
       >
         <SelectTrigger className={cn(
-          "w-33 h-6 px-2 text-xs border rounded",
-          disabled 
-            ? "bg-muted/50 text-muted-foreground cursor-not-allowed" 
-            : "bg-background"
+          value ? "bg-blue-50/70" : ""
         )}>
           <SelectValue placeholder={isLoading ? "Loading..." : placeholder} />
-          {isLoading && <GearSpinner className="h-3 w-3" />}
+          {isLoading && <GearSpinner />}
         </SelectTrigger>
         <SelectContent className="bg-background border border-border shadow-md z-50">
           {error ? (
