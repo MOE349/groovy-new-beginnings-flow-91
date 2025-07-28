@@ -6,6 +6,7 @@ import { toast } from "@/hooks/use-toast";
 import ApiForm from "@/components/ApiForm";
 import { handleApiError } from "@/utils/errorHandling";
 import ApiTable from "@/components/ApiTable";
+import ApiDropDown from "@/components/ApiDropDown";
 import { apiCall } from "@/utils/apis";
 import GearSpinner from "@/components/ui/gear-spinner";
 import { AlertTriangle, Trash2, Plus, Check, X, Calendar as CalendarIcon } from "lucide-react";
@@ -52,6 +53,7 @@ const EditAsset = () => {
     interval_unit: "hours",
     start_threshold_value: "",
     lead_time_value: "",
+    next_iteration: "",
     is_active: true
   });
 
@@ -485,26 +487,28 @@ const EditAsset = () => {
                                             onClick={() => {
                                               setSelectedRadioId(item?.id || i.toString());
                                               if (item) {
-                                                setMeterTriggerData({
-                                                  name: item.name ?? "",
-                                                  interval_value: String(item.interval_value ?? ""),
-                                                  interval_unit: item.interval_unit ?? "hours",
-                                                  start_threshold_value: String(item.start_threshold_value ?? ""),
-                                                  lead_time_value: String(item.lead_time_value ?? ""),
-                                                  is_active: item.is_active !== undefined ? item.is_active : true
-                                                });
+                                                 setMeterTriggerData({
+                                                   name: item.name ?? "",
+                                                   interval_value: String(item.interval_value ?? ""),
+                                                   interval_unit: item.interval_unit ?? "hours",
+                                                   start_threshold_value: String(item.start_threshold_value ?? ""),
+                                                   lead_time_value: String(item.lead_time_value ?? ""),
+                                                   next_iteration: item.next_iteration ?? "",
+                                                   is_active: item.is_active !== undefined ? item.is_active : true
+                                                 });
                                                 setIsEditMode(true);
                                                 setSelectedItemId(item.id);
                                                 setIsFieldsEditable(false);
                                               } else {
-                                                setMeterTriggerData({
-                                                  name: "",
-                                                  interval_value: "",
-                                                  interval_unit: "hours",
-                                                  start_threshold_value: "",
-                                                  lead_time_value: "",
-                                                  is_active: true
-                                                });
+                                                 setMeterTriggerData({
+                                                   name: "",
+                                                   interval_value: "",
+                                                   interval_unit: "hours",
+                                                   start_threshold_value: "",
+                                                   lead_time_value: "",
+                                                   next_iteration: "",
+                                                   is_active: true
+                                                 });
                                                 setIsEditMode(false);
                                                 setSelectedItemId(null);
                                                 setIsFieldsEditable(true);
@@ -620,6 +624,25 @@ const EditAsset = () => {
                                   <span className="text-xs text-muted-foreground w-20">before trigger</span>
                                 </div>
                               </div>
+                              <div className="flex items-center justify-between">
+                                <span className="text-xs text-muted-foreground">Next Iteration</span>
+                                <div className="flex items-center gap-2">
+                                  <ApiDropDown
+                                    name="next_iteration"
+                                    value={meterTriggerData.next_iteration}
+                                    onChange={(value) => setMeterTriggerData(prev => ({
+                                      ...prev,
+                                      next_iteration: value
+                                    }))}
+                                    endpoint={selectedItemId ? `pm-settings/manual-generation/${selectedItemId}` : null}
+                                    optionValueKey="id"
+                                    optionLabelKey="name"
+                                    placeholder="Select iteration"
+                                    disabled={!isFieldsEditable || !selectedItemId}
+                                    className="w-33 h-6 text-xs"
+                                  />
+                                </div>
+                              </div>
                               <div>
                                  <Button 
                                    className={`w-full h-8 text-xs ${meterTriggerData.is_active ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-500 hover:bg-gray-600 text-white'}`} 
@@ -642,17 +665,18 @@ const EditAsset = () => {
                                      return;
                                    }
                                    
-                                   const submissionData = {
-                                     name: meterTriggerData.name,
-                                     interval_value: meterTriggerData.interval_value,
-                                     interval_unit: meterTriggerData.interval_unit,
-                                     start_threshold_value: meterTriggerData.start_threshold_value,
-                                     start_threshold_unit: meterTriggerData.interval_unit,
-                                     lead_time_value: meterTriggerData.lead_time_value,
-                                     lead_time_unit: meterTriggerData.interval_unit,
-                                     is_active: meterTriggerData.is_active,
-                                     asset: id
-                                   };
+                                    const submissionData = {
+                                      name: meterTriggerData.name,
+                                      interval_value: meterTriggerData.interval_value,
+                                      interval_unit: meterTriggerData.interval_unit,
+                                      start_threshold_value: meterTriggerData.start_threshold_value,
+                                      start_threshold_unit: meterTriggerData.interval_unit,
+                                      lead_time_value: meterTriggerData.lead_time_value,
+                                      lead_time_unit: meterTriggerData.interval_unit,
+                                      next_iteration: meterTriggerData.next_iteration,
+                                      is_active: meterTriggerData.is_active,
+                                      asset: id
+                                    };
                                    try {
                                      if (isEditMode && selectedItemId) {
                                        await apiCall(`/pm-automation/pm-settings/${selectedItemId}`, {
