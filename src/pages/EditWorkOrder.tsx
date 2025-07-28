@@ -275,7 +275,6 @@ const EditWorkOrder = () => {
       label: "Problem",
       required: false,
       rows: 4,
-      placeholder: "(briefly outline the problem, if any)",
     },
     {
       name: "solution",
@@ -283,7 +282,6 @@ const EditWorkOrder = () => {
       label: "Solution",
       required: false,
       rows: 4,
-      placeholder: "(short description of the solution, if any)",
     },
     {
       name: "completion_notes",
