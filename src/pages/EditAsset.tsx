@@ -561,13 +561,14 @@ const EditAsset = () => {
                                       optionLabelKey="name"
                                       placeholder="Select iteration"
                                       disabled={!isFieldsEditable}
-                                      className="w-33 h-6 text-xs"
+                                      className=""
                                     />
                                   ) : (
                                     <div className="w-33 h-6 px-2 text-xs border rounded flex items-center text-muted-foreground bg-muted/50">
                                       No PM setting selected
                                     </div>
                                   )}
+                                  <span className="text-xs text-muted-foreground w-20"></span>
                                 </div>
                               </div>
                               <div className="flex items-center justify-between">
