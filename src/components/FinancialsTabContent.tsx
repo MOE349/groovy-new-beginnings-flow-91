@@ -53,12 +53,12 @@ const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({ assetId }) 
           
           {/* Ownership Cost Container */}
           <div className="w-1/3 ml-8">
-            <div className="p-3 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
-              <div className="flex items-center justify-center gap-4 mb-3 py-1 -mx-2 -mt-3 bg-accent/20 border border-accent/30 rounded-md">
+            <div className="p-2 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
+              <div className="flex items-center justify-center gap-4 mb-2 py-1 bg-accent/20 border border-accent/30 rounded-md">
                 <h4 className="text-sm font-medium text-primary dark:text-secondary">Ownership Cost</h4>
               </div>
               
-              <div className="flex-grow space-y-4 overflow-auto">
+              <div className="flex-grow space-y-2 overflow-auto">
                 {isLoading ? renderSkeletonForm() : (
                   <FinancialReportForm 
                     assetId={assetId}
@@ -72,12 +72,12 @@ const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({ assetId }) 
 
           {/* Maintenance Cost Container */}
           <div className="w-1/3">
-            <div className="p-3 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
-              <div className="flex items-center justify-center gap-4 mb-3 py-1 -mx-2 -mt-3 bg-accent/20 border border-accent/30 rounded-md">
+            <div className="p-2 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
+              <div className="flex items-center justify-center gap-4 mb-2 py-1 bg-accent/20 border border-accent/30 rounded-md">
                 <h4 className="text-sm font-medium text-primary dark:text-secondary">Maintenance Cost</h4>
               </div>
               
-              <div className="flex-grow space-y-4 overflow-auto">
+              <div className="flex-grow space-y-2 overflow-auto">
                 {isLoading ? renderSkeletonForm() : (
                   <FinancialReportForm 
                     assetId={assetId}
@@ -91,12 +91,12 @@ const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({ assetId }) 
 
           {/* Operational Cost Container */}
           <div className="w-1/3 mr-8">
-            <div className="p-3 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
-              <div className="flex items-center justify-center gap-4 mb-3 py-1 -mx-2 -mt-3 bg-accent/20 border border-accent/30 rounded-md">
+            <div className="p-2 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
+              <div className="flex items-center justify-center gap-4 mb-2 py-1 bg-accent/20 border border-accent/30 rounded-md">
                 <h4 className="text-sm font-medium text-primary dark:text-secondary">Operational Cost</h4>
               </div>
               
-              <div className="flex-grow space-y-4 overflow-auto">
+              <div className="flex-grow space-y-2 overflow-auto">
                 {isLoading ? renderSkeletonForm() : (
                   <FinancialReportForm 
                     assetId={assetId}
