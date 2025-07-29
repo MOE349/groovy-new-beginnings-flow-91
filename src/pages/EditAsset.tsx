@@ -801,7 +801,7 @@ const EditAsset = () => {
                                </tbody>
                              </table>
                            </div>
-                              <div className="px-2 pb-2 flex flex-col gap-2 mt-4 min-w-0">
+                              <div className="px-2 pb-2 flex flex-col gap-2 mt-7 min-w-0">
                                <Button 
                                  variant="secondary" 
                                  size="sm" 
