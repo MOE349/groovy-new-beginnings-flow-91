@@ -658,7 +658,7 @@ const EditAsset = () => {
                                  </div>
                                </div>
                                <div className="flex items-center gap-2">
-                                 <span className="text-xs text-muted-foreground">Create WO</span>
+                                  <span className="text-xs text-muted-foreground">Create</span>
                                  <input 
                                    type="number" 
                                    value={meterTriggerData.lead_time_value} 
@@ -797,7 +797,7 @@ const EditAsset = () => {
                                   </div>
                               </div>
                             <div className="flex items-center justify-between">
-                              <span className="text-xs text-muted-foreground">Create WO</span>
+                              <span className="text-xs text-muted-foreground">Create</span>
                               <div className="flex items-center gap-2">
                                 <input type="number" value={calendarTriggerData.days_in_advance} onChange={e => setCalendarTriggerData(prev => ({
                                 ...prev,
