@@ -619,7 +619,7 @@ const ApiTable = <T extends Record<string, any>>({
                       {orderedColumns.map((column) => (
                         <TableCell 
                           key={column.key} 
-                          className={`${column.className} min-w-0 py-1`}
+                          className={`${column.className} min-w-0`}
                           style={{
                             width: columnWidths[column.key] ? `${columnWidths[column.key]}px` : 'auto',
                             minWidth: columnWidths[column.key] ? `${columnWidths[column.key]}px` : '150px',
