@@ -611,20 +611,20 @@ const ApiTable = <T extends Record<string, any>>({
             <TableBody>
               {filteredData && filteredData.length > 0 ? (
                 filteredData.map((row: T, index: number) => (
-                  <TableRow 
-                    key={row.id || index}
-                    className={`group ${isRowClickable ? "cursor-pointer hover:bg-muted/50 transition-colors" : ""}`}
-                    onClick={() => isRowClickable && handleRowClick(row)}
-                  >
-                    {orderedColumns.map((column) => (
-                      <TableCell 
-                        key={column.key} 
-                        className={`${column.className} min-w-0`}
-                        style={{
-                          width: columnWidths[column.key] ? `${columnWidths[column.key]}px` : 'auto',
-                          minWidth: columnWidths[column.key] ? `${columnWidths[column.key]}px` : '150px',
-                        }}
-                      >
+                    <TableRow 
+                      key={row.id || index}
+                      className={`group ${isRowClickable ? "cursor-pointer hover:bg-muted/50 transition-colors" : ""}`}
+                      onClick={() => isRowClickable && handleRowClick(row)}
+                    >
+                      {orderedColumns.map((column) => (
+                        <TableCell 
+                          key={column.key} 
+                          className={`${column.className} min-w-0 py-1`}
+                          style={{
+                            width: columnWidths[column.key] ? `${columnWidths[column.key]}px` : 'auto',
+                            minWidth: columnWidths[column.key] ? `${columnWidths[column.key]}px` : '150px',
+                          }}
+                        >
                         <div className="truncate">
                           {renderCell(column, row)}
                         </div>
