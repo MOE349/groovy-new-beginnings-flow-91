@@ -598,9 +598,9 @@ const EditAsset = () => {
                             </div>
                           </div>
                             <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
-                              <div className="space-y-1">
+                              <div className="space-y-3">
                                <div className="flex items-center gap-2">
-                                 <span className="text-xs text-muted-foreground">Name</span>
+                                 <span className="text-xs text-muted-foreground min-w-[3rem]">Name</span>
                                  <input 
                                    type="text" 
                                    value={meterTriggerData.name} 
@@ -609,12 +609,12 @@ const EditAsset = () => {
                                      name: e.target.value
                                    }))} 
                                    disabled={!isFieldsEditable}
-                                   className={`w-33 h-6 px-2 text-xs border rounded ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
+                                   className={`flex-1 h-7 px-2 text-xs border rounded-md shadow-sm ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
                                  />
                                </div>
-                               <div className="flex items-center gap-6">
+                               <div className="grid grid-cols-2 gap-3">
                                  <div className="flex items-center gap-2">
-                                   <span className="text-xs text-muted-foreground">Every</span>
+                                   <span className="text-xs text-muted-foreground min-w-[3rem]">Every</span>
                                    <input 
                                      type="number" 
                                      value={meterTriggerData.interval_value} 
@@ -623,7 +623,7 @@ const EditAsset = () => {
                                         interval_value: e.target.value
                                       }))} 
                                      disabled={!isFieldsEditable}
-                                     className={`w-16 h-6 px-2 text-xs border rounded ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
+                                     className={`w-16 h-7 px-2 text-xs border rounded-md shadow-sm ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
                                    />
                                    <select 
                                      value={meterTriggerData.interval_unit} 
@@ -632,7 +632,7 @@ const EditAsset = () => {
                                        interval_unit: e.target.value
                                      }))} 
                                      disabled={!isFieldsEditable}
-                                     className={`h-6 px-2 text-xs border rounded w-20 ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
+                                     className={`h-7 px-2 text-xs border rounded-md shadow-sm w-20 ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
                                    >
                                     <option value="hours">hours</option>
                                     <option value="km">km</option>
@@ -644,7 +644,7 @@ const EditAsset = () => {
                                   </select>
                                  </div>
                                  <div className="flex items-center gap-2">
-                                   <span className="text-xs text-muted-foreground">Starting at</span>
+                                   <span className="text-xs text-muted-foreground min-w-[4rem]">Starting at</span>
                                    <input 
                                      type="number" 
                                      value={meterTriggerData.start_threshold_value} 
@@ -653,12 +653,12 @@ const EditAsset = () => {
                                         start_threshold_value: e.target.value
                                       }))} 
                                      disabled={!isFieldsEditable}
-                                     className={`w-24 h-6 px-2 text-xs border rounded ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
+                                     className={`flex-1 h-7 px-2 text-xs border rounded-md shadow-sm ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
                                    />
                                  </div>
                                </div>
                                <div className="flex items-center gap-2">
-                                 <span className="text-xs text-muted-foreground">Create WO</span>
+                                 <span className="text-xs text-muted-foreground min-w-[4rem]">Create WO</span>
                                  <input 
                                    type="number" 
                                    value={meterTriggerData.lead_time_value} 
@@ -667,7 +667,7 @@ const EditAsset = () => {
                                       lead_time_value: e.target.value
                                     }))} 
                                    disabled={!isFieldsEditable}
-                                   className={`w-16 h-6 px-2 text-xs border rounded ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
+                                   className={`w-16 h-7 px-2 text-xs border rounded-md shadow-sm ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
                                  />
                                  <span className="text-xs text-muted-foreground">before trigger</span>
                                </div>
