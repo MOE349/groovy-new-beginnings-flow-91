@@ -464,219 +464,290 @@ const EditAsset = () => {
             <TabsContent value="scheduled-maintenance" className="tab-content-container">
               <div className="h-full flex flex-col">
                 {currentView === 0 && (
-                  <div className="flex gap-4 h-full">
-                    {/* Meter Reading Trigger - Improved Layout */}
-                    <div className="w-1/4">
-                      <div className="bg-card border border-border rounded-lg p-6 h-full">
-                        <div className="flex items-center justify-center mb-4">
-                          <h5 className="text-sm font-medium text-foreground">Meter Reading Trigger</h5>
-                        </div>
-                        
-                        {/* 2x2 Grid Layout for the 4 fields */}
-                        <div className="grid grid-cols-2 gap-4 mb-6">
-                          <div className="space-y-2">
-                            <label className="text-xs text-muted-foreground">Name</label>
-                            <input 
-                              type="text" 
-                              value={meterTriggerData.name} 
-                              onChange={e => setMeterTriggerData(prev => ({
-                                ...prev,
-                                name: e.target.value
-                              }))} 
-                              className="w-full h-8 px-2 text-sm border border-border rounded bg-background" 
-                            />
-                          </div>
-                          
-                          <div className="space-y-2">
-                            <label className="text-xs text-muted-foreground">Every</label>
-                            <div className="flex gap-2">
-                              <input 
-                                type="text" 
-                                value={meterTriggerData.interval_value} 
-                                onChange={e => setMeterTriggerData(prev => ({
-                                  ...prev,
-                                  interval_value: e.target.value
-                                }))} 
-                                className="flex-1 h-8 px-2 text-sm border border-border rounded bg-background" 
-                              />
-                              <select 
-                                value={meterTriggerData.interval_unit} 
-                                onChange={e => setMeterTriggerData(prev => ({
-                                  ...prev,
-                                  interval_unit: e.target.value
-                                }))} 
-                                className="h-8 px-2 text-sm border border-border rounded bg-background"
-                              >
-                                <option value="hours">hrs</option>
-                                <option value="miles">mi</option>
-                              </select>
-                            </div>
-                          </div>
-                          
-                          <div className="space-y-2">
-                            <label className="text-xs text-muted-foreground">Starting at</label>
-                            <input 
-                              type="text" 
-                              value={meterTriggerData.start_threshold_value} 
-                              onChange={e => setMeterTriggerData(prev => ({
-                                ...prev,
-                                start_threshold_value: e.target.value
-                              }))} 
-                              className="w-full h-8 px-2 text-sm border border-border rounded bg-background" 
-                            />
-                          </div>
-                          
-                          <div className="space-y-2">
-                            <label className="text-xs text-muted-foreground">Create WO</label>
-                            <div className="flex gap-2 items-center">
-                              <input 
-                                type="text" 
-                                value={meterTriggerData.lead_time_value} 
-                                onChange={e => setMeterTriggerData(prev => ({
-                                  ...prev,
-                                  lead_time_value: e.target.value
-                                }))} 
-                                className="flex-1 h-8 px-2 text-sm border border-border rounded bg-background" 
-                              />
-                              <span className="text-xs text-muted-foreground">before</span>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="space-y-4">
-                          <Button 
-                            className={`w-full h-8 text-xs ${meterTriggerData.is_active ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-500 hover:bg-gray-600 text-white'}`} 
-                            onClick={() => setMeterTriggerData(prev => ({
-                              ...prev,
-                              is_active: !prev.is_active
-                            }))}
-                          >
-                            {meterTriggerData.is_active ? '✓ Active' : '✗ Inactive'}
-                          </Button>
-                          
-                          <Button className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-primary-foreground">
-                            Save
-                          </Button>
-                        </div>
+                  <div className="space-y-4 h-full">
+                    {/* PM Settings Table and Generate WO Button */}
+                    <div className="bg-card border border-border rounded-lg p-4">
+                      <div className="flex items-center justify-between mb-4">
+                        <h4 className="text-sm font-medium text-foreground">PM Settings</h4>
+                        <Button 
+                          variant="default" 
+                          size="sm" 
+                          className="flex items-center gap-2"
+                          onClick={() => {
+                            toast({
+                              title: "Generate WO",
+                              description: "Work order generation initiated!"
+                            });
+                          }}
+                        >
+                          <Plus className="h-3 w-3" />
+                          Generate WO Now
+                        </Button>
+                      </div>
+                      <div className="max-h-[200px] overflow-auto">
+                        <ApiTable
+                          endpoint={`/pm-automation/pm-settings?asset=${id}`}
+                          columns={[
+                            { key: 'name', header: 'Name', type: 'string' },
+                            { key: 'trigger_type', header: 'Trigger Type', type: 'string' },
+                            { key: 'interval_value', header: 'Interval', type: 'string' },
+                            { key: 'is_active', header: 'Status', type: 'boolean', render: (value: boolean) => value ? '✓ Active' : '✗ Inactive' },
+                            { 
+                              key: 'actions', 
+                              header: '', 
+                              render: (value: any, row: any) => (
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="h-8 w-8 p-0"
+                                  onClick={() => {
+                                    setSelectedItemId(row.id);
+                                    handleViewChange(1);
+                                  }}
+                                >
+                                  <ArrowRight className="h-4 w-4" />
+                                </Button>
+                              )
+                            }
+                          ]}
+                          queryKey={['pm-settings', id]}
+                          tableId={`pm-settings-${id}`}
+                        />
                       </div>
                     </div>
 
-                    {/* Calendar Trigger */}
-                    <div className="w-1/4">
-                      <div className="bg-card border border-border rounded-lg p-6 h-full">
-                        <div className="flex items-center justify-center mb-4">
-                          <h5 className="text-sm font-medium text-foreground">Calendar Trigger</h5>
-                        </div>
-                        <div className="space-y-4">
-                          <div className="flex items-center justify-between">
-                            <span className="text-xs text-muted-foreground">Name</span>
-                            <input 
-                              type="text" 
-                              value={calendarTriggerData.name} 
-                              onChange={e => setCalendarTriggerData(prev => ({
-                                ...prev,
-                                name: e.target.value
-                              }))} 
-                              className="w-32 h-6 px-2 text-xs border rounded bg-background" 
-                            />
+                    <div className="flex gap-4 flex-1">
+                      {/* Meter Reading Trigger - Improved Layout */}
+                      <div className="w-1/4">
+                        <div className="bg-card border border-border rounded-lg p-6 h-full">
+                          <div className="flex items-center justify-center mb-4">
+                            <h5 className="text-sm font-medium text-foreground">Meter Reading Trigger</h5>
                           </div>
-                          <div className="flex items-center justify-between">
-                            <span className="text-xs text-muted-foreground">Every</span>
-                            <div className="flex items-center gap-2">
+                          
+                          {/* 2x2 Grid Layout for the 4 fields */}
+                          <div className="grid grid-cols-2 gap-4 mb-6">
+                            <div className="space-y-2">
+                              <label className="text-xs text-muted-foreground">Name</label>
                               <input 
-                                type="number" 
-                                value={calendarTriggerData.interval_value} 
-                                onChange={e => setCalendarTriggerData(prev => ({
+                                type="text" 
+                                value={meterTriggerData.name} 
+                                onChange={e => setMeterTriggerData(prev => ({
                                   ...prev,
-                                  interval_value: Number(e.target.value)
+                                  name: e.target.value
                                 }))} 
-                                className="w-16 h-6 px-2 text-xs border rounded bg-background" 
+                                className="w-full h-8 px-2 text-sm border border-border rounded bg-background" 
                               />
-                              <select 
-                                value={calendarTriggerData.interval_unit} 
-                                onChange={e => setCalendarTriggerData(prev => ({
+                            </div>
+                            
+                            <div className="space-y-2">
+                              <label className="text-xs text-muted-foreground">Every</label>
+                              <div className="flex gap-2">
+                                <input 
+                                  type="text" 
+                                  value={meterTriggerData.interval_value} 
+                                  onChange={e => setMeterTriggerData(prev => ({
+                                    ...prev,
+                                    interval_value: e.target.value
+                                  }))} 
+                                  className="flex-1 h-8 px-2 text-sm border border-border rounded bg-background" 
+                                />
+                                <select 
+                                  value={meterTriggerData.interval_unit} 
+                                  onChange={e => setMeterTriggerData(prev => ({
+                                    ...prev,
+                                    interval_unit: e.target.value
+                                  }))} 
+                                  className="h-8 px-2 text-sm border border-border rounded bg-background"
+                                >
+                                  <option value="hours">hrs</option>
+                                  <option value="miles">mi</option>
+                                </select>
+                              </div>
+                            </div>
+                            
+                            <div className="space-y-2">
+                              <label className="text-xs text-muted-foreground">Starting at</label>
+                              <input 
+                                type="text" 
+                                value={meterTriggerData.start_threshold_value} 
+                                onChange={e => setMeterTriggerData(prev => ({
                                   ...prev,
-                                  interval_unit: e.target.value
+                                  start_threshold_value: e.target.value
                                 }))} 
-                                className="h-6 px-2 text-xs border rounded bg-background w-20"
-                              >
-                                <option value="days">days</option>
-                                <option value="weeks">weeks</option>
-                                <option value="months">months</option>
-                                <option value="years">years</option>
-                              </select>
+                                className="w-full h-8 px-2 text-sm border border-border rounded bg-background" 
+                              />
+                            </div>
+                            
+                            <div className="space-y-2">
+                              <label className="text-xs text-muted-foreground">Create WO</label>
+                              <div className="flex gap-2 items-center">
+                                <input 
+                                  type="text" 
+                                  value={meterTriggerData.lead_time_value} 
+                                  onChange={e => setMeterTriggerData(prev => ({
+                                    ...prev,
+                                    lead_time_value: e.target.value
+                                  }))} 
+                                  className="flex-1 h-8 px-2 text-sm border border-border rounded bg-background" 
+                                />
+                                <span className="text-xs text-muted-foreground">before</span>
+                              </div>
                             </div>
                           </div>
-                          <div className="flex items-center justify-between">
-                            <span className="text-xs text-muted-foreground">Starting at</span>
-                            <input 
-                              type="date" 
-                              value={calendarTriggerData.start_date} 
-                              onChange={e => setCalendarTriggerData(prev => ({
+
+                          {/* Next Iteration dropdown field */}
+                          <div className="space-y-2 mb-6">
+                            <label className="text-xs text-muted-foreground">Next Iteration</label>
+                            <select 
+                              value={meterTriggerData.next_iteration} 
+                              onChange={e => setMeterTriggerData(prev => ({
                                 ...prev,
-                                start_date: e.target.value
+                                next_iteration: e.target.value
                               }))} 
-                              className="w-32 h-6 px-2 text-xs border rounded bg-background" 
-                            />
+                              className="w-full h-8 px-2 text-sm border border-border rounded bg-background"
+                            >
+                              <option value="">Select Iteration</option>
+                              <option value="iteration1">Iteration 1</option>
+                              <option value="iteration2">Iteration 2</option>
+                              <option value="iteration3">Iteration 3</option>
+                            </select>
                           </div>
-                          <div className="flex items-center justify-between">
-                            <span className="text-xs text-muted-foreground">Create WO</span>
-                            <div className="flex items-center gap-2">
-                              <input 
-                                type="number" 
-                                value={calendarTriggerData.days_in_advance} 
-                                onChange={e => setCalendarTriggerData(prev => ({
-                                  ...prev,
-                                  days_in_advance: Number(e.target.value)
-                                }))} 
-                                className="w-16 h-6 px-2 text-xs border rounded bg-background" 
-                              />
-                              <span className="text-xs text-muted-foreground w-20">days before</span>
-                            </div>
+
+                          <div className="space-y-4">
+                            <Button 
+                              className={`w-full h-8 text-xs ${meterTriggerData.is_active ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-500 hover:bg-gray-600 text-white'}`} 
+                              onClick={() => setMeterTriggerData(prev => ({
+                                ...prev,
+                                is_active: !prev.is_active
+                              }))}
+                            >
+                              {meterTriggerData.is_active ? '✓ Active' : '✗ Inactive'}
+                            </Button>
+                            
+                            <Button className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-primary-foreground">
+                              Save
+                            </Button>
                           </div>
-                          <Button 
-                            className={`w-full h-8 text-xs ${calendarTriggerData.is_active ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-500 hover:bg-gray-600 text-white'}`} 
-                            onClick={() => setCalendarTriggerData(prev => ({
-                              ...prev,
-                              is_active: !prev.is_active
-                            }))}
-                          >
-                            {calendarTriggerData.is_active ? '✓ Active' : '✗ Inactive'}
-                          </Button>
-                          <Button className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-primary-foreground" onClick={handleSaveCalendarTrigger}>
-                            Save
-                          </Button>
                         </div>
                       </div>
-                    </div>
 
-                    {/* Log Section */}
-                    <div className="w-1/2">
-                      <div className="bg-card border border-border rounded-lg p-6 h-full">
-                        <div className="flex items-center justify-center mb-4">
-                          <h4 className="text-sm font-medium text-foreground">Log</h4>
-                        </div>
-                        <div className="space-y-4">
-                          <div>
-                            <h3 className="text-lg font-semibold mb-4">Auto Generated Work Orders</h3>
-                            <div className="max-h-[200px] overflow-auto border rounded-md">
-                              <ApiTable
-                                endpoint="/work-orders/work_order"
-                                filters={{
-                                  asset: id,
-                                  is_pm_generated: true
-                                }}
-                                columns={[
-                                  { key: 'code', header: 'Code', type: 'string' },
-                                  { key: 'description', header: 'Description', type: 'string' },
-                                  { key: 'status', header: 'Status', type: 'object', render: (value: any) => value?.control?.name || value?.name || '-' },
-                                  { key: 'completion_meter_reading', header: 'Completion Meter Reading', type: 'string' },
-                                  { key: 'trigger_meter_reading', header: 'Trigger Meter Reading', type: 'string' },
-                                ]}
-                                queryKey={['auto-generated-work-orders', id]}
-                                tableId={`auto-generated-work-orders-${id}`}
-                                editRoutePattern="/workorders/edit/{id}"
+                      {/* Calendar Trigger */}
+                      <div className="w-1/4">
+                        <div className="bg-card border border-border rounded-lg p-6 h-full">
+                          <div className="flex items-center justify-center mb-4">
+                            <h5 className="text-sm font-medium text-foreground">Calendar Trigger</h5>
+                          </div>
+                          <div className="space-y-4">
+                            <div className="flex items-center justify-between">
+                              <span className="text-xs text-muted-foreground">Name</span>
+                              <input 
+                                type="text" 
+                                value={calendarTriggerData.name} 
+                                onChange={e => setCalendarTriggerData(prev => ({
+                                  ...prev,
+                                  name: e.target.value
+                                }))} 
+                                className="w-32 h-6 px-2 text-xs border rounded bg-background" 
                               />
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <span className="text-xs text-muted-foreground">Every</span>
+                              <div className="flex items-center gap-2">
+                                <input 
+                                  type="number" 
+                                  value={calendarTriggerData.interval_value} 
+                                  onChange={e => setCalendarTriggerData(prev => ({
+                                    ...prev,
+                                    interval_value: Number(e.target.value)
+                                  }))} 
+                                  className="w-16 h-6 px-2 text-xs border rounded bg-background" 
+                                />
+                                <select 
+                                  value={calendarTriggerData.interval_unit} 
+                                  onChange={e => setCalendarTriggerData(prev => ({
+                                    ...prev,
+                                    interval_unit: e.target.value
+                                  }))} 
+                                  className="h-6 px-2 text-xs border rounded bg-background w-20"
+                                >
+                                  <option value="days">days</option>
+                                  <option value="weeks">weeks</option>
+                                  <option value="months">months</option>
+                                  <option value="years">years</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <span className="text-xs text-muted-foreground">Starting at</span>
+                              <input 
+                                type="date" 
+                                value={calendarTriggerData.start_date} 
+                                onChange={e => setCalendarTriggerData(prev => ({
+                                  ...prev,
+                                  start_date: e.target.value
+                                }))} 
+                                className="w-32 h-6 px-2 text-xs border rounded bg-background" 
+                              />
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <span className="text-xs text-muted-foreground">Create WO</span>
+                              <div className="flex items-center gap-2">
+                                <input 
+                                  type="number" 
+                                  value={calendarTriggerData.days_in_advance} 
+                                  onChange={e => setCalendarTriggerData(prev => ({
+                                    ...prev,
+                                    days_in_advance: Number(e.target.value)
+                                  }))} 
+                                  className="w-16 h-6 px-2 text-xs border rounded bg-background" 
+                                />
+                                <span className="text-xs text-muted-foreground w-20">days before</span>
+                              </div>
+                            </div>
+                            <Button 
+                              className={`w-full h-8 text-xs ${calendarTriggerData.is_active ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-500 hover:bg-gray-600 text-white'}`} 
+                              onClick={() => setCalendarTriggerData(prev => ({
+                                ...prev,
+                                is_active: !prev.is_active
+                              }))}
+                            >
+                              {calendarTriggerData.is_active ? '✓ Active' : '✗ Inactive'}
+                            </Button>
+                            <Button className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-primary-foreground" onClick={handleSaveCalendarTrigger}>
+                              Save
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Log Section */}
+                      <div className="w-1/2">
+                        <div className="bg-card border border-border rounded-lg p-6 h-full">
+                          <div className="flex items-center justify-center mb-4">
+                            <h4 className="text-sm font-medium text-foreground">Log</h4>
+                          </div>
+                          <div className="space-y-4">
+                            <div>
+                              <h3 className="text-lg font-semibold mb-4">Auto Generated Work Orders</h3>
+                              <div className="max-h-[200px] overflow-auto border rounded-md">
+                                <ApiTable
+                                  endpoint="/work-orders/work_order"
+                                  filters={{
+                                    asset: id,
+                                    is_pm_generated: true
+                                  }}
+                                  columns={[
+                                    { key: 'code', header: 'Code', type: 'string' },
+                                    { key: 'description', header: 'Description', type: 'string' },
+                                    { key: 'status', header: 'Status', type: 'object', render: (value: any) => value?.control?.name || value?.name || '-' },
+                                    { key: 'completion_meter_reading', header: 'Completion Meter Reading', type: 'string' },
+                                    { key: 'trigger_meter_reading', header: 'Trigger Meter Reading', type: 'string' },
+                                  ]}
+                                  queryKey={['auto-generated-work-orders', id]}
+                                  tableId={`auto-generated-work-orders-${id}`}
+                                  editRoutePattern="/workorders/edit/{id}"
+                                />
+                              </div>
                             </div>
                           </div>
                         </div>
