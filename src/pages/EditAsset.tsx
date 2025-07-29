@@ -590,7 +590,7 @@ const EditAsset = () => {
                                     />
                                   </div>
                                 ) : (
-                                  <div className="w-40 h-7 px-2 text-xs border border-input rounded-sm flex items-center text-muted-foreground bg-muted/50 shadow-sm">
+                                  <div className="flex-1 min-w-0 h-7 px-2 text-xs border border-input rounded-sm flex items-center text-muted-foreground bg-muted/50 shadow-sm">
                                     No PM setting selected
                                   </div>
                                 )}
