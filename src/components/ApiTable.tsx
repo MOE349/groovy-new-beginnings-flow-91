@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
-import { Plus, GripVertical, Search } from "lucide-react";
+import { Plus, GripVertical, Search, Trash2 } from "lucide-react";
 import { apiCall } from "@/utils/apis";
 import GearSpinner from "@/components/ui/gear-spinner";
 import {
@@ -60,6 +60,7 @@ interface ApiTableProps<T = any> {
   onCreateNew?: () => void; // New callback for handling create action
   editRoutePattern?: string; // e.g., "/assets/edit/{id}"
   onRowClick?: (row: T) => void;
+  onDelete?: (row: T) => void; // New callback for handling delete action
   persistColumnOrder?: boolean; // Enable column order persistence
   tableId?: string; // Unique identifier for localStorage key
   height?: string; // Custom height for the table container
@@ -260,6 +261,7 @@ const ApiTable = <T extends Record<string, any>>({
   onCreateNew,
   editRoutePattern,
   onRowClick,
+  onDelete,
   persistColumnOrder = true,
   tableId,
   height,
@@ -613,7 +615,7 @@ const ApiTable = <T extends Record<string, any>>({
                 filteredData.map((row: T, index: number) => (
                     <TableRow 
                       key={row.id || index}
-                      className={`group ${isRowClickable ? "cursor-pointer hover:bg-muted/50 transition-colors" : ""}`}
+                      className={`group ${isRowClickable ? "cursor-pointer hover:bg-muted/50 transition-colors" : ""} relative`}
                       onClick={() => isRowClickable && handleRowClick(row)}
                     >
                       {orderedColumns.map((column) => (
@@ -630,11 +632,28 @@ const ApiTable = <T extends Record<string, any>>({
                         </div>
                       </TableCell>
                     ))}
+                    {onDelete && (
+                      <TableCell className="w-8 p-0">
+                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex justify-center">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-6 w-6 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onDelete(row);
+                            }}
+                          >
+                            <Trash2 className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    )}
                   </TableRow>
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={orderedColumns.length} className="text-center text-muted-foreground">
+                  <TableCell colSpan={orderedColumns.length + (onDelete ? 1 : 0)} className="text-center text-muted-foreground">
                     {Object.keys(appliedFilters).length > 0 ? "No results match your filters" : emptyMessage}
                   </TableCell>
                 </TableRow>

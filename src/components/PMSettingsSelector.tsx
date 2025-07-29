@@ -240,7 +240,7 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
               
               {iterations.map((iteration) => (
                 <TabsContent key={iteration.id} value={iteration.id}>
-                  <ApiTable
+                   <ApiTable
                     endpoint="/pm-automation/pm-iteration-checklist"
                     columns={[
                       { key: 'name', header: 'Name' }
@@ -252,6 +252,22 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
                     onRowClick={(row) => {
                       setEditingChecklistItem(row);
                       setIsEditChecklistDialogOpen(true);
+                    }}
+                    onDelete={async (row) => {
+                      try {
+                        await apiCall(`/pm-automation/pm-iteration-checklist/${row.id}`, {
+                          method: 'DELETE'
+                        });
+                        toast({
+                          title: "Success",
+                          description: "Checklist item deleted successfully"
+                        });
+                        queryClient.invalidateQueries({
+                          queryKey: ['/pm-automation/pm-iteration-checklist']
+                        });
+                      } catch (error) {
+                        handleApiError(error, "Delete Failed");
+                      }
                     }}
                   />
                 </TabsContent>
