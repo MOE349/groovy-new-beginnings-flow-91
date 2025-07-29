@@ -923,25 +923,28 @@ const EditAsset = () => {
                        <div className="flex-grow space-y-4 overflow-auto">
                          <div>
                            <h3 className="text-lg font-semibold mb-4">Auto Generated Work Orders</h3>
-                            <div className="max-h-[200px] overflow-auto border rounded-md">
-                               <ApiTable
-                                 endpoint="/work-orders/work_order"
-                                 filters={{
-                                   asset: id,
-                                   is_pm_generated: true
-                                 }}
-                                columns={[
-                                  { key: 'code', header: 'Code', type: 'string' },
-                                  { key: 'description', header: 'Description', type: 'string' },
-                                  { key: 'status', header: 'Status', type: 'object', render: (value: any) => value?.control?.name || value?.name || '-' },
-                                  { key: 'completion_meter_reading', header: 'Completion Meter Reading', type: 'string' },
-                                  { key: 'trigger_meter_reading', header: 'Trigger Meter Reading', type: 'string' },
-                                ]}
-                                queryKey={['auto-generated-work-orders', id]}
-                                tableId={`auto-generated-work-orders-${id}`}
-                                editRoutePattern="/workorders/edit/{id}"
-                              />
-                           </div>
+                             <div className="flex-1 overflow-hidden border rounded-md">
+                                <ApiTable
+                                  endpoint="/work-orders/work_order"
+                                  filters={{
+                                    asset: id,
+                                    is_pm_generated: true
+                                  }}
+                                 columns={[
+                                   { key: 'code', header: 'Code', type: 'string' },
+                                   { key: 'description', header: 'Description', type: 'string' },
+                                   { key: 'status', header: 'Status', type: 'object', render: (value: any) => value?.control?.name || value?.name || '-' },
+                                   { key: 'completion_meter_reading', header: 'Completion Meter Reading', type: 'string' },
+                                   { key: 'trigger_meter_reading', header: 'Trigger Meter Reading', type: 'string' },
+                                 ]}
+                                 queryKey={['auto-generated-work-orders', id]}
+                                 tableId={`auto-generated-work-orders-${id}`}
+                                 editRoutePattern="/workorders/edit/{id}"
+                                 className="h-full"
+                                 tableClassName="text-xs"
+                                 height="h-full"
+                               />
+                            </div>
                          </div>
                        </div>
                     </div>
