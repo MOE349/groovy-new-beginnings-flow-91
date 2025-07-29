@@ -1026,7 +1026,7 @@ const EditAsset = () => {
                   queryKey={['active-work-orders', id]}
                   tableId={`active-work-orders-${id}`}
                   editRoutePattern="/workorders/edit/{id}"
-                  maxHeight="max-h-[280px]"
+                  maxHeight="max-h-[200px]"
                 />
               </div>
               
@@ -1044,7 +1044,7 @@ const EditAsset = () => {
                   queryKey={['completed-work-orders', id]}
                   tableId={`completed-work-orders-${id}`}
                   editRoutePattern="/workorders/edit/{id}"
-                  maxHeight="max-h-[280px]"
+                  maxHeight="max-h-[200px]"
                 />
               </div>
 
@@ -1060,7 +1060,7 @@ const EditAsset = () => {
                   ]}
                   queryKey={['asset-movement-log', id]}
                   tableId={`asset-movement-log-${id}`}
-                  maxHeight="max-h-[280px]"
+                  maxHeight="max-h-[200px]"
                 />
               </div>
             </div>
