@@ -14,7 +14,7 @@ import LocationEquipmentDropdown from "@/components/LocationEquipmentDropdown";
 import TenMilLogo from "@/components/TenMilLogo";
 import GearSpinner from "@/components/ui/gear-spinner";
 import { siteFormFields } from "@/data/siteFormFields";
-import { assetFormFields } from "@/data/assetFormFields";
+import { equipmentFields, attachmentFields } from "@/data/assetFormFields";
 import { useAssetData } from "@/hooks/useAssetData";
 import { useAssetSubmit } from "@/hooks/useAssetSubmit";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
@@ -56,8 +56,8 @@ const EditAsset = () => {
 
   const { toast } = useToast();
   
-  const { data: assetData, error, isLoading, isError } = useAssetData(id);
-  const submitHandler = useAssetSubmit();
+  const { assetType, assetData, error, isLoading, isError } = useAssetData(id);
+  const { handleSubmit: submitHandler } = useAssetSubmit(id, assetType);
 
   const { data: pmSettingsData } = useQuery({
     queryKey: [`/pm-automation/pm-settings?asset=${id}`],
@@ -137,25 +137,13 @@ const EditAsset = () => {
     setCurrentView(view);
   };
 
-  const assetType = assetData?.asset_type;
-  const attachmentFields = assetFormFields.attachment || [];
-  const equipmentFields = assetFormFields.equipment || [];
+  const currentAssetType = assetType || assetData?.asset_type;
+  const currentAttachmentFields = attachmentFields || [];
+  const currentEquipmentFields = equipmentFields || [];
 
   const handleSubmit = async (data: any) => {
     console.log("Submitting:", data);
-    const result = await submitHandler(id, data);
-    if (result?.success) {
-      toast({
-        title: "Success",
-        description: "Asset updated successfully"
-      });
-    } else {
-      toast({
-        title: "Error",
-        description: result?.error || "Failed to update asset",
-        variant: "destructive"
-      });
-    }
+    await submitHandler(data);
   };
 
   useEffect(() => {
@@ -188,14 +176,14 @@ const EditAsset = () => {
       </div>;
   }
 
-  if (!assetType || !assetData) {
+  if (!currentAssetType || !assetData) {
     return <div className="flex justify-center items-center min-h-[400px]">
         <GearSpinner fullscreen />
       </div>;
   }
 
-  const currentFields = assetType === "equipment" ? equipmentFields : attachmentFields;
-  const assetTypeName = assetType === "equipment" ? "Equipment" : "Attachment";
+  const currentFields = currentAssetType === "equipment" ? currentEquipmentFields : currentAttachmentFields;
+  const assetTypeName = currentAssetType === "equipment" ? "Equipment" : "Attachment";
 
   const initialData = {
     name: assetData?.name || "",
@@ -211,7 +199,7 @@ const EditAsset = () => {
     asset_status: assetData?.asset_status?.id || assetData?.asset_status || ""
   };
 
-  const customLayout = (props: any) => <FormLayout {...props} config={assetType === "attachment" ? attachmentFormConfig : equipmentFormConfig} />;
+  const customLayout = (props: any) => <FormLayout {...props} config={currentAssetType === "attachment" ? attachmentFormConfig : equipmentFormConfig} />;
 
   return (
     <div className="h-full overflow-x-auto min-w-0 flex flex-col">
@@ -270,7 +258,7 @@ const EditAsset = () => {
                     <div className="flex-grow overflow-auto">
                       <ApiTable 
                         endpoint="/asset-qr-codes/asset_qr_code"
-                        queryParams={{ asset: id }}
+                        filters={{ asset: id }}
                         columns={[
                           { key: 'qr_code', header: 'QR Code' },
                           { key: 'created_at', header: 'Created At', render: (value: any) => value ? new Date(value).toLocaleDateString() : '-' },
@@ -295,9 +283,6 @@ const EditAsset = () => {
                             </div>
                           )}
                         ]}
-                        enableSearch={false}
-                        enableFiltering={false}
-                        pageSize={10}
                         className="text-xs"
                         tableId={`qr-codes-${id}`}
                       />
@@ -321,7 +306,7 @@ const EditAsset = () => {
                     <div className="flex-grow overflow-auto">
                       <ApiTable 
                         endpoint="/asset-meter-readings/asset_meter_reading"
-                        queryParams={{ asset: id }}
+                        filters={{ asset: id }}
                         columns={[
                           { key: 'timestamp', header: 'Timestamp', render: (value: any) => value ? new Date(value).toLocaleDateString() : '-' },
                           { key: 'meter_reading', header: 'Reading' },
@@ -333,9 +318,6 @@ const EditAsset = () => {
                             return value || '-';
                           }}
                         ]}
-                        enableSearch={true}
-                        enableFiltering={true}
-                        pageSize={10}
                         className="text-xs"
                         tableId={`codes-${id}`}
                       />
@@ -375,7 +357,7 @@ const EditAsset = () => {
                       {
                         name: 'timestamp',
                         label: 'Timestamp',
-                        type: 'date',
+                        type: 'datepicker',
                         required: true
                       }
                     ]}
@@ -740,17 +722,14 @@ const EditAsset = () => {
                         <div className="flex-grow overflow-auto">
                           <ApiTable 
                             endpoint="/work-order/work-orders"
-                            queryParams={{ asset: id }}
                             columns={[
-                              { key: 'id', label: 'WO ID', sortable: true },
-                              { key: 'title', label: 'Title', sortable: true },
-                              { key: 'status', label: 'Status', sortable: true },
-                              { key: 'created_at', label: 'Created', sortable: true, render: (value: string) => new Date(value).toLocaleDateString() },
-                              { key: 'updated_at', label: 'Updated', sortable: true, render: (value: string) => new Date(value).toLocaleDateString() }
+                              { key: 'id', header: 'WO ID' },
+                              { key: 'title', header: 'Title' },
+                              { key: 'status', header: 'Status' },
+                              { key: 'created_at', header: 'Created', render: (value: string) => new Date(value).toLocaleDateString() },
+                              { key: 'updated_at', header: 'Updated', render: (value: string) => new Date(value).toLocaleDateString() }
                             ]}
-                            enableSearch={true}
-                            enableFiltering={true}
-                            pageSize={10}
+                            filters={{ asset: id }}
                             className="text-xs"
                             editRoutePattern="/workorders/edit/{id}"
                           />
@@ -815,14 +794,11 @@ const EditAsset = () => {
               <div className="overflow-auto">
                 <ApiTable 
                   endpoint="/asset-backlogs/asset_backlog"
-                  queryParams={{ asset: id }}
+                  filters={{ asset: id }}
                   columns={[
                     { key: 'name', header: 'Name' },
                     { key: 'created_at', header: 'Created At', render: (value: any) => value ? new Date(value).toLocaleDateString() : '-' }
                   ]}
-                  enableSearch={true}
-                  enableFiltering={true}
-                  pageSize={10}
                   className="text-xs"
                   tableId={`backlog-${id}`}
                 />
@@ -844,12 +820,12 @@ const EditAsset = () => {
                 <h3 className="text-lg font-semibold mb-4">Asset Movement Log</h3>
                 <ApiTable 
                   endpoint="/asset-logs/asset_log"
-                  queryParams={{ asset: id }}
+                  filters={{ asset: id }}
                   columns={[
                     { key: 'old_location', header: 'From Location', render: (value: any) => typeof value === 'object' ? value?.name || '-' : value || '-' },
                     { key: 'new_location', header: 'To Location', render: (value: any) => typeof value === 'object' ? value?.name || '-' : value || '-' },
                     { key: 'moved_by', header: 'Moved By', render: (value: any) => typeof value === 'object' ? value?.name || value?.email || '-' : value || '-' },
-                    { key: 'timestamp', header: 'Moved At', type: 'date' }
+                    { key: 'timestamp', header: 'Moved At', render: (value: any) => value ? new Date(value).toLocaleDateString() : '-' }
                   ]}
                   queryKey={['asset-movement-log', id]}
                   tableId={`asset-movement-log-${id}`}
