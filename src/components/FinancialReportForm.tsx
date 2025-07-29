@@ -245,10 +245,10 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
             const readOnlyFields = formFields.filter(field => field.disabled);
 
             return (
-              <div className="space-y-4">
+              <div className="space-y-2">
                 {/* Editable fields - 2 per row */}
                 {editableFields.length > 0 && (
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-2">
                     {editableFields.map(field => (
                       <div key={field.name} className="space-y-1">
                         <label className="text-sm font-medium text-muted-foreground">
@@ -271,7 +271,7 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
 
                 {/* Read-only fields - 2 per row */}
                 {readOnlyFields.length > 0 && (
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-2">
                     {readOnlyFields.map(field => (
                       <div key={field.name} className="space-y-1">
                         <label className="text-sm font-medium text-muted-foreground">
@@ -286,7 +286,7 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
                 )}
 
                 {!allFieldsDisabled && (
-                  <div className="pt-4">
+                  <div className="pt-2">
                     <button
                       type="button"
                       onClick={handleSubmit}
@@ -329,7 +329,7 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
                 </div>
               ))}
               {!allFieldsDisabled && (
-                <div className="pt-4">
+                <div className="pt-2">
                   <button
                     type="button"
                     onClick={handleSubmit}
