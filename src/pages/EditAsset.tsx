@@ -599,20 +599,18 @@ const EditAsset = () => {
                           </div>
                             <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
                               <div className="space-y-1">
-                               <div className="flex items-center justify-center">
-                                 <div className="flex flex-col items-center gap-1">
-                                   <span className="text-xs text-muted-foreground">Name</span>
-                                   <input 
-                                     type="text" 
-                                     value={meterTriggerData.name} 
-                                     onChange={e => setMeterTriggerData(prev => ({
-                                       ...prev,
-                                       name: e.target.value
-                                     }))} 
-                                     disabled={!isFieldsEditable}
-                                     className={`w-33 h-6 px-2 text-xs border rounded ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
-                                   />
-                                 </div>
+                               <div className="flex items-center gap-2">
+                                 <span className="text-xs text-muted-foreground">Name</span>
+                                 <input 
+                                   type="text" 
+                                   value={meterTriggerData.name} 
+                                   onChange={e => setMeterTriggerData(prev => ({
+                                     ...prev,
+                                     name: e.target.value
+                                   }))} 
+                                   disabled={!isFieldsEditable}
+                                   className={`w-33 h-6 px-2 text-xs border rounded ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
+                                 />
                                </div>
                                <div className="flex items-center gap-6">
                                  <div className="flex items-center gap-2">
