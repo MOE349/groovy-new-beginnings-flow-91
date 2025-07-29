@@ -542,11 +542,11 @@ const EditAsset = () => {
                                </tbody>
                              </table>
                            </div>
-                            <div className="px-2 pb-2 flex items-center gap-4 mt-16">
+                            <div className="px-2 pb-2 flex flex-col gap-2 mt-16">
                               <Button 
                                 variant="secondary" 
                                 size="sm" 
-                                className="text-secondary py-1 px-3 text-sm"
+                                className="text-secondary py-1 px-3 text-sm w-full"
                                 disabled={!selectedItemId}
                                 onClick={async () => {
                                   if (!selectedItemId) return;
@@ -570,7 +570,7 @@ const EditAsset = () => {
                                 Generate WO Now
                               </Button>
                               
-                              <div className="flex items-center gap-2">
+                              <div className="flex flex-col gap-1">
                                 <span className="text-xs text-muted-foreground">Next Iteration</span>
                                 {selectedItemId ? (
                                   <div className="next-iteration-dropdown">
@@ -586,11 +586,11 @@ const EditAsset = () => {
                                       optionLabelKey="name"
                                       placeholder="Select iteration"
                                       disabled={!isFieldsEditable}
-                                      className="w-40 [&>button]:h-7 [&>button]:text-xs [&>button]:px-2 [&>button]:py-0 [&>button]:min-h-0 [&>button]:border-input [&>button]:bg-background [&>button]:hover:bg-accent [&>button]:focus:bg-accent [&>button]:rounded-sm [&>button]:shadow-sm [&>button]:transition-colors [&>button]:duration-150"
+                                      className="w-full [&>button]:h-7 [&>button]:text-xs [&>button]:px-2 [&>button]:py-0 [&>button]:min-h-0 [&>button]:border-input [&>button]:bg-background [&>button]:hover:bg-accent [&>button]:focus:bg-accent [&>button]:rounded-sm [&>button]:shadow-sm [&>button]:transition-colors [&>button]:duration-150"
                                     />
                                   </div>
                                 ) : (
-                                  <div className="flex-1 min-w-0 h-7 px-2 text-xs border border-input rounded-sm flex items-center text-muted-foreground bg-muted/50 shadow-sm">
+                                  <div className="w-full h-7 px-2 text-xs border border-input rounded-sm flex items-center text-muted-foreground bg-muted/50 shadow-sm">
                                     No PM setting selected
                                   </div>
                                 )}
