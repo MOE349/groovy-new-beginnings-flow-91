@@ -862,11 +862,13 @@ const EditAsset = () => {
                            </div>
                          </div>
                        </div>
-                    </div>
-                  </div>
-                </div>}
+                     </div>
+                   </div>
+                 </div>
+               )}
 
-              {currentView === 1 && <div className="h-full relative animate-fade-in">
+               {currentView === 1 && (
+                 <div className="h-full relative animate-fade-in">
                   <button onClick={() => handleViewChange(0)} className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-primary/10 hover:bg-primary/20 border border-primary/30 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110">
                     <ChevronLeft className="w-4 h-4 text-primary" />
                   </button>
@@ -882,11 +884,12 @@ const EditAsset = () => {
                             onNavigateBack={() => handleViewChange(0)}
                           />
                        </div>
-                    </div>
-                  </div>
-                </div>}
-            </div>
-          </TabsContent>
+                     </div>
+                   </div>
+                 </div>
+               )}
+             </div>
+           </TabsContent>
           
           <TabsContent value="financials" className="tab-content-container">
             <FinancialsTabContent assetId={id || ''} />
