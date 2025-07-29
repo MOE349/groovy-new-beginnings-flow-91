@@ -46,6 +46,7 @@ const EditAsset = () => {
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const [selectedRadioId, setSelectedRadioId] = useState<string | null>(null);
   const [isFieldsEditable, setIsFieldsEditable] = useState(false);
+  const [isEditingMeterTrigger, setIsEditingMeterTrigger] = useState(false);
 
   const [meterTriggerData, setMeterTriggerData] = useState({
     name: "",
@@ -517,117 +518,156 @@ const EditAsset = () => {
                     </div>
 
                     <div className="flex gap-4 flex-1">
-                      {/* Meter Reading Trigger - Improved Layout */}
+                      {/* Meter Reading Trigger */}
                       <div className="w-1/4">
                         <div className="bg-card border border-border rounded-lg p-6 h-full">
                           <div className="flex items-center justify-center mb-4">
                             <h5 className="text-sm font-medium text-foreground">Meter Reading Trigger</h5>
                           </div>
                           
-                          {/* 2x2 Grid Layout for the 4 fields */}
-                          <div className="grid grid-cols-2 gap-4 mb-6">
-                            <div className="space-y-2">
-                              <label className="text-xs text-muted-foreground">Name</label>
-                              <input 
-                                type="text" 
-                                value={meterTriggerData.name} 
-                                onChange={e => setMeterTriggerData(prev => ({
-                                  ...prev,
-                                  name: e.target.value
-                                }))} 
-                                className="w-full h-8 px-2 text-sm border border-border rounded bg-background" 
-                              />
-                            </div>
-                            
-                            <div className="space-y-2">
-                              <label className="text-xs text-muted-foreground">Every</label>
-                              <div className="flex gap-2">
-                                <input 
-                                  type="text" 
-                                  value={meterTriggerData.interval_value} 
-                                  onChange={e => setMeterTriggerData(prev => ({
-                                    ...prev,
-                                    interval_value: e.target.value
-                                  }))} 
-                                  className="flex-1 h-8 px-2 text-sm border border-border rounded bg-background" 
+                          {!isEditingMeterTrigger ? (
+                            /* Table View (Default) */
+                            <div className="space-y-4">
+                              <div className="max-h-[300px] overflow-auto">
+                                <ApiTable
+                                  endpoint={`/pm-automation/meter-triggers?asset=${id}`}
+                                  columns={[
+                                    { key: 'name', header: 'Name', type: 'string' },
+                                    { key: 'next_trigger', header: 'Next Trigger', type: 'string' },
+                                    { key: 'is_active', header: 'Status', type: 'boolean', render: (value: boolean) => value ? '✓ Active' : '✗ Inactive' }
+                                  ]}
+                                  queryKey={['meter-triggers', id]}
+                                  tableId={`meter-triggers-${id}`}
                                 />
+                              </div>
+                              <div className="flex justify-center">
+                                <Button 
+                                  variant="outline" 
+                                  size="sm" 
+                                  onClick={() => setIsEditingMeterTrigger(true)}
+                                  className="text-xs"
+                                >
+                                  Edit
+                                </Button>
+                              </div>
+                            </div>
+                          ) : (
+                            /* Form View (Edit Mode) */
+                            <div className="space-y-4">
+                              {/* 2x2 Grid Layout for the 4 fields */}
+                              <div className="grid grid-cols-2 gap-4 mb-4">
+                                <div className="space-y-2">
+                                  <label className="text-xs text-muted-foreground">Name</label>
+                                  <input 
+                                    type="text" 
+                                    value={meterTriggerData.name} 
+                                    onChange={e => setMeterTriggerData(prev => ({
+                                      ...prev,
+                                      name: e.target.value
+                                    }))} 
+                                    className="w-full h-8 px-2 text-sm border border-border rounded bg-background" 
+                                  />
+                                </div>
+                                
+                                <div className="space-y-2">
+                                  <label className="text-xs text-muted-foreground">Every</label>
+                                  <div className="flex gap-2">
+                                    <input 
+                                      type="text" 
+                                      value={meterTriggerData.interval_value} 
+                                      onChange={e => setMeterTriggerData(prev => ({
+                                        ...prev,
+                                        interval_value: e.target.value
+                                      }))} 
+                                      className="flex-1 h-8 px-2 text-sm border border-border rounded bg-background" 
+                                    />
+                                    <select 
+                                      value={meterTriggerData.interval_unit} 
+                                      onChange={e => setMeterTriggerData(prev => ({
+                                        ...prev,
+                                        interval_unit: e.target.value
+                                      }))} 
+                                      className="h-8 px-2 text-sm border border-border rounded bg-background"
+                                    >
+                                      <option value="hours">hrs</option>
+                                      <option value="miles">mi</option>
+                                    </select>
+                                  </div>
+                                </div>
+                                
+                                <div className="space-y-2">
+                                  <label className="text-xs text-muted-foreground">Starting at</label>
+                                  <input 
+                                    type="text" 
+                                    value={meterTriggerData.start_threshold_value} 
+                                    onChange={e => setMeterTriggerData(prev => ({
+                                      ...prev,
+                                      start_threshold_value: e.target.value
+                                    }))} 
+                                    className="w-full h-8 px-2 text-sm border border-border rounded bg-background" 
+                                  />
+                                </div>
+                                
+                                <div className="space-y-2">
+                                  <label className="text-xs text-muted-foreground">Create WO</label>
+                                  <div className="flex gap-2 items-center">
+                                    <input 
+                                      type="text" 
+                                      value={meterTriggerData.lead_time_value} 
+                                      onChange={e => setMeterTriggerData(prev => ({
+                                        ...prev,
+                                        lead_time_value: e.target.value
+                                      }))} 
+                                      className="flex-1 h-8 px-2 text-sm border border-border rounded bg-background" 
+                                    />
+                                    <span className="text-xs text-muted-foreground">before</span>
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Next Iteration dropdown field */}
+                              <div className="space-y-2">
+                                <label className="text-xs text-muted-foreground">Next Iteration</label>
                                 <select 
-                                  value={meterTriggerData.interval_unit} 
+                                  value={meterTriggerData.next_iteration} 
                                   onChange={e => setMeterTriggerData(prev => ({
                                     ...prev,
-                                    interval_unit: e.target.value
+                                    next_iteration: e.target.value
                                   }))} 
-                                  className="h-8 px-2 text-sm border border-border rounded bg-background"
+                                  className="w-full h-8 px-2 text-sm border border-border rounded bg-background"
                                 >
-                                  <option value="hours">hrs</option>
-                                  <option value="miles">mi</option>
+                                  <option value="">Select Iteration</option>
+                                  <option value="iteration1">Iteration 1</option>
+                                  <option value="iteration2">Iteration 2</option>
+                                  <option value="iteration3">Iteration 3</option>
                                 </select>
                               </div>
-                            </div>
-                            
-                            <div className="space-y-2">
-                              <label className="text-xs text-muted-foreground">Starting at</label>
-                              <input 
-                                type="text" 
-                                value={meterTriggerData.start_threshold_value} 
-                                onChange={e => setMeterTriggerData(prev => ({
-                                  ...prev,
-                                  start_threshold_value: e.target.value
-                                }))} 
-                                className="w-full h-8 px-2 text-sm border border-border rounded bg-background" 
-                              />
-                            </div>
-                            
-                            <div className="space-y-2">
-                              <label className="text-xs text-muted-foreground">Create WO</label>
-                              <div className="flex gap-2 items-center">
-                                <input 
-                                  type="text" 
-                                  value={meterTriggerData.lead_time_value} 
-                                  onChange={e => setMeterTriggerData(prev => ({
-                                    ...prev,
-                                    lead_time_value: e.target.value
-                                  }))} 
-                                  className="flex-1 h-8 px-2 text-sm border border-border rounded bg-background" 
-                                />
-                                <span className="text-xs text-muted-foreground">before</span>
+
+                              <div className="flex gap-2">
+                                <Button 
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => setIsEditingMeterTrigger(false)}
+                                  className="flex-1 text-xs"
+                                >
+                                  Cancel
+                                </Button>
+                                <Button 
+                                  size="sm"
+                                  className="flex-1 text-xs"
+                                  onClick={() => {
+                                    setIsEditingMeterTrigger(false);
+                                    toast({
+                                      title: "Success",
+                                      description: "Meter trigger saved successfully!"
+                                    });
+                                  }}
+                                >
+                                  Save
+                                </Button>
                               </div>
                             </div>
-                          </div>
-
-                          {/* Next Iteration dropdown field */}
-                          <div className="space-y-2 mb-6">
-                            <label className="text-xs text-muted-foreground">Next Iteration</label>
-                            <select 
-                              value={meterTriggerData.next_iteration} 
-                              onChange={e => setMeterTriggerData(prev => ({
-                                ...prev,
-                                next_iteration: e.target.value
-                              }))} 
-                              className="w-full h-8 px-2 text-sm border border-border rounded bg-background"
-                            >
-                              <option value="">Select Iteration</option>
-                              <option value="iteration1">Iteration 1</option>
-                              <option value="iteration2">Iteration 2</option>
-                              <option value="iteration3">Iteration 3</option>
-                            </select>
-                          </div>
-
-                          <div className="space-y-4">
-                            <Button 
-                              className={`w-full h-8 text-xs ${meterTriggerData.is_active ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-500 hover:bg-gray-600 text-white'}`} 
-                              onClick={() => setMeterTriggerData(prev => ({
-                                ...prev,
-                                is_active: !prev.is_active
-                              }))}
-                            >
-                              {meterTriggerData.is_active ? '✓ Active' : '✗ Inactive'}
-                            </Button>
-                            
-                            <Button className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-primary-foreground">
-                              Save
-                            </Button>
-                          </div>
+                          )}
                         </div>
                       </div>
 
