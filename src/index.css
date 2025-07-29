@@ -265,4 +265,11 @@
   .tab-content-generic {
     @apply tab-content-scrollable;
   }
+
+  /* Ensure consistent table cell padding in all contexts */
+  .tab-content-metering table td,
+  .tab-content-scrollable table td,
+  [class*="tab-content"] table td {
+    @apply py-1 !important;
+  }
 }
