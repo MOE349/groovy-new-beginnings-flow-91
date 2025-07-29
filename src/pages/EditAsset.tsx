@@ -926,7 +926,7 @@ const EditAsset = () => {
                                     { key: 'code', header: 'Code', type: 'string' },
                                     { key: 'description', header: 'Description', type: 'string' },
                                     { key: 'status', header: 'Status', type: 'object', render: (value: any) => value?.control?.name || value?.name || '-' },
-                                    { key: 'completion_meter_reading', header: 'Completion Meter Reading', type: 'string' },
+                                    { key: 'completion_meter_reading', header: 'Completion MR', type: 'string' },
                                     { key: 'trigger_meter_reading', header: 'Trigger Meter Reading', type: 'string' },
                                   ]}
                                   queryKey={['auto-generated-work-orders', id]}
