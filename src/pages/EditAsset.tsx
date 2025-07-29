@@ -455,12 +455,12 @@ const EditAsset = () => {
           
           <TabsContent value="scheduled-maintenance" className="tab-content-container">
             <div className="tab-content-maintenance">
-              {currentView === 0 && <div className="grid grid-cols-4 gap-4 h-full relative animate-fade-in">
+              {currentView === 0 && <div className="grid grid-cols-4 gap-2 h-full relative animate-fade-in">
                   <button onClick={() => handleViewChange(1)} className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-primary/10 hover:bg-primary/20 border border-primary/30 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110">
                     <ChevronRight className="w-4 h-4 text-primary" />
                   </button>
                   <div className="col-span-1 min-w-0">
-                     <div className="px-4 pt-4 pb-0 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
+                     <div className="px-2 pt-2 pb-0 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
                         <div className="flex items-center justify-center gap-4 mb-2 py-1 -mx-2 mt-0 bg-accent/20 border border-accent/30 rounded-md">
                           <h5 className="text-xs font-medium text-primary dark:text-secondary">Meter Reading Trigger</h5>
                         </div>
@@ -598,7 +598,7 @@ const EditAsset = () => {
                             </div>
                           </div>
                             <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
-                               <div className="space-y-1 border-2 border-dashed border-muted-foreground/30 rounded-md p-3 mb-3">
+                                <div className="space-y-0.5 border-2 border-dashed border-muted-foreground/30 rounded-md p-2 mb-2">
                                  <div className="flex items-center gap-2">
                                    <span className="text-xs text-muted-foreground w-16">Name</span>
                                    <input 
@@ -745,8 +745,8 @@ const EditAsset = () => {
                      </div>
                   </div>
 
-                  <div className="col-span-1 min-w-0">
-                     <div className="px-4 pt-4 pb-0 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
+                   <div className="col-span-1 min-w-0">
+                      <div className="px-2 pt-2 pb-0 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
                         <div className="flex items-center justify-center gap-4 mb-2 py-1 -mx-2 mt-0 bg-accent/20 border border-accent/30 rounded-md">
                           <h5 className="text-xs font-medium text-primary dark:text-secondary">Calendar Trigger</h5>
                         </div>
@@ -820,7 +820,7 @@ const EditAsset = () => {
                              </div>
                           </div>
                             <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
-                               <div className="space-y-1 border-2 border-dashed border-muted-foreground/30 rounded-md p-3 mb-3">
+                               <div className="space-y-0.5 border-2 border-dashed border-muted-foreground/30 rounded-md p-2 mb-2">
                                  <div className="flex items-center gap-2">
                                    <span className="text-xs text-muted-foreground w-16">Name</span>
                                    <input 
