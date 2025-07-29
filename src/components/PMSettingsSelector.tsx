@@ -91,7 +91,7 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
   }
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-1">
       <div className="flex items-center gap-4 py-1">
         {/* Empty space on left for balance */}
         <div></div>
