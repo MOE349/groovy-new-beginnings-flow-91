@@ -1027,6 +1027,7 @@ const EditAsset = () => {
                   tableId={`active-work-orders-${id}`}
                   editRoutePattern="/workorders/edit/{id}"
                   maxHeight="max-h-[200px]"
+                  tableClassName="[&_td]:py-1 [&_th]:py-0.5 text-xs"
                 />
               </div>
               
@@ -1045,6 +1046,7 @@ const EditAsset = () => {
                   tableId={`completed-work-orders-${id}`}
                   editRoutePattern="/workorders/edit/{id}"
                   maxHeight="max-h-[200px]"
+                  tableClassName="[&_td]:py-1 [&_th]:py-0.5 text-xs"
                 />
               </div>
 
@@ -1061,6 +1063,7 @@ const EditAsset = () => {
                   queryKey={['asset-movement-log', id]}
                   tableId={`asset-movement-log-${id}`}
                   maxHeight="max-h-[200px]"
+                  tableClassName="[&_td]:py-1 [&_th]:py-0.5 text-xs"
                 />
               </div>
             </div>
