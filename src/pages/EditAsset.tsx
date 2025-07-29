@@ -465,14 +465,14 @@ const EditAsset = () => {
                           <h5 className="text-xs font-medium text-primary dark:text-secondary">Meter Reading Trigger</h5>
                         </div>
                         <div className="mb-4">
-                          <div className="overflow-auto h-[80px]">
-                            <table className="w-full caption-bottom text-sm">
+                          <div className="overflow-auto h-[60px]">
+                            <table className="w-full caption-bottom text-xs">
                               <thead>
                                  <tr className="border-b">
-                                   <th className="h-6 px-2 py-1 text-left align-middle font-medium text-primary-foreground bg-primary text-xs w-8"></th>
-                                   <th className="h-6 px-2 py-1 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Name</th>
-                                   <th className="h-6 px-2 py-1 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Next Trigger</th>
-                                   <th className="h-6 px-2 py-1 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Status</th>
+                                   <th className="h-4 px-1 py-0.5 text-left align-middle font-medium text-primary-foreground bg-primary text-xs w-6"></th>
+                                   <th className="h-4 px-1 py-0.5 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Name</th>
+                                   <th className="h-4 px-1 py-0.5 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Next</th>
+                                   <th className="h-4 px-1 py-0.5 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Status</th>
                                  </tr>
                               </thead>
                                <tbody>
@@ -515,23 +515,23 @@ const EditAsset = () => {
                                               }
                                             }}
                                           >
-                                           <td className="px-2 py-1 text-left align-middle text-xs">
+                                           <td className="px-1 py-0.5 text-left align-middle text-xs">
                                               <input 
                                                 type="radio" 
                                                 name="pm-selection" 
                                                 value={item?.id || i} 
                                                 checked={selectedRadioId === (item?.id || i.toString())}
                                                 onChange={() => {}} // Row click handler manages the selection
-                                                className="w-3 h-3 pointer-events-none appearance-none border-2 border-muted-foreground/30 bg-background rounded-md checked:bg-primary checked:border-primary transition-all duration-200 relative checked:after:content-['✓'] checked:after:absolute checked:after:inset-0 checked:after:text-primary-foreground checked:after:text-[10px] checked:after:font-bold checked:after:flex checked:after:items-center checked:after:justify-center checked:after:leading-none"
+                                                className="w-2.5 h-2.5 pointer-events-none appearance-none border border-muted-foreground/30 bg-background rounded-sm checked:bg-primary checked:border-primary transition-all duration-200 relative checked:after:content-['✓'] checked:after:absolute checked:after:inset-0 checked:after:text-primary-foreground checked:after:text-[8px] checked:after:font-bold checked:after:flex checked:after:items-center checked:after:justify-center checked:after:leading-none"
                                               />
                                            </td>
-                                          <td className="px-2 py-1 text-left align-middle text-xs">
+                                          <td className="px-1 py-0.5 text-left align-middle text-xs">
                                             {item?.name || '-'}
                                           </td>
-                                          <td className="px-2 py-1 text-left align-middle text-xs">
+                                          <td className="px-1 py-0.5 text-left align-middle text-xs">
                                             {item?.next_trigger_value || '-'}
                                           </td>
-                                          <td className="px-2 py-1 text-left align-middle text-xs">
+                                          <td className="px-1 py-0.5 text-left align-middle text-xs">
                                             {item?.is_active ? 'Active' : item?.is_active === false ? 'Inactive' : '-'}
                                           </td>
                                         </tr>
