@@ -1,22 +1,22 @@
-import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { toast } from "@/hooks/use-toast";
-import ApiForm from "@/components/ApiForm";
-import { handleApiError } from "@/utils/errorHandling";
-import ApiTable from "@/components/ApiTable";
-import ApiDropDown from "@/components/ApiDropDown";
-import { apiCall } from "@/utils/apis";
-import GearSpinner from "@/components/ui/gear-spinner";
-import { AlertTriangle, Trash2, Plus, Check, X, Calendar as CalendarIcon } from "lucide-react";
+import { useParams, useNavigate } from "react-router-dom";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { AlertTriangle, Camera, ChevronRight, ChevronLeft, Edit2, Trash2, Plus } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useToast } from "@/hooks/use-toast";
+import { apiCall } from "@/utils/apis";
+import ApiForm from "@/components/ApiForm";
+import ApiInput from "@/components/ApiInput";
+import ApiTable from "@/components/ApiTable";
+import LocationEquipmentDropdown from "@/components/LocationEquipmentDropdown";
+import TenMilLogo from "@/components/TenMilLogo";
+import GearSpinner from "@/components/ui/gear-spinner";
+import { siteFormFields } from "@/data/siteFormFields";
+import { assetFormFields } from "@/data/assetFormFields";
 import { useAssetData } from "@/hooks/useAssetData";
 import { useAssetSubmit } from "@/hooks/useAssetSubmit";
-import { equipmentFields, attachmentFields } from "@/data/assetFormFields";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
 import FormLayout from "@/components/FormLayout";
 import { equipmentFormConfig, attachmentFormConfig } from "@/config/formLayouts";
@@ -30,6 +30,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { usePrefetchFinancialData } from "@/hooks/useFinancialDataOptimized";
 
 const EditAsset = () => {
+  console.log("EditAsset component started");
   const { id } = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -39,32 +40,24 @@ const EditAsset = () => {
   const [isCodeDialogOpen, setIsCodeDialogOpen] = useState(false);
   const [isBacklogDialogOpen, setIsBacklogDialogOpen] = useState(false);
   const [currentView, setCurrentView] = useState(0);
-  const [activeTab, setActiveTab] = useState("");
-  const [isMeterTriggerActive, setIsMeterTriggerActive] = useState(true);
-  const [isTimeTriggerActive, setIsTimeTriggerActive] = useState(true);
-  const [isEditMode, setIsEditMode] = useState(false);
+  const [activeTab, setActiveTab] = useState("metering-events");
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
-  const [selectedRadioId, setSelectedRadioId] = useState<string | null>(null);
+  const [isEditMode, setIsEditMode] = useState(false);
   const [isFieldsEditable, setIsFieldsEditable] = useState(false);
-
   const [meterTriggerData, setMeterTriggerData] = useState({
-    name: "",
-    interval_value: "",
-    interval_unit: "hours",
-    start_threshold_value: "",
-    lead_time_value: "",
-    next_iteration: "",
-    is_active: true
+    name: '',
+    interval_value: '',
+    interval_unit: 'hours',
+    start_threshold_value: '',
+    lead_time_value: '',
+    next_iteration: 0,
+    is_active: false
   });
 
-  const [calendarTriggerData, setCalendarTriggerData] = useState({
-    name: "",
-    interval_value: 30,
-    interval_unit: "days",
-    start_date: "",
-    days_in_advance: 5,
-    is_active: true
-  });
+  const { toast } = useToast();
+  
+  const { data: assetData, error, isLoading, isError } = useAssetData(id);
+  const submitHandler = useAssetSubmit();
 
   const { data: pmSettingsData } = useQuery({
     queryKey: [`/pm-automation/pm-settings?asset=${id}`],
@@ -140,91 +133,40 @@ const EditAsset = () => {
     }
   };
 
-  const { assetType, assetData, isLoading, isError, error } = useAssetData(id);
-  const { handleSubmit } = useAssetSubmit(id, assetType);
+  const handleViewChange = (view: number) => {
+    setCurrentView(view);
+  };
+
+  const assetType = assetData?.asset_type;
+  const attachmentFields = assetFormFields.attachment || [];
+  const equipmentFields = assetFormFields.equipment || [];
+
+  const handleSubmit = async (data: any) => {
+    console.log("Submitting:", data);
+    const result = await submitHandler(id, data);
+    if (result?.success) {
+      toast({
+        title: "Success",
+        description: "Asset updated successfully"
+      });
+    } else {
+      toast({
+        title: "Error",
+        description: result?.error || "Failed to update asset",
+        variant: "destructive"
+      });
+    }
+  };
 
   useEffect(() => {
-    if (id) {
+    if (activeTab === "financials" && id) {
       prefetchFinancialData(id);
     }
-  }, [id, prefetchFinancialData]);
+  }, [activeTab, id, prefetchFinancialData]);
 
-  useEffect(() => {
-    if (activeTab !== "scheduled-maintenance") {
-      setCurrentView(0);
-    }
-  }, [activeTab]);
-
-  const handleViewChange = (viewIndex: number) => {
-    setCurrentView(viewIndex);
-  };
-
-  const handleDeleteMeterReading = async (readingId: string) => {
-    try {
-      await apiCall(`/meter-readings/meter_reading/${readingId}`, {
-        method: 'DELETE'
-      });
-      queryClient.invalidateQueries({
-        queryKey: [`/meter-readings/meter_reading?asset=${id}`]
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["meter_readings", id]
-      });
-      toast({
-        title: "Success",
-        description: "Meter reading deleted successfully!"
-      });
-    } catch (error: any) {
-      handleApiError(error, "Delete Failed");
-    }
-  };
-
-  const handleDeleteCode = async (codeId: string) => {
-    try {
-      await apiCall(`/fault-codes/codes/${codeId}`, {
-        method: 'DELETE'
-      });
-      queryClient.invalidateQueries({
-        queryKey: [`/fault-codes/codes?asset=${id}`]
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["codes", id]
-      });
-      toast({
-        title: "Success",
-        description: "Code deleted successfully!"
-      });
-    } catch (error: any) {
-      handleApiError(error, "Delete Failed");
-    }
-  };
-
-  const handleSaveCalendarTrigger = async () => {
-    try {
-      const submissionData = {
-        name: calendarTriggerData.name,
-        interval_value: calendarTriggerData.interval_value,
-        interval_unit: calendarTriggerData.interval_unit,
-        start_date: calendarTriggerData.start_date,
-        days_in_advance: calendarTriggerData.days_in_advance,
-        is_active: calendarTriggerData.is_active,
-        asset: id
-      };
-      await apiCall('/pm-automation/calendar-settings/', {
-        method: 'POST',
-        body: submissionData
-      });
-      toast({
-        title: "Success",
-        description: "Calendar Trigger settings saved successfully!"
-      });
-    } catch (error: any) {
-      handleApiError(error, "Save Failed");
-    }
-  };
-
-  const handleFinancialsTabHover = () => {
-    if (id) {
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+    if (tab === "financials" && id) {
       prefetchFinancialData(id);
     }
   };
@@ -256,22 +198,23 @@ const EditAsset = () => {
   const assetTypeName = assetType === "equipment" ? "Equipment" : "Attachment";
 
   const initialData = {
-    ...assetData,
-    purchase_date: assetData?.purchase_date ? new Date(assetData.purchase_date) : undefined,
+    name: assetData?.name || "",
+    description: assetData?.description || "",
+    manufacturer: assetData?.manufacturer?.id || assetData?.manufacturer || "",
+    model: assetData?.model || "",
+    year: assetData?.year || "",
+    serial_number: assetData?.serial_number || "",
     category: assetData?.category?.id || assetData?.category || "",
     location: assetData?.location?.id || assetData?.location || "",
-    weight_class: assetData?.weight_class?.id || assetData?.weight_class || "",
-    year: assetData?.year ? assetData.year.toString() : "",
-    equipment: assetData?.equipment?.id || assetData?.equipment || "",
-    project: assetData?.project?.id || assetData?.project || "",
-    account_code: assetData?.account_code?.id || assetData?.account_code || "",
+    site: assetData?.site?.id || assetData?.site || "",
     job_code: assetData?.job_code?.id || assetData?.job_code || "",
     asset_status: assetData?.asset_status?.id || assetData?.asset_status || ""
   };
 
   const customLayout = (props: any) => <FormLayout {...props} config={assetType === "attachment" ? attachmentFormConfig : equipmentFormConfig} />;
 
-  return <div className="h-full overflow-x-auto min-w-0 flex flex-col">
+  return (
+    <div className="h-full overflow-x-auto min-w-0 flex flex-col">
       <div className="space-y-4 min-w-[1440px] flex-1 flex flex-col">
         <div>
           <ApiForm fields={currentFields} onSubmit={handleSubmit} initialData={initialData} customLayout={customLayout} />
@@ -296,7 +239,7 @@ const EditAsset = () => {
               <TabsTrigger 
                 value="financials" 
                 className="px-4 py-1 text-caption font-normal data-[state=active]:text-primary dark:data-[state=active]:text-secondary data-[state=active]:border-b-2 data-[state=active]:border-primary dark:data-[state=active]:border-secondary data-[state=active]:bg-transparent hover:text-foreground/80 rounded-none"
-                onMouseEnter={handleFinancialsTabHover}
+                onClick={() => handleTabChange("financials")}
               >
                 Financials
               </TabsTrigger>
@@ -318,202 +261,220 @@ const EditAsset = () => {
           
           <TabsContent value="metering-events" className="tab-content-container">
             <div className="tab-content-metering">
-              <div className="tab-content-grid-2">
-                <div className="min-w-0">
-                  <div className="mb-1">
-                    <Button variant="default" size="sm" className="flex items-center gap-2 px-3 py-1" onClick={() => setIsDialogOpen(true)}>
-                      <Plus className="h-3 w-3" />
-                      Update Reading
-                    </Button>
-                  </div>
-
-                  <div className="w-full max-w-full">
-                     <ApiTable endpoint={`/meter-readings/meter_reading?asset=${id}`} columns={[{
-                       key: 'meter_reading',
-                       header: 'Meter Reading'
-                     }, {
-                       key: 'created_at',
-                       header: 'Creation Date',
-                       render: (value: any) => value ? new Date(value).toLocaleDateString() : '-'
-                     }, {
-                       key: 'created_by',
-                       header: 'Created By',
-                       render: (value: any) => {
-                         if (typeof value === 'object' && value) {
-                           return value.name || value.email || value.id || '-';
-                         }
-                         return value || '-';
-                       }
-                     }, {
-                       key: 'actions',
-                       header: '',
-                       render: (value: any, row: any) => (
-                         <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex justify-end">
-                           <Button
-                             variant="ghost"
-                             size="sm"
-                             className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
-                             onClick={() => handleDeleteMeterReading(row.id)}
-                           >
-                             <Trash2 className="h-4 w-4" />
-                           </Button>
-                         </div>
-                       )
-                     }]} tableId={`meter-readings-${id}`} />
+              <div className="flex gap-4 h-full">
+                <div className="w-1/3">
+                  <div className="px-8 pt-4 pb-8 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b before:from-primary/60 before:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
+                    <div className="flex items-center justify-center gap-4 mb-2 py-1 -mx-2 mt-0 bg-accent/20 border border-accent/30 rounded-md">
+                      <h5 className="text-xs font-medium text-primary dark:text-secondary">QR Codes</h5>
+                    </div>
+                    <div className="flex-grow overflow-auto">
+                      <ApiTable 
+                        endpoint="/asset-qr-codes/asset_qr_code"
+                        queryParams={{ asset: id }}
+                        columns={[
+                          { key: 'qr_code', header: 'QR Code' },
+                          { key: 'created_at', header: 'Created At', render: (value: any) => value ? new Date(value).toLocaleDateString() : '-' },
+                          { key: 'created_by', header: 'Created By', render: (value: any) => {
+                            if (typeof value === 'object' && value) {
+                              return value.name || value.email || value.id || '-';
+                            }
+                            return value || '-';
+                          }},
+                          { key: 'actions', header: '', render: (value: any, row: any) => (
+                            <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex justify-end">
+                              <Button 
+                                variant="ghost" 
+                                size="sm" 
+                                onClick={() => {
+                                  setIsCodeDialogOpen(true);
+                                }}
+                                className="h-8 w-8 p-0"
+                              >
+                                <Camera className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          )}
+                        ]}
+                        enableSearch={false}
+                        enableFiltering={false}
+                        pageSize={10}
+                        className="text-xs"
+                        tableId={`qr-codes-${id}`}
+                      />
+                    </div>
+                    <div className="mt-4">
+                      <Button 
+                        className="w-full h-8 text-xs bg-blue-500 hover:bg-blue-600 text-white" 
+                        onClick={() => setIsCodeDialogOpen(true)}
+                      >
+                        + Generate QR Code
+                      </Button>
+                    </div>
                   </div>
                 </div>
 
-                <div className="min-w-0">
-                  <div className="mb-1">
-                    <Button variant="default" size="sm" className="flex items-center gap-2 px-3 py-1" onClick={() => setIsCodeDialogOpen(true)}>
-                      <Plus className="h-3 w-3" />
-                      Update Code
-                    </Button>
-                  </div>
-
-                  <div className="w-full max-w-full">
-                    <ApiTable endpoint={`/fault-codes/codes?asset=${id}`} columns={[{
-                      key: 'code',
-                      header: 'Code'
-                    }, {
-                      key: 'created_at',
-                      header: 'Creation Date',
-                      render: (value: any) => value ? new Date(value).toLocaleDateString() : '-'
-                    }, {
-                      key: 'created_by',
-                      header: 'Created By',
-                      render: (value: any) => {
-                        if (typeof value === 'object' && value) {
-                          return value.name || value.email || value.id || '-';
-                        }
-                        return value || '-';
-                      }
-                    }]} tableId={`codes-${id}`} />
+                <div className="flex-1">
+                  <div className="px-8 pt-4 pb-8 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b before:from-primary/60 before:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
+                    <div className="flex items-center justify-center gap-4 mb-2 py-1 -mx-2 mt-0 bg-accent/20 border border-accent/30 rounded-md">
+                      <h5 className="text-xs font-medium text-primary dark:text-secondary">Meter Reading Events</h5>
+                    </div>
+                    <div className="flex-grow overflow-auto">
+                      <ApiTable 
+                        endpoint="/asset-meter-readings/asset_meter_reading"
+                        queryParams={{ asset: id }}
+                        columns={[
+                          { key: 'timestamp', header: 'Timestamp', render: (value: any) => value ? new Date(value).toLocaleDateString() : '-' },
+                          { key: 'meter_reading', header: 'Reading' },
+                          { key: 'created_at', header: 'Created At', render: (value: any) => value ? new Date(value).toLocaleDateString() : '-' },
+                          { key: 'created_by', header: 'Created By', render: (value: any) => {
+                            if (typeof value === 'object' && value) {
+                              return value.name || value.email || value.id || '-';
+                            }
+                            return value || '-';
+                          }}
+                        ]}
+                        enableSearch={true}
+                        enableFiltering={true}
+                        pageSize={10}
+                        className="text-xs"
+                        tableId={`codes-${id}`}
+                      />
+                    </div>
+                    <div className="mt-4">
+                      <Button 
+                        className="w-full h-8 text-xs bg-green-500 hover:bg-green-600 text-white" 
+                        onClick={() => setIsDialogOpen(true)}
+                      >
+                        + Add Meter Reading
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>
 
               <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <DialogContent className="sm:max-w-md">
+                <DialogContent>
                   <DialogHeader>
                     <DialogTitle>Add Meter Reading</DialogTitle>
                   </DialogHeader>
-                  <div className="space-y-4">
-                    <ApiForm fields={[{
-                      name: "meter_reading",
-                      type: "input",
-                      inputType: "text",
-                      required: true,
-                      label: "Meter Reading"
-                    }]} onSubmit={async data => {
-                      const submissionData = {
-                        ...data,
-                        asset: id
-                      };
+                  <ApiForm
+                    fields={[
+                      {
+                        name: 'asset',
+                        label: 'Asset',
+                        type: 'input',
+                        inputType: 'hidden'
+                      },
+                      {
+                        name: 'meter_reading',
+                        label: 'Meter Reading',
+                        type: 'input',
+                        inputType: 'number',
+                        required: true
+                      },
+                      {
+                        name: 'timestamp',
+                        label: 'Timestamp',
+                        type: 'date',
+                        required: true
+                      }
+                    ]}
+                    initialData={{
+                      asset: id,
+                      meter_reading: '',
+                      timestamp: new Date().toISOString().split('T')[0]
+                    }}
+                    title=""
+                    onSubmit={async (data) => {
                       try {
-                        await apiCall("/meter-readings/meter_reading", {
+                        await apiCall('/asset-meter-readings/asset_meter_reading', {
                           method: 'POST',
-                          body: submissionData
+                          body: {
+                            asset: id,
+                            meter_reading: data.meter_reading,
+                            timestamp: data.timestamp
+                          }
                         });
-                        queryClient.invalidateQueries({
-                          queryKey: [`/meter-readings/meter_reading?asset=${id}`]
-                        });
-                        queryClient.invalidateQueries({
-                          queryKey: ["meter_readings", id]
-                        });
-                        setIsDialogOpen(false);
+                        
                         toast({
                           title: "Success",
-                          description: "Meter reading added successfully!"
+                          description: "Meter reading added successfully"
                         });
-                      } catch (error: any) {
-                        handleApiError(error, "Save Failed");
+                        
+                        queryClient.invalidateQueries({
+                          queryKey: [`/asset-meter-readings/asset_meter_reading?asset=${id}`]
+                        });
+                        
+                        setIsDialogOpen(false);
+                      } catch (error) {
+                        toast({
+                          title: "Error",
+                          description: "Failed to add meter reading",
+                          variant: "destructive"
+                        });
                       }
-                    }} customLayout={({
-                      handleSubmit,
-                      renderField
-                    }) => <div className="space-y-4">
-                          {renderField({
-                        name: "meter_reading",
-                        type: "input",
-                        inputType: "text",
-                        required: true,
-                        label: "Meter Reading"
-                      })}
-                          <div className="flex justify-end gap-2">
-                            <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
-                              Cancel
-                            </Button>
-                            <Button onClick={handleSubmit}>
-                              Save
-                            </Button>
-                          </div>
-                        </div>} />
-                  </div>
+                    }}
+                    submitText="Add Reading"
+                  />
                 </DialogContent>
               </Dialog>
 
               <Dialog open={isCodeDialogOpen} onOpenChange={setIsCodeDialogOpen}>
-                <DialogContent className="sm:max-w-md">
+                <DialogContent>
                   <DialogHeader>
-                    <DialogTitle>Add Code</DialogTitle>
+                    <DialogTitle>Generate QR Code</DialogTitle>
                   </DialogHeader>
-                  <div className="space-y-4">
-                    <ApiForm fields={[{
-                      name: "code",
-                      type: "input",
-                      inputType: "text",
-                      required: true,
-                      label: "Code"
-                    }]} onSubmit={async data => {
-                      const submissionData = {
-                        ...data,
-                        asset: id
-                      };
+                  <ApiForm
+                    fields={[
+                      {
+                        name: 'asset',
+                        label: 'Asset',
+                        type: 'input',
+                        inputType: 'hidden'
+                      },
+                      {
+                        name: 'qr_code',
+                        label: 'QR Code Value',
+                        type: 'input',
+                        inputType: 'text',
+                        required: true
+                      }
+                    ]}
+                    initialData={{
+                      asset: id,
+                      qr_code: ''
+                    }}
+                    title=""
+                    onSubmit={async (data) => {
                       try {
-                        await apiCall("/fault-codes/codes", {
+                        await apiCall('/asset-qr-codes/asset_qr_code', {
                           method: 'POST',
-                          body: submissionData
+                          body: {
+                            asset: id,
+                            qr_code: data.qr_code
+                          }
                         });
-                        queryClient.invalidateQueries({
-                          queryKey: [`/fault-codes/codes?asset=${id}`]
-                        });
-                        queryClient.invalidateQueries({
-                          queryKey: ["codes", id]
-                        });
-                        setIsCodeDialogOpen(false);
+                        
                         toast({
                           title: "Success",
-                          description: "Code added successfully!"
+                          description: "QR Code generated successfully"
                         });
-                      } catch (error: any) {
+                        
+                        queryClient.invalidateQueries({
+                          queryKey: [`/asset-qr-codes/asset_qr_code?asset=${id}`]
+                        });
+                        
+                        setIsCodeDialogOpen(false);
+                      } catch (error) {
                         toast({
                           title: "Error",
-                          description: error.message || "Failed to add code",
+                          description: "Failed to generate QR code",
                           variant: "destructive"
                         });
                       }
-                    }} customLayout={({
-                      handleSubmit,
-                      renderField
-                    }) => <div className="space-y-4">
-                          {renderField({
-                        name: "code",
-                        type: "input",
-                        inputType: "text",
-                        required: true,
-                        label: "Code"
-                      })}
-                          <div className="flex justify-end gap-2">
-                            <Button variant="outline" onClick={() => setIsCodeDialogOpen(false)}>
-                              Cancel
-                            </Button>
-                            <Button onClick={handleSubmit}>
-                              Save
-                            </Button>
-                          </div>
-                        </div>} />
-                  </div>
+                    }}
+                    submitText="Generate QR Code"
+                  />
                 </DialogContent>
               </Dialog>
             </div>
@@ -526,8 +487,9 @@ const EditAsset = () => {
                   <button onClick={() => handleViewChange(1)} className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-primary/10 hover:bg-primary/20 border border-primary/30 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110">
                     <ChevronRight className="w-4 h-4 text-primary" />
                   </button>
+                  
                   <div className="w-1/4">
-                     <div className="px-4 pt-4 pb-0 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 before:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
+                     <div className="px-4 pt-4 pb-0 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b before:from-primary/60 before:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
                         <div className="flex items-center justify-center gap-4 mb-2 py-1 -mx-2 mt-0 bg-accent/20 border border-accent/30 rounded-md">
                           <h5 className="text-xs font-medium text-primary dark:text-secondary">Meter Reading Trigger</h5>
                         </div>
@@ -850,26 +812,21 @@ const EditAsset = () => {
           
           <TabsContent value="backlog" className="tab-content-container">
             <div className="tab-content-generic">
-              <div className="mb-4">
-                <Button 
-                  variant="default" 
-                  size="sm" 
-                  className="flex items-center gap-2 px-3 py-1" 
-                  onClick={() => setIsBacklogDialogOpen(true)}
-                >
-                  <Plus className="h-3 w-3" />
-                  Add Backlog Item
-                </Button>
+              <div className="overflow-auto">
+                <ApiTable 
+                  endpoint="/asset-backlogs/asset_backlog"
+                  queryParams={{ asset: id }}
+                  columns={[
+                    { key: 'name', header: 'Name' },
+                    { key: 'created_at', header: 'Created At', render: (value: any) => value ? new Date(value).toLocaleDateString() : '-' }
+                  ]}
+                  enableSearch={true}
+                  enableFiltering={true}
+                  pageSize={10}
+                  className="text-xs"
+                  tableId={`backlog-${id}`}
+                />
               </div>
-              <ApiTable 
-                endpoint={`/asset-backlogs/asset_backlog?asset=${id}`}
-                columns={[
-                  { key: 'name', header: 'Name' }
-                ]}
-                queryKey={['asset-backlogs', id]}
-                emptyMessage="No backlog items found"
-                className="w-full"
-              />
             </div>
           </TabsContent>
           
@@ -883,59 +840,20 @@ const EditAsset = () => {
           
           <TabsContent value="log" className="tab-content-container">
             <div className="tab-content-generic space-y-6">
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Active Work Orders</h3>
-                <div className="max-h-[280px] overflow-auto border rounded-md">
-                   <ApiTable
-                     endpoint={`/work-orders/work_order?asset=${id}&status__control__name__in=Active,Draft,Pending`}
-                     columns={[
-                       { key: 'code', header: 'Code', type: 'string' },
-                       { key: 'description', header: 'Description', type: 'string' },
-                       { key: 'status', header: 'Status', type: 'object', render: (value: any) => value?.control?.name || value?.name || '-' },
-                       { key: 'maint_type', header: 'Maint Type', type: 'string' },
-                       { key: 'completion_end_date', header: 'Completion Date', type: 'string' }
-                     ]}
-                     queryKey={['active-work-orders', id]}
-                     tableId={`active-work-orders-${id}`}
-                     editRoutePattern="/workorders/edit/{id}"
-                   />
-                </div>
-              </div>
-              
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Completed Work Orders</h3>
-                <div className="max-h-[280px] overflow-auto border rounded-md">
-                   <ApiTable
-                     endpoint={`/work-orders/work_order?asset=${id}&status__control__name=Closed`}
-                     columns={[
-                       { key: 'code', header: 'Code', type: 'string' },
-                       { key: 'description', header: 'Description', type: 'string' },
-                       { key: 'status', header: 'Status', type: 'object', render: (value: any) => value?.control?.name || value?.name || '-' },
-                       { key: 'maint_type', header: 'Maint Type', type: 'string' },
-                       { key: 'completion_end_date', header: 'Completion Date', type: 'string' }
-                     ]}
-                     queryKey={['completed-work-orders', id]}
-                     tableId={`completed-work-orders-${id}`}
-                     editRoutePattern="/workorders/edit/{id}"
-                   />
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Asset Move History</h3>
-                <div className="max-h-[280px] overflow-auto border rounded-md">
-                  <ApiTable
-                    endpoint={`/assets/movement-log?asset=${id}`}
-                    columns={[
-                      { key: 'from_location', header: 'From Location', type: 'object' },
-                      { key: 'to_location', header: 'To Location', type: 'object' },
-                      { key: 'moved_by', header: 'Moved By', type: 'object' },
-                      { key: 'timestamp', header: 'Moved At', type: 'date' }
-                    ]}
-                    queryKey={['asset-movement-log', id]}
-                    tableId={`asset-movement-log-${id}`}
-                  />
-                </div>
+              <div className="overflow-auto">
+                <h3 className="text-lg font-semibold mb-4">Asset Movement Log</h3>
+                <ApiTable 
+                  endpoint="/asset-logs/asset_log"
+                  queryParams={{ asset: id }}
+                  columns={[
+                    { key: 'old_location', header: 'From Location', render: (value: any) => typeof value === 'object' ? value?.name || '-' : value || '-' },
+                    { key: 'new_location', header: 'To Location', render: (value: any) => typeof value === 'object' ? value?.name || '-' : value || '-' },
+                    { key: 'moved_by', header: 'Moved By', render: (value: any) => typeof value === 'object' ? value?.name || value?.email || '-' : value || '-' },
+                    { key: 'timestamp', header: 'Moved At', type: 'date' }
+                  ]}
+                  queryKey={['asset-movement-log', id]}
+                  tableId={`asset-movement-log-${id}`}
+                />
               </div>
             </div>
           </TabsContent>
