@@ -667,7 +667,7 @@ const ApiTable = <T extends Record<string, any>>({
 
   if (title) {
     return (
-      <Card className={`p-2 w-1/2 ${className}`}>
+      <Card className={`p-2 ${className}`}>
         <CardHeader className="py-2 px-3">
           <div className="flex items-center justify-between">
             
@@ -697,7 +697,7 @@ const ApiTable = <T extends Record<string, any>>({
   }
 
   return (
-    <Card className={`p-2 w-1/2 ${className}`}>
+    <Card className={`p-2 ${className}`}>
       <CardContent className="p-0">
         {content()}
       </CardContent>
