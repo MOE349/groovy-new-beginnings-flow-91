@@ -614,54 +614,49 @@ const EditAsset = () => {
                                    />
                                  </div>
                                </div>
-                               <div className="flex items-center justify-between">
-                                 <div className="flex flex-col items-center gap-1">
+                               <div className="flex items-center justify-between gap-4">
+                                 <div className="flex items-center gap-2">
                                    <span className="text-xs text-muted-foreground">Every</span>
-                                   <div className="flex items-center gap-2">
-                                      <input 
-                                        type="number" 
-                                        value={meterTriggerData.interval_value} 
-                                         onChange={e => setMeterTriggerData(prev => ({
-                                           ...prev,
-                                           interval_value: e.target.value
-                                         }))} 
-                                        disabled={!isFieldsEditable}
-                                        className={`w-16 h-6 px-2 text-xs border rounded ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
-                                      />
-                                      <select 
-                                        value={meterTriggerData.interval_unit} 
-                                        onChange={e => setMeterTriggerData(prev => ({
-                                          ...prev,
-                                          interval_unit: e.target.value
-                                        }))} 
-                                        disabled={!isFieldsEditable}
-                                        className={`h-6 px-2 text-xs border rounded w-20 ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
-                                      >
-                                       <option value="hours">hours</option>
-                                       <option value="km">km</option>
-                                       <option value="miles">miles</option>
-                                       <option value="cycles">cycles</option>
-                                       <option value="days">days</option>
-                                       <option value="weeks">weeks</option>
-                                       <option value="months">months</option>
-                                     </select>
-                                   </div>
+                                   <input 
+                                     type="number" 
+                                     value={meterTriggerData.interval_value} 
+                                      onChange={e => setMeterTriggerData(prev => ({
+                                        ...prev,
+                                        interval_value: e.target.value
+                                      }))} 
+                                     disabled={!isFieldsEditable}
+                                     className={`w-16 h-6 px-2 text-xs border rounded ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
+                                   />
+                                   <select 
+                                     value={meterTriggerData.interval_unit} 
+                                     onChange={e => setMeterTriggerData(prev => ({
+                                       ...prev,
+                                       interval_unit: e.target.value
+                                     }))} 
+                                     disabled={!isFieldsEditable}
+                                     className={`h-6 px-2 text-xs border rounded w-20 ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
+                                   >
+                                    <option value="hours">hours</option>
+                                    <option value="km">km</option>
+                                    <option value="miles">miles</option>
+                                    <option value="cycles">cycles</option>
+                                    <option value="days">days</option>
+                                    <option value="weeks">weeks</option>
+                                    <option value="months">months</option>
+                                  </select>
                                  </div>
-                                 <div className="flex flex-col items-center gap-1">
+                                 <div className="flex items-center gap-2">
                                    <span className="text-xs text-muted-foreground">Starting at</span>
-                                   <div className="flex items-center gap-2">
-                                      <input 
-                                        type="number" 
-                                        value={meterTriggerData.start_threshold_value} 
-                                         onChange={e => setMeterTriggerData(prev => ({
-                                           ...prev,
-                                           start_threshold_value: e.target.value
-                                         }))} 
-                                        disabled={!isFieldsEditable}
-                                        className={`w-16 h-6 px-2 text-xs border rounded ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
-                                      />
-                                     <span className="text-xs text-muted-foreground w-20"></span>
-                                   </div>
+                                   <input 
+                                     type="number" 
+                                     value={meterTriggerData.start_threshold_value} 
+                                      onChange={e => setMeterTriggerData(prev => ({
+                                        ...prev,
+                                        start_threshold_value: e.target.value
+                                      }))} 
+                                     disabled={!isFieldsEditable}
+                                     className={`w-16 h-6 px-2 text-xs border rounded ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
+                                   />
                                  </div>
                                </div>
                               <div className="flex items-center justify-between">
