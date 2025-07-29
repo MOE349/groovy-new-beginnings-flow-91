@@ -805,23 +805,23 @@ const EditAsset = () => {
                                </tbody>
                              </table>
                            </div>
-                             <div className="px-2 pb-2 flex items-center gap-2 mt-6 min-w-0">
-                              <Button 
-                                variant="secondary" 
-                                size="sm" 
-                                className="text-secondary py-1 px-3 text-sm"
-                                disabled={true}
-                              >
-                                Generate WO Now
-                              </Button>
-                              
-                                 <div className="flex items-center gap-2 min-w-0">
-                                   <span className="text-xs text-muted-foreground">Next Iteration</span>
-                                   <div className="flex-1 min-w-0 h-7 px-2 text-xs border border-input rounded-sm flex items-center text-muted-foreground bg-muted/50 shadow-sm truncate">
-                                     No PM setting selected
-                                   </div>
+                              <div className="px-2 pb-2 flex flex-col gap-2 mt-6 min-w-0">
+                               <Button 
+                                 variant="secondary" 
+                                 size="sm" 
+                                 className="text-secondary py-1 px-3 text-sm w-full"
+                                 disabled={true}
+                               >
+                                 Generate WO Now
+                               </Button>
+                               
+                               <div className="flex flex-col gap-1">
+                                 <span className="text-xs text-muted-foreground">Next Iteration</span>
+                                 <div className="w-full h-7 px-2 text-xs border border-input rounded-sm flex items-center text-muted-foreground bg-muted/50 shadow-sm">
+                                   No PM setting selected
                                  </div>
-                            </div>
+                               </div>
+                             </div>
                           </div>
                             <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
                                <div className="space-y-1 border-2 border-dashed border-muted-foreground/30 rounded-md p-3 mb-3">
