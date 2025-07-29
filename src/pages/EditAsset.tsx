@@ -655,7 +655,7 @@ const EditAsset = () => {
                                         start_threshold_value: e.target.value
                                       }))} 
                                      disabled={!isFieldsEditable}
-                                     className={`w-16 h-6 px-2 text-xs border rounded ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
+                                     className={`w-24 h-6 px-2 text-xs border rounded ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
                                    />
                                  </div>
                                </div>
