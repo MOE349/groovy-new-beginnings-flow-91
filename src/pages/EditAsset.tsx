@@ -1011,9 +1011,9 @@ const EditAsset = () => {
           </TabsContent>
           
           <TabsContent value="log" className="tab-content-container">
-            <div className="space-y-6 h-full overflow-hidden">
+            <div className="space-y-3 h-full overflow-hidden">
               <div>
-                <h3 className="text-lg font-semibold mb-4">Active Work Orders</h3>
+                <h3 className="text-sm font-semibold mb-2">Active Work Orders</h3>
                 <ApiTable
                   endpoint={`/work-orders/work_order?asset=${id}&status__control__name__in=Active,Draft,Pending`}
                   columns={[
@@ -1031,7 +1031,7 @@ const EditAsset = () => {
               </div>
               
               <div>
-                <h3 className="text-lg font-semibold mb-4">Completed Work Orders</h3>
+                <h3 className="text-sm font-semibold mb-2">Completed Work Orders</h3>
                 <ApiTable
                   endpoint={`/work-orders/work_order?asset=${id}&status__control__name=Closed`}
                   columns={[
@@ -1049,7 +1049,7 @@ const EditAsset = () => {
               </div>
 
               <div>
-                <h3 className="text-lg font-semibold mb-4">Asset Move History</h3>
+                <h3 className="text-sm font-semibold mb-2">Asset Move History</h3>
                 <ApiTable
                   endpoint={`/assets/movement-log?asset=${id}`}
                   columns={[
