@@ -470,7 +470,6 @@ const Settings = () => {
                   onRowClick={(row) => handleRowClick(row, 'site')}
                   createNewText="New Site"
                   className="h-fit"
-                  tableClassName="text-xs"
                   maxHeight="max-h-80"
                   columns={[
                     { key: 'code', header: 'Code' },
@@ -485,7 +484,6 @@ const Settings = () => {
                   onRowClick={(row) => handleRowClick(row, 'location')}
                   createNewText="New Location"
                   className="h-fit"
-                  tableClassName="text-xs"
                   maxHeight="max-h-80"
                   columns={[
                     { key: 'site', header: 'Site', type: 'object' },
@@ -504,7 +502,6 @@ const Settings = () => {
                   onRowClick={(row) => handleRowClick(row, 'equipmentCategory')}
                   createNewText="New Equipment Category"
                   className="h-fit"
-                  tableClassName="text-xs"
                   maxHeight="max-h-80"
                   columns={[
                     { key: 'name', header: 'Name' },
@@ -519,7 +516,6 @@ const Settings = () => {
                   onRowClick={(row) => handleRowClick(row, 'attachmentCategory')}
                   createNewText="New Attachment Category"
                   className="h-fit"
-                  tableClassName="text-xs"
                   maxHeight="max-h-80"
                   columns={[
                     { key: 'name', header: 'Name' },
@@ -537,7 +533,6 @@ const Settings = () => {
                   onRowClick={(row) => handleRowClick(row, 'workOrderStatus')}
                   createNewText="Add WorkOrder Status"
                   className="h-fit"
-                  tableClassName="text-xs"
                   maxHeight="max-h-80"
                   columns={[
                     { key: 'name', header: 'Name' },
@@ -552,7 +547,6 @@ const Settings = () => {
                   onRowClick={(row) => handleRowClick(row, 'weightClass')}
                   createNewText="New Weight Class"
                   className="h-fit"
-                  tableClassName="text-xs"
                   maxHeight="max-h-80"
                   columns={[
                     { key: 'name', header: 'Name' },
@@ -570,7 +564,6 @@ const Settings = () => {
                   onRowClick={(row) => handleRowClick(row, 'project')}
                   createNewText="New Project"
                   className="h-fit"
-                  tableClassName="text-xs"
                   maxHeight="max-h-52"
                   columns={[
                     { key: 'name', header: 'Name' },
@@ -584,7 +577,6 @@ const Settings = () => {
                   onRowClick={(row) => handleRowClick(row, 'accountCode')}
                   createNewText="New Account Code"
                   className="h-fit"
-                  tableClassName="text-xs"
                   maxHeight="max-h-52"
                   columns={[
                     { key: 'name', header: 'Name' },
@@ -598,7 +590,6 @@ const Settings = () => {
                   onRowClick={(row) => handleRowClick(row, 'jobCode')}
                   createNewText="New Job Code"
                   className="h-fit"
-                  tableClassName="text-xs"
                   maxHeight="max-h-52"
                   columns={[
                     { key: 'name', header: 'Name' },
@@ -612,7 +603,6 @@ const Settings = () => {
                   onRowClick={(row) => handleRowClick(row, 'assetStatus')}
                   createNewText="New Asset Status"
                   className="h-fit"
-                  tableClassName="text-xs"
                   maxHeight="max-h-52"
                   columns={[
                     { key: 'name', header: 'Name' },
