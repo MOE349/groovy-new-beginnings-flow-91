@@ -465,7 +465,7 @@ const EditAsset = () => {
                           <h5 className="text-xs font-medium text-primary dark:text-secondary">Meter Reading Trigger</h5>
                         </div>
                         <div className="mb-4">
-                          <div className="overflow-auto h-[60px]">
+                          <div className="w-full">
                             <table className="w-full caption-bottom text-xs">
                               <thead>
                                  <tr className="border-b">
