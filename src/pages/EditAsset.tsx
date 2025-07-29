@@ -614,7 +614,7 @@ const EditAsset = () => {
                                    />
                                  </div>
                                </div>
-                               <div className="flex items-center justify-between gap-4">
+                               <div className="flex items-center gap-6">
                                  <div className="flex items-center gap-2">
                                    <span className="text-xs text-muted-foreground">Every</span>
                                    <input 
