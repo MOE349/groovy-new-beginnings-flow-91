@@ -659,22 +659,20 @@ const EditAsset = () => {
                                    />
                                  </div>
                                </div>
-                              <div className="flex items-center justify-between">
-                                <span className="text-xs text-muted-foreground">Create WO</span>
-                                <div className="flex items-center gap-2">
-                                   <input 
-                                     type="number" 
-                                     value={meterTriggerData.lead_time_value} 
-                                      onChange={e => setMeterTriggerData(prev => ({
-                                        ...prev,
-                                        lead_time_value: e.target.value
-                                      }))} 
-                                     disabled={!isFieldsEditable}
-                                     className={`w-16 h-6 px-2 text-xs border rounded ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
-                                   />
-                                  <span className="text-xs text-muted-foreground w-20">before trigger</span>
-                                </div>
-                              </div>
+                               <div className="flex items-center gap-2">
+                                 <span className="text-xs text-muted-foreground">Create WO</span>
+                                 <input 
+                                   type="number" 
+                                   value={meterTriggerData.lead_time_value} 
+                                    onChange={e => setMeterTriggerData(prev => ({
+                                      ...prev,
+                                      lead_time_value: e.target.value
+                                    }))} 
+                                   disabled={!isFieldsEditable}
+                                   className={`w-16 h-6 px-2 text-xs border rounded ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
+                                 />
+                                 <span className="text-xs text-muted-foreground">before trigger</span>
+                               </div>
                               <div>
                                  <Button 
                                    className={`w-full h-8 text-xs ${meterTriggerData.is_active ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-500 hover:bg-gray-600 text-white'}`} 
