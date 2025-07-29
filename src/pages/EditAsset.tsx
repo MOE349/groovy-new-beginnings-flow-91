@@ -471,7 +471,7 @@ const EditAsset = () => {
                                  <tr className="border-b">
                                    <th className="h-4 px-1 py-0.5 text-left align-middle font-medium text-primary-foreground bg-primary text-xs w-6"></th>
                                    <th className="h-4 px-1 py-0.5 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Name</th>
-                                   <th className="h-4 px-1 py-0.5 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Next</th>
+                                   <th className="h-4 px-1 py-0.5 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Next Trigger</th>
                                    <th className="h-4 px-1 py-0.5 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Status</th>
                                  </tr>
                               </thead>
@@ -761,7 +761,7 @@ const EditAsset = () => {
                                  <tr className="border-b">
                                    <th className="h-4 px-1 py-0.5 text-left align-middle font-medium text-primary-foreground bg-primary text-xs w-6"></th>
                                    <th className="h-4 px-1 py-0.5 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Name</th>
-                                   <th className="h-4 px-1 py-0.5 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Next</th>
+                                   <th className="h-4 px-1 py-0.5 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Next Trigger</th>
                                    <th className="h-4 px-1 py-0.5 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Status</th>
                                  </tr>
                               </thead>
