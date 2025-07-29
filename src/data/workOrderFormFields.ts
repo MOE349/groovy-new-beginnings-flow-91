@@ -73,7 +73,7 @@ export const workOrderFields: FormField[] = [
   {
     name: "completion_meter_reading",
     type: "input",
-    label: "Completion Meter Reading",
+    label: "Completion MR",
     required: false,
     disabled: true,
     inputType: "text",
