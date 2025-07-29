@@ -571,7 +571,7 @@ const EditAsset = () => {
                               </Button>
                               
                               <div className="flex flex-col gap-1">
-                                <span className="text-xs text-muted-foreground">Next Iteration</span>
+                                <span className="text-xs text-muted-foreground text-center">Next Iteration</span>
                                 {selectedItemId ? (
                                   <div className="next-iteration-dropdown">
                                     <ApiDropDown
@@ -816,7 +816,7 @@ const EditAsset = () => {
                                </Button>
                                
                                <div className="flex flex-col gap-1">
-                                 <span className="text-xs text-muted-foreground">Next Iteration</span>
+                                 <span className="text-xs text-muted-foreground text-center">Next Iteration</span>
                                  <div className="w-full h-7 px-2 text-xs border border-input rounded-sm flex items-center text-muted-foreground bg-muted/50 shadow-sm">
                                    No PM setting selected
                                  </div>
