@@ -455,11 +455,11 @@ const EditAsset = () => {
           
           <TabsContent value="scheduled-maintenance" className="tab-content-container">
             <div className="tab-content-maintenance">
-              {currentView === 0 && <div className="flex gap-4 h-full relative animate-fade-in">
+              {currentView === 0 && <div className="grid grid-cols-4 gap-4 h-full relative animate-fade-in overflow-auto">
                   <button onClick={() => handleViewChange(1)} className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-primary/10 hover:bg-primary/20 border border-primary/30 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110">
                     <ChevronRight className="w-4 h-4 text-primary" />
                   </button>
-                  <div className="w-1/4">
+                  <div className="col-span-1 min-w-0">
                      <div className="px-4 pt-4 pb-0 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
                         <div className="flex items-center justify-center gap-4 mb-2 py-1 -mx-2 mt-0 bg-accent/20 border border-accent/30 rounded-md">
                           <h5 className="text-xs font-medium text-primary dark:text-secondary">Meter Reading Trigger</h5>
@@ -614,50 +614,50 @@ const EditAsset = () => {
                                 </div>
                                 <div className="flex items-center">
                                   <span className="text-xs text-muted-foreground w-16">Every</span>
-                                  <div className="flex items-center gap-6">
-                                    <div className="flex items-center gap-2">
-                                      <input 
-                                        type="number" 
-                                        value={meterTriggerData.interval_value} 
-                                         onChange={e => setMeterTriggerData(prev => ({
-                                           ...prev,
-                                           interval_value: e.target.value
-                                         }))} 
-                                        disabled={!isFieldsEditable}
-                                        className={`w-16 h-6 px-2 text-xs border rounded ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
-                                      />
-                                      <select 
-                                        value={meterTriggerData.interval_unit} 
-                                        onChange={e => setMeterTriggerData(prev => ({
-                                          ...prev,
-                                          interval_unit: e.target.value
-                                        }))} 
-                                        disabled={!isFieldsEditable}
-                                        className={`h-6 px-2 text-xs border rounded w-20 ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
-                                      >
-                                       <option value="hours">hours</option>
-                                       <option value="km">km</option>
-                                       <option value="miles">miles</option>
-                                       <option value="cycles">cycles</option>
-                                       <option value="days">days</option>
-                                       <option value="weeks">weeks</option>
-                                       <option value="months">months</option>
-                                     </select>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                      <span className="text-xs text-muted-foreground">Starting at</span>
-                                      <input 
-                                        type="number" 
-                                        value={meterTriggerData.start_threshold_value} 
-                                         onChange={e => setMeterTriggerData(prev => ({
-                                           ...prev,
-                                           start_threshold_value: e.target.value
-                                         }))} 
-                                        disabled={!isFieldsEditable}
-                                        className={`w-24 h-6 px-2 text-xs border rounded ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
-                                      />
-                                    </div>
-                                  </div>
+                                     <div className="flex flex-col gap-2">
+                                       <div className="flex items-center gap-2">
+                                         <input 
+                                           type="number" 
+                                           value={meterTriggerData.interval_value} 
+                                            onChange={e => setMeterTriggerData(prev => ({
+                                              ...prev,
+                                              interval_value: e.target.value
+                                            }))} 
+                                           disabled={!isFieldsEditable}
+                                           className={`w-16 h-6 px-2 text-xs border rounded ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
+                                         />
+                                         <select 
+                                           value={meterTriggerData.interval_unit} 
+                                           onChange={e => setMeterTriggerData(prev => ({
+                                             ...prev,
+                                             interval_unit: e.target.value
+                                           }))} 
+                                           disabled={!isFieldsEditable}
+                                           className={`h-6 px-2 text-xs border rounded w-20 ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
+                                         >
+                                          <option value="hours">hours</option>
+                                          <option value="km">km</option>
+                                          <option value="miles">miles</option>
+                                          <option value="cycles">cycles</option>
+                                          <option value="days">days</option>
+                                          <option value="weeks">weeks</option>
+                                          <option value="months">months</option>
+                                        </select>
+                                       </div>
+                                       <div className="flex items-center gap-2">
+                                         <span className="text-xs text-muted-foreground">Starting at</span>
+                                         <input 
+                                           type="number" 
+                                           value={meterTriggerData.start_threshold_value} 
+                                            onChange={e => setMeterTriggerData(prev => ({
+                                              ...prev,
+                                              start_threshold_value: e.target.value
+                                            }))} 
+                                           disabled={!isFieldsEditable}
+                                           className={`flex-1 min-w-0 h-6 px-2 text-xs border rounded ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
+                                         />
+                                       </div>
+                                     </div>
                                 </div>
                                 <div className="flex items-center">
                                   <span className="text-xs text-muted-foreground w-16">Create</span>
@@ -805,7 +805,7 @@ const EditAsset = () => {
                                </tbody>
                              </table>
                            </div>
-                            <div className="px-2 pb-2 flex items-center gap-4 mt-6">
+                             <div className="px-2 pb-2 flex items-center gap-2 mt-6 min-w-0">
                               <Button 
                                 variant="secondary" 
                                 size="sm" 
@@ -815,12 +815,12 @@ const EditAsset = () => {
                                 Generate WO Now
                               </Button>
                               
-                              <div className="flex items-center gap-2">
-                                <span className="text-xs text-muted-foreground">Next Iteration</span>
-                                <div className="w-40 h-7 px-2 text-xs border border-input rounded-sm flex items-center text-muted-foreground bg-muted/50 shadow-sm">
-                                  No PM setting selected
-                                </div>
-                              </div>
+                                 <div className="flex items-center gap-2 min-w-0">
+                                   <span className="text-xs text-muted-foreground">Next Iteration</span>
+                                   <div className="flex-1 min-w-0 h-7 px-2 text-xs border border-input rounded-sm flex items-center text-muted-foreground bg-muted/50 shadow-sm truncate">
+                                     No PM setting selected
+                                   </div>
+                                 </div>
                             </div>
                           </div>
                             <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
@@ -839,42 +839,42 @@ const EditAsset = () => {
                                 </div>
                                 <div className="flex items-center">
                                   <span className="text-xs text-muted-foreground w-16">Every</span>
-                                  <div className="flex items-center gap-6">
-                                    <div className="flex items-center gap-2">
-                                      <input 
-                                        type="number" 
-                                        value={calendarTriggerData.interval_value} 
-                                        onChange={e => setCalendarTriggerData(prev => ({
-                                          ...prev,
-                                          interval_value: Number(e.target.value)
-                                        }))} 
-                                        className="w-16 h-6 px-2 text-xs border rounded bg-background"
-                                      />
-                                      <select 
-                                        value={calendarTriggerData.interval_unit} 
-                                        onChange={e => setCalendarTriggerData(prev => ({
-                                          ...prev,
-                                          interval_unit: e.target.value
-                                        }))} 
-                                        className="h-6 px-2 text-xs border rounded w-20 bg-background"
-                                      >
-                                       <option value="days">days</option>
-                                       <option value="weeks">weeks</option>
-                                       <option value="months">months</option>
-                                       <option value="years">years</option>
-                                     </select>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                      <span className="text-xs text-muted-foreground">Starting at</span>
-                                      <input 
-                                        type="date" 
-                                        value={calendarTriggerData.start_date} 
-                                        onChange={e => setCalendarTriggerData(prev => ({
-                                          ...prev,
-                                          start_date: e.target.value
-                                        }))} 
-                                        className="w-24 h-6 px-2 text-xs border rounded bg-background"
-                                      />
+                                     <div className="flex flex-col gap-2">
+                                       <div className="flex items-center gap-2">
+                                         <input 
+                                           type="number" 
+                                           value={calendarTriggerData.interval_value} 
+                                           onChange={e => setCalendarTriggerData(prev => ({
+                                             ...prev,
+                                             interval_value: Number(e.target.value)
+                                           }))} 
+                                           className="w-16 h-6 px-2 text-xs border rounded bg-background"
+                                         />
+                                         <select 
+                                           value={calendarTriggerData.interval_unit} 
+                                           onChange={e => setCalendarTriggerData(prev => ({
+                                             ...prev,
+                                             interval_unit: e.target.value
+                                           }))} 
+                                           className="h-6 px-2 text-xs border rounded w-20 bg-background"
+                                         >
+                                          <option value="days">days</option>
+                                          <option value="weeks">weeks</option>
+                                          <option value="months">months</option>
+                                          <option value="years">years</option>
+                                        </select>
+                                       </div>
+                                       <div className="flex items-center gap-2">
+                                       <span className="text-xs text-muted-foreground">Starting at</span>
+                                       <input 
+                                         type="date" 
+                                         value={calendarTriggerData.start_date} 
+                                         onChange={e => setCalendarTriggerData(prev => ({
+                                           ...prev,
+                                           start_date: e.target.value
+                                         }))} 
+                                         className="flex-1 min-w-0 h-6 px-2 text-xs border rounded bg-background"
+                                       />
                                     </div>
                                   </div>
                                 </div>
@@ -915,7 +915,7 @@ const EditAsset = () => {
                      </div>
                   </div>
 
-                  <div className="w-1/2">
+                  <div className="col-span-2 min-w-0">
                     <div className="p-6 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
                       <div className="flex items-center justify-center gap-4 mb-6 py-1 -mx-2 -mt-3 bg-accent/20 border border-accent/30 rounded-md">
                         <h4 className="text-sm font-medium text-primary dark:text-secondary">Log</h4>
