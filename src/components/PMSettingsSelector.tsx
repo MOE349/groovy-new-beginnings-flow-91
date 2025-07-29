@@ -93,84 +93,8 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
   return (
     <div className="space-y-2">
       <div className="flex items-center gap-4 py-1">
-        {/* Iterations label on the left */}
-        {selectedPMSetting ? (
-          <div className="flex items-center gap-2">
-            <h3 className="text-lg font-semibold">Iterations</h3>
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-              <DialogTrigger asChild>
-                <Button variant="outline" size="sm">
-                  <Plus className="h-4 w-4" />
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Add New Iteration</DialogTitle>
-                </DialogHeader>
-                <ApiForm
-                  fields={[
-                    {
-                      name: 'pm_settings',
-                      label: 'PM Settings',
-                      type: 'input',
-                      inputType: 'hidden'
-                    },
-                    {
-                      name: 'interval_value',
-                      label: `Interval Value (${selectedPMSetting.interval_unit})`,
-                      type: 'input',
-                      inputType: 'number',
-                      required: true
-                    },
-                    {
-                      name: 'name',
-                      label: 'Name',
-                      type: 'input',
-                      inputType: 'hidden'
-                    }
-                  ]}
-                  initialData={{
-                    pm_settings: selectedPMSettingId,
-                    name: ''
-                  }}
-                  title=""
-                  onSubmit={async (data) => {
-                    try {
-                      const intervalValue = parseFloat(data.interval_value);
-                      const name = `${intervalValue} ${selectedPMSetting.interval_unit}`;
-                      
-                      await apiCall('/pm-automation/pm-iterations', {
-                        method: 'POST',
-                        body: {
-                          pm_settings: selectedPMSettingId,
-                          interval_value: intervalValue,
-                          name: name
-                        }
-                      });
-                      
-                      toast({
-                        title: "Success",
-                        description: "Iteration created successfully"
-                      });
-                      
-                      // Refresh the data
-                      queryClient.invalidateQueries({
-                        queryKey: ['/pm-automation/pm-settings']
-                      });
-                      
-                      setIsDialogOpen(false);
-                    } catch (error) {
-                      handleApiError(error, "Creation Failed");
-                    }
-                  }}
-                  submitText="Create Iteration"
-                />
-              </DialogContent>
-            </Dialog>
-          </div>
-        ) : (
-          <div></div>
-        )}
+        {/* Empty space on left for balance */}
+        <div></div>
 
         {/* Select PM Settings moved slightly left */}
         <div className="flex-1 flex items-center justify-center gap-4">
@@ -240,6 +164,78 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
                       )}
                     </TabsTrigger>
                   ))}
+                
+                {/* Add new iteration button */}
+                <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                  <DialogTrigger asChild>
+                    <Button variant="outline" size="sm" className="px-3 py-1 h-8 ml-2">
+                      <Plus className="h-4 w-4" />
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Add New Iteration</DialogTitle>
+                    </DialogHeader>
+                    <ApiForm
+                      fields={[
+                        {
+                          name: 'pm_settings',
+                          label: 'PM Settings',
+                          type: 'input',
+                          inputType: 'hidden'
+                        },
+                        {
+                          name: 'interval_value',
+                          label: `Interval Value (${selectedPMSetting.interval_unit})`,
+                          type: 'input',
+                          inputType: 'number',
+                          required: true
+                        },
+                        {
+                          name: 'name',
+                          label: 'Name',
+                          type: 'input',
+                          inputType: 'hidden'
+                        }
+                      ]}
+                      initialData={{
+                        pm_settings: selectedPMSettingId,
+                        name: ''
+                      }}
+                      title=""
+                      onSubmit={async (data) => {
+                        try {
+                          const intervalValue = parseFloat(data.interval_value);
+                          const name = `${intervalValue} ${selectedPMSetting.interval_unit}`;
+                          
+                          await apiCall('/pm-automation/pm-iterations', {
+                            method: 'POST',
+                            body: {
+                              pm_settings: selectedPMSettingId,
+                              interval_value: intervalValue,
+                              name: name
+                            }
+                          });
+                          
+                          toast({
+                            title: "Success",
+                            description: "Iteration created successfully"
+                          });
+                          
+                          // Refresh the data
+                          queryClient.invalidateQueries({
+                            queryKey: ['/pm-automation/pm-settings']
+                          });
+                          
+                          setIsDialogOpen(false);
+                        } catch (error) {
+                          handleApiError(error, "Creation Failed");
+                        }
+                      }}
+                      submitText="Create Iteration"
+                    />
+                  </DialogContent>
+                </Dialog>
               </TabsList>
               
               {iterations.map((iteration) => (
