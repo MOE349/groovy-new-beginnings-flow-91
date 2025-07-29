@@ -64,6 +64,7 @@ interface ApiTableProps<T = any> {
   tableId?: string; // Unique identifier for localStorage key
   height?: string; // Custom height for the table container
   maxHeight?: string; // Custom max height for the table container
+  showFilters?: boolean; // Whether to show filter buttons in headers (default: true)
 }
 
 // Filter popover component
@@ -147,6 +148,7 @@ const SortableTableHead = ({
   width,
   onResizeStart,
   isLastColumn,
+  showFilters = true,
 }: { 
   column: TableColumn; 
   className?: string;
@@ -160,6 +162,7 @@ const SortableTableHead = ({
   width?: number;
   onResizeStart: (columnKey: string, startX: number) => void;
   isLastColumn: boolean;
+  showFilters?: boolean;
 }) => {
   const {
     attributes,
@@ -199,30 +202,32 @@ const SortableTableHead = ({
           <span className="truncate">{column.header}</span>
         </div>
         
-        <div className="flex-shrink-0">
-          <Popover open={isPopoverOpen} onOpenChange={(open) => setOpenFilterPopover(open ? column.key : null)}>
-            <PopoverTrigger asChild>
-              <Button
-                variant="ghost"
-                size="sm"
-                className={`h-6 w-6 p-0 ${hasActiveFilter ? 'text-primary ring-2 ring-secondary ring-offset-4' : 'text-muted-foreground hover:text-foreground'}`}
-                onClick={handleSearchClick}
-              >
-                <Search className="h-3 w-3" />
-              </Button>
-            </PopoverTrigger>
-            
-            <FilterPopover
-              isOpen={isPopoverOpen}
-              onOpenChange={(open) => setOpenFilterPopover(open ? column.key : null)}
-              filterValue={filterValue}
-              onFilterChange={onFilterChange}
-              onApply={onFilterApply}
-              onClear={onFilterClear}
-              hasActiveFilter={hasActiveFilter}
-            />
-          </Popover>
-        </div>
+        {showFilters && (
+          <div className="flex-shrink-0">
+            <Popover open={isPopoverOpen} onOpenChange={(open) => setOpenFilterPopover(open ? column.key : null)}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className={`h-6 w-6 p-0 ${hasActiveFilter ? 'text-primary ring-2 ring-secondary ring-offset-4' : 'text-muted-foreground hover:text-foreground'}`}
+                  onClick={handleSearchClick}
+                >
+                  <Search className="h-3 w-3" />
+                </Button>
+              </PopoverTrigger>
+              
+              <FilterPopover
+                isOpen={isPopoverOpen}
+                onOpenChange={(open) => setOpenFilterPopover(open ? column.key : null)}
+                filterValue={filterValue}
+                onFilterChange={onFilterChange}
+                onApply={onFilterApply}
+                onClear={onFilterClear}
+                hasActiveFilter={hasActiveFilter}
+              />
+            </Popover>
+          </div>
+        )}
       </div>
       
       {/* Resize handle */}
@@ -259,6 +264,7 @@ const ApiTable = <T extends Record<string, any>>({
   tableId,
   height,
   maxHeight,
+  showFilters = true,
 }: ApiTableProps<T>) => {
   const navigate = useNavigate();
   
@@ -596,6 +602,7 @@ const ApiTable = <T extends Record<string, any>>({
                       width={columnWidths[column.key]}
                       onResizeStart={handleResizeStart}
                       isLastColumn={index === orderedColumns.length - 1}
+                      showFilters={showFilters}
                     />
                   ))}
                 </SortableContext>

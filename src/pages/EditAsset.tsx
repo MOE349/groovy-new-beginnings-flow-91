@@ -1028,6 +1028,7 @@ const EditAsset = () => {
                   editRoutePattern="/workorders/edit/{id}"
                   maxHeight="max-h-[200px]"
                   tableClassName="[&_td]:py-1 [&_th]:py-0.5 text-xs"
+                  showFilters={false}
                 />
               </div>
               
