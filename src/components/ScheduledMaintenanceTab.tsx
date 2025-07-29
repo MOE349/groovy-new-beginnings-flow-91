@@ -5,6 +5,11 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 import ApiDropDown from "@/components/ApiDropDown";
 import { apiCall } from "@/utils/apis";
+import PMChecklistTabs from "@/components/PMChecklistTabs";
+import ApiInput from "@/components/ApiInput";
+import ApiSwitch from "@/components/ApiSwitch";
+import ApiDatePicker from "@/components/ApiDatePicker";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface ScheduledMaintenanceTabProps {
   assetId: string;
@@ -46,6 +51,7 @@ const ScheduledMaintenanceTab = ({
   handleSaveCalendarTrigger
 }: ScheduledMaintenanceTabProps) => {
   const queryClient = useQueryClient();
+  const [selectedPmId, setSelectedPmId] = useState<string | null>(null);
 
   const handleSaveSettings = async () => {
     if (!isFieldsEditable) {
@@ -360,26 +366,147 @@ const ScheduledMaintenanceTab = ({
             </div>
           </div>
 
-          {/* Calendar Trigger Section - Placeholder for now */}
+          {/* Calendar Trigger Section */}
           <div className="w-1/4">
-            <div className="px-4 pt-4 pb-0 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
+            <div className="px-4 pt-4 pb-0 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
               <div className="flex items-center justify-center gap-4 mb-2 py-1 -mx-2 mt-0 bg-accent/20 border border-accent/30 rounded-md">
                 <h5 className="text-xs font-medium text-primary dark:text-secondary">Calendar Trigger</h5>
               </div>
-              <div className="p-4 text-center text-muted-foreground">
-                Calendar trigger functionality coming soon...
+              
+              <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
+                <div className="space-y-3 border-2 border-dashed border-muted-foreground/30 rounded-md p-3 mb-3">
+                  <div className="space-y-2">
+                    <ApiInput
+                      name="calendar_name"
+                      label="Name"
+                      value={calendarTriggerData.name}
+                      onChange={(value) => setCalendarTriggerData(prev => ({
+                        ...prev,
+                        name: value
+                      }))}
+                      className="text-xs [&>input]:h-6 [&>input]:text-xs [&>label]:text-xs"
+                    />
+                  </div>
+                  
+                  <div className="flex items-center gap-2">
+                    <div className="w-1/2">
+                      <ApiInput
+                        name="calendar_interval"
+                        label="Every"
+                        type="number"
+                        value={String(calendarTriggerData.interval_value)}
+                        onChange={(value) => setCalendarTriggerData(prev => ({
+                          ...prev,
+                          interval_value: parseInt(value) || 0
+                        }))}
+                        className="text-xs [&>input]:h-6 [&>input]:text-xs [&>label]:text-xs"
+                      />
+                    </div>
+                    <div className="w-1/2">
+                      <label className="text-xs text-muted-foreground block mb-1">Unit</label>
+                      <Select
+                        value={calendarTriggerData.interval_unit}
+                        onValueChange={(value) => setCalendarTriggerData(prev => ({
+                          ...prev,
+                          interval_unit: value
+                        }))}
+                      >
+                        <SelectTrigger className="h-6 text-xs">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="days">Days</SelectItem>
+                          <SelectItem value="weeks">Weeks</SelectItem>
+                          <SelectItem value="months">Months</SelectItem>
+                          <SelectItem value="years">Years</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <ApiDatePicker
+                      name="start_date"
+                      label="Start Date"
+                      value={calendarTriggerData.start_date ? new Date(calendarTriggerData.start_date) : undefined}
+                      onChange={(date) => setCalendarTriggerData(prev => ({
+                        ...prev,
+                        start_date: date ? date.toISOString().split('T')[0] : ""
+                      }))}
+                      className="text-xs [&>button]:h-6 [&>button]:text-xs [&>label]:text-xs"
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <ApiInput
+                      name="days_in_advance"
+                      label="Days in Advance"
+                      type="number"
+                      value={String(calendarTriggerData.days_in_advance)}
+                      onChange={(value) => setCalendarTriggerData(prev => ({
+                        ...prev,
+                        days_in_advance: parseInt(value) || 0
+                      }))}
+                      className="text-xs [&>input]:h-6 [&>input]:text-xs [&>label]:text-xs"
+                    />
+                  </div>
+                </div>
+                
+                <div className="mb-1">
+                  <ApiSwitch
+                    name="calendar_active"
+                    label={calendarTriggerData.is_active ? "Active" : "Inactive"}
+                    checked={calendarTriggerData.is_active}
+                    onChange={(checked) => setCalendarTriggerData(prev => ({
+                      ...prev,
+                      is_active: checked
+                    }))}
+                    className="text-xs [&>label]:text-xs"
+                  />
+                </div>
+                
+                <div className="mt-2">
+                  <Button 
+                    className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-white" 
+                    onClick={handleSaveCalendarTrigger}
+                  >
+                    Save Calendar Trigger
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Checklist Section - Placeholder */}
+          {/* Checklist Section */}
           <div className="w-1/2">
-            <div className="px-4 pt-4 pb-0 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
+            <div className="px-4 pt-4 pb-0 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
               <div className="flex items-center justify-center gap-4 mb-2 py-1 -mx-2 mt-0 bg-accent/20 border border-accent/30 rounded-md">
                 <h5 className="text-xs font-medium text-primary dark:text-secondary">Checklist</h5>
               </div>
-              <div className="p-4 text-center text-muted-foreground">
-                Checklist functionality coming soon...
+              
+              <div className="flex-1 p-4">
+                <div className="text-center">
+                  <Button
+                    onClick={() => {
+                      if (selectedItemId) {
+                        setSelectedPmId(selectedItemId);
+                        onViewChange(1);
+                      } else {
+                        toast({
+                          title: "No PM Setting Selected",
+                          description: "Please select a PM setting from the table first.",
+                          variant: "destructive"
+                        });
+                      }
+                    }}
+                    className="w-full"
+                  >
+                    Manage Checklist
+                  </Button>
+                  <p className="text-xs text-muted-foreground mt-2">
+                    Select a PM setting to manage its checklist items
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -388,18 +515,23 @@ const ScheduledMaintenanceTab = ({
     );
   }
 
-  // View 1 - Different layout
+  // View 1 - PM Checklist Management
   return (
     <div className="tab-content-maintenance">
       <div className="h-full relative animate-fade-in">
-        <button 
-          onClick={() => onViewChange(0)} 
+        <button
+          onClick={() => onViewChange(0)}
           className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-primary/10 hover:bg-primary/20 border border-primary/30 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
         >
           <ChevronLeft className="w-4 h-4 text-primary" />
         </button>
-        <div className="p-4 text-center text-muted-foreground">
-          Alternative scheduled maintenance view coming soon...
+        
+        <div className="h-full pl-12 pr-4">
+          <PMChecklistTabs
+            assetId={assetId}
+            selectedPmId={selectedPmId}
+            onNavigateBack={() => onViewChange(0)}
+          />
         </div>
       </div>
     </div>
