@@ -597,8 +597,8 @@ const EditAsset = () => {
                               </div>
                             </div>
                           </div>
-                            <div className="flex-grow overflow-auto flex flex-col justify-end pb-0">
-                               <div className="space-y-1 border-2 border-dashed border-muted-foreground/30 rounded-md p-3 mb-0">
+                            <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
+                               <div className="space-y-1 border-2 border-dashed border-muted-foreground/30 rounded-md p-3 mb-3">
                                  <div className="flex items-center gap-2">
                                    <span className="text-xs text-muted-foreground w-16">Name</span>
                                    <input 
