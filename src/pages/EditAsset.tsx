@@ -914,7 +914,7 @@ const EditAsset = () => {
                       </div>
                        <div className="flex-grow space-y-4 overflow-auto">
                          <div>
-                           <h3 className="text-lg font-semibold mb-4">Auto Generated Work Orders</h3>
+                           
                              <div className="flex-1 overflow-hidden border rounded-md">
                                  <ApiTable
                                    endpoint="/work-orders/work_order"
