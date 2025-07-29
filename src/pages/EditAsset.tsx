@@ -820,73 +820,69 @@ const EditAsset = () => {
                              </div>
                           </div>
                             <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
-                               <div className="space-y-1 border-2 border-dashed border-muted-foreground/30 rounded-md p-3 mb-3">
-                                <div className="flex items-center">
-                                  <span className="text-xs text-muted-foreground w-16">Name</span>
-                                  <input 
-                                    type="text" 
-                                    value={calendarTriggerData.name} 
-                                    onChange={e => setCalendarTriggerData(prev => ({
-                                      ...prev,
-                                      name: e.target.value
-                                    }))} 
-                                    className="w-33 h-6 px-2 text-xs border rounded bg-background"
-                                  />
-                                </div>
-                                <div className="flex items-center">
-                                  <span className="text-xs text-muted-foreground w-16">Every</span>
-                                     <div className="flex flex-col gap-2">
-                                       <div className="flex items-center gap-2">
-                                         <input 
-                                           type="number" 
-                                           value={calendarTriggerData.interval_value} 
-                                           onChange={e => setCalendarTriggerData(prev => ({
-                                             ...prev,
-                                             interval_value: Number(e.target.value)
-                                           }))} 
-                                           className="w-16 h-6 px-2 text-xs border rounded bg-background"
-                                         />
-                                         <select 
-                                           value={calendarTriggerData.interval_unit} 
-                                           onChange={e => setCalendarTriggerData(prev => ({
-                                             ...prev,
-                                             interval_unit: e.target.value
-                                           }))} 
-                                           className="h-6 px-2 text-xs border rounded w-20 bg-background"
-                                         >
-                                          <option value="days">days</option>
-                                          <option value="weeks">weeks</option>
-                                          <option value="months">months</option>
-                                          <option value="years">years</option>
-                                        </select>
-                                       </div>
-                                       <div className="flex items-center gap-2">
-                                       <span className="text-xs text-muted-foreground">Starting at</span>
-                                       <input 
-                                         type="date" 
-                                         value={calendarTriggerData.start_date} 
-                                         onChange={e => setCalendarTriggerData(prev => ({
-                                           ...prev,
-                                           start_date: e.target.value
-                                         }))} 
-                                         className="flex-1 min-w-0 h-6 px-2 text-xs border rounded bg-background"
-                                       />
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="flex items-center">
-                                  <span className="text-xs text-muted-foreground w-16">Create</span>
-                                  <input 
-                                    type="number" 
-                                    value={calendarTriggerData.days_in_advance} 
-                                    onChange={e => setCalendarTriggerData(prev => ({
-                                      ...prev,
-                                      days_in_advance: Number(e.target.value)
-                                    }))} 
-                                    className="w-16 h-6 px-2 text-xs border rounded bg-background"
-                                  />
-                                  <span className="text-xs text-muted-foreground ml-2">days in advance</span>
-                               </div>
+                               <div className="space-y-2 border-2 border-dashed border-muted-foreground/30 rounded-md p-3 mb-3">
+                                 <div className="flex items-center gap-2">
+                                   <span className="text-xs text-muted-foreground w-16">Name</span>
+                                   <input 
+                                     type="text" 
+                                     value={calendarTriggerData.name} 
+                                     onChange={e => setCalendarTriggerData(prev => ({
+                                       ...prev,
+                                       name: e.target.value
+                                     }))} 
+                                     className="flex-1 h-6 px-2 text-xs border rounded bg-background"
+                                   />
+                                 </div>
+                                 <div className="flex items-center gap-2">
+                                   <span className="text-xs text-muted-foreground w-16">Every</span>
+                                   <input 
+                                     type="number" 
+                                     value={calendarTriggerData.interval_value} 
+                                     onChange={e => setCalendarTriggerData(prev => ({
+                                       ...prev,
+                                       interval_value: Number(e.target.value)
+                                     }))} 
+                                     className="w-16 h-6 px-2 text-xs border rounded bg-background"
+                                   />
+                                   <select 
+                                     value={calendarTriggerData.interval_unit} 
+                                     onChange={e => setCalendarTriggerData(prev => ({
+                                       ...prev,
+                                       interval_unit: e.target.value
+                                     }))} 
+                                     className="h-6 px-2 text-xs border rounded w-20 bg-background"
+                                   >
+                                    <option value="days">days</option>
+                                    <option value="weeks">weeks</option>
+                                    <option value="months">months</option>
+                                    <option value="years">years</option>
+                                  </select>
+                                 </div>
+                                 <div className="flex items-center gap-2">
+                                   <span className="text-xs text-muted-foreground w-16">Starting at</span>
+                                   <input 
+                                     type="date" 
+                                     value={calendarTriggerData.start_date} 
+                                     onChange={e => setCalendarTriggerData(prev => ({
+                                       ...prev,
+                                       start_date: e.target.value
+                                     }))} 
+                                     className="flex-1 h-6 px-2 text-xs border rounded bg-background"
+                                   />
+                                 </div>
+                                 <div className="flex items-center gap-2">
+                                   <span className="text-xs text-muted-foreground w-16">Create</span>
+                                   <input 
+                                     type="number" 
+                                     value={calendarTriggerData.days_in_advance} 
+                                     onChange={e => setCalendarTriggerData(prev => ({
+                                       ...prev,
+                                       days_in_advance: Number(e.target.value)
+                                     }))} 
+                                     className="w-16 h-6 px-2 text-xs border rounded bg-background"
+                                   />
+                                   <span className="text-xs text-muted-foreground">days in advance</span>
+                                 </div>
                                </div>
                                <div>
                                   <Button 
