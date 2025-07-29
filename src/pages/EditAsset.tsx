@@ -672,19 +672,19 @@ const EditAsset = () => {
                                     className={`w-16 h-6 px-2 text-xs border rounded ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
                                   />
                                   <span className="text-xs text-muted-foreground ml-2">before trigger</span>
-                                </div>
-                              <div>
-                                 <Button 
-                                   className={`w-full h-8 text-xs ${meterTriggerData.is_active ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-500 hover:bg-gray-600 text-white'}`} 
-                                   onClick={() => isFieldsEditable && setMeterTriggerData(prev => ({
-                                     ...prev,
-                                     is_active: !prev.is_active
-                                   }))}
-                                   disabled={!isFieldsEditable}
-                                 >
-                                   {meterTriggerData.is_active ? '✓ Active' : '✗ Inactive'}
-                                 </Button>
-                              </div>
+                                 </div>
+                               <div>
+                                  <Button 
+                                    className={`w-full h-8 text-xs ${meterTriggerData.is_active ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-500 hover:bg-gray-600 text-white'}`} 
+                                    onClick={() => isFieldsEditable && setMeterTriggerData(prev => ({
+                                      ...prev,
+                                      is_active: !prev.is_active
+                                    }))}
+                                    disabled={!isFieldsEditable}
+                                  >
+                                    {meterTriggerData.is_active ? '✓ Active' : '✗ Inactive'}
+                                  </Button>
+                               </div>
                             </div>
                             <div className="mt-0.5">
                                <Button 
@@ -890,7 +890,7 @@ const EditAsset = () => {
                                     className="w-16 h-6 px-2 text-xs border rounded bg-background"
                                   />
                                   <span className="text-xs text-muted-foreground ml-2">days in advance</span>
-                                </div>
+                              </div>
                               <div>
                                  <Button 
                                    className={`w-full h-8 text-xs ${calendarTriggerData.is_active ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-500 hover:bg-gray-600 text-white'}`} 
