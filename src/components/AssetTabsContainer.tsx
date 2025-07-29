@@ -12,26 +12,80 @@ import { usePrefetchFinancialData } from "@/hooks/useFinancialDataOptimized";
 
 interface AssetTabsContainerProps {
   assetId: string;
+  isDialogOpen: boolean;
+  setIsDialogOpen: (open: boolean) => void;
+  isCodeDialogOpen: boolean;
+  setIsCodeDialogOpen: (open: boolean) => void;
+  isBacklogDialogOpen: boolean;
+  setIsBacklogDialogOpen: (open: boolean) => void;
+  currentView: number;
+  setCurrentView: (view: number) => void;
+  activeTab: string;
+  setActiveTab: (tab: string) => void;
+  isMeterTriggerActive: boolean;
+  setIsMeterTriggerActive: (active: boolean) => void;
+  isTimeTriggerActive: boolean;
+  setIsTimeTriggerActive: (active: boolean) => void;
+  isEditMode: boolean;
+  setIsEditMode: (edit: boolean) => void;
+  selectedItemId: string | null;
+  setSelectedItemId: (id: string | null) => void;
+  selectedRadioId: string | null;
+  setSelectedRadioId: (id: string | null) => void;
+  isFieldsEditable: boolean;
+  setIsFieldsEditable: (editable: boolean) => void;
+  meterTriggerData: any;
+  setMeterTriggerData: (data: any) => void;
+  calendarTriggerData: any;
+  setCalendarTriggerData: (data: any) => void;
+  pmSettingsData: any;
+  handleDeleteMeterReading: (id: string) => void;
+  handleDeleteCode: (id: string) => void;
+  handleSaveCalendarTrigger: () => void;
+  handleFinancialsTabHover: () => void;
 }
 
-const AssetTabsContainer = ({ assetId }: AssetTabsContainerProps) => {
-  const [activeTab, setActiveTab] = useState("");
-  const [currentView, setCurrentView] = useState(0);
+const AssetTabsContainer = ({ 
+  assetId,
+  isDialogOpen,
+  setIsDialogOpen,
+  isCodeDialogOpen,
+  setIsCodeDialogOpen,
+  isBacklogDialogOpen,
+  setIsBacklogDialogOpen,
+  currentView,
+  setCurrentView,
+  activeTab,
+  setActiveTab,
+  isMeterTriggerActive,
+  setIsMeterTriggerActive,
+  isTimeTriggerActive,
+  setIsTimeTriggerActive,
+  isEditMode,
+  setIsEditMode,
+  selectedItemId,
+  setSelectedItemId,
+  selectedRadioId,
+  setSelectedRadioId,
+  isFieldsEditable,
+  setIsFieldsEditable,
+  meterTriggerData,
+  setMeterTriggerData,
+  calendarTriggerData,
+  setCalendarTriggerData,
+  pmSettingsData,
+  handleDeleteMeterReading,
+  handleDeleteCode,
+  handleSaveCalendarTrigger,
+  handleFinancialsTabHover
+}: AssetTabsContainerProps) => {
   const prefetchFinancialData = usePrefetchFinancialData();
-
-  const handleFinancialsTabHover = () => {
-    prefetchFinancialData(assetId);
-  };
 
   const handleTabChange = (value: string) => {
     setActiveTab(value);
     if (value !== "scheduled-maintenance") {
       setCurrentView(0);
     }
-  };
-
-  const handleViewChange = (viewIndex: number) => {
-    setCurrentView(viewIndex);
   };
 
   return (
@@ -75,14 +129,36 @@ const AssetTabsContainer = ({ assetId }: AssetTabsContainerProps) => {
         </TabsContent>
         
         <TabsContent value="metering-events" className="tab-content-container">
-          <MeterEventsTab assetId={assetId} />
+          <MeterEventsTab 
+            assetId={assetId}
+            isDialogOpen={isDialogOpen}
+            setIsDialogOpen={setIsDialogOpen}
+            isCodeDialogOpen={isCodeDialogOpen}
+            setIsCodeDialogOpen={setIsCodeDialogOpen}
+            handleDeleteMeterReading={handleDeleteMeterReading}
+            handleDeleteCode={handleDeleteCode}
+          />
         </TabsContent>
 
         <TabsContent value="scheduled-maintenance" className="tab-content-container">
           <ScheduledMaintenanceTab 
             assetId={assetId} 
             currentView={currentView} 
-            onViewChange={handleViewChange} 
+            onViewChange={setCurrentView}
+            isEditMode={isEditMode}
+            setIsEditMode={setIsEditMode}
+            selectedItemId={selectedItemId}
+            setSelectedItemId={setSelectedItemId}
+            selectedRadioId={selectedRadioId}
+            setSelectedRadioId={setSelectedRadioId}
+            isFieldsEditable={isFieldsEditable}
+            setIsFieldsEditable={setIsFieldsEditable}
+            meterTriggerData={meterTriggerData}
+            setMeterTriggerData={setMeterTriggerData}
+            calendarTriggerData={calendarTriggerData}
+            setCalendarTriggerData={setCalendarTriggerData}
+            pmSettingsData={pmSettingsData}
+            handleSaveCalendarTrigger={handleSaveCalendarTrigger}
           />
         </TabsContent>
 
@@ -91,7 +167,11 @@ const AssetTabsContainer = ({ assetId }: AssetTabsContainerProps) => {
         </TabsContent>
 
         <TabsContent value="backlog" className="tab-content-container">
-          <BacklogTab assetId={assetId} />
+          <BacklogTab 
+            assetId={assetId}
+            isBacklogDialogOpen={isBacklogDialogOpen}
+            setIsBacklogDialogOpen={setIsBacklogDialogOpen}
+          />
         </TabsContent>
 
         <TabsContent value="files" className="tab-content-container">

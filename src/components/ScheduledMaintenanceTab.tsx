@@ -10,41 +10,42 @@ interface ScheduledMaintenanceTabProps {
   assetId: string;
   currentView: number;
   onViewChange: (viewIndex: number) => void;
+  isEditMode: boolean;
+  setIsEditMode: (edit: boolean) => void;
+  selectedItemId: string | null;
+  setSelectedItemId: (id: string | null) => void;
+  selectedRadioId: string | null;
+  setSelectedRadioId: (id: string | null) => void;
+  isFieldsEditable: boolean;
+  setIsFieldsEditable: (editable: boolean) => void;
+  meterTriggerData: any;
+  setMeterTriggerData: (data: any) => void;
+  calendarTriggerData: any;
+  setCalendarTriggerData: (data: any) => void;
+  pmSettingsData: any;
+  handleSaveCalendarTrigger: () => void;
 }
 
-const ScheduledMaintenanceTab = ({ assetId, currentView, onViewChange }: ScheduledMaintenanceTabProps) => {
+const ScheduledMaintenanceTab = ({ 
+  assetId, 
+  currentView, 
+  onViewChange,
+  isEditMode,
+  setIsEditMode,
+  selectedItemId,
+  setSelectedItemId,
+  selectedRadioId,
+  setSelectedRadioId,
+  isFieldsEditable,
+  setIsFieldsEditable,
+  meterTriggerData,
+  setMeterTriggerData,
+  calendarTriggerData,
+  setCalendarTriggerData,
+  pmSettingsData,
+  handleSaveCalendarTrigger
+}: ScheduledMaintenanceTabProps) => {
   const queryClient = useQueryClient();
-  const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
-  const [selectedRadioId, setSelectedRadioId] = useState<string | null>(null);
-  const [isFieldsEditable, setIsFieldsEditable] = useState(false);
-  const [isEditMode, setIsEditMode] = useState(false);
-
-  const [meterTriggerData, setMeterTriggerData] = useState({
-    name: "",
-    interval_value: "",
-    interval_unit: "hours",
-    start_threshold_value: "",
-    lead_time_value: "",
-    next_iteration: "",
-    is_active: true
-  });
-
-  const [calendarTriggerData, setCalendarTriggerData] = useState({
-    name: "",
-    interval_value: 30,
-    interval_unit: "days",
-    start_date: "",
-    days_in_advance: 5,
-    is_active: true
-  });
-
-  const { data: pmSettingsData } = useQuery({
-    queryKey: [`/pm-automation/pm-settings?asset=${assetId}`],
-    queryFn: async () => {
-      const response = await apiCall(`/pm-automation/pm-settings?asset=${assetId}`);
-      return response.data.data || response.data;
-    },
-  });
 
   const handleSaveSettings = async () => {
     if (!isFieldsEditable) {

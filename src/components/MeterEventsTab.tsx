@@ -11,34 +11,24 @@ import { handleApiError } from "@/utils/errorHandling";
 
 interface MeterEventsTabProps {
   assetId: string;
+  isDialogOpen: boolean;
+  setIsDialogOpen: (open: boolean) => void;
+  isCodeDialogOpen: boolean;
+  setIsCodeDialogOpen: (open: boolean) => void;
+  handleDeleteMeterReading: (id: string) => void;
+  handleDeleteCode: (id: string) => void;
 }
 
-const MeterEventsTab = ({ assetId }: MeterEventsTabProps) => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isCodeDialogOpen, setIsCodeDialogOpen] = useState(false);
+const MeterEventsTab = ({ 
+  assetId, 
+  isDialogOpen, 
+  setIsDialogOpen, 
+  isCodeDialogOpen, 
+  setIsCodeDialogOpen, 
+  handleDeleteMeterReading,
+  handleDeleteCode 
+}: MeterEventsTabProps) => {
   const queryClient = useQueryClient();
-
-  const handleDeleteMeterReading = async (readingId: string) => {
-    try {
-      await apiCall(`/meter-readings/meter_reading/${readingId}`, {
-        method: 'DELETE'
-      });
-      
-      queryClient.invalidateQueries({
-        queryKey: [`/meter-readings/meter_reading?asset=${assetId}`]
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["meter_readings", assetId]
-      });
-      
-      toast({
-        title: "Success",
-        description: "Meter reading deleted successfully!"
-      });
-    } catch (error: any) {
-      handleApiError(error, "Delete Failed");
-    }
-  };
 
   return (
     <div className="tab-content-metering">
@@ -73,14 +63,14 @@ const MeterEventsTab = ({ assetId }: MeterEventsTabProps) => {
                header: '',
                render: (value: any, row: any) => (
                  <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex justify-end">
-                   <Button
-                     variant="ghost"
-                     size="sm"
-                     className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
-                     onClick={() => handleDeleteMeterReading(row.id)}
-                   >
-                     <Trash2 className="h-4 w-4" />
-                   </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
+                      onClick={() => handleDeleteMeterReading(row.id)}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
                  </div>
                )
              }]} tableId={`meter-readings-${assetId}`} />

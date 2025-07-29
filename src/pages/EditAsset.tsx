@@ -212,69 +212,42 @@ const EditAsset = () => {
           <ApiForm fields={currentFields} onSubmit={handleSubmit} initialData={initialData} customLayout={customLayout} />
         </div>
 
-        <AssetTabsContainer assetId={id || ''} />
+        <AssetTabsContainer 
+          assetId={id || ''} 
+          isDialogOpen={isDialogOpen}
+          setIsDialogOpen={setIsDialogOpen}
+          isCodeDialogOpen={isCodeDialogOpen}
+          setIsCodeDialogOpen={setIsCodeDialogOpen}
+          isBacklogDialogOpen={isBacklogDialogOpen}
+          setIsBacklogDialogOpen={setIsBacklogDialogOpen}
+          currentView={currentView}
+          setCurrentView={setCurrentView}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          isMeterTriggerActive={isMeterTriggerActive}
+          setIsMeterTriggerActive={setIsMeterTriggerActive}
+          isTimeTriggerActive={isTimeTriggerActive}
+          setIsTimeTriggerActive={setIsTimeTriggerActive}
+          isEditMode={isEditMode}
+          setIsEditMode={setIsEditMode}
+          selectedItemId={selectedItemId}
+          setSelectedItemId={setSelectedItemId}
+          selectedRadioId={selectedRadioId}
+          setSelectedRadioId={setSelectedRadioId}
+          isFieldsEditable={isFieldsEditable}
+          setIsFieldsEditable={setIsFieldsEditable}
+          meterTriggerData={meterTriggerData}
+          setMeterTriggerData={setMeterTriggerData}
+          calendarTriggerData={calendarTriggerData}
+          setCalendarTriggerData={setCalendarTriggerData}
+          pmSettingsData={pmSettingsData}
+          handleDeleteMeterReading={handleDeleteMeterReading}
+          handleDeleteCode={handleDeleteCode}
+          handleSaveCalendarTrigger={handleSaveCalendarTrigger}
+          handleFinancialsTabHover={handleFinancialsTabHover}
+        />
       </div>
 
-      {/* Backlog Item Creation Dialog */}
-      <Dialog open={isBacklogDialogOpen} onOpenChange={setIsBacklogDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Add Backlog Item</DialogTitle>
-          </DialogHeader>
-          <ApiForm
-            fields={[
-              {
-                name: 'asset',
-                label: 'Asset',
-                type: 'input',
-                inputType: 'hidden'
-              },
-              {
-                name: 'name',
-                label: 'Name',
-                type: 'input',
-                inputType: 'text',
-                required: true
-              }
-            ]}
-            initialData={{
-              asset: id,
-              name: ''
-            }}
-            title=""
-            onSubmit={async (data) => {
-              try {
-                await apiCall('/asset-backlogs/asset_backlog', {
-                  method: 'POST',
-                  body: {
-                    asset: id,
-                    name: data.name
-                  }
-                });
-                
-                toast({
-                  title: "Success",
-                  description: "Backlog item created successfully"
-                });
-                
-                // Refresh the data
-                queryClient.invalidateQueries({
-                  queryKey: ['asset-backlogs', id]
-                });
-                
-                setIsBacklogDialogOpen(false);
-              } catch (error) {
-                toast({
-                  title: "Error",
-                  description: "Failed to create backlog item",
-                  variant: "destructive"
-                });
-              }
-            }}
-            submitText="Create Backlog Item"
-          />
-        </DialogContent>
-      </Dialog>
     </div>;
 };
 

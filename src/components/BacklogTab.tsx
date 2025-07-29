@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import { useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -10,10 +10,11 @@ import { apiCall } from "@/utils/apis";
 
 interface BacklogTabProps {
   assetId: string;
+  isBacklogDialogOpen: boolean;
+  setIsBacklogDialogOpen: (open: boolean) => void;
 }
 
-const BacklogTab = ({ assetId }: BacklogTabProps) => {
-  const [isBacklogDialogOpen, setIsBacklogDialogOpen] = useState(false);
+const BacklogTab = ({ assetId, isBacklogDialogOpen, setIsBacklogDialogOpen }: BacklogTabProps) => {
   const queryClient = useQueryClient();
 
   return (
