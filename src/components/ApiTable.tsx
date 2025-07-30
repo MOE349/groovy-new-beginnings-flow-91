@@ -199,7 +199,7 @@ const SortableTableHead = ({
     >
       <div className="flex items-center justify-between gap-2 min-w-0">
         <div className="flex items-center gap-2 min-w-0 cursor-grab active:cursor-grabbing" {...attributes} {...listeners}>
-          <GripVertical className="h-4 w-4 text-muted-foreground flex-shrink-0 hidden" />
+          <GripVertical className="h-4 w-4 text-muted-foreground flex-shrink-0" />
           <span className="truncate">{column.header}</span>
         </div>
         
