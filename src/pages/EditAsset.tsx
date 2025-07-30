@@ -652,7 +652,7 @@ const EditAsset = () => {
                                           start_threshold_value: e.target.value
                                         }))} 
                                        disabled={!isFieldsEditable}
-                                       className={`w-38 h-6 px-2 text-xs border rounded ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
+                                       className={`w-41 h-6 px-2 text-xs border rounded ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
                                      />
                                  </div>
                                  <div className="flex items-center gap-2">
