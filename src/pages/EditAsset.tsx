@@ -760,7 +760,7 @@ const EditAsset = () => {
                          { name: 'trigger_type', type: 'hidden', label: 'Type' },
                          { name: 'name', type: 'text', label: 'Name', width: 'flex-1' },
                          { name: 'interval_value', type: 'number', label: 'Every', width: 'w-16' },
-                         { name: 'interval_unit', type: 'select', label: 'Unit', width: 'w-20', 
+                         { name: 'interval_unit', type: 'select', label: '', width: 'w-20', 
                            options: [
                              { value: 'days', label: 'days' },
                              { value: 'weeks', label: 'weeks' },

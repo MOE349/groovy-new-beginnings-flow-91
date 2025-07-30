@@ -310,6 +310,29 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
             if (field.type === 'hidden') {
               return renderFormField(field);
             }
+            
+            // Group interval fields together like in meter reading trigger
+            if (field.name === 'interval_value') {
+              const nextField = formFields[index + 1];
+              if (nextField?.name === 'interval_unit') {
+                return (
+                  <div key={index} className="flex items-center gap-2">
+                    <span className="text-xs text-muted-foreground w-16">{field.label}</span>
+                    {renderFormField(field)}
+                    {renderFormField(nextField)}
+                    {field.suffix && (
+                      <span className="text-xs text-muted-foreground">{field.suffix}</span>
+                    )}
+                  </div>
+                );
+              }
+            }
+            
+            // Skip interval_unit as it's rendered with interval_value
+            if (field.name === 'interval_unit') {
+              return null;
+            }
+            
             return (
               <div key={index} className="flex items-center gap-2">
                 <span className="text-xs text-muted-foreground w-16">{field.label}</span>
