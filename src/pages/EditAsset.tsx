@@ -1014,6 +1014,22 @@ const EditAsset = () => {
           <TabsContent value="log" className="tab-content-container">
             <div className="space-y-3 h-full overflow-hidden">
               <div>
+                <h3 className="text-sm font-semibold mb-2">Asset Move History</h3>
+                <ApiTable
+                  endpoint={`/assets/movement-log?asset=${id}`}
+                  columns={[
+                    { key: 'from_location', header: 'From Location', type: 'object' },
+                    { key: 'to_location', header: 'To Location', type: 'object' },
+                    { key: 'moved_by', header: 'Moved By', type: 'object' },
+                    { key: 'timestamp', header: 'Moved At', type: 'date' }
+                  ]}
+                  queryKey={['asset-movement-log', id]}
+                  tableId={`asset-movement-log-${id}`}
+                  maxHeight="max-h-[200px]"
+                />
+              </div>
+
+              <div>
                 <h3 className="text-sm font-semibold mb-2">Active Work Orders</h3>
                 <ApiTable
                   endpoint={`/work-orders/work_order?asset=${id}&status__control__name__in=Active,Draft,Pending`}
@@ -1046,22 +1062,6 @@ const EditAsset = () => {
                   queryKey={['completed-work-orders', id]}
                   tableId={`completed-work-orders-${id}`}
                   editRoutePattern="/workorders/edit/{id}"
-                  maxHeight="max-h-[200px]"
-                />
-              </div>
-
-              <div>
-                <h3 className="text-sm font-semibold mb-2">Asset Move History</h3>
-                <ApiTable
-                  endpoint={`/assets/movement-log?asset=${id}`}
-                  columns={[
-                    { key: 'from_location', header: 'From Location', type: 'object' },
-                    { key: 'to_location', header: 'To Location', type: 'object' },
-                    { key: 'moved_by', header: 'Moved By', type: 'object' },
-                    { key: 'timestamp', header: 'Moved At', type: 'date' }
-                  ]}
-                  queryKey={['asset-movement-log', id]}
-                  tableId={`asset-movement-log-${id}`}
                   maxHeight="max-h-[200px]"
                 />
               </div>
