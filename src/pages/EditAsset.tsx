@@ -644,16 +644,16 @@ const EditAsset = () => {
                                  </div>
                                  <div className="flex items-center gap-2">
                                    <span className="text-xs text-muted-foreground w-16">Starting at</span>
-                                    <input 
-                                      type="number" 
-                                      value={meterTriggerData.start_threshold_value} 
-                                       onChange={e => setMeterTriggerData(prev => ({
-                                         ...prev,
-                                         start_threshold_value: e.target.value
-                                       }))} 
-                                      disabled={!isFieldsEditable}
-                                      className={`w-20 h-6 px-2 text-xs border rounded ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
-                                    />
+                                     <input 
+                                       type="number" 
+                                       value={meterTriggerData.start_threshold_value} 
+                                        onChange={e => setMeterTriggerData(prev => ({
+                                          ...prev,
+                                          start_threshold_value: e.target.value
+                                        }))} 
+                                       disabled={!isFieldsEditable}
+                                       className={`w-40 h-6 px-2 text-xs border rounded ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
+                                     />
                                  </div>
                                  <div className="flex items-center gap-2">
                                    <span className="text-xs text-muted-foreground w-16">Create</span>
