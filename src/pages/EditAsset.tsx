@@ -23,6 +23,7 @@ import { equipmentFormConfig, attachmentFormConfig } from "@/config/formLayouts"
 import FinancialsTabContent from "@/components/FinancialsTabContent";
 import PartsBomTabContent from "@/components/PartsBomTabContent";
 import PMChecklistTabs from "@/components/PMChecklistTabs";
+import { PMTriggerContainer } from "@/components/PMTriggerContainer";
 import ApiSwitch from "@/components/ApiSwitch";
 import ApiDatePicker from "@/components/ApiDatePicker";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -746,166 +747,35 @@ const EditAsset = () => {
                   </div>
 
                    <div className="col-span-1 min-w-0">
-                      <div className="px-2 pt-2 pb-0 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
-                        <div className="flex items-center justify-center gap-4 mb-2 py-1 bg-accent/20 border border-accent/30 rounded-md">
-                          <h5 className="text-xs font-medium text-primary dark:text-secondary">Calendar Trigger</h5>
-                        </div>
-                        <div className="mb-4">
-                          <div className="w-full">
-                            <table className="w-full caption-bottom text-xs">
-                              <thead>
-                                 <tr className="border-b">
-                                   <th className="h-4 px-1 py-0.5 text-left align-middle font-medium text-primary-foreground bg-primary text-xs w-6"></th>
-                                   <th className="h-4 px-1 py-0.5 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Name</th>
-                                    <th className="h-4 px-1 py-0.5 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Next Due Date</th>
-                                   <th className="h-4 px-1 py-0.5 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Status</th>
-                                 </tr>
-                              </thead>
-                               <tbody>
-                                 <tr className="border-b">
-                                  <td className="px-1 py-0.5 text-left align-middle text-xs">
-                                    <input 
-                                      type="radio" 
-                                      name="calendar-pm-selection" 
-                                      className="w-2.5 h-2.5 pointer-events-none appearance-none border border-muted-foreground/30 bg-background rounded-sm checked:bg-primary checked:border-primary transition-all duration-200 relative checked:after:content-['✓'] checked:after:absolute checked:after:inset-0 checked:after:text-primary-foreground checked:after:text-[8px] checked:after:font-bold checked:after:flex checked:after:items-center checked:after:justify-center checked:after:leading-none"
-                                    />
-                                  </td>
-                                 <td className="px-1 py-0.5 text-left align-middle text-xs">-</td>
-                                 <td className="px-1 py-0.5 text-left align-middle text-xs">-</td>
-                                 <td className="px-1 py-0.5 text-left align-middle text-xs">-</td>
-                               </tr>
-                               <tr className="border-b">
-                                 <td className="px-1 py-0.5 text-left align-middle text-xs">
-                                   <input 
-                                     type="radio" 
-                                     name="calendar-pm-selection" 
-                                     className="w-2.5 h-2.5 pointer-events-none appearance-none border border-muted-foreground/30 bg-background rounded-sm checked:bg-primary checked:border-primary transition-all duration-200 relative checked:after:content-['✓'] checked:after:absolute checked:after:inset-0 checked:after:text-primary-foreground checked:after:text-[8px] checked:after:font-bold checked:after:flex checked:after:items-center checked:after:justify-center checked:after:leading-none"
-                                   />
-                                 </td>
-                                 <td className="px-1 py-0.5 text-left align-middle text-xs">-</td>
-                                 <td className="px-1 py-0.5 text-left align-middle text-xs">-</td>
-                                 <td className="px-1 py-0.5 text-left align-middle text-xs">-</td>
-                               </tr>
-                               <tr className="border-b">
-                                 <td className="px-1 py-0.5 text-left align-middle text-xs">
-                                   <input 
-                                     type="radio" 
-                                     name="calendar-pm-selection" 
-                                     className="w-2.5 h-2.5 pointer-events-none appearance-none border border-muted-foreground/30 bg-background rounded-sm checked:bg-primary checked:border-primary transition-all duration-200 relative checked:after:content-['✓'] checked:after:absolute checked:after:inset-0 checked:after:text-primary-foreground checked:after:text-[8px] checked:after:font-bold checked:after:flex checked:after:items-center checked:after:justify-center checked:after:leading-none"
-                                   />
-                                 </td>
-                                 <td className="px-1 py-0.5 text-left align-middle text-xs">-</td>
-                                 <td className="px-1 py-0.5 text-left align-middle text-xs">-</td>
-                                 <td className="px-1 py-0.5 text-left align-middle text-xs">-</td>
-                               </tr>
-                               </tbody>
-                             </table>
-                           </div>
-                              <div className="px-2 pb-2 flex flex-col gap-2 mt-7 min-w-0">
-                               <Button 
-                                 variant="secondary" 
-                                 size="sm" 
-                                 className="text-secondary py-1 px-3 text-sm w-full"
-                                 disabled={true}
-                               >
-                                 Generate WO Now
-                               </Button>
-                               
-                               <div className="flex flex-col gap-1">
-                                 <span className="text-xs text-muted-foreground text-center">Next Iteration</span>
-                                 <div className="w-full h-7 px-2 text-xs border border-input rounded-sm flex items-center text-muted-foreground bg-muted/50 shadow-sm">
-                                   No PM setting selected
-                                 </div>
-                               </div>
-                             </div>
-                          </div>
-                            <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
-                               <div className="space-y-0.5 border-2 border-dashed border-muted-foreground/30 rounded-md p-2 mb-2">
-                                 <div className="flex items-center gap-2">
-                                   <span className="text-xs text-muted-foreground w-16">Name</span>
-                                   <input 
-                                     type="text" 
-                                     value={calendarTriggerData.name} 
-                                     onChange={e => setCalendarTriggerData(prev => ({
-                                       ...prev,
-                                       name: e.target.value
-                                     }))} 
-                                     className="flex-1 h-6 px-2 text-xs border rounded bg-background"
-                                   />
-                                 </div>
-                                 <div className="flex items-center gap-2">
-                                   <span className="text-xs text-muted-foreground w-16">Every</span>
-                                   <input 
-                                     type="number" 
-                                     value={calendarTriggerData.interval_value} 
-                                     onChange={e => setCalendarTriggerData(prev => ({
-                                       ...prev,
-                                       interval_value: Number(e.target.value)
-                                     }))} 
-                                     className="w-16 h-6 px-2 text-xs border rounded bg-background"
-                                   />
-                                   <select 
-                                     value={calendarTriggerData.interval_unit} 
-                                     onChange={e => setCalendarTriggerData(prev => ({
-                                       ...prev,
-                                       interval_unit: e.target.value
-                                     }))} 
-                                     className="h-6 px-2 text-xs border rounded w-20 bg-background"
-                                   >
-                                    <option value="days">days</option>
-                                    <option value="weeks">weeks</option>
-                                    <option value="months">months</option>
-                                    <option value="years">years</option>
-                                  </select>
-                                 </div>
-                                 <div className="flex items-center gap-2">
-                                   <span className="text-xs text-muted-foreground w-16">Starting at</span>
-                                   <input 
-                                     type="date" 
-                                     value={calendarTriggerData.start_date} 
-                                     onChange={e => setCalendarTriggerData(prev => ({
-                                       ...prev,
-                                       start_date: e.target.value
-                                     }))} 
-                                     className="flex-1 h-6 px-2 text-xs border rounded bg-background"
-                                   />
-                                 </div>
-                                 <div className="flex items-center gap-2">
-                                   <span className="text-xs text-muted-foreground w-16">Create</span>
-                                   <input 
-                                     type="number" 
-                                     value={calendarTriggerData.days_in_advance} 
-                                     onChange={e => setCalendarTriggerData(prev => ({
-                                       ...prev,
-                                       days_in_advance: Number(e.target.value)
-                                     }))} 
-                                     className="w-16 h-6 px-2 text-xs border rounded bg-background"
-                                   />
-                                   <span className="text-xs text-muted-foreground">days in advance</span>
-                                 </div>
-                               </div>
-                               <div>
-                                  <Button 
-                                    className={`w-full h-8 text-xs ${calendarTriggerData.is_active ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-500 hover:bg-gray-600 text-white'}`} 
-                                    onClick={() => setCalendarTriggerData(prev => ({
-                                      ...prev,
-                                      is_active: !prev.is_active
-                                    }))}
-                                  >
-                                    {calendarTriggerData.is_active ? '✓ Active' : '✗ Inactive'}
-                                  </Button>
-                               </div>
-                            <div className="mt-0.5">
-                               <Button 
-                                 className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-white" 
-                                 onClick={handleSaveCalendarTrigger}
-                               >
-                                 Save
-                               </Button>
-                            </div>
-                          </div>
-                     </div>
-                  </div>
+                     <PMTriggerContainer
+                       title="Calendar Trigger"
+                       endpoint="/pm-automation/pm-settings"
+                       data={pmSettingsData?.filter(item => item.trigger_type === 'CALENDAR') || []}
+                       tableColumns={[
+                         { key: 'name', label: 'Name' },
+                         { key: 'next_due_date', label: 'Next Due Date' },
+                         { key: 'is_active', label: 'Status' }
+                       ]}
+                       formFields={[
+                         { name: 'trigger_type', type: 'text', label: 'Type' },
+                         { name: 'name', type: 'text', label: 'Name', width: 'flex-1' },
+                         { name: 'interval_value', type: 'number', label: 'Every', width: 'w-16' },
+                         { name: 'interval_unit', type: 'select', label: 'Unit', width: 'w-20', 
+                           options: [
+                             { value: 'days', label: 'days' },
+                             { value: 'weeks', label: 'weeks' },
+                             { value: 'months', label: 'months' },
+                             { value: 'years', label: 'years' }
+                           ] 
+                         },
+                         { name: 'start_date', type: 'text', label: 'Starting at', width: 'flex-1' },
+                         { name: 'calendar_lead_time_days', type: 'number', label: 'Create', width: 'w-16', suffix: 'days in advance' }
+                       ]}
+                       assetId={id || ''}
+                       generateWorkOrderEndpoint="/pm-automation/pm-settings/manual-generation"
+                       nextIterationEndpoint="/pm-automation/pm-settings/manual-generation"
+                     />
+                   </div>
 
                   <div className="col-span-2 min-w-0">
                     <div className="p-4 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
