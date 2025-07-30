@@ -757,7 +757,7 @@ const EditAsset = () => {
                          { key: 'is_active', label: 'Status' }
                        ]}
                        formFields={[
-                         { name: 'trigger_type', type: 'text', label: 'Type' },
+                         { name: 'trigger_type', type: 'hidden', label: 'Type' },
                          { name: 'name', type: 'text', label: 'Name', width: 'flex-1' },
                          { name: 'interval_value', type: 'number', label: 'Every', width: 'w-16' },
                          { name: 'interval_unit', type: 'select', label: 'Unit', width: 'w-20', 

@@ -13,7 +13,7 @@ interface TableColumn {
 
 interface FormField {
   name: string;
-  type: 'text' | 'number' | 'select';
+  type: 'text' | 'number' | 'select' | 'hidden';
   label: string;
   options?: { value: string; label: string }[];
   width?: string;
@@ -56,6 +56,7 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
   }, {} as Record<string, any>);
   
   initialFormData.is_active = true;
+  initialFormData.trigger_type = 'CALENDAR';
   
   const [formData, setFormData] = useState(initialFormData);
 
@@ -161,6 +162,14 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
     const value = formData[field.name] || '';
     
     switch (field.type) {
+      case 'hidden':
+        return (
+          <input 
+            type="hidden" 
+            value={value}
+            onChange={e => handleFieldChange(field.name, e.target.value)}
+          />
+        );
       case 'select':
         return (
           <select 
@@ -297,15 +306,20 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
       
       <div className="flex-grow overflow-auto flex flex-col justify-end pb-4">
         <div className="space-y-0.5 border-2 border-dashed border-muted-foreground/30 rounded-md p-2 mb-2">
-          {formFields.map((field, index) => (
-            <div key={index} className="flex items-center gap-2">
-              <span className="text-xs text-muted-foreground w-16">{field.label}</span>
-              {renderFormField(field)}
-              {field.suffix && (
-                <span className="text-xs text-muted-foreground">{field.suffix}</span>
-              )}
-            </div>
-          ))}
+          {formFields.map((field, index) => {
+            if (field.type === 'hidden') {
+              return renderFormField(field);
+            }
+            return (
+              <div key={index} className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground w-16">{field.label}</span>
+                {renderFormField(field)}
+                {field.suffix && (
+                  <span className="text-xs text-muted-foreground">{field.suffix}</span>
+                )}
+              </div>
+            );
+          })}
         </div>
         
         <div>
