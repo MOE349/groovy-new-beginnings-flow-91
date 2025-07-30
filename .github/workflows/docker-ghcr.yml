@@ -1,35 +1,41 @@
-name: Build and Push to GHCR
+name: Deploy Frontend to S3 + CloudFront
+ 
 on:
   push:
-    branches: [main]
+    branches: [main]  # or your frontend branch
  
 jobs:
-  build-and-push:
+  deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
  
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
  
-      - name: Log in to GHCR
-        uses: docker/login-action@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          node-version: '18'
  
-      - name: Set lowercase image name
-        run: |
-          IMAGE_NAME=ghcr.io/$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
-          echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
+      - name: Install dependencies
+        run: npm ci
  
-      - name: Build Docker image
-        run: |
-          docker build -t $IMAGE_NAME:latest .
+      - name: Build frontend
+        run: npm run build
  
-      - name: Push Docker image
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ca-central-1
+ 
+      - name: Sync files to S3
         run: |
-          docker push $IMAGE_NAME:latest
+          aws s3 sync ./build s3://tenmil-frontend --delete
+ 
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id E3HDXVIVBS3QP7 \
+            --paths "/*"
