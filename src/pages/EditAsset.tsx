@@ -471,7 +471,7 @@ const EditAsset = () => {
                                  <tr className="border-b">
                                    <th className="h-4 px-1 py-0.5 text-left align-middle font-medium text-primary-foreground bg-primary text-xs w-6"></th>
                                    <th className="h-4 px-1 py-0.5 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Name</th>
-                                   <th className="h-4 px-1 py-0.5 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Next Trigger</th>
+                                    <th className="h-4 px-1 py-0.5 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Next Due Date</th>
                                    <th className="h-4 px-1 py-0.5 text-left align-middle font-medium text-primary-foreground bg-primary text-xs">Status</th>
                                  </tr>
                               </thead>
@@ -528,9 +528,9 @@ const EditAsset = () => {
                                           <td className="px-1 py-0.5 text-left align-middle text-xs">
                                             {item?.name || '-'}
                                           </td>
-                                          <td className="px-1 py-0.5 text-left align-middle text-xs">
-                                            {item?.next_trigger_value || '-'}
-                                          </td>
+                                           <td className="px-1 py-0.5 text-left align-middle text-xs">
+                                             {item?.next_due_date || '-'}
+                                           </td>
                                           <td className="px-1 py-0.5 text-left align-middle text-xs">
                                             {item?.is_active ? 'Active' : item?.is_active === false ? 'Inactive' : '-'}
                                           </td>
