@@ -768,7 +768,7 @@ const EditAsset = () => {
                              { value: 'years', label: 'years' }
                            ] 
                          },
-                         { name: 'start_date', type: 'text', label: 'Starting at', width: 'flex-1' },
+                         { name: 'start_date', type: 'date', label: 'Starting at', width: 'flex-1' },
                          { name: 'calendar_lead_time_days', type: 'number', label: 'Create', width: 'w-16', suffix: 'days in advance' }
                        ]}
                        assetId={id || ''}

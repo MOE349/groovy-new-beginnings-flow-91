@@ -13,7 +13,7 @@ interface TableColumn {
 
 interface FormField {
   name: string;
-  type: 'text' | 'number' | 'select' | 'hidden';
+  type: 'text' | 'number' | 'select' | 'hidden' | 'date';
   label: string;
   options?: { value: string; label: string }[];
   width?: string;
@@ -193,6 +193,16 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
             onChange={e => handleFieldChange(field.name, e.target.value)} 
             disabled={!isFieldsEditable}
             className={`h-6 px-2 text-xs border rounded ${field.width || 'w-16'} ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
+          />
+        );
+      case 'date':
+        return (
+          <input 
+            type="date" 
+            value={value} 
+            onChange={e => handleFieldChange(field.name, e.target.value)} 
+            disabled={!isFieldsEditable}
+            className={`h-6 px-2 text-xs border rounded ${field.width || 'flex-1'} ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
           />
         );
       default:
