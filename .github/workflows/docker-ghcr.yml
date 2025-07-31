@@ -2,25 +2,25 @@ name: Deploy Frontend to S3
  
 on:
   push:
-    branches: [main]  # or 'production' depending on your case
+    branches: [main]  # or use 'production' if you want
  
 jobs:
   deploy:
     runs-on: ubuntu-latest
  
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
  
-      - name: Set up Node
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18  # or whatever you're using
+          node-version: 18  # Match your local dev version
  
       - name: Install dependencies
         run: npm install
  
-      - name: Build frontend
+      - name: Build Vite app
         run: npm run build
  
       - name: Configure AWS credentials
@@ -28,7 +28,13 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ca-central-1  # or your region
+          aws-region: ca-central-1  # adjust if needed
  
       - name: Deploy to S3
-        run: aws s3 sync ./build s3://tenmil-frontend --delete
+        run: aws s3 sync ./dist s3://tenmil-frontend --delete
+ 
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id E3HDXVIVBS3QP7 \
+            --paths "/*"
