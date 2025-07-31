@@ -80,13 +80,25 @@ const FileUpload: React.FC<FileUploadProps> = ({
               : f
           ));
 
-          const response = await apiCall('/file-uploads/files/', {
+          // Use raw fetch for file upload to avoid JSON headers
+          const token = localStorage.getItem('access_token');
+          const apiUrl = 'https://tenmil.api.alfrih.com/v1/api/file-uploads/files/';
+          const response = await fetch(apiUrl, {
             method: 'POST',
-            body: formData,
-            headers: {} // Let browser set content-type for FormData
+            headers: {
+              ...(token && { 'Authorization': `Bearer ${token}` }),
+              // Don't set Content-Type - let browser set it for FormData
+            },
+            body: formData
           });
 
-          const fileId = response.data?.id || response.data?.data?.id;
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const result = await response.json();
+          const fileId = result.data?.id || result.id;
+          
           if (fileId) {
             fileIds.push(fileId);
             
