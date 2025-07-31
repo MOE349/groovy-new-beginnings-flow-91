@@ -270,6 +270,7 @@ const FormLayout = ({
                                  <label className={`text-caption font-normal text-foreground shrink-0 ${
                                    field.name === 'weight_class' ? 'pt-1.5 text-right w-24' : 
                                    field.name === 'suggested_start_date' ? 'pt-0 text-right w-24' :
+                                   field.name === 'completion_date' ? 'pt-0.5 text-right w-24' :
                                    'pt-2 text-right w-24'
                                  }`}>{field.label}</label>
                                <div className="flex-grow">
