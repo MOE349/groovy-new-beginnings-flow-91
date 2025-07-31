@@ -175,7 +175,8 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
   };
 
   const renderFormField = (field: FormField) => {
-    const value = formData[field.name] || '';
+    const value = formData[field.name] !== undefined ? formData[field.name] : '';
+    console.log(`PMTriggerContainer: renderFormField ${field.name}, formData value:`, formData[field.name], 'final value:', value);
     
     switch (field.type) {
       case 'hidden':
