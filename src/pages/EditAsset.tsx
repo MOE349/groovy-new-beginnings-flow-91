@@ -747,34 +747,38 @@ const EditAsset = () => {
                   </div>
 
                    <div className="col-span-1 min-w-0">
-                     <PMTriggerContainer
-                       title="Calendar Trigger"
-                       endpoint="/pm-automation/pm-settings"
-                       data={pmSettingsData?.filter(item => item.trigger_type === 'CALENDAR') || []}
-                       tableColumns={[
-                         { key: 'name', label: 'Name' },
-                         { key: 'next_due_date', label: 'Next Due Date' },
-                         { key: 'is_active', label: 'Status' }
-                       ]}
-                       formFields={[
-                         { name: 'trigger_type', type: 'hidden', label: 'Type' },
-                         { name: 'name', type: 'text', label: 'Name', width: 'flex-1' },
-                         { name: 'interval_value', type: 'number', label: 'Every', width: 'w-16' },
-                         { name: 'interval_unit', type: 'select', label: '', width: 'w-20', 
-                           options: [
-                             { value: 'days', label: 'days' },
-                             { value: 'weeks', label: 'weeks' },
-                             { value: 'months', label: 'months' },
-                             { value: 'years', label: 'years' }
-                           ] 
-                         },
-                         { name: 'start_date', type: 'date', label: 'Starting at', width: 'flex-1' },
-                         { name: 'calendar_lead_time_days', type: 'number', label: 'Create', width: 'w-16', suffix: 'days in advance' }
-                       ]}
-                       assetId={id || ''}
-                       generateWorkOrderEndpoint="/pm-automation/pm-settings/manual-generation"
-                       nextIterationEndpoint="/pm-automation/pm-settings/manual-generation"
-                     />
+                      <PMTriggerContainer
+                        title="Calendar Trigger"
+                        endpoint="/pm-automation/pm-settings"
+                        data={pmSettingsData?.filter(item => item.trigger_type === 'CALENDAR') || []}
+                        tableColumns={[
+                          { key: 'name', label: 'Name' },
+                          { key: 'next_due_date', label: 'Next Due Date' },
+                          { key: 'is_active', label: 'Status' }
+                        ]}
+                        formFields={[
+                          { name: 'trigger_type', type: 'hidden', label: 'Type' },
+                          { name: 'name', type: 'text', label: 'Name', width: 'flex-1' },
+                          { name: 'interval_value', type: 'number', label: 'Every', width: 'w-16' },
+                          { name: 'interval_unit', type: 'select', label: '', width: 'w-20', 
+                            options: [
+                              { value: 'days', label: 'days' },
+                              { value: 'weeks', label: 'weeks' },
+                              { value: 'months', label: 'months' },
+                              { value: 'years', label: 'years' }
+                            ] 
+                          },
+                          { name: 'start_date', type: 'date', label: 'Starting at', width: 'flex-1' },
+                          { name: 'calendar_lead_time_days', type: 'number', label: 'Create', width: 'w-16', suffix: 'days in advance' }
+                        ]}
+                        assetId={id || ''}
+                        dataKeyMapping={{
+                          start_date: 'start_date',
+                          calendar_lead_time_days: 'calendar_lead_time_days'
+                        }}
+                        generateWorkOrderEndpoint="/pm-automation/pm-settings/manual-generation"
+                        nextIterationEndpoint="/pm-automation/pm-settings/manual-generation"
+                      />
                    </div>
 
                   <div className="col-span-2 min-w-0">
