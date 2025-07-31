@@ -477,10 +477,11 @@ const EditAsset = () => {
                                  </tr>
                               </thead>
                                <tbody>
-                                 {(() => {
-                                   const rows = [];
-                                   for (let i = 0; i < 3; i++) {
-                                     const item = pmSettingsData?.[i];
+                                  {(() => {
+                                    const meterTriggerData = pmSettingsData?.filter(item => item.trigger_type === 'METER') || [];
+                                    const rows = [];
+                                    for (let i = 0; i < 3; i++) {
+                                      const item = meterTriggerData[i];
                                      rows.push(
                                           <tr 
                                             key={i} 
