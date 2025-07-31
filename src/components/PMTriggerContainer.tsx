@@ -67,7 +67,14 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
       // Map data using provided mapping or use direct keys
       const mappedData = formFields.reduce((acc, field) => {
         const dataKey = dataKeyMapping[field.name] || field.name;
-        acc[field.name] = item[dataKey] ?? (field.type === 'number' ? '' : field.options?.[0]?.value || '');
+        let value = item[dataKey] ?? (field.type === 'number' ? '' : field.options?.[0]?.value || '');
+        
+        // Format date values for date inputs
+        if (field.type === 'date' && value) {
+          value = new Date(value).toISOString().split('T')[0];
+        }
+        
+        acc[field.name] = value;
         return acc;
       }, {} as Record<string, any>);
       
