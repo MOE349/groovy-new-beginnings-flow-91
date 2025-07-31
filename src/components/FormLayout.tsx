@@ -208,7 +208,7 @@ const FormLayout = ({
                                         disabled: field.disabled
                                       })}
                                     </div>
-                                    <label className="text-caption font-normal text-foreground shrink-0 -mt-2">{meterField.label}</label>
+                                    <label className="text-caption font-normal text-foreground shrink-0 -mt-1">{meterField.label}</label>
                                     <div className="flex-1">
                                       {renderField({ 
                                         ...meterField, 
