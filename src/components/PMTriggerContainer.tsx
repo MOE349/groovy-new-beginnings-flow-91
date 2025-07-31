@@ -202,10 +202,11 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
           </select>
         );
       case 'number':
+        console.log(`PMTriggerContainer: Rendering number field ${field.name} with value:`, value, typeof value);
         return (
           <input 
             type="number" 
-            value={value} 
+            value={value === '' ? '' : value} 
             onChange={e => handleFieldChange(field.name, e.target.value)} 
             disabled={!isFieldsEditable}
             className={`h-6 px-2 text-xs border rounded ${field.width || 'w-16'} ${!isFieldsEditable ? 'bg-muted/50 text-muted-foreground cursor-not-allowed' : 'bg-background'}`}
