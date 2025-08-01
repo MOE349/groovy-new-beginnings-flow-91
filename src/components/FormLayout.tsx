@@ -199,15 +199,15 @@ const FormLayout = ({
                             <div key="asset-completion-row" className="space-y-1">
                               <div className="flex items-start gap-2 h-8">
                                  <label className="text-caption font-normal text-right w-24 text-foreground shrink-0 pt-2">{field.label}</label>
-                                 <div className="flex items-center gap-2 flex-grow">
-                                   <div className="flex-1">
-                                      {renderField({ 
-                                        ...field, 
-                                        label: "",
-                                        options: field.options ? field.options.map(opt => ({ value: opt.id, label: opt.name })) : undefined,
-                                        disabled: field.disabled
-                                      })}
-                                    </div>
+                                  <div className="flex items-center gap-2 flex-grow">
+                                    <div className="w-48">
+                                       {renderField({ 
+                                         ...field, 
+                                         label: "",
+                                         options: field.options ? field.options.map(opt => ({ value: opt.id, label: opt.name })) : undefined,
+                                         disabled: field.disabled
+                                       })}
+                                     </div>
                                     <label className="text-caption font-normal text-foreground shrink-0 pt-0">{completionField.label}</label>
                                     <div className="w-48">
                                       {renderField({ 
@@ -233,15 +233,15 @@ const FormLayout = ({
                             <div key="status-meter-row" className="space-y-1">
                               <div className="flex items-start gap-2 h-8">
                                  <label className="text-caption font-normal text-right w-24 text-foreground shrink-0 pt-2">{field.label}</label>
-                                 <div className="flex items-center gap-2 flex-grow">
-                                   <div className="flex-1">
-                                      {renderField({ 
-                                        ...field, 
-                                        label: "",
-                                        options: field.options ? field.options.map(opt => ({ value: opt.id, label: opt.name })) : undefined,
-                                        disabled: field.disabled
-                                      })}
-                                    </div>
+                                  <div className="flex items-center gap-2 flex-grow">
+                                    <div className="w-48">
+                                       {renderField({ 
+                                         ...field, 
+                                         label: "",
+                                         options: field.options ? field.options.map(opt => ({ value: opt.id, label: opt.name })) : undefined,
+                                         disabled: field.disabled
+                                       })}
+                                     </div>
                                     <label className="text-caption font-normal text-foreground shrink-0 -mt-1">{meterField.label}</label>
                                      <div className="w-48">
                                       {renderField({ 
