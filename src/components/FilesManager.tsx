@@ -130,7 +130,7 @@ const FilesManager: React.FC<FilesManagerProps> = ({
       // Set as default image if requested and file is an image
       if (data.setAsDefaultImage && data.isImage) {
         const assetType = linkToModel.includes('equipment') ? 'equipments' : 'attachments';
-        await apiCall(`/${assetType}/${linkToId}/set-image/`, {
+        await apiCall(`/assets/${assetType}/${linkToId}/set-image/`, {
           method: 'POST',
           body: { file_id: data.fileId }
         });
@@ -227,12 +227,12 @@ const FilesManager: React.FC<FilesManagerProps> = ({
 
             // Set as default image if toggle is checked and file is an image
             if (setAsDefaultImage && file.type.startsWith('image/')) {
-              try {
-                const assetType = linkToModel.includes('equipment') ? 'equipments' : 'attachments';
-                await apiCall(`/${assetType}/${linkToId}/set-image/`, {
-                  method: 'POST',
-                  body: { file_id: fileId }
-                });
+               try {
+                 const assetType = linkToModel.includes('equipment') ? 'equipments' : 'attachments';
+                 await apiCall(`/assets/${assetType}/${linkToId}/set-image/`, {
+                   method: 'POST',
+                   body: { file_id: fileId }
+                 });
                 
                 toast({
                   title: "Default Image Set",
