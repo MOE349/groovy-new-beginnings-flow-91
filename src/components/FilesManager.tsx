@@ -109,14 +109,23 @@ const FilesManager: React.FC<FilesManagerProps> = ({
       setAsDefaultImage?: boolean; 
       isImage?: boolean 
     }) => {
-      // Update file metadata
-      await apiCall(`/file-uploads/files/${data.fileId}/`, {
+      // Update file metadata using FormData
+      const formData = new FormData();
+      formData.append('description', data.description);
+      formData.append('tags', data.tags);
+
+      const token = localStorage.getItem('access_token');
+      const response = await fetch(`https://tenmil.api.alfrih.com/v1/api/file-uploads/files/${data.fileId}/`, {
         method: 'PATCH',
-        body: {
-          description: data.description,
-          tags: data.tags
-        }
+        headers: {
+          ...(token && { 'Authorization': `Bearer ${token}` }),
+        },
+        body: formData
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
       // Set as default image if requested and file is an image
       if (data.setAsDefaultImage && data.isImage) {
