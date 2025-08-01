@@ -6,7 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Progress } from '@/components/ui/progress';
 import { Switch } from '@/components/ui/switch';
 import { toast } from '@/hooks/use-toast';
-import { Upload, X, File, CheckCircle, Download, Trash2 } from 'lucide-react';
+import { Upload, X, File, CheckCircle, Download, Trash2, Edit } from 'lucide-react';
 import { apiCall } from '@/utils/apis';
 import { handleApiError } from '@/utils/errorHandling';
 import {
@@ -68,6 +68,10 @@ const FilesManager: React.FC<FilesManagerProps> = ({
   const [description, setDescription] = useState('');
   const [tags, setTags] = useState('');
   const [setAsDefaultImage, setSetAsDefaultImage] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [editingFile, setEditingFile] = useState<FileItem | null>(null);
+  const [editDescription, setEditDescription] = useState('');
+  const [editTags, setEditTags] = useState('');
 
   // Fetch files
   const { data: filesData, isLoading } = useQuery({
@@ -92,6 +96,31 @@ const FilesManager: React.FC<FilesManagerProps> = ({
     },
     onError: (error) => {
       handleApiError(error, "Failed to delete file");
+    }
+  });
+
+  // Update file mutation
+  const updateFileMutation = useMutation({
+    mutationFn: async (data: { fileId: string; description: string; tags: string }) => {
+      await apiCall(`/file-uploads/files/${data.fileId}/`, {
+        method: 'PATCH',
+        body: {
+          description: data.description,
+          tags: data.tags
+        }
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['files', linkToModel, linkToId] });
+      toast({
+        title: "File Updated",
+        description: "File metadata has been successfully updated"
+      });
+      setIsEditDialogOpen(false);
+      setEditingFile(null);
+    },
+    onError: (error) => {
+      handleApiError(error, "Failed to update file");
     }
   });
 
@@ -256,6 +285,23 @@ const FilesManager: React.FC<FilesManagerProps> = ({
     return new Date(dateString).toLocaleDateString();
   };
 
+  const handleEditFile = (file: FileItem) => {
+    setEditingFile(file);
+    setEditDescription(file.description || '');
+    setEditTags(file.tags || '');
+    setIsEditDialogOpen(true);
+  };
+
+  const handleUpdateFile = () => {
+    if (!editingFile) return;
+    
+    updateFileMutation.mutate({
+      fileId: editingFile.id,
+      description: editDescription,
+      tags: editTags
+    });
+  };
+
   return (
     <div className={`space-y-4 ${className}`}>
       <div className="flex justify-between items-center">
@@ -381,13 +427,17 @@ const FilesManager: React.FC<FilesManagerProps> = ({
             <TableBody>
               {filesData && filesData.length > 0 ? (
                 filesData.map((file) => (
-                  <TableRow key={file.id}>
+                  <TableRow 
+                    key={file.id} 
+                    className="cursor-pointer hover:bg-muted/50"
+                    onClick={() => handleEditFile(file)}
+                  >
                     <TableCell className="font-medium">{file.original_filename}</TableCell>
                     <TableCell>{file.file_size_human}</TableCell>
                     <TableCell>{file.description || '-'}</TableCell>
                     <TableCell>{file.tags || '-'}</TableCell>
                     <TableCell>{formatDate(file.created_at)}</TableCell>
-                    <TableCell>
+                    <TableCell onClick={(e) => e.stopPropagation()}>
                       <div className="flex space-x-2">
                         <Button
                           variant="outline"
@@ -419,6 +469,58 @@ const FilesManager: React.FC<FilesManagerProps> = ({
           </Table>
         </div>
       )}
+
+      {/* Edit File Dialog */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Edit File</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <label className="text-sm font-medium">File Name</label>
+              <Input
+                value={editingFile?.original_filename || ''}
+                disabled
+                className="mt-1 bg-muted"
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium">Description</label>
+              <Textarea
+                value={editDescription}
+                onChange={(e) => setEditDescription(e.target.value)}
+                placeholder="Enter file description"
+                className="mt-1"
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium">Tags</label>
+              <Input
+                value={editTags}
+                onChange={(e) => setEditTags(e.target.value)}
+                placeholder="manual,maintenance"
+                className="mt-1"
+              />
+            </div>
+            <div className="flex justify-end space-x-2">
+              <Button
+                variant="outline"
+                onClick={() => setIsEditDialogOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleUpdateFile}
+                disabled={updateFileMutation.isPending}
+              >
+                <Edit className="mr-2 h-4 w-4" />
+                Update File
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
