@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Progress } from '@/components/ui/progress';
+import { Switch } from '@/components/ui/switch';
 import { toast } from '@/hooks/use-toast';
 import { Upload, X, File, CheckCircle, Download, Trash2 } from 'lucide-react';
 import { apiCall } from '@/utils/apis';
@@ -66,6 +67,7 @@ const FilesManager: React.FC<FilesManagerProps> = ({
   const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false);
   const [description, setDescription] = useState('');
   const [tags, setTags] = useState('');
+  const [setAsDefaultImage, setSetAsDefaultImage] = useState(false);
 
   // Fetch files
   const { data: filesData, isLoading } = useQuery({
@@ -163,6 +165,24 @@ const FilesManager: React.FC<FilesManagerProps> = ({
                 ? { ...f, id: fileId, status: 'completed', progress: 100 }
                 : f
             ));
+
+            // Set as default image if toggle is checked and file is an image
+            if (setAsDefaultImage && file.type.startsWith('image/')) {
+              try {
+                const assetType = linkToModel.includes('equipment') ? 'equipments' : 'attachments';
+                await apiCall(`/${assetType}/${linkToId}/set-image/`, {
+                  method: 'POST',
+                  body: { file_id: fileId }
+                });
+                
+                toast({
+                  title: "Default Image Set",
+                  description: "Image has been set as the default for this asset"
+                });
+              } catch (imageError) {
+                handleApiError(imageError, "Failed to set default image");
+              }
+            }
           } else {
             throw new Error('No file ID returned from server');
           }
@@ -188,6 +208,7 @@ const FilesManager: React.FC<FilesManagerProps> = ({
       // Clear form
       setDescription('');
       setTags('');
+      setSetAsDefaultImage(false);
       setIsUploadDialogOpen(false);
     } finally {
       setIsUploading(false);
@@ -268,6 +289,16 @@ const FilesManager: React.FC<FilesManagerProps> = ({
                   placeholder="manual,maintenance"
                   className="mt-1"
                 />
+              </div>
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="set-default-image"
+                  checked={setAsDefaultImage}
+                  onCheckedChange={setSetAsDefaultImage}
+                />
+                <label htmlFor="set-default-image" className="text-sm font-medium">
+                  Set as default image (for image files only)
+                </label>
               </div>
               <div className="border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-primary/50 transition-colors">
                 <input
