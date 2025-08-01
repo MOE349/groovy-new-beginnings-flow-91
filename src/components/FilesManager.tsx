@@ -72,6 +72,7 @@ const FilesManager: React.FC<FilesManagerProps> = ({
   const [editingFile, setEditingFile] = useState<FileItem | null>(null);
   const [editDescription, setEditDescription] = useState('');
   const [editTags, setEditTags] = useState('');
+  const [editSetAsDefaultImage, setEditSetAsDefaultImage] = useState(false);
 
   // Fetch files
   const { data: filesData, isLoading } = useQuery({
@@ -101,7 +102,14 @@ const FilesManager: React.FC<FilesManagerProps> = ({
 
   // Update file mutation
   const updateFileMutation = useMutation({
-    mutationFn: async (data: { fileId: string; description: string; tags: string }) => {
+    mutationFn: async (data: { 
+      fileId: string; 
+      description: string; 
+      tags: string; 
+      setAsDefaultImage?: boolean; 
+      isImage?: boolean 
+    }) => {
+      // Update file metadata
       await apiCall(`/file-uploads/files/${data.fileId}/`, {
         method: 'PATCH',
         body: {
@@ -109,12 +117,25 @@ const FilesManager: React.FC<FilesManagerProps> = ({
           tags: data.tags
         }
       });
+
+      // Set as default image if requested and file is an image
+      if (data.setAsDefaultImage && data.isImage) {
+        const assetType = linkToModel.includes('equipment') ? 'equipments' : 'attachments';
+        await apiCall(`/${assetType}/${linkToId}/set-image/`, {
+          method: 'POST',
+          body: { file_id: data.fileId }
+        });
+      }
     },
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['files', linkToModel, linkToId] });
+      const successMessage = variables.setAsDefaultImage && variables.isImage 
+        ? "File updated and set as default image"
+        : "File metadata updated successfully";
+      
       toast({
         title: "File Updated",
-        description: "File metadata has been successfully updated"
+        description: successMessage
       });
       setIsEditDialogOpen(false);
       setEditingFile(null);
@@ -289,6 +310,7 @@ const FilesManager: React.FC<FilesManagerProps> = ({
     setEditingFile(file);
     setEditDescription(file.description || '');
     setEditTags(file.tags || '');
+    setEditSetAsDefaultImage(false);
     setIsEditDialogOpen(true);
   };
 
@@ -298,7 +320,9 @@ const FilesManager: React.FC<FilesManagerProps> = ({
     updateFileMutation.mutate({
       fileId: editingFile.id,
       description: editDescription,
-      tags: editTags
+      tags: editTags,
+      setAsDefaultImage: editSetAsDefaultImage,
+      isImage: editingFile.is_image
     });
   };
 
@@ -503,6 +527,18 @@ const FilesManager: React.FC<FilesManagerProps> = ({
                 className="mt-1"
               />
             </div>
+            {editingFile?.is_image && (
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="edit-set-default-image"
+                  checked={editSetAsDefaultImage}
+                  onCheckedChange={setEditSetAsDefaultImage}
+                />
+                <label htmlFor="edit-set-default-image" className="text-sm font-medium">
+                  Set as default image for this asset
+                </label>
+              </div>
+            )}
             <div className="flex justify-end space-x-2">
               <Button
                 variant="outline"
