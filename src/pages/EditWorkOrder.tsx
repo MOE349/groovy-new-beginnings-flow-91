@@ -348,8 +348,8 @@ const EditWorkOrder = () => {
   const workOrder = workOrderData.data.data as any;
   const initialData = {
     ...workOrder,
-    suggested_start_date: workOrder?.suggested_start_date ? new Date(workOrder.suggested_start_date) : undefined,
-    completion_end_date: workOrder?.completion_end_date ? new Date(workOrder.completion_end_date) : undefined,
+    suggested_start_date: workOrder?.suggested_start_date ? new Date(workOrder.suggested_start_date + 'T00:00:00') : undefined,
+    completion_end_date: workOrder?.completion_end_date ? new Date(workOrder.completion_end_date + 'T00:00:00') : undefined,
     // Transform object values to their IDs for dropdown compatibility
     asset: typeof workOrder?.asset === 'object' ? workOrder?.asset?.id : workOrder?.asset || "",
     status: typeof workOrder?.status === 'object' ? workOrder?.status?.id : workOrder?.status || "",
