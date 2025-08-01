@@ -209,7 +209,7 @@ const FormLayout = ({
                                       })}
                                     </div>
                                     <label className="text-caption font-normal text-foreground shrink-0 pt-0">{completionField.label}</label>
-                                    <div className="flex-1">
+                                    <div className="w-48">
                                       {renderField({ 
                                         ...completionField, 
                                         label: "",
