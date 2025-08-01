@@ -331,7 +331,7 @@ export const workOrderFormConfig: FormLayoutConfig = {
         { name: "maint_type", label: "Maint Type", type: "input", required: false, inputType: "text" },
         { name: "priority", label: "Priority", type: "input", required: false, inputType: "text" },
         { name: "suggested_start_date", label: "Suggested Start Date", type: "datepicker", required: false },
-        { name: "suggested_completion_date", label: "Suggested Completion Date", type: "datepicker", required: false },
+        { name: "suggested_completion_date", label: "Suggested End Date", type: "datepicker", required: false },
       ]
     }
   ]

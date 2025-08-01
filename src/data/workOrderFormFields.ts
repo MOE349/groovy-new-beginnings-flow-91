@@ -52,7 +52,7 @@ export const workOrderFields: FormField[] = [
   {
     name: "suggested_completion_date",
     type: "datepicker",
-    label: "Suggested Completion Date",
+    label: "Suggested End Date",
     required: false,
   },
   {
