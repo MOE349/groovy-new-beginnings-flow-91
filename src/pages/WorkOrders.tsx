@@ -11,8 +11,8 @@ const WorkOrders = () => {
     { key: "status", header: "Status", type: "object" },
     { key: "maint_type", header: "Maint Type" },
     { key: "priority", header: "Priority" },
-    { key: "suggested_start_date", header: "Suggested Start Date", render: (value) => value ? new Date(value).toLocaleDateString() : "-" },
-    { key: "completion_end_date", header: "Completion Date", render: (value) => value ? new Date(value).toLocaleDateString() : "-" },
+    { key: "suggested_start_date", header: "Suggested Start Date", render: (value) => value ? new Date(value + 'T00:00:00').toLocaleDateString() : "-" },
+    { key: "completion_end_date", header: "Completion Date", render: (value) => value ? new Date(value + 'T00:00:00').toLocaleDateString() : "-" },
     { key: "is_closed", header: "Closed", render: (value) => value ? "Yes" : "No" },
   ];
 
