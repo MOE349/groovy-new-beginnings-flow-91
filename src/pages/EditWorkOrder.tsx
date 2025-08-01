@@ -605,7 +605,7 @@ const EditWorkOrder = () => {
                           ? selectedChecklistItem.completed_by?.id 
                           : selectedChecklistItem.completed_by,
                         completion_date: selectedChecklistItem.completion_date 
-                          ? new Date(selectedChecklistItem.completion_date) 
+                          ? new Date(selectedChecklistItem.completion_date + 'T00:00:00') 
                           : undefined,
                       }}
                     />

@@ -193,7 +193,7 @@ const EditAsset = () => {
 
   const initialData = {
     ...assetData,
-    purchase_date: assetData?.purchase_date ? new Date(assetData.purchase_date) : undefined,
+    purchase_date: assetData?.purchase_date ? new Date(assetData.purchase_date + 'T00:00:00') : undefined,
     category: assetData?.category?.id || assetData?.category || "",
     location: assetData?.location?.id || assetData?.location || "",
     weight_class: assetData?.weight_class?.id || assetData?.weight_class || "",
@@ -270,7 +270,7 @@ const EditAsset = () => {
                      }, {
                        key: 'created_at',
                        header: 'Creation Date',
-                       render: (value: any) => value ? new Date(value).toLocaleDateString() : '-'
+                        render: (value: any) => value ? new Date(value).toLocaleDateString() : '-'
                      }, {
                        key: 'created_by',
                        header: 'Created By',
@@ -314,7 +314,7 @@ const EditAsset = () => {
                     }, {
                       key: 'created_at',
                       header: 'Creation Date',
-                      render: (value: any) => value ? new Date(value).toLocaleDateString() : '-'
+                       render: (value: any) => value ? new Date(value).toLocaleDateString() : '-'
                     }, {
                       key: 'created_by',
                       header: 'Created By',
@@ -932,7 +932,7 @@ const EditAsset = () => {
                     { key: 'description', header: 'Description', type: 'string' },
                     { key: 'status', header: 'Status', type: 'object', render: (value: any) => value?.control?.name || value?.name || '-' },
                     { key: 'maint_type', header: 'Maint Type', type: 'string' },
-                    { key: 'completion_end_date', header: 'Completion Date', type: 'string' }
+                    { key: 'completion_end_date', header: 'Completion Date', type: 'string', render: (value: any) => value ? new Date(value + 'T00:00:00').toLocaleDateString() : '-' }
                   ]}
                   queryKey={['active-work-orders', id]}
                   tableId={`active-work-orders-${id}`}
@@ -951,7 +951,7 @@ const EditAsset = () => {
                     { key: 'description', header: 'Description', type: 'string' },
                     { key: 'status', header: 'Status', type: 'object', render: (value: any) => value?.control?.name || value?.name || '-' },
                     { key: 'maint_type', header: 'Maint Type', type: 'string' },
-                    { key: 'completion_end_date', header: 'Completion Date', type: 'string' }
+                    { key: 'completion_end_date', header: 'Completion Date', type: 'string', render: (value: any) => value ? new Date(value + 'T00:00:00').toLocaleDateString() : '-' }
                   ]}
                   queryKey={['completed-work-orders', id]}
                   tableId={`completed-work-orders-${id}`}
