@@ -234,7 +234,7 @@ const FormLayout = ({
                               <div className="flex items-start gap-2 h-8">
                                  <label className="text-caption font-normal text-right w-24 text-foreground shrink-0 pt-2">{field.label}</label>
                                   <div className="flex items-center gap-2 flex-grow">
-                                    <div className="flex-1">
+                                    <div className="w-48">
                                        {renderField({ 
                                          ...field, 
                                          label: "",
