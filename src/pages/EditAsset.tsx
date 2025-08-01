@@ -29,7 +29,7 @@ import ApiDatePicker from "@/components/ApiDatePicker";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { usePrefetchFinancialData } from "@/hooks/useFinancialDataOptimized";
-import FileUpload from "@/components/FileUpload";
+import FilesManager from "@/components/FilesManager";
 
 const EditAsset = () => {
   const { id } = useParams();
@@ -849,25 +849,11 @@ const EditAsset = () => {
           <TabsContent value="files" className="tab-content-container">
             <div className="tab-content-generic">
               <div className="p-4">
-                <h3 className="text-lg font-semibold mb-4">File Management</h3>
-                <FileUpload
-                  multiple={true}
-                  onFileUploaded={(fileIds) => {
-                    // Handle uploaded file IDs - could update form data or refresh file list
-                    console.log('Uploaded file IDs:', fileIds);
-                    toast({
-                      title: "Files Uploaded",
-                      description: `${fileIds.length} file(s) uploaded successfully`
-                    });
-                  }}
+                <FilesManager 
+                  linkToModel="assets.equipment"
+                  linkToId={id || ''}
                   maxSize={25}
-                  className="mb-6"
                 />
-                
-                {/* File listing table could go here */}
-                <div className="border rounded-lg p-4 text-center text-muted-foreground">
-                  File listing table will be implemented next...
-                </div>
               </div>
             </div>
           </TabsContent>
