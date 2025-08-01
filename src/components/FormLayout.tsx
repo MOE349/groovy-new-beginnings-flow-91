@@ -137,7 +137,11 @@ const FormLayout = ({
                 {config.showImage && (
                   <div className="w-40 h-28 bg-muted rounded border-2 border-border overflow-hidden">
                     <img 
-                      src="/lovable-uploads/cf9d21df-6820-4bea-ae16-54c41a67117e.png" 
+                      src={
+                        initialData?.image?.url 
+                          ? `https://tenmil.api.alfrih.com${initialData.image.url}`
+                          : "/lovable-uploads/cf9d21df-6820-4bea-ae16-54c41a67117e.png"
+                      }
                       alt={config.title} 
                       className="w-full h-full object-cover"
                     />
