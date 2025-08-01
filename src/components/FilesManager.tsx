@@ -33,12 +33,17 @@ interface FilesManagerProps {
 
 interface FileItem {
   id: string;
-  name: string;
-  size: number;
+  original_filename: string;
+  file_size: number;
+  file_size_human: string;
+  content_type: string;
   description?: string;
   tags?: string;
+  is_image: boolean;
+  is_document: boolean;
+  file_url: string;
+  download_url: string;
   created_at: string;
-  file_url?: string;
 }
 
 interface UploadedFile {
@@ -66,8 +71,8 @@ const FilesManager: React.FC<FilesManagerProps> = ({
   const { data: filesData, isLoading } = useQuery({
     queryKey: ['files', linkToModel, linkToId],
     queryFn: async () => {
-      const response = await apiCall(`/file-uploads/files/?link_to_model=${linkToModel}&link_to_id=${linkToId}`);
-      return response.data as FileItem[];
+      const response = await apiCall(`/file-uploads/files/?link_to_model=${linkToModel}&object_id=${linkToId}`);
+      return response.data.data as FileItem[];
     }
   });
 
@@ -346,8 +351,8 @@ const FilesManager: React.FC<FilesManagerProps> = ({
               {filesData && filesData.length > 0 ? (
                 filesData.map((file) => (
                   <TableRow key={file.id}>
-                    <TableCell className="font-medium">{file.name}</TableCell>
-                    <TableCell>{formatFileSize(file.size)}</TableCell>
+                    <TableCell className="font-medium">{file.original_filename}</TableCell>
+                    <TableCell>{file.file_size_human}</TableCell>
                     <TableCell>{file.description || '-'}</TableCell>
                     <TableCell>{file.tags || '-'}</TableCell>
                     <TableCell>{formatDate(file.created_at)}</TableCell>
@@ -356,7 +361,7 @@ const FilesManager: React.FC<FilesManagerProps> = ({
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => handleDownload(file.id, file.name)}
+                          onClick={() => handleDownload(file.id, file.original_filename)}
                         >
                           <Download className="h-4 w-4" />
                         </Button>
