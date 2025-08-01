@@ -209,7 +209,7 @@ const FormLayout = ({
                                       })}
                                     </div>
                                     <label className="text-caption font-normal text-foreground shrink-0 pt-0">{completionField.label}</label>
-                                    <div className="flex-1 max-w-48">
+                                    <div className="w-48">
                                       {renderField({ 
                                         ...completionField, 
                                         label: "",
@@ -243,7 +243,7 @@ const FormLayout = ({
                                       })}
                                     </div>
                                     <label className="text-caption font-normal text-foreground shrink-0 -mt-1">{meterField.label}</label>
-                                    <div className="flex-1">
+                                     <div className="w-48">
                                       {renderField({ 
                                         ...meterField, 
                                         label: "",
