@@ -1,18 +1,10 @@
 import { toast } from "@/hooks/use-toast";
 import { ApiError } from "./apis";
 
-interface ErrorData {
-  errors?: {
-    error?: string;
-  };
-  error?: string;
-  message?: string;
-}
-
 /**
  * Centralized error handling utility for consistent error display across the app
  */
-export const handleApiError = (error: unknown, customTitle?: string) => {
+export const handleApiError = (error: any, customTitle?: string) => {
   let title = "Error";
   let description = "An unexpected error occurred";
 
@@ -21,21 +13,18 @@ export const handleApiError = (error: unknown, customTitle?: string) => {
     title = `Error ${error.status}`;
     
     // Extract the actual error message from the response data
-    const errorData = error.data as ErrorData | undefined;
-    if (errorData?.errors?.error) {
-      description = errorData.errors.error;
-    } else if (errorData?.error) {
-      description = errorData.error;
-    } else if (errorData?.message) {
-      description = errorData.message;
+    if (error.data?.errors?.error) {
+      description = error.data.errors.error;
+    } else if (error.data?.error) {
+      description = error.data.error;
+    } else if (error.data?.message) {
+      description = error.data.message;
     } else {
       description = error.message;
     }
-  } else if (error && typeof error === 'object' && 'message' in error) {
+  } else if (error?.message) {
     // Fallback for other error types
-    description = (error as Error).message;
-  } else if (typeof error === 'string') {
-    description = error;
+    description = error.message;
   }
 
   // Allow custom title override
@@ -53,11 +42,11 @@ export const handleApiError = (error: unknown, customTitle?: string) => {
 /**
  * Higher-order function that wraps async operations with error handling
  */
-export const withErrorHandling = <TArgs extends unknown[], TReturn>(
-  fn: (...args: TArgs) => Promise<TReturn>,
+export const withErrorHandling = <T extends any[], R>(
+  fn: (...args: T) => Promise<R>,
   customTitle?: string
 ) => {
-  return async (...args: TArgs): Promise<TReturn | void> => {
+  return async (...args: T): Promise<R | void> => {
     try {
       return await fn(...args);
     } catch (error) {

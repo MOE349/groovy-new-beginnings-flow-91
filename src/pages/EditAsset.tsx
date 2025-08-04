@@ -779,7 +779,7 @@ const EditAsset = () => {
                           calendar_lead_time_days: 'calendar_lead_time_days'
                         }}
                         generateWorkOrderEndpoint="/pm-automation/pm-settings/manual-generation"
-                        nextIterationEndpoint="/pm-automation/pm-settings"
+                        nextIterationEndpoint="/pm-automation/pm-settings/manual-generation"
                       />
                    </div>
 
