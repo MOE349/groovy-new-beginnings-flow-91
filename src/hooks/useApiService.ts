@@ -1,4 +1,3 @@
-import React from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { services } from '@/services';
 import { useToast } from '@/hooks/use-toast';
@@ -19,21 +18,15 @@ export function useApiQuery<T>(
 ) {
   const { toast } = useToast();
 
-  const query = useQuery({
+  return useQuery({
     queryKey,
     queryFn,
     ...options,
+    onError: (error) => {
+      handleApiError(error);
+      options?.onError?.(error);
+    },
   });
-
-  // Handle errors in useEffect instead of onError option
-  React.useEffect(() => {
-    if (query.error) {
-      handleApiError(query.error);
-      options?.onError?.(query.error);
-    }
-  }, [query.error, options]);
-
-  return query;
 }
 
 /**

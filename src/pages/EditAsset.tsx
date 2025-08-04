@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { toast } from "@/hooks/use-toast";
@@ -95,7 +95,7 @@ const EditAsset = () => {
     setCurrentView(viewIndex);
   };
 
-  const handleDeleteMeterReading = useCallback(async (readingId: string) => {
+  const handleDeleteMeterReading = async (readingId: string) => {
     try {
       await apiCall(`/meter-readings/meter_reading/${readingId}`, {
         method: 'DELETE'
@@ -113,9 +113,9 @@ const EditAsset = () => {
     } catch (error: any) {
       handleApiError(error, "Delete Failed");
     }
-  }, [id, queryClient]);
+  };
 
-  const handleDeleteCode = useCallback(async (codeId: string) => {
+  const handleDeleteCode = async (codeId: string) => {
     try {
       await apiCall(`/fault-codes/codes/${codeId}`, {
         method: 'DELETE'
@@ -133,7 +133,7 @@ const EditAsset = () => {
     } catch (error: any) {
       handleApiError(error, "Delete Failed");
     }
-  }, [id, queryClient]);
+  };
 
   const handleSaveCalendarTrigger = async () => {
     try {
@@ -188,13 +188,10 @@ const EditAsset = () => {
       </div>;
   }
 
-  const currentFields = useMemo(() => 
-    assetType === "equipment" ? equipmentFields : attachmentFields, 
-    [assetType]
-  );
+  const currentFields = assetType === "equipment" ? equipmentFields : attachmentFields;
   const assetTypeName = assetType === "equipment" ? "Equipment" : "Attachment";
 
-  const initialData = useMemo(() => ({
+  const initialData = {
     ...assetData,
     purchase_date: assetData?.purchase_date ? new Date(assetData.purchase_date + 'T00:00:00') : undefined,
     category: assetData?.category?.id || assetData?.category || "",
@@ -206,7 +203,7 @@ const EditAsset = () => {
     account_code: assetData?.account_code?.id || assetData?.account_code || "",
     job_code: assetData?.job_code?.id || assetData?.job_code || "",
     asset_status: assetData?.asset_status?.id || assetData?.asset_status || ""
-  }), [assetData]);
+  };
 
   const customLayout = (props: any) => <FormLayout {...props} config={assetType === "attachment" ? attachmentFormConfig : equipmentFormConfig} />;
 
@@ -266,7 +263,7 @@ const EditAsset = () => {
                     </Button>
                   </div>
 
-                   <div className="w-full max-w-full">
+                  <div className="w-full max-w-full">
                      <ApiTable endpoint={`/meter-readings/meter_reading?asset=${id}`} columns={[{
                        key: 'meter_reading',
                        header: 'Meter Reading'
@@ -310,8 +307,8 @@ const EditAsset = () => {
                     </Button>
                   </div>
 
-                   <div className="w-full max-w-full">
-                     <ApiTable endpoint={`/fault-codes/codes?asset=${id}`} columns={[{
+                  <div className="w-full max-w-full">
+                    <ApiTable endpoint={`/fault-codes/codes?asset=${id}`} columns={[{
                       key: 'code',
                       header: 'Code'
                     }, {

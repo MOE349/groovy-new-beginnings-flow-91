@@ -56,6 +56,6 @@ export const MemoizedApiTable = memo(
   props: MemoizedApiTableProps<T>
 ) => JSX.Element;
 
-// MemoizedApiTable.displayName = 'MemoizedApiTable';
+MemoizedApiTable.displayName = 'MemoizedApiTable';
 
 export default MemoizedApiTable;

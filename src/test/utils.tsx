@@ -128,7 +128,7 @@ export const mockWorkOrder = (overrides = {}) => ({
 });
 
 // API response mocks
-export const mockApiResponse = <T,>(data: T, status = 200) => ({
+export const mockApiResponse = <T>(data: T, status = 200) => ({
   data,
   status,
   statusText: 'OK',

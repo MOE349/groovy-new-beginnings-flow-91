@@ -33,7 +33,7 @@ const Dashboard = () => {
   } = useQuery({
     queryKey: ["dashboard"],
     queryFn: () => dashboardService.getDashboardData(),
-    refetchInterval: 5 * 60 * 1000, // Refresh every 5 minutes
+    refetchInterval: 60000, // Refresh every minute
     retry: 3,
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
   });
@@ -142,7 +142,7 @@ const Dashboard = () => {
 
       {/* Error banner for partial failures */}
       {isError && dashboardData && (
-        <Alert variant="default">
+        <Alert variant="warning">
           <AlertTriangle className="h-4 w-4" />
           <AlertDescription>
             Some data may be outdated. Last updated: {new Date().toLocaleTimeString()}

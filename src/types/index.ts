@@ -18,9 +18,7 @@ export type {
   BaseEntity,
   SelectOption,
   TableColumn,
-} from './common.types';
-
-export type {
+  
   // Assets
   Asset,
   Equipment,
@@ -30,9 +28,7 @@ export type {
   Site,
   CreateAssetDto,
   UpdateAssetDto,
-} from './asset.types';
-
-export type {
+  
   // Work Orders
   WorkOrder,
   WorkOrderStatus,
@@ -40,9 +36,7 @@ export type {
   MaintenanceType,
   CreateWorkOrderDto,
   UpdateWorkOrderDto,
-} from './workorder.types';
-
-export type {
+  
   // Auth & Users
   User,
   UserRole,
@@ -51,4 +45,4 @@ export type {
   LoginRequest,
   LoginResponse,
   Tenant,
-} from './auth.types';
+} from './index';
