@@ -13,7 +13,7 @@ export const workOrderFields: FormField[] = [
     name: "asset",
     type: "dropdown",
     label: "Asset",
-    required: true,
+    required: false,
     endpoint: "/assets/assets",
     queryKey: ["assets_assets"],
     optionValueKey: "id",
@@ -22,8 +22,8 @@ export const workOrderFields: FormField[] = [
   {
     name: "status",
     type: "dropdown",
-    label: "Status", 
-    required: true,
+    label: "Status",
+    required: false,
     endpoint: "/work-orders/status",
     queryKey: ["work_orders_status"],
     optionValueKey: "id",
@@ -81,7 +81,7 @@ export const workOrderFields: FormField[] = [
     type: "input",
     label: "Completion MR",
     required: false,
-    disabled: true,
+    disabled: false,
     inputType: "text",
   },
 ];
