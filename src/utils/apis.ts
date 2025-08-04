@@ -1,3 +1,11 @@
+/**
+ * @deprecated This file is deprecated. Please use the services in src/services/ instead.
+ * - For authentication: use authService from '@/services/auth.service'
+ * - For assets: use assetsService from '@/services/assets.service'
+ * - For work orders: use workOrdersService from '@/services/workorders.service'
+ * - For general API calls: use apiClient from '@/services/api.base'
+ */
+
 import { API_CONFIG } from "@/config/api";
 
 interface ApiCallOptions {

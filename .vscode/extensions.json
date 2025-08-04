@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "ms-vscode.vscode-typescript-next",
+    "prisma.prisma",
+    "mikestead.dotenv",
+    "christian-kohler.path-intellisense",
+    "aaron-bond.better-comments",
+    "usernamehw.errorlens",
+    "wix.vscode-import-cost"
+  ]
+}

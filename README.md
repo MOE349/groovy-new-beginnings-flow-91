@@ -1,73 +1,168 @@
-# Welcome to your Lovable project
+# TenMil Fleet Management System
 
-## Project info
+A comprehensive Computerized Maintenance Management System (CMMS) for managing fleet assets, maintenance schedules, and operations.
 
-**URL**: https://lovable.dev/projects/41c6ebaf-5774-427a-b6a3-7dd083b9e193
+## 🚀 Features
 
-## How can I edit this code?
+### Core Modules
+- **Asset Management**: Track equipment and attachments with detailed specifications
+- **Work Order Management**: Create, assign, and track maintenance tasks
+- **Parts Inventory**: Manage spare parts and consumables
+- **Purchase Orders**: Handle procurement and vendor management
+- **Billing**: Track costs and generate financial reports
+- **Analytics & Reports**: Comprehensive reporting and data visualization
+- **User Management**: Role-based access control and multi-tenant support
 
-There are several ways of editing your application.
+### Key Capabilities
+- Real-time fleet status monitoring
+- Preventive maintenance scheduling
+- Asset lifecycle tracking
+- Document and file management
+- Multi-location support
+- Customizable forms and workflows
 
-**Use Lovable**
+## 📋 Prerequisites
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/41c6ebaf-5774-427a-b6a3-7dd083b9e193) and start prompting.
+- Node.js (v18+ recommended)
+- npm or yarn
+- Modern web browser
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🛠️ Installation
 
-**Use your preferred IDE**
+1. Clone the repository:
+```bash
+git clone https://github.com/tenmil/fleet-management.git
+cd fleet-management
+```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+2. Install dependencies:
+```bash
+npm install
+```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+3. Create environment configuration:
+```bash
+cp .env.example .env
+```
 
-Follow these steps:
+4. Update the `.env` file with your configuration:
+```env
+VITE_API_BASE_URL=https://your-api-url.com/v1/api
+VITE_ENABLE_MOCK_DATA=false
+VITE_APP_NAME="TenMil Fleet Management"
+```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+5. Start the development server:
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## 🔧 Configuration
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Environment Variables
 
-**Use GitHub Codespaces**
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `VITE_API_BASE_URL` | Backend API base URL | - |
+| `VITE_ENABLE_MOCK_DATA` | Enable mock data for development | `false` |
+| `VITE_APP_NAME` | Application name | `TenMil Fleet Management` |
+| `VITE_TENANT_MODE` | Enable multi-tenant mode | `true` |
+| `VITE_DEFAULT_LOCALE` | Default language | `en` |
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### API Endpoints
 
-## What technologies are used for this project?
+The application expects the following API endpoints:
 
-This project is built with:
+- `/auth/*` - Authentication endpoints
+- `/assets/*` - Asset management
+- `/work-orders/*` - Work order management
+- `/parts/*` - Parts inventory
+- `/purchase-orders/*` - Purchase orders
+- `/billing/*` - Billing and invoicing
+- `/analytics/*` - Reports and analytics
+- `/users/*` - User management
+- `/company/*` - Company settings
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 🏗️ Project Structure
 
-## How can I deploy this project?
+```
+src/
+├── components/          # Reusable UI components
+│   ├── ui/             # Base UI components (shadcn)
+│   └── ...             # Feature-specific components
+├── contexts/           # React contexts for global state
+├── data/              # Form configurations and static data
+├── hooks/             # Custom React hooks
+├── lib/               # Utilities and helpers
+├── pages/             # Page components (routes)
+├── services/          # API service layer
+├── types/             # TypeScript type definitions
+├── utils/             # Utility functions
+└── App.tsx            # Main application component
+```
 
-Simply open [Lovable](https://lovable.dev/projects/41c6ebaf-5774-427a-b6a3-7dd083b9e193) and click on Share -> Publish.
+## 🧪 Testing
 
-## Can I connect a custom domain to my Lovable project?
+Run the test suite:
+```bash
+npm test
+```
 
-Yes, you can!
+Run tests with coverage:
+```bash
+npm run test:coverage
+```
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## 🚀 Building for Production
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+Build the application:
+```bash
+npm run build
+```
+
+Preview the production build:
+```bash
+npm run preview
+```
+
+## 📦 Deployment
+
+The application can be deployed to any static hosting service:
+
+### Docker
+```bash
+docker build -t tenmil-fleet .
+docker run -p 80:80 tenmil-fleet
+```
+
+### Traditional Hosting
+1. Run `npm run build`
+2. Deploy the `dist` folder to your web server
+3. Configure your web server to serve `index.html` for all routes
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+### Code Style
+- We use ESLint and Prettier for code formatting
+- Run `npm run lint` before committing
+- Follow the TypeScript strict mode guidelines
+
+## 📄 License
+
+This project is proprietary software. All rights reserved.
+
+## 🆘 Support
+
+For support, email support@tenmil.com or create an issue in the repository.
+
+## 🔗 Links
+
+- [Documentation](https://docs.tenmil.com)
+- [API Reference](https://api-docs.tenmil.com)
+- [User Guide](https://guide.tenmil.com)

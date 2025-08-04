@@ -1,0 +1,123 @@
+{
+  "title": "Billing & Finance",
+  "description": "Manage invoices, expenses, and financial reports",
+  "summary": {
+    "totalRevenue": "Total Revenue",
+    "pendingRevenue": "Pending Revenue",
+    "totalExpenses": "Total Expenses",
+    "netProfit": "Net Profit",
+    "invoiceCount": "{{count}} invoices",
+    "expenseCount": "{{count}} expenses"
+  },
+  "invoice": {
+    "title": "Invoice",
+    "plural": "Invoices",
+    "fields": {
+      "number": "Invoice #",
+      "customer": "Customer",
+      "date": "Invoice Date",
+      "dueDate": "Due Date",
+      "amount": "Amount",
+      "tax": "Tax",
+      "total": "Total",
+      "status": "Status",
+      "paymentDate": "Payment Date",
+      "paymentMethod": "Payment Method",
+      "notes": "Notes"
+    },
+    "status": {
+      "draft": "Draft",
+      "sent": "Sent",
+      "paid": "Paid",
+      "overdue": "Overdue",
+      "cancelled": "Cancelled"
+    },
+    "actions": {
+      "create": "Create Invoice",
+      "edit": "Edit Invoice",
+      "send": "Send Invoice",
+      "markPaid": "Mark as Paid",
+      "duplicate": "Duplicate",
+      "download": "Download PDF",
+      "email": "Email to Customer"
+    },
+    "items": {
+      "description": "Description",
+      "quantity": "Quantity",
+      "unitPrice": "Unit Price",
+      "total": "Total",
+      "addItem": "Add Line Item"
+    }
+  },
+  "expense": {
+    "title": "Expense",
+    "plural": "Expenses",
+    "fields": {
+      "number": "Expense #",
+      "date": "Expense Date",
+      "category": "Category",
+      "vendor": "Vendor",
+      "description": "Description",
+      "amount": "Amount",
+      "tax": "Tax",
+      "total": "Total",
+      "status": "Status",
+      "paymentMethod": "Payment Method",
+      "receipt": "Receipt",
+      "notes": "Notes"
+    },
+    "status": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "reimbursed": "Reimbursed"
+    },
+    "categories": {
+      "maintenance": "Maintenance",
+      "fuel": "Fuel",
+      "parts": "Parts",
+      "insurance": "Insurance",
+      "licenses": "Licenses & Permits",
+      "office": "Office Supplies",
+      "utilities": "Utilities",
+      "other": "Other"
+    },
+    "actions": {
+      "create": "Add Expense",
+      "edit": "Edit Expense",
+      "approve": "Approve",
+      "reject": "Reject",
+      "uploadReceipt": "Upload Receipt",
+      "viewReceipt": "View Receipt"
+    }
+  },
+  "reports": {
+    "title": "Financial Reports",
+    "profitLoss": "Profit & Loss",
+    "cashFlow": "Cash Flow",
+    "expenseBreakdown": "Expense Breakdown",
+    "revenueByCustomer": "Revenue by Customer",
+    "aging": "Accounts Receivable Aging",
+    "taxReport": "Tax Report"
+  },
+  "messages": {
+    "invoiceCreated": "Invoice created successfully",
+    "invoiceSent": "Invoice sent to customer",
+    "paymentRecorded": "Payment recorded successfully",
+    "expenseAdded": "Expense added successfully",
+    "expenseApproved": "Expense approved",
+    "expenseRejected": "Expense rejected",
+    "reportGenerated": "Report generated successfully"
+  },
+  "filters": {
+    "allInvoices": "All Invoices",
+    "paid": "Paid",
+    "unpaid": "Unpaid",
+    "overdue": "Overdue",
+    "thisMonth": "This Month",
+    "lastMonth": "Last Month",
+    "thisQuarter": "This Quarter",
+    "thisYear": "This Year",
+    "dateRange": "Date Range"
+  }
+}
