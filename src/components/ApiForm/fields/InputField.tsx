@@ -5,9 +5,7 @@
 
 import React from "react";
 import { Controller } from "react-hook-form";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
+import { UniversalFormField } from "@/components/forms";
 import type { FieldProps, InputFieldConfig } from "../types";
 
 export interface InputFieldProps<T> extends FieldProps<T> {
@@ -29,10 +27,12 @@ export function InputField<T>({ field, form, name }: InputFieldProps<T>) {
         name={name}
         control={control}
         render={({ field: { value, onChange } }) => (
-          <input
-            type="hidden"
-            value={value || ""}
-            onChange={(e) => onChange(e.target.value)}
+          <UniversalFormField
+            name={name}
+            type="input"
+            inputType="hidden"
+            inputValue={value || ""}
+            onInputChange={onChange}
           />
         )}
       />
@@ -40,42 +40,26 @@ export function InputField<T>({ field, form, name }: InputFieldProps<T>) {
   }
 
   return (
-    <div className={cn("space-y-2", field.className)}>
-      {field.label && (
-        <Label htmlFor={name} className="text-sm font-medium">
-          {field.label}
-          {field.required && <span className="text-destructive ml-1">*</span>}
-        </Label>
-      )}
+    <div className={field.className}>
       <Controller
         name={name}
         control={control}
-        render={({ field: { value, onChange, onBlur } }) => (
-          <Input
-            id={name}
-            type={field.inputType || "text"}
+        render={({ field: { value, onChange } }) => (
+          <UniversalFormField
+            name={name}
+            type="input"
+            label={field.label}
             placeholder={field.placeholder}
-            value={value || ""}
-            onChange={(e) => {
-              const val =
-                field.inputType === "number"
-                  ? e.target.valueAsNumber
-                  : e.target.value;
-              onChange(val);
-            }}
-            onBlur={onBlur}
-            disabled={field.disabled}
             required={field.required}
-            min={field.min}
-            max={field.max}
-            step={field.step}
-            pattern={field.pattern}
-            className={cn(
-              error && "border-destructive focus:ring-destructive",
-              field.inputType === "number" && "appearance-none"
-            )}
-            aria-invalid={!!error}
-            aria-describedby={error ? `${name}-error` : undefined}
+            disabled={field.disabled}
+            inputType={field.inputType || "text"}
+            inputValue={value || ""}
+            onInputChange={(val) => {
+              const processedVal =
+                field.inputType === "number" ? Number(val) : val;
+              onChange(processedVal);
+            }}
+            className={error ? "border-destructive focus:ring-destructive" : ""}
           />
         )}
       />

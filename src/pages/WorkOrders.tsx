@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import ApiTable, { TableColumn } from "@/components/ApiTable";
+import { formatDateOptimized } from "@/utils/dateFormatters";
 
 const WorkOrders = () => {
   const columns: TableColumn[] = [
@@ -11,9 +12,21 @@ const WorkOrders = () => {
     { key: "status", header: "Status", type: "object" },
     { key: "maint_type", header: "Maint Type" },
     { key: "priority", header: "Priority" },
-    { key: "suggested_start_date", header: "Suggested Start Date", render: (value) => value ? new Date(value + 'T00:00:00').toLocaleDateString() : "-" },
-    { key: "completion_end_date", header: "Completion Date", render: (value) => value ? new Date(value + 'T00:00:00').toLocaleDateString() : "-" },
-    { key: "is_closed", header: "Closed", render: (value) => value ? "Yes" : "No" },
+    {
+      key: "suggested_start_date",
+      header: "Suggested Start Date",
+      render: formatDateOptimized,
+    },
+    {
+      key: "completion_end_date",
+      header: "Completion Date",
+      render: formatDateOptimized,
+    },
+    {
+      key: "is_closed",
+      header: "Closed",
+      render: (value) => (value ? "Yes" : "No"),
+    },
   ];
 
   return (

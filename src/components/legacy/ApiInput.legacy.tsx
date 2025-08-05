@@ -1,8 +1,10 @@
 /**
- * @deprecated This component is deprecated. Use UniversalFormField instead.
- * This is a legacy compatibility wrapper.
+ * @deprecated Use UniversalFormField instead
+ * Legacy compatibility wrapper for ApiInput
  */
-import ApiInputLegacy from "@/components/legacy/ApiInput.legacy";
+
+import React from "react";
+import { UniversalFormField } from "@/components/forms";
 
 interface ApiInputProps {
   name: string;
@@ -16,7 +18,7 @@ interface ApiInputProps {
   type?: "text" | "email" | "password" | "number" | "hidden";
 }
 
-const ApiInput = ({
+const ApiInputLegacy = ({
   name,
   label,
   placeholder,
@@ -27,19 +29,24 @@ const ApiInput = ({
   disabled = false,
   type = "text",
 }: ApiInputProps) => {
+  console.warn(
+    `[DEPRECATED] ApiInput is deprecated. Use UniversalFormField instead for field: ${name}`
+  );
+
   return (
-    <ApiInputLegacy
+    <UniversalFormField
       name={name}
+      type="input"
       label={label}
       placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-      className={className}
       required={required}
       disabled={disabled}
-      type={type}
+      inputType={type}
+      inputValue={value}
+      onInputChange={onChange}
+      className={className}
     />
   );
 };
 
-export default ApiInput;
+export default ApiInputLegacy;

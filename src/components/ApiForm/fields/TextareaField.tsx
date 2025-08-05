@@ -5,9 +5,7 @@
 
 import React from "react";
 import { Controller } from "react-hook-form";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
+import { UniversalFormField } from "@/components/forms";
 import type { FieldProps, TextareaFieldConfig } from "../types";
 
 export interface TextareaFieldProps<T> extends FieldProps<T> {
@@ -23,30 +21,22 @@ export function TextareaField<T>({ field, form, name }: TextareaFieldProps<T>) {
   const error = errors[name as keyof typeof errors];
 
   return (
-    <div className={cn("space-y-2", field.className)}>
-      {field.label && (
-        <Label htmlFor={name} className="text-sm font-medium">
-          {field.label}
-          {field.required && <span className="text-destructive ml-1">*</span>}
-        </Label>
-      )}
+    <div className={field.className}>
       <Controller
         name={name}
         control={control}
-        render={({ field: { value, onChange, onBlur } }) => (
-          <Textarea
-            id={name}
+        render={({ field: { value, onChange } }) => (
+          <UniversalFormField
+            name={name}
+            type="textarea"
+            label={field.label}
             placeholder={field.placeholder}
-            value={value || ""}
-            onChange={(e) => onChange(e.target.value)}
-            onBlur={onBlur}
-            disabled={field.disabled}
             required={field.required}
+            disabled={field.disabled}
             rows={field.rows || 3}
-            maxLength={field.maxLength}
-            className={cn(error && "border-destructive focus:ring-destructive")}
-            aria-invalid={!!error}
-            aria-describedby={error ? `${name}-error` : undefined}
+            inputValue={value || ""}
+            onInputChange={onChange}
+            className={error ? "border-destructive focus:ring-destructive" : ""}
           />
         )}
       />

@@ -747,7 +747,7 @@ const EditAsset = () => {
                                         next_iteration: value,
                                       }))
                                     }
-                                    endpoint={`/pm-automation/pm-settings/manual-generation/${selectedItemId}`}
+                                    endpoint={`/pm-automation/pm-settings/${selectedItemId}`}
                                     optionValueKey="id"
                                     optionLabelKey="name"
                                     placeholder="Select iteration"
@@ -1022,7 +1022,7 @@ const EditAsset = () => {
                           calendar_lead_time_days: "calendar_lead_time_days",
                         }}
                         generateWorkOrderEndpoint="/pm-automation/pm-settings/manual-generation"
-                        nextIterationEndpoint="/pm-automation/pm-settings/manual-generation"
+                        nextIterationEndpoint="/pm-automation/pm-settings"
                       />
                     </div>
 

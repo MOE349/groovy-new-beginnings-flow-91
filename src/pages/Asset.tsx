@@ -12,11 +12,15 @@ const Asset = () => {
     { key: "make", header: "Make" },
     { key: "model", header: "Model" },
     { key: "location", header: "Location", type: "object" },
-    { key: "is_online", header: "Online Status", render: (value) => value ? "Online" : "Offline" },
-    { 
-      key: "equipment", 
-      header: "Type", 
-      render: (value, row) => row.equipment ? "Attachment" : "Equipment" 
+    {
+      key: "is_online",
+      header: "Online Status",
+      render: (value) => (value ? "Online" : "Offline"),
+    },
+    {
+      key: "equipment",
+      header: "Type",
+      render: (value, row) => (row.equipment ? "Attachment" : "Equipment"),
     },
   ];
 

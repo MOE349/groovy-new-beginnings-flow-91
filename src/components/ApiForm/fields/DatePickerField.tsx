@@ -5,9 +5,7 @@
 
 import React from "react";
 import { Controller } from "react-hook-form";
-import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
-import ApiDatePicker from "@/components/ApiDatePicker";
+import { UniversalFormField } from "@/components/forms";
 import type { FieldProps, DatePickerFieldConfig } from "../types";
 
 export interface DatePickerFieldProps<T> extends FieldProps<T> {
@@ -27,25 +25,21 @@ export function DatePickerField<T>({
   const error = errors[name as keyof typeof errors];
 
   return (
-    <div className={cn("space-y-2", field.className)}>
-      {field.label && (
-        <Label htmlFor={name} className="text-sm font-medium">
-          {field.label}
-          {field.required && <span className="text-destructive ml-1">*</span>}
-        </Label>
-      )}
+    <div className={field.className}>
       <Controller
         name={name}
         control={control}
         render={({ field: { value, onChange } }) => (
-          <ApiDatePicker
+          <UniversalFormField
             name={name}
+            type="datepicker"
+            label={field.label}
             placeholder={field.placeholder}
-            value={value}
-            onChange={(date) => onChange(date)}
-            disabled={field.disabled}
             required={field.required}
-            className={cn(error && "border-destructive")}
+            disabled={field.disabled}
+            dateValue={value}
+            onDateChange={onChange}
+            className={error ? "border-destructive" : ""}
           />
         )}
       />

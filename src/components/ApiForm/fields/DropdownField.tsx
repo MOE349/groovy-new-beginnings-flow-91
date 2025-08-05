@@ -5,9 +5,7 @@
 
 import React from "react";
 import { Controller } from "react-hook-form";
-import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
-import ApiDropDown from "@/components/ApiDropDown";
+import { UniversalFormField } from "@/components/forms";
 import type { FieldProps, DropdownFieldConfig } from "../types";
 
 export interface DropdownFieldProps<T> extends FieldProps<T> {
@@ -23,30 +21,26 @@ export function DropdownField<T>({ field, form, name }: DropdownFieldProps<T>) {
   const error = errors[name as keyof typeof errors];
 
   return (
-    <div className={cn("space-y-2", field.className)}>
-      {field.label && (
-        <Label htmlFor={name} className="text-sm font-medium">
-          {field.label}
-          {field.required && <span className="text-destructive ml-1">*</span>}
-        </Label>
-      )}
+    <div className={field.className}>
       <Controller
         name={name}
         control={control}
         render={({ field: { value, onChange } }) => (
-          <ApiDropDown
+          <UniversalFormField
             name={name}
+            type="dropdown"
+            label={field.label}
             placeholder={field.placeholder}
-            value={value || ""}
-            onChange={(val) => onChange(val)}
-            disabled={field.disabled}
             required={field.required}
+            disabled={field.disabled}
+            value={value || ""}
+            onChange={onChange}
             options={field.options}
             endpoint={field.endpoint}
             optionValueKey={field.optionValueKey}
             optionLabelKey={field.optionLabelKey}
             queryKey={field.queryKey}
-            className={cn(error && "border-destructive")}
+            className={error ? "border-destructive" : ""}
           />
         )}
       />

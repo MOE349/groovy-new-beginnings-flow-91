@@ -1,8 +1,10 @@
 /**
- * @deprecated This component is deprecated. Use UniversalFormField instead.
- * This is a legacy compatibility wrapper.
+ * @deprecated Use UniversalFormField instead
+ * Legacy compatibility wrapper for ApiTextArea
  */
-import ApiTextAreaLegacy from "@/components/legacy/ApiTextArea.legacy";
+
+import React from "react";
+import { UniversalFormField } from "@/components/forms";
 
 interface ApiTextAreaProps {
   name: string;
@@ -16,7 +18,7 @@ interface ApiTextAreaProps {
   rows?: number;
 }
 
-const ApiTextArea = ({
+const ApiTextAreaLegacy = ({
   name,
   label,
   placeholder,
@@ -25,21 +27,26 @@ const ApiTextArea = ({
   className,
   required = false,
   disabled = false,
-  rows = 1,
+  rows = 3,
 }: ApiTextAreaProps) => {
+  console.warn(
+    `[DEPRECATED] ApiTextArea is deprecated. Use UniversalFormField instead for field: ${name}`
+  );
+
   return (
-    <ApiTextAreaLegacy
+    <UniversalFormField
       name={name}
+      type="textarea"
       label={label}
       placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-      className={className}
       required={required}
       disabled={disabled}
       rows={rows}
+      inputValue={value}
+      onInputChange={onChange}
+      className={className}
     />
   );
 };
 
-export default ApiTextArea;
+export default ApiTextAreaLegacy;
