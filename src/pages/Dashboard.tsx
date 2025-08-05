@@ -1,4 +1,3 @@
-import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -22,23 +21,20 @@ import {
   Settings
 } from "lucide-react";
 
-const Dashboard = React.memo(() => {
-  // Dashboard data with optimized refresh interval
-  const {
-    data: dashboardData,
-    isLoading,
-    error,
-    isError,
-  } = useQuery({
-    queryKey: ["dashboard"],
-    queryFn: async () => {
-      const response = await apiCall("/dashboard");
-      return response.data.data || response.data;
-    },
-    refetchInterval: 300000, // 5 minutes instead of 30 seconds
-    staleTime: 300000, // 5 minutes
-    enabled: false, // Temporarily disabled - remove when API is ready
-  });
+const Dashboard = () => {
+  // Temporarily disabled API calls - using static data
+  // const {
+  //   data: dashboardData,
+  //   isLoading,
+  //   error,
+  //   isError,
+  // } = useQuery({
+  //   queryKey: ["dashboard"],
+  //   queryFn: async () => {
+  //     const response = await apiGet("/dashboard");
+  //     return response.data.data || response.data;
+  //   },
+  // });
 
   // Static fallback data for now
   const stats = {
@@ -322,8 +318,6 @@ const Dashboard = React.memo(() => {
       </div>
     </div>
   );
-});
-
-Dashboard.displayName = "Dashboard";
+};
 
 export default Dashboard;
