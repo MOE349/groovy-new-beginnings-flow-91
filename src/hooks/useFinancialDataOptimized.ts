@@ -1,13 +1,13 @@
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { apiGet } from '@/utils/apis';
+import { apiCall } from '@/utils/apis';
 import { handleApiError } from '@/utils/errorHandling';
 
 export const useFinancialDataOptimized = (assetId: string) => {
   return useQuery({
     queryKey: ['financial-data', assetId],
     queryFn: async () => {
-      const response = await apiGet(`/financial-reports/${assetId}`);
+      const response = await apiCall(`/financial-reports/${assetId}`);
       return response.data?.data || response.data;
     },
     enabled: !!assetId,
@@ -25,7 +25,7 @@ export const usePrefetchFinancialData = () => {
     queryClient.prefetchQuery({
       queryKey: ['financial-data', assetId],
       queryFn: async () => {
-        const response = await apiGet(`/financial-reports/${assetId}`);
+        const response = await apiCall(`/financial-reports/${assetId}`);
         return response.data?.data || response.data;
       },
       staleTime: 2 * 60 * 1000,

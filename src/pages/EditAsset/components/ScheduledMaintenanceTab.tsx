@@ -45,19 +45,19 @@ export const ScheduledMaintenanceTab = React.memo<ScheduledMaintenanceTabProps>(
     {
       title: "PM Settings",
       component: (
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold">PM Settings</h3>
-          <p className="text-muted-foreground">PM Trigger functionality will be implemented here.</p>
-        </div>
-      ),
-    },
-    {
-      title: "PM Checklist",
-      component: (
         <PMChecklistTabs 
           assetId={assetId} 
           onNavigateBack={() => handleViewChange(0)} 
         />
+      ),
+    },
+    {
+      title: "PM Triggers",
+      component: (
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold">PM Triggers</h3>
+          <p className="text-muted-foreground">PM Trigger functionality will be implemented here.</p>
+        </div>
       ),
     },
   ];

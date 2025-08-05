@@ -18,9 +18,20 @@ export const ComponentsTab = React.memo<ComponentsTabProps>(({ assetId }) => {
           <CardTitle>Asset Components</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-muted-foreground">
-            Component management for asset {assetId} will be implemented here.
-          </p>
+          <div className="space-y-4">
+            <p className="text-muted-foreground">
+              Component management for asset {assetId} will be implemented here.
+            </p>
+            <div className="border rounded-lg p-4">
+              <h4 className="font-medium mb-2">Asset Components</h4>
+              <div className="text-sm text-muted-foreground">
+                <p>• Engine components</p>
+                <p>• Hydraulic systems</p>
+                <p>• Electrical components</p>
+                <p>• Mechanical parts</p>
+              </div>
+            </div>
+          </div>
         </CardContent>
       </Card>
     </div>
