@@ -23,6 +23,13 @@ MemoizedLoadingSpinner.displayName = "MemoizedLoadingSpinner";
 // Dashboard optimizations
 export const DashboardRefreshInterval = 300000; // 5 minutes instead of 30 seconds
 
+// Bundle optimization settings
+export const BundleOptimization = {
+  chunkSizeThreshold: 244 * 1024, // 244KB warning threshold
+  lazyLoadThreshold: 100 * 1024, // 100KB minimum for lazy loading
+  preloadCritical: true,
+};
+
 // Virtual scrolling configuration
 export const VirtualScrollConfig = {
   enabled: true,
