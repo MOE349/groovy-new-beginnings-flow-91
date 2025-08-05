@@ -366,7 +366,7 @@ export const UniversalFormField: React.FC<UniversalFormFieldProps> = ({
         </Label>
       )}
       {renderField()}
-      {description && type !== "switch" && (
+      {description && !["switch"].includes(type) && (
         <p className="text-sm text-muted-foreground">{description}</p>
       )}
     </div>

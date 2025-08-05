@@ -31,13 +31,13 @@ export function DatePickerField<T>({
         control={control}
         render={({ field: { value, onChange } }) => (
           <UniversalFormField
-            name={name}
+            name={name as string}
             type="datepicker"
             label={field.label}
             placeholder={field.placeholder}
             required={field.required}
             disabled={field.disabled}
-            dateValue={value}
+            dateValue={value as Date}
             onDateChange={onChange}
             className={error ? "border-destructive" : ""}
           />
@@ -45,7 +45,7 @@ export function DatePickerField<T>({
       />
       {error && (
         <p id={`${name}-error`} className="text-sm text-destructive">
-          {error.message}
+          {error?.message as string}
         </p>
       )}
     </div>

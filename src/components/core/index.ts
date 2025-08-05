@@ -6,4 +6,4 @@
 // Re-export existing core components
 export { Layout } from "../Layout";
 export { AppSidebar } from "../AppSidebar";
-export { TenMilLogo } from "../TenMilLogo";
+export { default as TenMilLogo } from "../TenMilLogo";

@@ -28,10 +28,10 @@ export function InputField<T>({ field, form, name }: InputFieldProps<T>) {
         control={control}
         render={({ field: { value, onChange } }) => (
           <UniversalFormField
-            name={name}
+            name={name as string}
             type="input"
             inputType="hidden"
-            inputValue={value || ""}
+            inputValue={value ? String(value) : ""}
             onInputChange={onChange}
           />
         )}
@@ -46,14 +46,14 @@ export function InputField<T>({ field, form, name }: InputFieldProps<T>) {
         control={control}
         render={({ field: { value, onChange } }) => (
           <UniversalFormField
-            name={name}
+            name={name as string}
             type="input"
             label={field.label}
             placeholder={field.placeholder}
             required={field.required}
             disabled={field.disabled}
             inputType={field.inputType || "text"}
-            inputValue={value || ""}
+            inputValue={value ? String(value) : ""}
             onInputChange={(val) => {
               const processedVal =
                 field.inputType === "number" ? Number(val) : val;
@@ -65,7 +65,7 @@ export function InputField<T>({ field, form, name }: InputFieldProps<T>) {
       />
       {error && (
         <p id={`${name}-error`} className="text-sm text-destructive">
-          {error.message}
+          {error?.message as string}
         </p>
       )}
     </div>

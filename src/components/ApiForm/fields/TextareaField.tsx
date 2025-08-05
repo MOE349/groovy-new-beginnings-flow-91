@@ -27,14 +27,14 @@ export function TextareaField<T>({ field, form, name }: TextareaFieldProps<T>) {
         control={control}
         render={({ field: { value, onChange } }) => (
           <UniversalFormField
-            name={name}
+            name={name as string}
             type="textarea"
             label={field.label}
             placeholder={field.placeholder}
             required={field.required}
             disabled={field.disabled}
             rows={field.rows || 3}
-            inputValue={value || ""}
+            inputValue={value ? String(value) : ""}
             onInputChange={onChange}
             className={error ? "border-destructive focus:ring-destructive" : ""}
           />
@@ -47,7 +47,7 @@ export function TextareaField<T>({ field, form, name }: TextareaFieldProps<T>) {
             control={control}
             render={({ field: { value } }) => (
               <span>
-                {(value || "").length} / {field.maxLength}
+                {String(value || "").length} / {field.maxLength}
               </span>
             )}
           />
@@ -55,7 +55,7 @@ export function TextareaField<T>({ field, form, name }: TextareaFieldProps<T>) {
       )}
       {error && (
         <p id={`${name}-error`} className="text-sm text-destructive">
-          {error.message}
+          {error?.message as string}
         </p>
       )}
     </div>

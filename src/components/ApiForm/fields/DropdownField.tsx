@@ -27,13 +27,13 @@ export function DropdownField<T>({ field, form, name }: DropdownFieldProps<T>) {
         control={control}
         render={({ field: { value, onChange } }) => (
           <UniversalFormField
-            name={name}
+            name={name as string}
             type="dropdown"
             label={field.label}
             placeholder={field.placeholder}
             required={field.required}
             disabled={field.disabled}
-            value={value || ""}
+            value={value ? String(value) : ""}
             onChange={onChange}
             options={field.options}
             endpoint={field.endpoint}
@@ -46,7 +46,7 @@ export function DropdownField<T>({ field, form, name }: DropdownFieldProps<T>) {
       />
       {error && (
         <p id={`${name}-error`} className="text-sm text-destructive">
-          {error.message}
+          {error?.message as string}
         </p>
       )}
     </div>
