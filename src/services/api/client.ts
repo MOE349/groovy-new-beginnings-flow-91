@@ -23,14 +23,12 @@ export class ApiClient {
   private defaultTimeout: number;
   private interceptors: InterceptorManager;
   private abortControllers: Map<string, AbortController>;
-  private requestCache: Map<string, { data: any; timestamp: number }>;
 
   constructor(config: Partial<ApiClientConfig> = {}) {
     this._baseURL = config.baseURL || API_CONFIG.BASE_URL;
     this.defaultTimeout = config.timeout || API_CONFIG.TIMEOUT || 30000; // 30s fallback
     this.interceptors = new InterceptorManager();
     this.abortControllers = new Map();
-    this.requestCache = new Map();
 
     // Set up default interceptors
     this.interceptors.useRequest(createAuthInterceptor());
@@ -134,51 +132,12 @@ export class ApiClient {
   }
 
   /**
-   * Check cache for GET requests
-   */
-  private getCachedResponse<T>(cacheKey: string): ApiResponse<T> | null {
-    const cached = this.requestCache.get(cacheKey);
-    if (cached && Date.now() - cached.timestamp < 60000) { // 1 minute cache
-      return cached.data;
-    }
-    return null;
-  }
-
-  /**
-   * Cache response for GET requests
-   */
-  private setCachedResponse<T>(cacheKey: string, response: ApiResponse<T>): void {
-    this.requestCache.set(cacheKey, {
-      data: response,
-      timestamp: Date.now()
-    });
-    
-    // Clean old cache entries (keep only last 50)
-    if (this.requestCache.size > 50) {
-      const entries = Array.from(this.requestCache.entries());
-      entries.sort((a, b) => a[1].timestamp - b[1].timestamp);
-      entries.slice(0, entries.length - 50).forEach(([key]) => {
-        this.requestCache.delete(key);
-      });
-    }
-  }
-
-  /**
    * Core request method
    */
   async request<T = any>(
     endpoint: string,
     config: ApiRequestConfig = {}
   ): Promise<ApiResponse<T>> {
-    // Check cache for GET requests without body
-    if (!config.method || config.method === 'GET') {
-      const cacheKey = `${endpoint}${JSON.stringify(config.params || {})}`;
-      const cached = this.getCachedResponse<T>(cacheKey);
-      if (cached) {
-        return cached;
-      }
-    }
-
     // Generate unique request ID
     const requestId = `${endpoint}-${Date.now()}`;
     const controller = new AbortController();
@@ -258,15 +217,8 @@ export class ApiClient {
             headers: response.headers,
           };
 
-          const finalResponse = await this.interceptors.runResponseInterceptors(apiResponse);
-          
-          // Cache GET responses
-          if (!config.method || config.method === 'GET') {
-            const cacheKey = `${endpoint}${JSON.stringify(config.params || {})}`;
-            this.setCachedResponse(cacheKey, finalResponse);
-          }
-          
-          return finalResponse;
+          // Run response interceptors
+          return await this.interceptors.runResponseInterceptors(apiResponse);
         } catch (error) {
           // Clean up timeout on error
           cleanupTimeout();
@@ -312,13 +264,6 @@ export class ApiClient {
   cancelAll(): void {
     this.abortControllers.forEach((controller) => controller.abort());
     this.abortControllers.clear();
-  }
-
-  /**
-   * Clear request cache
-   */
-  clearCache(): void {
-    this.requestCache.clear();
   }
 
   /**
