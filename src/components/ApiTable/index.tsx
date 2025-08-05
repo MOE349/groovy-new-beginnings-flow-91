@@ -454,15 +454,11 @@ function ApiTableComponent<T extends Record<string, any>>({
 }
 
 // Export with proper generic typing
-const MemoizedApiTable = React.memo(ApiTableComponent) as <
+export const ApiTable = React.memo(ApiTableComponent) as <
   T extends Record<string, any>,
 >(
   props: ApiTableProps<T>
 ) => JSX.Element;
-
-(MemoizedApiTable as any).displayName = 'ApiTable';
-
-export const ApiTable = MemoizedApiTable;
 
 // Re-export types
 export type { ApiTableProps, TableColumn } from "./types";

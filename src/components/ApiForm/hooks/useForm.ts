@@ -5,7 +5,7 @@
 
 import {
   useForm as useReactHookForm,
-  UseFormReturn as ReactUseFormReturn,
+  UseFormReturn,
   FieldValues,
 } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,7 +26,7 @@ export interface UseFormOptions<T extends FieldValues = FieldValues>
 }
 
 export interface UseFormReturn<T extends FieldValues = FieldValues> {
-  form: ReactUseFormReturn<T>;
+  form: UseFormReturn<T>;
   utils: FormUtils<T>;
   isSubmitting: boolean;
   isDirty: boolean;
@@ -42,7 +42,7 @@ export function useForm<T extends FieldValues = FieldValues>({
   onChange,
 }: UseFormOptions<T>): UseFormReturn<T> {
   // Generate schema from fields if not provided
-  const formSchema = schema || (generateSchema(fields) as any);
+  const formSchema = schema || (generateSchema(fields) as z.ZodType<T>);
 
   // Initialize React Hook Form
   const form = useReactHookForm<T>({
@@ -107,7 +107,7 @@ export function useForm<T extends FieldValues = FieldValues>({
       if (!isValid && form.formState.errors) {
         Object.entries(form.formState.errors).forEach(([key, error]) => {
           if (error?.message) {
-            errors[key] = String(error.message);
+            errors[key] = error.message;
           }
         });
       }
@@ -129,6 +129,6 @@ export function useForm<T extends FieldValues = FieldValues>({
     utils,
     isSubmitting,
     isDirty,
-    dirtyFields: dirtyFields as any,
+    dirtyFields,
   };
 }

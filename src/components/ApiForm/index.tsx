@@ -48,7 +48,7 @@ function ApiFormComponent<T extends FieldValues = FieldValues>({
   // Reset form when initialData changes
   useEffect(() => {
     if (initialData && Object.keys(initialData).length > 0) {
-      form.reset(initialData as any);
+      form.reset(initialData as Partial<T>);
     }
   }, [initialData, form]);
 
@@ -87,7 +87,7 @@ function ApiFormComponent<T extends FieldValues = FieldValues>({
           ];
 
           if (fieldExists || customLayoutFields.includes(key)) {
-            (acc as any)[key] = (data as any)[key];
+            acc[key] = data[key];
           }
           return acc;
         }, {} as T);
@@ -227,15 +227,11 @@ function ApiFormComponent<T extends FieldValues = FieldValues>({
 }
 
 // Export with proper generic typing
-const MemoizedApiForm = React.memo(ApiFormComponent) as <
+export const ApiForm = React.memo(ApiFormComponent) as <
   T extends FieldValues = FieldValues,
 >(
   props: ApiFormProps<T>
 ) => JSX.Element;
-
-(MemoizedApiForm as any).displayName = 'ApiForm';
-
-export const ApiForm = MemoizedApiForm;
 
 // Default export for backward compatibility
 export default ApiForm;

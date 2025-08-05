@@ -4,19 +4,12 @@ import React from 'react';
 interface GearSpinnerProps {
   fullscreen?: boolean;
   className?: string;
-  size?: "sm" | "md" | "lg";
 }
 
 const GearSpinner: React.FC<GearSpinnerProps> = ({ 
   fullscreen = false,
-  className = "",
-  size = "md"
+  className = "" 
 }) => {
-  const sizeMap = {
-    sm: { width: 50, height: 50 },
-    md: { width: 100, height: 100 },
-    lg: { width: 200, height: 200 }
-  };
   if (fullscreen) {
     return (
       <div className={`fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm ${className}`}>
@@ -24,8 +17,8 @@ const GearSpinner: React.FC<GearSpinnerProps> = ({
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="-22.976 -24 100 100"
-            width={fullscreen ? 200 : sizeMap[size].width}
-            height={fullscreen ? 200 : sizeMap[size].height}
+            width={200}
+            height={200}
             style={{ 
               filter: 'drop-shadow(2px 4px 6px rgba(0,0,0,0.4))'
             }}
@@ -60,8 +53,8 @@ const GearSpinner: React.FC<GearSpinnerProps> = ({
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="-22.976 -24 100 100"
-          width={sizeMap[size].width}
-          height={sizeMap[size].height}
+          width={100}
+          height={100}
           style={{ 
             filter: 'drop-shadow(2px 4px 6px rgba(0,0,0,0.4))'
           }}

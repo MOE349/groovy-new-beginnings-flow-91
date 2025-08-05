@@ -502,7 +502,7 @@ const EditWorkOrder = () => {
                     customLayout={({ fields, formData, renderField }) => (
                       <div className="space-y-3">
                         {fields.map((field) => {
-                          if ((field as any).inputType === "hidden")
+                          if (field.inputType === "hidden")
                             return renderField(field);
                           return (
                             <div

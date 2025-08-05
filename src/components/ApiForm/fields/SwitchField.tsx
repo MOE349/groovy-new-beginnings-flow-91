@@ -27,20 +27,20 @@ export function SwitchField<T>({ field, form, name }: SwitchFieldProps<T>) {
         control={control}
         render={({ field: { value, onChange } }) => (
           <UniversalFormField
-            name={name as string}
+            name={name}
             type="switch"
             label={field.label}
             description={field.description}
             required={field.required}
             disabled={field.disabled}
-            checked={Boolean(value)}
+            checked={value || false}
             onSwitchChange={onChange}
           />
         )}
       />
       {error && (
         <p id={`${name}-error`} className="text-sm text-destructive ml-6">
-          {error?.message as string}
+          {error.message}
         </p>
       )}
     </div>

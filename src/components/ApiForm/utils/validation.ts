@@ -47,7 +47,7 @@ export function generateSchema(fields: FieldConfig[]): z.ZodObject<any> {
           default:
             fieldSchema = z.string();
             if (field.pattern) {
-              fieldSchema = (fieldSchema as any).regex(
+              fieldSchema = fieldSchema.regex(
                 new RegExp(field.pattern),
                 "Invalid format"
               );
@@ -58,7 +58,7 @@ export function generateSchema(fields: FieldConfig[]): z.ZodObject<any> {
       case "textarea":
         fieldSchema = z.string();
         if (field.maxLength) {
-          fieldSchema = (fieldSchema as any).max(
+          fieldSchema = fieldSchema.max(
             field.maxLength,
             `Maximum ${field.maxLength} characters`
           );
@@ -183,9 +183,9 @@ export function getDirtyFields<T extends Record<string, any>>(
     const defaultValue = defaultValues[key];
 
     // Handle date comparison
-    if ((currentValue as any) instanceof Date && (defaultValue as any) instanceof Date) {
-      if ((currentValue as any).getTime() !== (defaultValue as any).getTime()) {
-        (dirtyFields as any)[key] = true;
+    if (currentValue instanceof Date && defaultValue instanceof Date) {
+      if (currentValue.getTime() !== defaultValue.getTime()) {
+        dirtyFields[key as keyof T] = true;
       }
     }
     // Handle object/array comparison
@@ -218,7 +218,7 @@ export function transformFormData<T extends Record<string, any>>(
       transformed[field.name] instanceof Date
     ) {
       // Convert Date to ISO string for API submission
-      (transformed as any)[field.name] = ((transformed as any)[field.name] as Date)
+      transformed[field.name] = (transformed[field.name] as Date)
         .toISOString()
         .split("T")[0];
     }
