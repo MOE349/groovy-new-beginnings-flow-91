@@ -31,12 +31,22 @@ function ApiFormComponent<T extends FieldValues = FieldValues>({
   formClassName,
   layout = "vertical",
   columns = 1,
-  showDirtyOnly = false,
+  showDirtyOnly,
   customRender,
   customLayout, // Backward compatibility
 }: ApiFormProps<T>) {
   // Use initialData if provided for backward compatibility
   const formDefaultValues = defaultValues || initialData;
+
+  // Auto-detect if this is an edit operation (has ID) and enable dirty fields by default
+  const isEditOperation =
+    formDefaultValues &&
+    typeof formDefaultValues === "object" &&
+    "id" in formDefaultValues &&
+    formDefaultValues.id;
+
+  const shouldShowDirtyOnly =
+    showDirtyOnly !== undefined ? showDirtyOnly : isEditOperation;
 
   const { form, utils, isSubmitting, isDirty } = useForm<T>({
     fields,
@@ -93,15 +103,43 @@ function ApiFormComponent<T extends FieldValues = FieldValues>({
         }, {} as T);
 
         const transformedData = transformFormData(filteredData, fields);
-        const dirtyFields = showDirtyOnly ? utils.getDirtyFields() : undefined;
+        const dirtyFieldsMap = shouldShowDirtyOnly
+          ? utils.getDirtyFields()
+          : undefined;
 
-        await onSubmit(transformedData, dirtyFields);
+        // If shouldShowDirtyOnly is true, only send the dirty (changed) fields
+        let dataToSubmit = transformedData;
+        if (shouldShowDirtyOnly && dirtyFieldsMap) {
+          dataToSubmit = Object.keys(transformedData).reduce((acc, key) => {
+            // Include field if it's dirty (changed) or if it's a required field for the API
+            if (dirtyFieldsMap[key] || ["id"].includes(key)) {
+              acc[key] = transformedData[key];
+            }
+            return acc;
+          }, {} as T);
+
+          console.log("🎯 DIRTY FIELDS ONLY MODE:", {
+            allFields: Object.keys(transformedData),
+            dirtyFields: Object.keys(dirtyFieldsMap).filter(
+              (key) => dirtyFieldsMap[key]
+            ),
+            dataToSubmit: Object.keys(dataToSubmit),
+            fullPayload: dataToSubmit,
+          });
+        } else {
+          console.log("📦 FULL FIELDS MODE:", {
+            allFields: Object.keys(transformedData),
+            fullPayload: dataToSubmit,
+          });
+        }
+
+        await onSubmit(dataToSubmit, dirtyFieldsMap);
       } catch (error) {
         // Error handling is done by the parent component
         console.error("Form submission error:", error);
       }
     },
-    [onSubmit, fields, showDirtyOnly, utils]
+    [onSubmit, fields, shouldShowDirtyOnly, utils]
   );
 
   const renderField = useCallback(
@@ -202,7 +240,9 @@ function ApiFormComponent<T extends FieldValues = FieldValues>({
         )}
         <Button
           type="submit"
-          disabled={isSubmitting || loading || (!isDirty && showDirtyOnly)}
+          disabled={
+            isSubmitting || loading || (!isDirty && shouldShowDirtyOnly)
+          }
         >
           {isSubmitting || loading ? "Loading..." : submitText}
         </Button>
