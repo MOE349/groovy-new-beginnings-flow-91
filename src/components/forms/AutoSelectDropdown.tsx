@@ -31,25 +31,10 @@ const AutoSelectDropdown: React.FC<AutoSelectDropdownProps> = (props) => {
   } = props;
 
   // Fetch data from API if endpoint is provided
-  const {
-    data: apiData,
-    isLoading,
-    error,
-  } = useQuery({
+  const { data: apiData } = useQuery({
     queryKey: queryKey || [endpoint],
-    queryFn: () => {
-      console.log("🌐 AutoSelectDropdown: Making API call to:", endpoint);
-      return apiCall(endpoint || "");
-    },
+    queryFn: () => apiCall(endpoint || ""),
     enabled: !!endpoint && options.length === 0,
-  });
-
-  console.log("🌐 AutoSelectDropdown Query State:", {
-    endpoint,
-    isLoading,
-    error,
-    hasApiData: !!apiData,
-    apiDataKeys: apiData ? Object.keys(apiData) : [],
   });
 
   // Generate dropdown options (enhanced for manual-generation endpoint)
@@ -57,8 +42,6 @@ const AutoSelectDropdown: React.FC<AutoSelectDropdownProps> = (props) => {
     if (options.length > 0) {
       return options;
     }
-
-    console.log("🔍 AutoSelectDropdown: Processing API data:", apiData);
 
     // Handle different API response structures
     let dataArray: any[] = [];
@@ -70,7 +53,6 @@ const AutoSelectDropdown: React.FC<AutoSelectDropdownProps> = (props) => {
         typeof apiData.data.data === "object" &&
         !Array.isArray(apiData.data.data)
       ) {
-        console.log("🔍 Found manual-generation format in nested data");
         const objectKeys = Object.keys(apiData.data.data);
         if (
           objectKeys.length > 0 &&
@@ -81,7 +63,6 @@ const AutoSelectDropdown: React.FC<AutoSelectDropdownProps> = (props) => {
             [optionValueKey]: key,
             [optionLabelKey]: value,
           }));
-          console.log("🔍 Converted nested data to array:", dataArray);
         }
       }
       // Check for manual-generation response format: { "0": "5000 km", "1": "10000 km", ... }
@@ -90,7 +71,6 @@ const AutoSelectDropdown: React.FC<AutoSelectDropdownProps> = (props) => {
         !Array.isArray(apiData.data) &&
         !apiData.data.data
       ) {
-        console.log("🔍 Found manual-generation format object");
         const objectKeys = Object.keys(apiData.data);
         if (
           objectKeys.length > 0 &&
@@ -101,7 +81,6 @@ const AutoSelectDropdown: React.FC<AutoSelectDropdownProps> = (props) => {
             [optionValueKey]: key,
             [optionLabelKey]: value,
           }));
-          console.log("🔍 Converted to array:", dataArray);
         }
       }
       // First check for nested iterations in PM settings (apiData.data.data.iterations)
@@ -130,45 +109,23 @@ const AutoSelectDropdown: React.FC<AutoSelectDropdownProps> = (props) => {
     }
 
     if (dataArray.length > 0) {
-      const processedOptions = dataArray.map((item: any) => ({
+      return dataArray.map((item: any) => ({
         value: String(item[optionValueKey]),
         label: String(item[optionLabelKey]),
       }));
-      console.log("🔍 Final processed options:", processedOptions);
-      return processedOptions;
     }
 
-    console.log("🔍 No data found, returning empty array");
     return [];
   }, [options, apiData, optionValueKey, optionLabelKey]);
 
   // Auto-select first option when dropdown options load and no value is set
   React.useEffect(() => {
-    console.log("🎯 AutoSelectDropdown useEffect:", {
-      dropdownOptionsLength: dropdownOptions.length,
-      value,
-      hasOnChange: !!onChange,
-      shouldAutoSelect:
-        dropdownOptions.length > 0 && (!value || value === "") && onChange,
-    });
-
     if (dropdownOptions.length > 0 && (!value || value === "") && onChange) {
-      console.log(
-        "🔥 AutoSelectDropdown: Auto-selecting first option:",
-        dropdownOptions[0]
-      );
       onChange(dropdownOptions[0].value);
     }
   }, [dropdownOptions, value, onChange]);
 
   // Render the standard UniversalFormField with type forced to 'dropdown'
-  console.log("🎨 AutoSelectDropdown render:", {
-    dropdownOptionsLength: dropdownOptions.length,
-    dropdownOptions,
-    value,
-    endpoint,
-  });
-
   return (
     <UniversalFormField
       {...restProps}

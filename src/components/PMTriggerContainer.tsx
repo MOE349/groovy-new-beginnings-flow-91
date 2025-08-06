@@ -117,9 +117,6 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
   };
 
   const handleFieldChange = (fieldName: string, value: any) => {
-    if (fieldName === "next_iteration") {
-      console.log("🎯 PMTriggerContainer: next_iteration changed to:", value);
-    }
     setFormData((prev) => ({
       ...prev,
       [fieldName]: value,

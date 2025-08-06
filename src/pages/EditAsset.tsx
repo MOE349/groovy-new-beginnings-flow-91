@@ -742,10 +742,6 @@ const EditAsset = () => {
                                     name="next_iteration"
                                     value={meterTriggerData.next_iteration}
                                     onChange={(value) => {
-                                      console.log(
-                                        "🎯 Meter Reading Trigger: next_iteration changed to:",
-                                        value
-                                      );
                                       setMeterTriggerData((prev) => ({
                                         ...prev,
                                         next_iteration: value,
