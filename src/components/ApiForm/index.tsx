@@ -117,20 +117,6 @@ function ApiFormComponent<T extends FieldValues = FieldValues>({
             }
             return acc;
           }, {} as T);
-
-          console.log("🎯 DIRTY FIELDS ONLY MODE:", {
-            allFields: Object.keys(transformedData),
-            dirtyFields: Object.keys(dirtyFieldsMap).filter(
-              (key) => dirtyFieldsMap[key]
-            ),
-            dataToSubmit: Object.keys(dataToSubmit),
-            fullPayload: dataToSubmit,
-          });
-        } else {
-          console.log("📦 FULL FIELDS MODE:", {
-            allFields: Object.keys(transformedData),
-            fullPayload: dataToSubmit,
-          });
         }
 
         await onSubmit(dataToSubmit, dirtyFieldsMap);

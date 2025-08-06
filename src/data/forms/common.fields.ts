@@ -12,7 +12,7 @@ export const nameField: FormField = {
   name: "name",
   type: "input",
   label: "Name",
-  required: false,
+  required: true,
   inputType: "text",
 };
 
