@@ -273,16 +273,116 @@
     @apply py-1 !important;
   }
 
-  /* Force date inputs to respect height constraints */
+  /* Comprehensive date input styling to match other inputs */
   input[type="date"] {
+    /* Core layout properties */
     height: inherit !important;
     box-sizing: border-box !important;
     line-height: inherit !important;
+    font-family: inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    
+    /* Background and border consistency */
+    background-color: inherit !important;
+    border-width: inherit !important;
+    border-style: inherit !important;
+    border-color: inherit !important;
+    border-radius: inherit !important;
+    
+    /* Padding and spacing */
+    padding-left: inherit !important;
+    padding-right: inherit !important;
+    padding-top: inherit !important;
+    padding-bottom: inherit !important;
+    
+    /* Text and color properties */
+    color: inherit !important;
+    text-align: inherit !important;
+    
+    /* Focus and interaction states */
+    outline: inherit !important;
+    transition: inherit !important;
   }
 
-  /* Ensure date input consistency with other form inputs */
+  /* Specific height constraint for h-6 class */
   input[type="date"].h-6 {
     height: 1.5rem !important;
     min-height: 1.5rem !important;
+  }
+
+  /* Specific height constraint for h-9 class (UI component standard) */
+  input[type="date"].h-9 {
+    height: 2.25rem !important;
+    min-height: 2.25rem !important;
+  }
+
+  /* Focus states for date inputs */
+  input[type="date"]:focus-visible {
+    outline: inherit !important;
+    border-color: inherit !important;
+    box-shadow: inherit !important;
+  }
+
+  /* Disabled states for date inputs */
+  input[type="date"]:disabled {
+    opacity: inherit !important;
+    cursor: inherit !important;
+    background-color: inherit !important;
+    color: inherit !important;
+  }
+
+  /* Placeholder text styling for date inputs */
+  input[type="date"]::placeholder {
+    color: inherit !important;
+    opacity: inherit !important;
+  }
+
+  /* Remove default browser styling for date inputs */
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    color: inherit;
+    opacity: 0.7;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+  }
+
+  /* Fix UniversalFormField datepicker button to match input styling */
+  [data-radix-popper-content-wrapper] button[class*="outline"] {
+    height: 2.25rem !important; /* h-9 equivalent */
+    padding: 0.5rem 0.75rem !important; /* py-2 px-3 equivalent */
+    font-size: 0.875rem !important; /* text-sm equivalent */
+    line-height: 1.25rem !important;
+    justify-content: flex-start !important;
+  }
+
+  /* Specific targeting for datepicker trigger buttons */
+  [role="combobox"][data-state] {
+    height: 2.25rem !important; /* h-9 to match Input */
+    padding: 0.5rem 0.75rem !important; /* py-2 px-3 to match Input */
+    font-size: 0.875rem !important; /* text-sm to match Input */
+    line-height: 1.25rem !important;
+    border-color: hsl(var(--input)) !important; /* match Input border color */
+    background-color: hsl(var(--background)) !important; /* match Input background */
+  }
+
+  /* Fix datepicker button in popover trigger specifically */
+  button[class*="outline"][class*="w-full"][class*="pl-3"] {
+    height: 2.25rem !important; /* h-9 */
+    padding: 0.5rem 0.75rem !important; /* py-2 px-3 */
+    font-size: 0.875rem !important; /* text-sm */
+    line-height: 1.25rem !important;
+    border-color: hsl(var(--input)) !important;
+    background-color: hsl(var(--background)) !important;
+    justify-content: flex-start !important;
+  }
+
+  /* Ensure datepicker button focus states match input focus states */
+  button[class*="outline"][class*="w-full"][class*="pl-3"]:focus-visible {
+    border-color: hsl(var(--secondary)) !important;
+    box-shadow: 0 0 0 2px hsl(var(--secondary) / 0.3) !important;
   }
 }
