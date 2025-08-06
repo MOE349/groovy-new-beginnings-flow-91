@@ -19,36 +19,37 @@ export function generateSchema(fields: FieldConfig[]): z.ZodObject<any> {
       case "input":
         switch (field.inputType) {
           case "email":
-            fieldSchema = z.string().email("Invalid email address");
+            fieldSchema = z.string().email("Invalid email address").or(z.literal("")).or(z.null()).or(z.undefined());
             break;
           case "number":
-            fieldSchema = z.coerce.number();
+            fieldSchema = z.coerce.number().or(z.null()).or(z.undefined());
             if (field.min !== undefined) {
-              fieldSchema = (fieldSchema as z.ZodNumber).min(
-                field.min,
+              fieldSchema = fieldSchema.refine(
+                (val) => val === null || val === undefined || val >= field.min!,
                 `Must be at least ${field.min}`
               );
             }
             if (field.max !== undefined) {
-              fieldSchema = (fieldSchema as z.ZodNumber).max(
-                field.max,
+              fieldSchema = fieldSchema.refine(
+                (val) => val === null || val === undefined || val <= field.max!,
                 `Must be at most ${field.max}`
               );
             }
             break;
           case "url":
-            fieldSchema = z.string().url("Invalid URL");
+            fieldSchema = z.string().url("Invalid URL").or(z.literal("")).or(z.null()).or(z.undefined());
             break;
           case "tel":
             fieldSchema = z
               .string()
-              .regex(/^\+?[1-9]\d{1,14}$/, "Invalid phone number");
+              .regex(/^\+?[1-9]\d{1,14}$/, "Invalid phone number")
+              .or(z.literal("")).or(z.null()).or(z.undefined());
             break;
           default:
-            fieldSchema = z.string();
+            fieldSchema = z.string().or(z.literal("")).or(z.null()).or(z.undefined());
             if (field.pattern) {
-              fieldSchema = fieldSchema.regex(
-                new RegExp(field.pattern),
+              fieldSchema = fieldSchema.refine(
+                (val) => !val || new RegExp(field.pattern!).test(val),
                 "Invalid format"
               );
             }
@@ -56,10 +57,10 @@ export function generateSchema(fields: FieldConfig[]): z.ZodObject<any> {
         break;
 
       case "textarea":
-        fieldSchema = z.string();
+        fieldSchema = z.string().or(z.literal("")).or(z.null()).or(z.undefined());
         if (field.maxLength) {
-          fieldSchema = fieldSchema.max(
-            field.maxLength,
+          fieldSchema = fieldSchema.refine(
+            (val) => !val || val.length <= field.maxLength!,
             `Maximum ${field.maxLength} characters`
           );
         }
@@ -70,16 +71,16 @@ export function generateSchema(fields: FieldConfig[]): z.ZodObject<any> {
         break;
 
       case "datepicker":
-        fieldSchema = z.date().or(z.string().transform((val) => new Date(val)));
+        fieldSchema = z.date().or(z.string().transform((val) => new Date(val))).or(z.null()).or(z.undefined());
         if (field.minDate) {
           fieldSchema = fieldSchema.refine(
-            (date) => date >= field.minDate!,
+            (date) => !date || date >= field.minDate!,
             `Date must be after ${field.minDate!.toLocaleDateString()}`
           );
         }
         if (field.maxDate) {
           fieldSchema = fieldSchema.refine(
-            (date) => date <= field.maxDate!,
+            (date) => !date || date <= field.maxDate!,
             `Date must be before ${field.maxDate!.toLocaleDateString()}`
           );
         }
@@ -87,9 +88,9 @@ export function generateSchema(fields: FieldConfig[]): z.ZodObject<any> {
 
       case "dropdown":
         if (field.multiple) {
-          fieldSchema = z.array(z.string());
+          fieldSchema = z.array(z.string()).or(z.null()).or(z.undefined());
         } else {
-          fieldSchema = z.string();
+          fieldSchema = z.string().or(z.literal("")).or(z.null()).or(z.undefined());
         }
         break;
 
@@ -110,8 +111,8 @@ export function generateSchema(fields: FieldConfig[]): z.ZodObject<any> {
         );
       }
     } else {
-      // Make field optional if not required
-      fieldSchema = fieldSchema.optional();
+      // Make field optional if not required - allow null/undefined values
+      fieldSchema = fieldSchema.nullable().optional();
     }
 
     shape[field.name] = fieldSchema;
