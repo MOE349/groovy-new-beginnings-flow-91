@@ -272,4 +272,17 @@
   [class*="tab-content"] table td {
     @apply py-1 !important;
   }
+
+  /* Force date inputs to respect height constraints */
+  input[type="date"] {
+    height: inherit !important;
+    box-sizing: border-box !important;
+    line-height: inherit !important;
+  }
+
+  /* Ensure date input consistency with other form inputs */
+  input[type="date"].h-6 {
+    height: 1.5rem !important;
+    min-height: 1.5rem !important;
+  }
 }
