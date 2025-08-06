@@ -7,6 +7,7 @@ import ApiForm from "@/components/ApiForm";
 import { handleApiError } from "@/utils/errorHandling";
 import { ApiTable } from "@/components/ApiTable";
 import ApiDropDown from "@/components/ApiDropDown";
+import { AutoSelectDropdown } from "@/components/forms";
 import { apiCall } from "@/utils/apis";
 import GearSpinner from "@/components/ui/gear-spinner";
 import {
@@ -638,8 +639,7 @@ const EditAsset = () => {
                                               lead_time_value: String(
                                                 item.lead_time_value ?? ""
                                               ),
-                                              next_iteration:
-                                                item.next_iteration ?? "",
+                                              next_iteration: "", // Clear to allow auto-selection
                                               is_active:
                                                 item.is_active !== undefined
                                                   ? item.is_active
@@ -738,16 +738,23 @@ const EditAsset = () => {
                               </span>
                               {selectedItemId ? (
                                 <div className="next-iteration-dropdown">
-                                  <ApiDropDown
+                                  <AutoSelectDropdown
                                     name="next_iteration"
                                     value={meterTriggerData.next_iteration}
-                                    onChange={(value) =>
+                                    onChange={(value) => {
+                                      console.log(
+                                        "🎯 Meter Reading Trigger: next_iteration changed to:",
+                                        value
+                                      );
                                       setMeterTriggerData((prev) => ({
                                         ...prev,
                                         next_iteration: value,
-                                      }))
-                                    }
-                                    endpoint={`/pm-automation/pm-settings/${selectedItemId}`}
+                                      }));
+                                    }}
+                                    endpoint={`/pm-automation/pm-settings/manual-generation/${selectedItemId}`}
+                                    queryKey={[
+                                      `/pm-automation/pm-settings/manual-generation/${selectedItemId}`,
+                                    ]}
                                     optionValueKey="id"
                                     optionLabelKey="name"
                                     placeholder="Select iteration"
@@ -1022,7 +1029,7 @@ const EditAsset = () => {
                           calendar_lead_time_days: "calendar_lead_time_days",
                         }}
                         generateWorkOrderEndpoint="/pm-automation/pm-settings/manual-generation"
-                        nextIterationEndpoint="/pm-automation/pm-settings"
+                        nextIterationEndpoint="/pm-automation/pm-settings/manual-generation"
                       />
                     </div>
 

@@ -181,17 +181,8 @@ export const UniversalFormField: React.FC<UniversalFormFieldProps> = ({
     return [];
   }, [options, apiData, optionValueKey, optionLabelKey]);
 
-  // Auto-select first option when dropdown options load and no value is set
-  React.useEffect(() => {
-    if (
-      type === "dropdown" &&
-      dropdownOptions.length > 0 &&
-      (!value || value === "") &&
-      onChange
-    ) {
-      onChange(dropdownOptions[0].value);
-    }
-  }, [type, dropdownOptions, value, onChange]);
+  // Note: Auto-selection removed from standard dropdown
+  // Use AutoSelectDropdown component for auto-selection behavior
 
   // Render field based on type
   const renderField = () => {
