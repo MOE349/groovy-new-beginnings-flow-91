@@ -18,6 +18,7 @@ interface FormField {
   options?: { value: string; label: string }[];
   width?: string;
   suffix?: string;
+  required?: boolean;
 }
 
 interface PMTriggerContainerProps {
@@ -238,7 +239,8 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
             value={value === "" ? "" : value}
             onChange={(e) => handleFieldChange(field.name, e.target.value)}
             disabled={!isFieldsEditable}
-            className={`h-6 px-2 text-xs border rounded ${field.width || "w-16"} ${!isFieldsEditable ? "bg-muted/50 text-muted-foreground cursor-not-allowed" : "bg-background"}`}
+            required={field.required}
+            className={`h-6 px-2 text-xs border rounded ${field.width || "w-16"} ${!isFieldsEditable ? "bg-muted/50 text-muted-foreground cursor-not-allowed" : "bg-background"} ${field.required && !value ? "border-red-300" : ""}`}
           />
         );
       case "date":
@@ -248,7 +250,8 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
             value={value}
             onChange={(e) => handleFieldChange(field.name, e.target.value)}
             disabled={!isFieldsEditable}
-            className={`h-6 px-2 text-xs border rounded ${field.width || "flex-1"} ${!isFieldsEditable ? "bg-muted/50 text-muted-foreground cursor-not-allowed" : "bg-background"}`}
+            required={field.required}
+            className={`h-6 px-2 text-xs border rounded ${field.width || "flex-1"} ${!isFieldsEditable ? "bg-muted/50 text-muted-foreground cursor-not-allowed" : "bg-background"} ${field.required && !value ? "border-red-300" : ""}`}
           />
         );
       default:
@@ -258,7 +261,8 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
             value={value}
             onChange={(e) => handleFieldChange(field.name, e.target.value)}
             disabled={!isFieldsEditable}
-            className={`h-6 px-2 text-xs border rounded ${field.width || "flex-1"} ${!isFieldsEditable ? "bg-muted/50 text-muted-foreground cursor-not-allowed" : "bg-background"}`}
+            required={field.required}
+            className={`h-6 px-2 text-xs border rounded ${field.width || "flex-1"} ${!isFieldsEditable ? "bg-muted/50 text-muted-foreground cursor-not-allowed" : "bg-background"} ${field.required && !value ? "border-red-300" : ""}`}
           />
         );
     }
@@ -392,6 +396,9 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
                   <div key={index} className="flex items-center gap-2">
                     <span className="text-xs text-muted-foreground w-16">
                       {field.label}
+                      {field.required && (
+                        <span className="text-red-500 ml-1">*</span>
+                      )}
                     </span>
                     {renderFormField(field)}
                     {renderFormField(nextField)}
@@ -414,6 +421,9 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
               <div key={index} className="flex items-center gap-2">
                 <span className="text-xs text-muted-foreground w-16">
                   {field.label}
+                  {field.required && (
+                    <span className="text-red-500 ml-1">*</span>
+                  )}
                 </span>
                 {renderFormField(field)}
                 {field.suffix && (

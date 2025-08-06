@@ -16,14 +16,14 @@ export const workOrderStatusFormFields: FormField[] = [
     "Control",
     "/work-orders/controls",
     ["work_orders_controls"],
-    false
+    true
   ),
   nameField,
 ];
 
 export const weightClassFormFields: FormField[] = [
   nameField,
-  createTextField("weight", "Weight", false),
+  createTextField("weight", "Weight", true),
 ];
 
 export const projectFormFields: FormField[] = [nameField];

@@ -30,6 +30,6 @@ export const attachmentCategoryFormFields: FormField[] = [
     type: "input",
     label: "Slug",
     inputType: "text",
-    required: true,  
+    required: true,
   },
 ];

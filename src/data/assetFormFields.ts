@@ -13,7 +13,7 @@ export const equipmentFields: FormField[] = [
     type: "switch",
     label: "Online",
     description: "Toggle between Online/Offline status",
-    required: false,
+    required: true,
   },
   {
     name: "description",
@@ -144,12 +144,14 @@ export const attachmentFields: FormField[] = [
     type: "switch",
     label: "Online",
     description: "Toggle between Online/Offline status",
+    required: true,
   },
   {
     name: "description",
     type: "textarea",
     label: "Description",
     rows: 3,
+    required: false,
   },
   {
     name: "equipment",
@@ -159,6 +161,7 @@ export const attachmentFields: FormField[] = [
     queryKey: ["assets_assets"],
     optionValueKey: "id",
     optionLabelKey: "name",
+    required: false,
   },
   {
     name: "code",

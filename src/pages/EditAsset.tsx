@@ -439,7 +439,7 @@ const EditAsset = () => {
                             name: "meter_reading",
                             type: "input",
                             inputType: "text",
-                            required: false,
+                            required: true,
                             label: "Meter Reading",
                           },
                         ]}
@@ -476,7 +476,7 @@ const EditAsset = () => {
                               name: "meter_reading",
                               type: "input",
                               inputType: "text",
-                              required: false,
+                              required: true,
                               label: "Meter Reading",
                             })}
                             <div className="flex justify-end gap-2">
@@ -510,7 +510,7 @@ const EditAsset = () => {
                             name: "code",
                             type: "input",
                             inputType: "text",
-                            required: false,
+                            required: true,
                             label: "Code",
                           },
                         ]}
@@ -550,7 +550,7 @@ const EditAsset = () => {
                               name: "code",
                               type: "input",
                               inputType: "text",
-                              required: false,
+                              required: true,
                               label: "Code",
                             })}
                             <div className="flex justify-end gap-2">
@@ -770,7 +770,7 @@ const EditAsset = () => {
                           <div className="space-y-0.5 border-2 border-dashed border-muted-foreground/30 rounded-md p-2 mb-2">
                             <div className="flex items-center gap-2">
                               <span className="text-xs text-muted-foreground w-16">
-                                Name
+                                Name<span className="text-red-500 ml-1">*</span>
                               </span>
                               <input
                                 type="text"
@@ -782,7 +782,8 @@ const EditAsset = () => {
                                   }))
                                 }
                                 disabled={!isFieldsEditable}
-                                className={`flex-1 h-6 px-2 text-xs border rounded ${!isFieldsEditable ? "bg-muted/50 text-muted-foreground cursor-not-allowed" : "bg-background"}`}
+                                required
+                                className={`flex-1 h-6 px-2 text-xs border rounded ${!isFieldsEditable ? "bg-muted/50 text-muted-foreground cursor-not-allowed" : "bg-background"} ${!meterTriggerData.name ? "border-red-300" : ""}`}
                               />
                             </div>
                             <div className="flex items-center gap-2">
@@ -986,6 +987,7 @@ const EditAsset = () => {
                             type: "text",
                             label: "Name",
                             width: "flex-1",
+                            required: true,
                           },
                           {
                             name: "interval_value",
@@ -1305,7 +1307,7 @@ const EditAsset = () => {
                 label: "Name",
                 type: "input",
                 inputType: "text",
-                required: false,
+                required: true,
               },
             ]}
             initialData={{

@@ -351,14 +351,14 @@ const EditWorkOrder = () => {
       name: "total_cost",
       type: "input",
       label: "Total Cost",
-      required: false,
+      required: true,
       inputType: "text",
     },
     {
       name: "description",
       type: "textarea",
       label: "Description",
-      required: false,
+      required: true,
       rows: 3,
     },
   ];
