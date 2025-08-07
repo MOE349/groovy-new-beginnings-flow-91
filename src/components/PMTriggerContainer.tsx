@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { AutoSelectDropdown } from "@/components/forms";
+import { AutoSelectDropdown, UniversalFormField } from "@/components/forms";
 import { toast } from "@/hooks/use-toast";
 import { apiCall } from "@/utils/apis";
 import { useQueryClient } from "@tanstack/react-query";
@@ -13,7 +13,7 @@ interface TableColumn {
 
 interface FormField {
   name: string;
-  type: "text" | "number" | "select" | "hidden" | "date";
+  type: "text" | "number" | "select" | "hidden" | "date" | "datepicker";
   label: string;
   options?: { value: string; label: string }[];
   width?: string;
@@ -253,6 +253,23 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
             required={field.required}
             className={`h-6 px-2 text-xs border rounded ${field.width || "flex-1"} ${!isFieldsEditable ? "bg-muted/50 text-muted-foreground cursor-not-allowed" : "bg-background"} ${field.required && !value ? "border-red-300" : ""}`}
           />
+        );
+      case "datepicker":
+        return (
+          <div className={field.width || "flex-1"}>
+            <UniversalFormField
+              name={field.name}
+              type="datepicker"
+              dateValue={value ? new Date(value) : undefined}
+              onDateChange={(date) => {
+                const dateString = date ? date.toISOString().split("T")[0] : "";
+                handleFieldChange(field.name, dateString);
+              }}
+              disabled={!isFieldsEditable}
+              required={field.required}
+              className="h-6 text-xs"
+            />
+          </div>
         );
       default:
         return (

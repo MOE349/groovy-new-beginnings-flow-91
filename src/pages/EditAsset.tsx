@@ -1009,7 +1009,7 @@ const EditAsset = () => {
                           },
                           {
                             name: "start_date",
-                            type: "date",
+                            type: "datepicker",
                             label: "Starting at",
                             width: "flex-1",
                           },
