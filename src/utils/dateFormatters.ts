@@ -21,10 +21,16 @@ export const formatDateOptimized = (
   }
 
   try {
+    // Check for special suffixes like "?" and preserve them
+    const hasQuestionMark = value.endsWith("?");
+    const cleanValue = hasQuestionMark ? value.slice(0, -1) : value;
+
     // Handle different date formats
-    const dateInput = value.includes("T") ? value : value + "T00:00:00";
+    const dateInput = cleanValue.includes("T")
+      ? cleanValue
+      : cleanValue + "T00:00:00";
     const date = new Date(dateInput);
-    
+
     // Check if date is valid
     if (isNaN(date.getTime())) {
       return "-";
@@ -38,11 +44,14 @@ export const formatDateOptimized = (
       timeZone: "UTC",
     }).format(date);
 
+    // Add back any special suffixes
+    const finalResult = formatted + (hasQuestionMark ? "?" : "");
+
     // Cache the result
-    dateCache.set(value, formatted);
-    return formatted;
+    dateCache.set(value, finalResult);
+    return finalResult;
   } catch (error) {
-    console.warn('Date formatting error for value:', value, error);
+    console.warn("Date formatting error for value:", value, error);
     return "-";
   }
 };
@@ -61,17 +70,22 @@ export const formatDateTimeOptimized = (
   }
 
   try {
-    const date = new Date(value);
-    
+    // Check for special suffixes like "?" and preserve them
+    const hasQuestionMark = value.endsWith("?");
+    const cleanValue = hasQuestionMark ? value.slice(0, -1) : value;
+
+    const date = new Date(cleanValue);
+
     // Check if date is valid
     if (isNaN(date.getTime())) {
       return "-";
     }
 
     // For dates that are exactly midnight (00:00:00), show date only
-    const isExactlyMidnight = date.getUTCHours() === 0 && 
-                              date.getUTCMinutes() === 0 && 
-                              date.getUTCSeconds() === 0;
+    const isExactlyMidnight =
+      date.getUTCHours() === 0 &&
+      date.getUTCMinutes() === 0 &&
+      date.getUTCSeconds() === 0;
 
     let formatted;
     if (isExactlyMidnight) {
@@ -95,10 +109,13 @@ export const formatDateTimeOptimized = (
       }).format(date);
     }
 
-    dateCache.set(cacheKey, formatted);
-    return formatted;
+    // Add back any special suffixes
+    const finalResult = formatted + (hasQuestionMark ? "?" : "");
+
+    dateCache.set(cacheKey, finalResult);
+    return finalResult;
   } catch (error) {
-    console.warn('Date formatting error for value:', value, error);
+    console.warn("Date formatting error for value:", value, error);
     return "-";
   }
 };
@@ -122,7 +139,13 @@ export const formatDateCompact = (value: string | null | undefined): string => {
   }
 
   try {
-    const dateInput = value.includes("T") ? value : value + "T00:00:00";
+    // Check for special suffixes like "?" and preserve them
+    const hasQuestionMark = value.endsWith("?");
+    const cleanValue = hasQuestionMark ? value.slice(0, -1) : value;
+
+    const dateInput = cleanValue.includes("T")
+      ? cleanValue
+      : cleanValue + "T00:00:00";
 
     const formatted = new Intl.DateTimeFormat("en-US", {
       month: "2-digit",
@@ -131,8 +154,11 @@ export const formatDateCompact = (value: string | null | undefined): string => {
       timeZone: "UTC",
     }).format(new Date(dateInput));
 
-    dateCache.set(cacheKey, formatted);
-    return formatted;
+    // Add back any special suffixes
+    const finalResult = formatted + (hasQuestionMark ? "?" : "");
+
+    dateCache.set(cacheKey, finalResult);
+    return finalResult;
   } catch {
     return "-";
   }
