@@ -44,6 +44,10 @@ import {
   useColumnResize,
   useVirtualScroll,
 } from "./hooks";
+import {
+  formatDateOptimized,
+  formatDateTimeOptimized,
+} from "@/utils/dateFormatters";
 import type { ApiTableProps, TableColumn } from "./types";
 
 function ApiTableComponent<T extends Record<string, any>>({
@@ -173,12 +177,25 @@ function ApiTableComponent<T extends Record<string, any>>({
   // Cell rendering
   const renderCell = useCallback((column: TableColumn<T>, row: T) => {
     const value = row[column.key];
+
+    // Custom render function takes precedence
     if (column.render) {
       return column.render(value, row);
     }
+
+    // Auto-format based on column type
+    if (column.type === "date") {
+      return formatDateOptimized(value);
+    }
+
+    if (column.type === "datetime" || column.type === "timestamp") {
+      return formatDateTimeOptimized(value);
+    }
+
     if (column.type === "object" && value && typeof value === "object") {
       return value.name || value.id || "";
     }
+
     return value?.toString() || "";
   }, []);
 

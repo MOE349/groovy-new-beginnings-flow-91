@@ -973,7 +973,11 @@ const EditAsset = () => {
                         }
                         tableColumns={[
                           { key: "name", label: "Name" },
-                          { key: "next_due_date", label: "Next Due Date" },
+                          {
+                            key: "next_due_date",
+                            label: "Next Due Date",
+                            type: "datetime",
+                          },
                           { key: "is_active", label: "Status" },
                         ]}
                         formFields={[

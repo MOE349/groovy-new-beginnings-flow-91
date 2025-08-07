@@ -4,11 +4,16 @@ import { AutoSelectDropdown, UniversalFormField } from "@/components/forms";
 import { toast } from "@/hooks/use-toast";
 import { apiCall } from "@/utils/apis";
 import { useQueryClient } from "@tanstack/react-query";
+import {
+  formatDateOptimized,
+  formatDateTimeOptimized,
+} from "@/utils/dateFormatters";
 
 interface TableColumn {
   key: string;
   label: string;
   width?: string;
+  type?: string;
 }
 
 interface FormField {
@@ -328,20 +333,38 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
                         className="w-2.5 h-2.5 pointer-events-none appearance-none border border-muted-foreground/30 bg-background rounded-sm checked:bg-primary checked:border-primary transition-all duration-200 relative checked:after:content-['✓'] checked:after:absolute checked:after:inset-0 checked:after:text-primary-foreground checked:after:text-[8px] checked:after:font-bold checked:after:flex checked:after:items-center checked:after:justify-center checked:after:leading-none"
                       />
                     </td>
-                    {tableColumns.map((column, colIndex) => (
-                      <td
-                        key={colIndex}
-                        className="px-1 py-0.5 text-left align-middle text-xs"
-                      >
-                        {column.key === "is_active"
-                          ? item?.is_active
-                            ? "Active"
-                            : item?.is_active === false
-                              ? "Inactive"
-                              : "-"
-                          : item?.[column.key] || "-"}
-                      </td>
-                    ))}
+                    {tableColumns.map((column, colIndex) => {
+                      const value = item?.[column.key];
+                      let displayValue = value || "-";
+
+                      // Format based on column type or key
+                      if (column.key === "is_active") {
+                        displayValue = item?.is_active
+                          ? "Active"
+                          : item?.is_active === false
+                            ? "Inactive"
+                            : "-";
+                      } else if (column.type === "date") {
+                        displayValue = formatDateOptimized(value);
+                      } else if (
+                        column.type === "datetime" ||
+                        column.type === "timestamp"
+                      ) {
+                        displayValue = formatDateTimeOptimized(value);
+                      } else if (column.key.includes("date") && value) {
+                        // Auto-detect date fields by key name
+                        displayValue = formatDateTimeOptimized(value);
+                      }
+
+                      return (
+                        <td
+                          key={colIndex}
+                          className="px-1 py-0.5 text-left align-middle text-xs"
+                        >
+                          {displayValue}
+                        </td>
+                      );
+                    })}
                   </tr>
                 );
               })}

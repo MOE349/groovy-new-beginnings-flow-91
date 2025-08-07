@@ -21,17 +21,28 @@ export const formatDateOptimized = (
   }
 
   try {
-    // More efficient date formatting using Intl.DateTimeFormat
+    // Handle different date formats
+    const dateInput = value.includes("T") ? value : value + "T00:00:00";
+    const date = new Date(dateInput);
+    
+    // Check if date is valid
+    if (isNaN(date.getTime())) {
+      return "-";
+    }
+
+    // More readable date formatting
     const formatted = new Intl.DateTimeFormat("en-US", {
       year: "numeric",
       month: "short",
       day: "numeric",
-    }).format(new Date(value + "T00:00:00"));
+      timeZone: "UTC",
+    }).format(date);
 
     // Cache the result
     dateCache.set(value, formatted);
     return formatted;
-  } catch {
+  } catch (error) {
+    console.warn('Date formatting error for value:', value, error);
     return "-";
   }
 };
@@ -50,17 +61,44 @@ export const formatDateTimeOptimized = (
   }
 
   try {
-    const formatted = new Intl.DateTimeFormat("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }).format(new Date(value));
+    const date = new Date(value);
+    
+    // Check if date is valid
+    if (isNaN(date.getTime())) {
+      return "-";
+    }
+
+    // For dates that are exactly midnight (00:00:00), show date only
+    const isExactlyMidnight = date.getUTCHours() === 0 && 
+                              date.getUTCMinutes() === 0 && 
+                              date.getUTCSeconds() === 0;
+
+    let formatted;
+    if (isExactlyMidnight) {
+      // Show just the date for midnight times (likely date-only fields)
+      formatted = new Intl.DateTimeFormat("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        timeZone: "UTC",
+      }).format(date);
+    } else {
+      // Show full datetime for actual times
+      formatted = new Intl.DateTimeFormat("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+        timeZone: "UTC",
+      }).format(date);
+    }
 
     dateCache.set(cacheKey, formatted);
     return formatted;
-  } catch {
+  } catch (error) {
+    console.warn('Date formatting error for value:', value, error);
     return "-";
   }
 };
@@ -70,6 +108,71 @@ export const formatDateTimeOptimized = (
  */
 export const clearDateCache = (): void => {
   dateCache.clear();
+};
+
+/**
+ * Compact date formatter for narrow columns
+ */
+export const formatDateCompact = (value: string | null | undefined): string => {
+  if (!value) return "-";
+
+  const cacheKey = `compact_${value}`;
+  if (dateCache.has(cacheKey)) {
+    return dateCache.get(cacheKey)!;
+  }
+
+  try {
+    const dateInput = value.includes("T") ? value : value + "T00:00:00";
+
+    const formatted = new Intl.DateTimeFormat("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+      year: "2-digit",
+      timeZone: "UTC",
+    }).format(new Date(dateInput));
+
+    dateCache.set(cacheKey, formatted);
+    return formatted;
+  } catch {
+    return "-";
+  }
+};
+
+/**
+ * Relative time formatter (e.g., "2 days ago", "in 3 hours")
+ */
+export const formatRelativeTime = (
+  value: string | null | undefined
+): string => {
+  if (!value) return "-";
+
+  try {
+    const date = new Date(value);
+    const now = new Date();
+    const diffMs = date.getTime() - now.getTime();
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    const diffMinutes = Math.floor(diffMs / (1000 * 60));
+
+    if (Math.abs(diffDays) >= 7) {
+      // For dates more than a week away, show the actual date
+      return formatDateOptimized(value);
+    } else if (Math.abs(diffDays) >= 1) {
+      return diffDays > 0
+        ? `in ${diffDays} days`
+        : `${Math.abs(diffDays)} days ago`;
+    } else if (Math.abs(diffHours) >= 1) {
+      return diffHours > 0 ? `in ${diffHours}h` : `${Math.abs(diffHours)}h ago`;
+    } else if (Math.abs(diffMinutes) >= 1) {
+      return diffMinutes > 0
+        ? `in ${diffMinutes}m`
+        : `${Math.abs(diffMinutes)}m ago`;
+    } else {
+      return "now";
+    }
+  } catch {
+    return "-";
+  }
 };
 
 /**
