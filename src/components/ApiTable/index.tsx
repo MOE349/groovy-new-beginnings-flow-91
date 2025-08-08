@@ -193,10 +193,10 @@ function ApiTableComponent<T extends Record<string, any>>({
     }
 
     if (column.type === "object" && value && typeof value === "object") {
-      return value.name || value.id || "";
+      return value.code || value.name || value.id || "-";
     }
 
-    return value?.toString() || "";
+    return value?.toString() || "-";
   }, []);
 
   // Loading state

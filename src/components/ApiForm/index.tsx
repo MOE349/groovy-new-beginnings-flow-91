@@ -176,8 +176,32 @@ function ApiFormComponent<T extends FieldValues = FieldValues>({
   const handleSubmit = useCallback(
     async (data: T) => {
       try {
+        // Merge in values that may not be registered fields (from custom layout)
+        const customLayoutFields = [
+          "is_online",
+          "asset__is_online",
+          "location",
+          "code",
+          "name",
+          "description",
+          "category",
+          "make",
+          "model",
+          "serial_number",
+          "project",
+          "equipment",
+        ];
+
+        const allValues = form.getValues() as Record<string, unknown>;
+        const dataWithCustom: Record<string, unknown> = { ...(data as any) };
+        for (const key of customLayoutFields) {
+          if (dataWithCustom[key] === undefined && allValues[key] !== undefined) {
+            dataWithCustom[key] = allValues[key];
+          }
+        }
+
         // Filter out system fields that shouldn't be in create/update requests
-        const filteredData = (Object.keys(data) as Array<keyof T>).reduce(
+        const filteredData = (Object.keys(dataWithCustom) as Array<keyof T>).reduce(
           (acc, key) => {
             // Skip system-generated fields
             if (
@@ -195,26 +219,12 @@ function ApiFormComponent<T extends FieldValues = FieldValues>({
             const fieldExists = fields.some(
               (field) => field.name === (key as unknown as string)
             );
-            // Common fields from custom layouts that might not be in the main fields array
-            const customLayoutFields = [
-              "is_online",
-              "location",
-              "code",
-              "name",
-              "description",
-              "category",
-              "make",
-              "model",
-              "serial_number",
-              "project",
-              "equipment",
-            ];
 
             if (
               fieldExists ||
               customLayoutFields.includes(key as unknown as string)
             ) {
-              (acc as any)[key] = (data as any)[key];
+              (acc as any)[key] = (dataWithCustom as any)[key];
             }
             return acc;
           },
@@ -249,7 +259,7 @@ function ApiFormComponent<T extends FieldValues = FieldValues>({
         console.error("Form submission error:", error);
       }
     },
-    [onSubmit, fields, shouldShowDirtyOnly, utils]
+    [onSubmit, fields, shouldShowDirtyOnly, utils, form]
   );
 
   const renderField = useCallback(

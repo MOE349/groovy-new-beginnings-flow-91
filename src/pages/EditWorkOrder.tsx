@@ -417,7 +417,7 @@ const EditWorkOrder = () => {
     "asset.location":
       workOrder?.asset?.location?.name || workOrder?.asset?.location || "",
     // Expose asset online state for FormLayout toggle initial value
-    asset_is_online:
+    asset__is_online:
       (typeof workOrder?.asset === "object" && workOrder?.asset?.is_online) ||
       false,
   };
