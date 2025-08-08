@@ -5,7 +5,7 @@
 
 import {
   useForm as useReactHookForm,
-  UseFormReturn,
+  UseFormReturn as RHFUseFormReturn,
   FieldValues,
 } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,7 +26,7 @@ export interface UseFormOptions<T extends FieldValues = FieldValues>
 }
 
 export interface UseFormReturn<T extends FieldValues = FieldValues> {
-  form: UseFormReturn<T>;
+  form: RHFUseFormReturn<T>;
   utils: FormUtils<T>;
   isSubmitting: boolean;
   isDirty: boolean;

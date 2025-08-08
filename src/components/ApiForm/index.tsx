@@ -3,7 +3,8 @@
  * Modular, performant form with React Hook Form and Zod validation
  */
 
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FieldValues } from "react-hook-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -12,7 +13,109 @@ import { cn } from "@/lib/utils";
 import { useForm } from "./hooks/useForm";
 import { FieldRenderer } from "./components/FieldRenderer";
 import { transformFormData } from "./utils/validation";
-import type { ApiFormProps, FieldConfig } from "./types";
+import type {
+  ApiFormProps,
+  FieldConfig,
+  InputFieldConfig,
+  DropdownFieldConfig,
+} from "./types";
+
+/**
+ * Normalize default values according to FieldConfig definitions
+ * - Dropdowns: coerce values to string; support object-with-id → id
+ * - Multi-select dropdowns: coerce array values to string[]; support objects
+ * - Date pickers: coerce string/number to Date
+ * - Switches: coerce common truthy/falsey primitives to boolean
+ * - Number inputs: coerce numeric strings to number
+ */
+function normalizeDefaultsByFields<
+  T extends Record<string, unknown> | undefined,
+>(defaults: T, fields: FieldConfig[]): T {
+  if (!defaults) return defaults;
+
+  const normalized: Record<string, unknown> = {
+    ...(defaults as Record<string, unknown>),
+  };
+
+  const fieldMap = new Map<string, FieldConfig>();
+  for (const f of fields) fieldMap.set(f.name, f);
+
+  for (const key of Object.keys(normalized)) {
+    const value = normalized[key];
+    const field = fieldMap.get(key);
+    if (!field) continue;
+
+    switch (field.type) {
+      case "dropdown": {
+        const coerceToString = (v: unknown) => {
+          if (v == null) return v;
+          if (
+            typeof v === "object" &&
+            v !== null &&
+            "id" in (v as Record<string, unknown>)
+          ) {
+            return String(
+              (v as Record<string, unknown>).id as unknown as string
+            );
+          }
+          return String(v);
+        };
+        if ((field as DropdownFieldConfig).multiple) {
+          if (Array.isArray(value)) {
+            normalized[key] = (value as unknown[]).map((v) =>
+              coerceToString(v)
+            );
+          }
+        } else {
+          normalized[key] = coerceToString(value);
+        }
+        break;
+      }
+
+      case "datepicker": {
+        if (typeof value === "string") {
+          // Handle plain YYYY-MM-DD as local date start of day
+          const isoDateOnly = /^\d{4}-\d{2}-\d{2}$/;
+          normalized[key] = new Date(
+            isoDateOnly.test(value) ? `${value}T00:00:00` : value
+          );
+        } else if (typeof value === "number") {
+          normalized[key] = new Date(value);
+        }
+        break;
+      }
+
+      case "switch": {
+        if (typeof value !== "boolean") {
+          normalized[key] =
+            value === true ||
+            value === 1 ||
+            value === "1" ||
+            String(value).toLowerCase() === "true";
+        }
+        break;
+      }
+
+      case "input": {
+        const inputType = (field as InputFieldConfig).inputType;
+        if (
+          inputType === "number" &&
+          typeof value === "string" &&
+          value.trim() !== ""
+        ) {
+          const n = Number(value);
+          normalized[key] = Number.isNaN(n) ? value : n;
+        }
+        break;
+      }
+
+      default:
+        break;
+    }
+  }
+
+  return normalized as T;
+}
 
 function ApiFormComponent<T extends FieldValues = FieldValues>({
   fields,
@@ -35,8 +138,12 @@ function ApiFormComponent<T extends FieldValues = FieldValues>({
   customRender,
   customLayout, // Backward compatibility
 }: ApiFormProps<T>) {
-  // Use initialData if provided for backward compatibility
-  const formDefaultValues = defaultValues || initialData;
+  // Use initialData if provided for backward compatibility, normalized by fields
+  const rawDefaults = defaultValues || initialData;
+  const formDefaultValues = useMemo(
+    () => normalizeDefaultsByFields(rawDefaults as any, fields),
+    [rawDefaults, fields]
+  );
 
   // Auto-detect if this is an edit operation (has ID) and enable dirty fields by default
   const isEditOperation =
@@ -58,49 +165,61 @@ function ApiFormComponent<T extends FieldValues = FieldValues>({
   // Reset form when initialData changes
   useEffect(() => {
     if (initialData && Object.keys(initialData).length > 0) {
-      form.reset(initialData as Partial<T>);
+      const normalized = normalizeDefaultsByFields(
+        initialData as any,
+        fields
+      ) as unknown as T;
+      form.reset(normalized);
     }
-  }, [initialData, form]);
+  }, [initialData, fields, form]);
 
   const handleSubmit = useCallback(
     async (data: T) => {
       try {
         // Filter out system fields that shouldn't be in create/update requests
-        const filteredData = Object.keys(data).reduce((acc, key) => {
-          // Skip system-generated fields
-          if (
-            [
-              "id",
-              "created_at",
-              "updated_at",
-              "created_by",
-              "updated_by",
-            ].includes(key)
-          ) {
-            return acc;
-          }
-          // Include field if it's defined in fields array OR if it's from custom layout fields
-          const fieldExists = fields.some((field) => field.name === key);
-          // Common fields from custom layouts that might not be in the main fields array
-          const customLayoutFields = [
-            "is_online",
-            "location",
-            "code",
-            "name",
-            "description",
-            "category",
-            "make",
-            "model",
-            "serial_number",
-            "project",
-            "equipment",
-          ];
+        const filteredData = (Object.keys(data) as Array<keyof T>).reduce(
+          (acc, key) => {
+            // Skip system-generated fields
+            if (
+              [
+                "id",
+                "created_at",
+                "updated_at",
+                "created_by",
+                "updated_by",
+              ].includes(key as unknown as string)
+            ) {
+              return acc;
+            }
+            // Include field if it's defined in fields array OR if it's from custom layout fields
+            const fieldExists = fields.some(
+              (field) => field.name === (key as unknown as string)
+            );
+            // Common fields from custom layouts that might not be in the main fields array
+            const customLayoutFields = [
+              "is_online",
+              "location",
+              "code",
+              "name",
+              "description",
+              "category",
+              "make",
+              "model",
+              "serial_number",
+              "project",
+              "equipment",
+            ];
 
-          if (fieldExists || customLayoutFields.includes(key)) {
-            acc[key] = data[key];
-          }
-          return acc;
-        }, {} as T);
+            if (
+              fieldExists ||
+              customLayoutFields.includes(key as unknown as string)
+            ) {
+              (acc as any)[key] = (data as any)[key];
+            }
+            return acc;
+          },
+          {} as T
+        );
 
         const transformedData = transformFormData(filteredData, fields);
         const dirtyFieldsMap = shouldShowDirtyOnly
@@ -110,10 +229,15 @@ function ApiFormComponent<T extends FieldValues = FieldValues>({
         // If shouldShowDirtyOnly is true, only send the dirty (changed) fields
         let dataToSubmit = transformedData;
         if (shouldShowDirtyOnly && dirtyFieldsMap) {
-          dataToSubmit = Object.keys(transformedData).reduce((acc, key) => {
+          dataToSubmit = (
+            Object.keys(transformedData) as Array<keyof T>
+          ).reduce((acc, key) => {
             // Include field if it's dirty (changed) or if it's a required field for the API
-            if (dirtyFieldsMap[key] || ["id"].includes(key)) {
-              acc[key] = transformedData[key];
+            if (
+              (dirtyFieldsMap as any)[key] ||
+              ["id"].includes(key as unknown as string)
+            ) {
+              (acc as any)[key] = (transformedData as any)[key];
             }
             return acc;
           }, {} as T);
@@ -171,6 +295,15 @@ function ApiFormComponent<T extends FieldValues = FieldValues>({
           error,
           renderField,
           initialData: formDefaultValues as Record<string, any>,
+          form,
+          isSubmitting: isSubmitting || loading,
+          isDirty,
+          canSubmit: !(
+            isSubmitting ||
+            loading ||
+            (!isDirty && shouldShowDirtyOnly)
+          ),
+          shouldShowDirtyOnly,
         })}
       </div>
     );

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { toast } from "@/hooks/use-toast";
+import { EditEntityFormPage } from "@/templates/EditEntityFormPage";
 import ApiForm from "@/components/ApiForm";
 import { handleApiError } from "@/utils/errorHandling";
 import { ApiTable } from "@/components/ApiTable";
@@ -20,7 +21,6 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAssetData } from "@/hooks/useAssetData";
-import { useAssetSubmit } from "@/hooks/useAssetSubmit";
 import { equipmentFields, attachmentFields } from "@/data/assetFormFields";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
@@ -89,7 +89,6 @@ const EditAsset = () => {
   });
 
   const { assetType, assetData, isLoading, isError, error } = useAssetData(id);
-  const { handleSubmit } = useAssetSubmit(id, assetType);
 
   useEffect(() => {
     if (id) {
@@ -236,11 +235,18 @@ const EditAsset = () => {
     <div className="h-full overflow-x-auto min-w-0 flex flex-col">
       <div className="space-y-4 min-w-[1440px] flex-1 flex flex-col">
         <div>
-          <ApiForm
+          <EditEntityFormPage
             fields={currentFields}
-            onSubmit={handleSubmit}
             initialData={initialData}
-            customLayout={customLayout}
+            updateEndpoint={
+              assetType === "equipment"
+                ? `/assets/equipments/${id}`
+                : `/assets/attachments/${id}`
+            }
+            customFormLayout={customLayout}
+            onSuccessToast={{
+              description: `${assetTypeName} updated successfully!`,
+            }}
           />
         </div>
 
@@ -1198,6 +1204,37 @@ const EditAsset = () => {
                     ]}
                     queryKey={["asset-movement-log", id]}
                     tableId={`asset-movement-log-${id}`}
+                    maxHeight="max-h-[200px]"
+                  />
+                </div>
+
+                <div>
+                  <h3 className="text-sm font-semibold mb-2">
+                    Asset Offline History
+                  </h3>
+                  <ApiTable
+                    endpoint={`/assets/online-status-log?asset=${id}`}
+                    columns={[
+                      {
+                        key: "online_user",
+                        header: "Online User",
+                        type: "object",
+                      },
+                      { key: "created_at", header: "From", type: "datetime" },
+                      {
+                        key: "offline_user",
+                        header: "Offline User",
+                        type: "object",
+                      },
+                      { key: "updated_at", header: "To", type: "datetime" },
+                      {
+                        key: "work_order",
+                        header: "Work Order",
+                        type: "object",
+                      },
+                    ]}
+                    queryKey={["asset-online-status-log", id]}
+                    tableId={`asset-online-status-log-${id}`}
                     maxHeight="max-h-[200px]"
                   />
                 </div>

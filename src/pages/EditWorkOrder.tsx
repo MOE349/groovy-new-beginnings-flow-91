@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { toast } from "@/hooks/use-toast";
+import { EditEntityFormPage } from "@/templates/EditEntityFormPage";
 import ApiForm from "@/components/ApiForm";
 import ApiTable from "@/components/ApiTable";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -21,6 +22,7 @@ import FormLayout from "@/components/FormLayout";
 import { workOrderFormConfig } from "@/config/formLayouts";
 import { useState } from "react";
 import { FormField } from "@/components/ApiForm";
+import type { InputFieldConfig } from "@/components/ApiForm";
 
 const EditWorkOrder = () => {
   const { id } = useParams();
@@ -414,6 +416,10 @@ const EditWorkOrder = () => {
     // Handle asset.location field - extract location name from nested object
     "asset.location":
       workOrder?.asset?.location?.name || workOrder?.asset?.location || "",
+    // Expose asset online state for FormLayout toggle initial value
+    asset_is_online:
+      (typeof workOrder?.asset === "object" && workOrder?.asset?.is_online) ||
+      false,
   };
 
   const customLayout = (props: any) => (
@@ -502,8 +508,12 @@ const EditWorkOrder = () => {
                     customLayout={({ fields, formData, renderField }) => (
                       <div className="space-y-3">
                         {fields.map((field) => {
-                          if (field.inputType === "hidden")
+                          if (
+                            "inputType" in field &&
+                            (field as InputFieldConfig).inputType === "hidden"
+                          ) {
                             return renderField(field);
+                          }
                           return (
                             <div
                               key={field.name}
@@ -840,11 +850,12 @@ const EditWorkOrder = () => {
   return (
     <div className="h-full overflow-x-auto min-w-0">
       <div className="space-y-6 min-w-[1440px]">
-        <ApiForm
+        <EditEntityFormPage
           fields={workOrderFields}
-          onSubmit={handleSubmit}
           initialData={initialData}
-          customLayout={customLayout}
+          updateEndpoint={`/work-orders/work_order/${id}`}
+          customFormLayout={customLayout}
+          onSuccessToast={{ description: "Work order updated successfully!" }}
         />
       </div>
     </div>

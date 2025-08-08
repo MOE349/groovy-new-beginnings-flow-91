@@ -82,6 +82,6 @@ export const workOrderFields: FormField[] = [
     label: "Completion MR",
     required: false,
     disabled: false,
-    inputType: "text",
+    inputType: "number",
   },
 ];

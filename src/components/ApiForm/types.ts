@@ -126,6 +126,12 @@ export interface CustomLayoutProps<T extends FieldValues = FieldValues> {
   error?: string;
   renderField: (field: FieldConfig) => React.ReactNode;
   initialData?: Record<string, any>;
+  // Enhancements for richer custom layouts
+  form: UseFormReturn<T>;
+  isSubmitting: boolean;
+  isDirty: boolean;
+  canSubmit: boolean;
+  shouldShowDirtyOnly?: boolean;
 }
 
 // Field component props
