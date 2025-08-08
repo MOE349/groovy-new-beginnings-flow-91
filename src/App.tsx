@@ -63,7 +63,7 @@ function getHostContext() {
   const domain = parts.slice(-2).join(".");
   if (domain !== root) return { kind: "unknown" as const, sub: null };
   const sub = parts.length > 2 ? parts[0] : null;
-  if (!sub) return { kind: "landing" as const, sub: null };
+  if (!sub || sub === "www") return { kind: "landing" as const, sub: null };
   if (sub === "admin") return { kind: "admin" as const, sub };
   return { kind: "tenant" as const, sub };
 }
