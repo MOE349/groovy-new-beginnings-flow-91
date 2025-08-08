@@ -3,7 +3,7 @@
  * Modern fetch wrapper with cancellation, timeout, retry, and interceptor support
  */
 
-import { API_CONFIG } from "@/config/api";
+import { computeApiBaseURL, API_CONFIG } from "@/config/api";
 import {
   ApiError,
   type ApiClientConfig,
@@ -25,7 +25,7 @@ export class ApiClient {
   private abortControllers: Map<string, AbortController>;
 
   constructor(config: Partial<ApiClientConfig> = {}) {
-    this._baseURL = config.baseURL || API_CONFIG.BASE_URL;
+    this._baseURL = config.baseURL || computeApiBaseURL();
     this.defaultTimeout = config.timeout || API_CONFIG.TIMEOUT || 30000; // 30s fallback
     this.interceptors = new InterceptorManager();
     this.abortControllers = new Map();

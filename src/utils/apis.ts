@@ -30,6 +30,8 @@ export const getCurrentTenant = () => {
   return {
     subdomain,
     isAdmin: !subdomain || subdomain === 'admin',
-    apiUrl: '', // No longer used, kept for compatibility
+    apiUrl: '', // Deprecated; kept for compatibility
   };
 };
+
+export { computeApiBaseURL } from '@/config/api';
