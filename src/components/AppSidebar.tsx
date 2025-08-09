@@ -1,4 +1,15 @@
-import { LayoutDashboard, Truck, FileText, Settings, Wrench, Package, ShoppingCart, CreditCard, BarChart3, Users } from "lucide-react";
+import {
+  LayoutDashboard,
+  Truck,
+  FileText,
+  Settings,
+  Wrench,
+  Package,
+  ShoppingCart,
+  CreditCard,
+  BarChart3,
+  Users,
+} from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 
 import {
@@ -33,10 +44,16 @@ export function AppSidebar() {
   const isActive = (path: string) => currentPath === path;
 
   return (
-    <Sidebar collapsible="icon">
+    // Auto-collapse below the FHD width using icon variant; expand at fhd+
+    <Sidebar
+      collapsible="icon"
+      className="data-[state=expanded]:fhd:[&]:data-[state=expanded]"
+    >
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-2xl font-bold text-white">Tenmil</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-2xl font-bold text-white">
+            Tenmil
+          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="mt-4 space-y-1">
               {items.map((item) => (
