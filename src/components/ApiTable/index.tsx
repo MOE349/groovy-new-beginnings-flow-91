@@ -228,7 +228,7 @@ function ApiTableComponent<T extends Record<string, any>>({
     >
       <div
         ref={virtualScroll ? scrollContainerRef : undefined}
-        className={`overflow-auto ${height || maxHeight || "max-h-[400px]"}`}
+        className={`overflow-auto ${height || maxHeight ? "" : "flex-1 min-h-0"}`}
         style={{ height, maxHeight }}
         onScroll={virtualScroll ? handleVirtualScroll : undefined}
       >
@@ -432,7 +432,7 @@ function ApiTableComponent<T extends Record<string, any>>({
   // With title/card wrapper
   if (title) {
     return (
-      <Card className={`p-2 ${className}`}>
+      <Card className={`p-2 flex flex-col ${className || ""}`}>
         <CardHeader className="py-2 px-3">
           <div className="flex items-center justify-between">
             {(createNewHref || onCreateNew) && (
@@ -457,15 +457,19 @@ function ApiTableComponent<T extends Record<string, any>>({
             )}
           </div>
         </CardHeader>
-        <CardContent className="p-0">{tableContent}</CardContent>
+        <CardContent className="p-0 flex-1 min-h-0 flex flex-col">
+          {tableContent}
+        </CardContent>
       </Card>
     );
   }
 
   // Without title
   return (
-    <Card className={`p-2 ${className}`}>
-      <CardContent className="p-0">{tableContent}</CardContent>
+    <Card className={`p-2 flex flex-col ${className || ""}`}>
+      <CardContent className="p-0 flex-1 min-h-0 flex flex-col">
+        {tableContent}
+      </CardContent>
     </Card>
   );
 }

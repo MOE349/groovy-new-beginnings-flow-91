@@ -29,7 +29,7 @@ const WorkOrders = () => {
   ];
 
   return (
-    <div className="space-y-6 min-w-0">
+    <div className="space-y-2 min-w-0 h-full flex flex-col min-h-0">
       <div className="flex gap-4">
         <Button asChild size="sm">
           <Link to="/workorders/create">
@@ -45,7 +45,8 @@ const WorkOrders = () => {
         queryKey={["work_orders"]}
         emptyMessage="No work orders found"
         editRoutePattern="/workorders/edit/{id}"
-        className="w-full"
+        className="w-full flex-1 min-h-0 flex flex-col"
+        height="100%"
       />
     </div>
   );

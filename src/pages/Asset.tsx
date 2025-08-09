@@ -25,7 +25,7 @@ const Asset = () => {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2 min-w-0 h-full flex flex-col min-h-0">
       <div className="flex gap-4">
         <Button asChild size="sm">
           <Link to="/asset/equipment/create">
@@ -47,7 +47,8 @@ const Asset = () => {
         queryKey={["assets", "all"]}
         emptyMessage="No assets found"
         editRoutePattern="/asset/edit/{id}"
-        className="w-full"
+        className="w-full flex-1 min-h-0 flex flex-col"
+        height="100%"
       />
     </div>
   );
