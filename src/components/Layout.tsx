@@ -3,15 +3,14 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
 import { LogOut } from "lucide-react";
 import { useLocation } from "react-router-dom";
-import { useEffect, useMemo, useState } from "react";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -20,55 +19,44 @@ interface LayoutProps {
 export function Layout({ children }: LayoutProps) {
   const { user, logout } = useAuth();
   const location = useLocation();
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-
-  // Auto-collapse below FHD; expand at FHD+ (manual toggle still works)
-  useEffect(() => {
-    if (typeof window === "undefined" || !window.matchMedia) return;
-    const mq = window.matchMedia("(min-width: 1920px)");
-    const apply = () => setSidebarOpen(mq.matches);
-    apply();
-    mq.addEventListener("change", apply);
-    return () => mq.removeEventListener("change", apply);
-  }, []);
-
+  
   const getPageTitle = () => {
-    if (location.pathname === "/" || location.pathname === "/dashboard") {
-      return "Dashboard";
+    if (location.pathname === '/' || location.pathname === '/dashboard') {
+      return 'Dashboard';
     }
-    if (location.pathname.startsWith("/asset")) {
-      return "Assets";
+    if (location.pathname.startsWith('/asset')) {
+      return 'Assets';
     }
-    if (location.pathname.startsWith("/workorders")) {
-      return "Work Orders";
+    if (location.pathname.startsWith('/workorders')) {
+      return 'Work Orders';
     }
-    if (location.pathname.startsWith("/parts")) {
-      return "Parts";
+    if (location.pathname.startsWith('/parts')) {
+      return 'Parts';
     }
-    if (location.pathname.startsWith("/purchase-orders")) {
-      return "Purchase Orders";
+    if (location.pathname.startsWith('/purchase-orders')) {
+      return 'Purchase Orders';
     }
-    if (location.pathname.startsWith("/billing")) {
-      return "Billing";
+    if (location.pathname.startsWith('/billing')) {
+      return 'Billing';
     }
-    if (location.pathname.startsWith("/analytics")) {
-      return "Analytics/Reports";
+    if (location.pathname.startsWith('/analytics')) {
+      return 'Analytics/Reports';
     }
-    if (location.pathname.startsWith("/users")) {
-      return "Users";
+    if (location.pathname.startsWith('/users')) {
+      return 'Users';
     }
-    if (location.pathname.startsWith("/settings")) {
-      return "Settings";
+    if (location.pathname.startsWith('/settings')) {
+      return 'Settings';
     }
-    return "Tenmil";
+    return 'Tenmil';
   };
 
   return (
-    <SidebarProvider open={sidebarOpen} onOpenChange={setSidebarOpen}>
+    <SidebarProvider>
       <div className="min-h-screen flex w-full">
         <AppSidebar />
-
-        <div className="flex-1 flex flex-col min-h-svh min-w-0">
+        
+        <div className="flex-1 flex flex-col">
           <header className="h-8 flex items-center justify-between border-b bg-primary text-primary-foreground px-4">
             <div className="flex items-center">
               <SidebarTrigger className="mr-4" />
@@ -79,12 +67,9 @@ export function Layout({ children }: LayoutProps) {
               {user && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      className="text-sm font-medium text-primary-foreground hover:bg-secondary hover:text-secondary-foreground h-8 px-3"
-                    >
-                      {user.name}
-                    </Button>
+                     <Button variant="ghost" className="text-sm font-medium text-primary-foreground hover:bg-secondary hover:text-secondary-foreground h-8 px-3">
+                       {user.name}
+                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-48 bg-popover" align="end">
                     <DropdownMenuItem onClick={logout}>
@@ -96,10 +81,15 @@ export function Layout({ children }: LayoutProps) {
               )}
             </div>
           </header>
-
-          <main className="flex-1 overflow-hidden min-w-0 p-1">{children}</main>
-
-          <footer className="h-8 flex items-center justify-between border-t bg-primary text-primary-foreground px-4"></footer>
+          
+          <main className="flex-1 overflow-hidden min-w-0">
+            <div className="h-[calc(100vh-4rem)] overflow-x-auto overflow-y-auto p-1">
+              {children}
+            </div>
+          </main>
+          
+          <footer className="h-8 flex items-center justify-between border-t bg-primary text-primary-foreground px-4">
+          </footer>
         </div>
       </div>
     </SidebarProvider>

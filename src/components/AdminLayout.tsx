@@ -17,22 +17,13 @@ interface AdminLayoutProps {
 
 export function AdminLayout({ children }: AdminLayoutProps) {
   const { user, logout } = useAuth();
-  const [sidebarOpen, setSidebarOpen] = React.useState(true);
-  React.useEffect(() => {
-    if (typeof window === "undefined" || !window.matchMedia) return;
-    const mq = window.matchMedia("(min-width: 1920px)");
-    const apply = () => setSidebarOpen(mq.matches);
-    apply();
-    mq.addEventListener("change", apply);
-    return () => mq.removeEventListener("change", apply);
-  }, []);
 
   return (
-    <SidebarProvider open={sidebarOpen} onOpenChange={setSidebarOpen}>
+    <SidebarProvider>
       <div className="min-h-screen flex w-full">
         <AppSidebar />
 
-        <div className="flex-1 flex flex-col min-h-svh min-w-0">
+        <div className="flex-1 flex flex-col">
           <header className="h-8 flex items-center justify-between border-b bg-primary text-primary-foreground px-4">
             <div className="flex items-center">
               <SidebarTrigger className="mr-4" />
@@ -61,7 +52,11 @@ export function AdminLayout({ children }: AdminLayoutProps) {
             </div>
           </header>
 
-          <main className="flex-1 overflow-hidden min-w-0 p-1">{children}</main>
+          <main className="flex-1 overflow-hidden min-w-0">
+            <div className="h-[calc(100vh-4rem)] overflow-x-auto overflow-y-auto p-1">
+              {children}
+            </div>
+          </main>
 
           <footer className="h-8 flex items-center justify-between border-t bg-primary text-primary-foreground px-4"></footer>
         </div>
@@ -69,3 +64,5 @@ export function AdminLayout({ children }: AdminLayoutProps) {
     </SidebarProvider>
   );
 }
+
+

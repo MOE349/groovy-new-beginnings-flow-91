@@ -60,42 +60,6 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
-## Global Layout Contract (Desktop-only)
-
-- FHD baseline: `fhd` breakpoint at 1920px. No page-level scrollbars at or above FHD.
-- One-scroller rule below FHD: page root never scrolls vertically; the page body (active tab content) is the only vertical scroller.
-- Sidebar policy: auto-expanded at FHD+, auto-collapsed below FHD (icon-only). Tooltip labels appear in collapsed state.
-- Horizontal overflow: prefer inner horizontal scroll inside the body (tables/grids). Page-level horizontal scroll allowed only below 1280px as a last resort.
-- All pages adopt the Top/Body pattern via `AppPage`.
-
-### How to build pages with AppPage
-
-Use `AppPage` from `src/components/layout`:
-
-```tsx
-import { AppPage } from "@/components/layout";
-
-export default function Example() {
-  return (
-    <AppPage
-      top={<div>Title, stats, breadcrumbs</div>}
-      toolbar={<div>Tabs header / filters / actions</div>}
-    >
-      {/* This is the only vertical scroller below FHD */}
-      <div className="overflow-x-auto">
-        {/* Tables/grids can scroll horizontally inside */}
-      </div>
-    </AppPage>
-  );
-}
-```
-
-Behavioral guarantees:
-
-- At/above 1920×1080: no page scrollbars; sidebar expanded; top sections visible.
-- 1280–1919px: page has no vertical scrollbar; only `AppPage` body scrolls vertically.
-- <1280px: page may scroll horizontally as last resort; prefer inner scroll first.
-
 ## How can I deploy this project?
 
 Simply open [Lovable](https://lovable.dev/projects/41c6ebaf-5774-427a-b6a3-7dd083b9e193) and click on Share -> Publish.

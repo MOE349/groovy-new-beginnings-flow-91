@@ -120,10 +120,7 @@
   }
 
   body {
-    /* Lock vertical scrolling at the page level; one-scroller rule handled per page body */
-    @apply bg-background text-foreground font-inter antialiased overflow-y-hidden min-h-screen;
-    /* Allow page-level horizontal scroll as last resort below 1280px only */
-    @apply overflow-x-hidden lg:overflow-x-hidden;
+    @apply bg-background text-foreground font-inter antialiased;
   }
 
   /* Typography Classes with TenMil Blue accents */
@@ -181,16 +178,9 @@
 
   /* Shake animation for form errors */
   @keyframes shake {
-    0%,
-    100% {
-      transform: translateX(0);
-    }
-    25% {
-      transform: translateX(-4px);
-    }
-    75% {
-      transform: translateX(4px);
-    }
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
   }
 
   .shake {
@@ -292,24 +282,24 @@
     font-family: inherit !important;
     font-size: inherit !important;
     font-weight: inherit !important;
-
+    
     /* Background and border consistency */
     background-color: inherit !important;
     border-width: inherit !important;
     border-style: inherit !important;
     border-color: inherit !important;
     border-radius: inherit !important;
-
+    
     /* Padding and spacing */
     padding-left: inherit !important;
     padding-right: inherit !important;
     padding-top: inherit !important;
     padding-bottom: inherit !important;
-
+    
     /* Text and color properties */
     color: inherit !important;
     text-align: inherit !important;
-
+    
     /* Focus and interaction states */
     outline: inherit !important;
     transition: inherit !important;
@@ -376,9 +366,7 @@
     font-size: 0.875rem !important; /* text-sm to match Input */
     line-height: 1.25rem !important;
     border-color: hsl(var(--input)) !important; /* match Input border color */
-    background-color: hsl(
-      var(--background)
-    ) !important; /* match Input background */
+    background-color: hsl(var(--background)) !important; /* match Input background */
   }
 
   /* Fix datepicker button in popover trigger specifically */
