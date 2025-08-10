@@ -219,31 +219,18 @@ function ApiTableComponent<T extends Record<string, any>>({
     );
   }
 
-  // Table content
+  // Table content with frozen header
   const tableContent = (
     <DndContext
       sensors={sensors}
       collisionDetection={closestCenter}
       onDragEnd={handleDragEnd}
     >
-      <div
-        ref={virtualScroll ? scrollContainerRef : undefined}
-        className={`overflow-auto ${height || maxHeight ? "" : "flex-1 min-h-0"}`}
-        style={{ height, maxHeight }}
-        onScroll={virtualScroll ? handleVirtualScroll : undefined}
-      >
-        {virtualScroll ? (
-          // Virtual scrolling table
-          <div style={{ height: totalHeight, position: "relative" }}>
-            <Table
-              className={`table-auto ${tableClassName || ""}`}
-              style={{
-                position: "absolute",
-                top: offsetY,
-                left: 0,
-                right: 0,
-              }}
-            >
+      <div className="flex flex-col h-full min-h-0">
+        {/* Fixed Header */}
+        <div className="flex-shrink-0 border-b bg-background overflow-hidden">
+          <div className="w-full">
+            <table className={`w-full caption-bottom text-sm table-fixed ${tableClassName || ""}`}>
               <TableHeader>
                 <TableRow>
                   <SortableContext
@@ -270,14 +257,106 @@ function ApiTableComponent<T extends Record<string, any>>({
                         showFilters={showFilters}
                       />
                     ))}
+                    {onDelete && (
+                      <th className="w-8 p-0" style={{ width: "32px" }}></th>
+                    )}
                   </SortableContext>
                 </TableRow>
               </TableHeader>
+            </table>
+          </div>
+        </div>
+
+        {/* Scrollable Body */}
+        <div
+          ref={virtualScroll ? scrollContainerRef : undefined}
+          className="flex-1 overflow-auto min-h-0"
+          style={{ 
+            height: height ? `calc(${height} - 60px)` : undefined,
+            maxHeight: maxHeight ? `calc(${maxHeight} - 60px)` : undefined 
+          }}
+          onScroll={virtualScroll ? handleVirtualScroll : undefined}
+        >
+          {virtualScroll ? (
+            // Virtual scrolling table body
+            <div style={{ height: totalHeight, position: "relative" }}>
+              <table
+                className={`w-full caption-bottom text-sm table-fixed ${tableClassName || ""}`}
+                style={{
+                  position: "absolute",
+                  top: offsetY,
+                  left: 0,
+                  right: 0,
+                }}
+              >
+                <TableBody>
+                  {displayData && displayData.length > 0 ? (
+                    displayData.map((row: T, index: number) => (
+                      <TableRow
+                        key={row.id || startIndex + index}
+                        className={`group ${isRowClickable ? "cursor-pointer hover:bg-muted/50 transition-colors" : ""} relative`}
+                        onClick={() => isRowClickable && handleRowClick(row)}
+                      >
+                        {orderedColumns.map((column) => (
+                          <TableCell
+                            key={column.key}
+                            className={`${column.className} min-w-0`}
+                            style={{
+                              width: columnWidths[column.key]
+                                ? `${columnWidths[column.key]}px`
+                                : "auto",
+                              minWidth: columnWidths[column.key]
+                                ? `${columnWidths[column.key]}px`
+                                : "150px",
+                            }}
+                          >
+                            <div className="truncate">
+                              {renderCell(column, row)}
+                            </div>
+                          </TableCell>
+                        ))}
+                        {onDelete && (
+                          <TableCell className="w-8 p-0" style={{ width: "32px" }}>
+                            <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex justify-center">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-6 w-6 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  onDelete(row);
+                                }}
+                              >
+                                <Trash2 className="h-3 w-3" />
+                              </Button>
+                            </div>
+                          </TableCell>
+                        )}
+                      </TableRow>
+                    ))
+                  ) : (
+                    <TableRow>
+                      <TableCell
+                        colSpan={orderedColumns.length + (onDelete ? 1 : 0)}
+                        className="text-center text-muted-foreground"
+                      >
+                        {Object.keys(appliedFilters).length > 0
+                          ? "No results match your filters"
+                          : emptyMessage}
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </table>
+            </div>
+          ) : (
+            // Regular non-virtual scrolling table body
+            <table className={`w-full caption-bottom text-sm table-fixed ${tableClassName || ""}`}>
               <TableBody>
-                {displayData && displayData.length > 0 ? (
-                  displayData.map((row: T, index: number) => (
+                {filteredData && filteredData.length > 0 ? (
+                  filteredData.map((row: T, index: number) => (
                     <TableRow
-                      key={row.id || startIndex + index}
+                      key={row.id || index}
                       className={`group ${isRowClickable ? "cursor-pointer hover:bg-muted/50 transition-colors" : ""} relative`}
                       onClick={() => isRowClickable && handleRowClick(row)}
                     >
@@ -331,100 +410,9 @@ function ApiTableComponent<T extends Record<string, any>>({
                   </TableRow>
                 )}
               </TableBody>
-            </Table>
-          </div>
-        ) : (
-          // Regular non-virtual scrolling table
-          <Table className={`table-auto ${tableClassName || ""}`}>
-            <TableHeader>
-              <TableRow>
-                <SortableContext
-                  items={orderedColumns.map((col) => col.key)}
-                  strategy={horizontalListSortingStrategy}
-                >
-                  {orderedColumns.map((column, index) => (
-                    <SortableTableHead
-                      key={column.key}
-                      column={column}
-                      className={column.className}
-                      filterValue={filters[column.key] || ""}
-                      onFilterChange={(value) =>
-                        handleFilterChange(column.key, value)
-                      }
-                      onFilterApply={() => applyFilter(column.key)}
-                      onFilterClear={() => clearFilter(column.key)}
-                      hasActiveFilter={Boolean(appliedFilters[column.key])}
-                      openFilterPopover={openFilterPopover}
-                      setOpenFilterPopover={setOpenFilterPopover}
-                      width={columnWidths[column.key]}
-                      onResizeStart={handleResizeStart}
-                      isLastColumn={index === orderedColumns.length - 1}
-                      showFilters={showFilters}
-                    />
-                  ))}
-                </SortableContext>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredData && filteredData.length > 0 ? (
-                filteredData.map((row: T, index: number) => (
-                  <TableRow
-                    key={row.id || index}
-                    className={`group ${isRowClickable ? "cursor-pointer hover:bg-muted/50 transition-colors" : ""} relative`}
-                    onClick={() => isRowClickable && handleRowClick(row)}
-                  >
-                    {orderedColumns.map((column) => (
-                      <TableCell
-                        key={column.key}
-                        className={`${column.className} min-w-0`}
-                        style={{
-                          width: columnWidths[column.key]
-                            ? `${columnWidths[column.key]}px`
-                            : "auto",
-                          minWidth: columnWidths[column.key]
-                            ? `${columnWidths[column.key]}px`
-                            : "150px",
-                        }}
-                      >
-                        <div className="truncate">
-                          {renderCell(column, row)}
-                        </div>
-                      </TableCell>
-                    ))}
-                    {onDelete && (
-                      <TableCell className="w-8 p-0">
-                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex justify-center">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="h-6 w-6 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              onDelete(row);
-                            }}
-                          >
-                            <Trash2 className="h-3 w-3" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    )}
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={orderedColumns.length + (onDelete ? 1 : 0)}
-                    className="text-center text-muted-foreground"
-                  >
-                    {Object.keys(appliedFilters).length > 0
-                      ? "No results match your filters"
-                      : emptyMessage}
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        )}
+            </table>
+          )}
+        </div>
       </div>
     </DndContext>
   );
@@ -432,8 +420,8 @@ function ApiTableComponent<T extends Record<string, any>>({
   // With title/card wrapper
   if (title) {
     return (
-      <Card className={`p-2 flex flex-col ${className || ""}`}>
-        <CardHeader className="py-2 px-3">
+      <Card className={`p-2 flex flex-col h-full ${className || ""}`}>
+        <CardHeader className="py-2 px-3 flex-shrink-0">
           <div className="flex items-center justify-between">
             {(createNewHref || onCreateNew) && (
               <Button
@@ -457,7 +445,7 @@ function ApiTableComponent<T extends Record<string, any>>({
             )}
           </div>
         </CardHeader>
-        <CardContent className="p-0 flex-1 min-h-0 flex flex-col">
+        <CardContent className="p-0 flex-1 min-h-0 flex flex-col overflow-hidden">
           {tableContent}
         </CardContent>
       </Card>
@@ -466,8 +454,8 @@ function ApiTableComponent<T extends Record<string, any>>({
 
   // Without title
   return (
-    <Card className={`p-2 flex flex-col ${className || ""}`}>
-      <CardContent className="p-0 flex-1 min-h-0 flex flex-col">
+    <Card className={`p-2 flex flex-col h-full ${className || ""}`}>
+      <CardContent className="p-0 flex-1 min-h-0 flex flex-col overflow-hidden">
         {tableContent}
       </CardContent>
     </Card>

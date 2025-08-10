@@ -1,0 +1,167 @@
+import React from "react";
+import { TableTab } from "@/components/EntityTabs";
+import { toast } from "@/hooks/use-toast";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { apiCall } from "@/utils/apis";
+import { FormField } from "@/components/ApiForm";
+
+export interface WorkOrderChecklistTabProps {
+  workOrderId: string;
+}
+
+const WorkOrderChecklistTab: React.FC<WorkOrderChecklistTabProps> = ({
+  workOrderId,
+}) => {
+  const queryClient = useQueryClient();
+
+  const { data: workOrderData } = useQuery({
+    queryKey: ["work_order", workOrderId],
+    queryFn: () => apiCall(`/work-orders/work_order/${workOrderId}`),
+    enabled: !!workOrderId,
+  });
+
+  const checklistFormTemplate: FormField[] = [
+    {
+      name: "work_order",
+      type: "input",
+      inputType: "hidden",
+      required: false,
+    },
+    {
+      name: "description",
+      type: "textarea",
+      label: "Description",
+      required: false,
+      rows: 3,
+    },
+    {
+      name: "completed_by",
+      type: "dropdown",
+      label: "Completed By",
+      required: false,
+      endpoint: "/users/user",
+      queryKey: ["users_user"],
+      optionValueKey: "id",
+      optionLabelKey: "name",
+    },
+    {
+      name: "completion_date",
+      type: "datepicker",
+      label: "Completion Date",
+      required: false,
+    },
+    {
+      name: "hrs_spent",
+      type: "input",
+      label: "Hrs Spent",
+      required: false,
+      inputType: "text",
+    },
+  ];
+
+  return (
+    <TableTab
+      endpoint={`/work-orders/work_orders/checklists?work_order_id=${workOrderId}`}
+      columns={[
+        { key: "description", header: "Description", type: "string" },
+        { key: "hrs_spent", header: "Hrs Spent", type: "string" },
+        {
+          key: "completed_by",
+          header: "Completed By",
+          type: "object",
+        },
+        {
+          key: "completion_date",
+          header: "Completion Date",
+          type: "date",
+        },
+      ]}
+      queryKey={["work_order_checklists", workOrderId]}
+      emptyMessage="No checklist items found"
+      canAdd={true}
+      addButtonText="Add Checklist Item"
+      addFields={checklistFormTemplate}
+      addEndpoint="/work-orders/work_orders/checklists"
+      addInitialData={{ work_order: workOrderId }}
+      canEdit={true}
+      editFields={checklistFormTemplate}
+      editEndpoint={(itemId) => `/work-orders/work_orders/checklists/${itemId}`}
+      editInitialData={(row: Record<string, unknown>) => ({
+        ...row,
+        work_order: workOrderId,
+        completed_by:
+          typeof row.completed_by === "object" && row.completed_by
+            ? (row.completed_by as Record<string, unknown>)?.id
+            : row.completed_by,
+        completion_date: row.completion_date
+          ? new Date(row.completion_date + "T00:00:00")
+          : undefined,
+      })}
+      actions={[
+        {
+          label: "Load Backlog",
+          variant: "outline",
+          onClick: async () => {
+            try {
+              if (!workOrderData?.data?.data?.asset?.id) {
+                toast({
+                  title: "Error",
+                  description:
+                    "Asset information not available. Please wait for the work order to load.",
+                  variant: "destructive",
+                });
+                return;
+              }
+
+              await apiCall(
+                `/work-orders/work_order/${workOrderId}/import-backlogs`,
+                {
+                  method: "POST",
+                  body: { asset: workOrderData.data.data.asset.id },
+                }
+              );
+
+              queryClient.invalidateQueries({
+                queryKey: ["work_order_checklists", workOrderId],
+              });
+
+              toast({
+                title: "Success",
+                description: "Backlog items imported successfully!",
+              });
+            } catch (error) {
+              const apiError = error as {
+                data?: { errors?: Record<string, string> };
+                status?: number;
+                message?: string;
+              };
+              if (apiError?.data?.errors && apiError?.status) {
+                const errors = apiError.data.errors;
+                const statusCode = apiError.status;
+                const errorKey = Object.keys(errors)[0];
+                const errorValue = errors[errorKey];
+
+                toast({
+                  title: `${errorKey} ${statusCode}`,
+                  description: errorValue,
+                  variant: "destructive",
+                });
+              } else {
+                const errorMessage =
+                  apiError?.message ||
+                  "Failed to import backlog items";
+                toast({
+                  title: "Error",
+                  description: errorMessage,
+                  variant: "destructive",
+                });
+              }
+            }
+          },
+        },
+      ]}
+    />
+  );
+};
+
+export default WorkOrderChecklistTab;

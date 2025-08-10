@@ -230,7 +230,7 @@
   }
 
   .tab-content-body {
-    @apply bg-card rounded-sm shadow-xs p-4 h-full overflow-hidden;
+    @apply bg-card rounded-sm shadow-xs p-4 h-full overflow-auto;
   }
 
   .tab-content-scrollable {
@@ -385,4 +385,41 @@
     border-color: hsl(var(--secondary)) !important;
     box-shadow: 0 0 0 2px hsl(var(--secondary) / 0.3) !important;
   }
+
+  /* Fix for Radix UI tabs - ensure inactive tabs don't take up space */
+[role="tabpanel"][data-state="inactive"] {
+  display: none !important;
+  position: absolute !important;
+  visibility: hidden !important;
+}
+
+/* Ensure active tab panels are properly displayed */
+[role="tabpanel"][data-state="active"] {
+  display: flex !important;
+  position: relative !important;
+  visibility: visible !important;
+}
+
+/* Smooth scrolling for tab content */
+.tab-content-container {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--border)) transparent;
+}
+
+.tab-content-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.tab-content-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tab-content-container::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--border));
+  border-radius: 3px;
+}
+
+.tab-content-container::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(var(--border) / 0.8);
+}
 }
