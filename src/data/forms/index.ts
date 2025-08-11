@@ -11,6 +11,8 @@ export {
   accountCodeFormFields,
   jobCodeFormFields,
   assetStatusFormFields,
+  maintenanceTypesFormFields,
+  workOrderPriorityFormFields,
 } from "./settings.forms";
 
 // Asset forms (re-export for convenience)

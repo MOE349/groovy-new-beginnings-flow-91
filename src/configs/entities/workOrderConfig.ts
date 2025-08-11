@@ -78,6 +78,7 @@ export const workOrderEditConfig: EntityConfig<WorkOrderData> = {
       assigned_to: workOrder?.assigned_to?.id || workOrder?.assigned_to || "",
       category: workOrder?.category?.id || workOrder?.category || "",
       work_type: workOrder?.work_type?.id || workOrder?.work_type || "",
+      maint_type: workOrder?.maint_type?.id || workOrder?.maint_type || "",
       // Extract asset online status for the toggle
       asset__is_online: assetIsOnline,
       is_online: assetIsOnline,

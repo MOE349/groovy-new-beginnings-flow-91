@@ -33,3 +33,16 @@ export const accountCodeFormFields: FormField[] = [nameField];
 export const jobCodeFormFields: FormField[] = [nameField];
 
 export const assetStatusFormFields: FormField[] = [nameField];
+
+export const maintenanceTypesFormFields: FormField[] = [
+  nameField,
+  createDropdownField(
+    "hlmtype",
+    "Type",
+    "/work-orders/high-level-maintenance-types",
+    ["work_orders_high_level_maintenance_types"],
+    true
+  ),
+];
+
+export const workOrderPriorityFormFields: FormField[] = [nameField];

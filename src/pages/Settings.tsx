@@ -32,6 +32,8 @@ import {
   accountCodeFormFields,
   jobCodeFormFields,
   assetStatusFormFields,
+  maintenanceTypesFormFields,
+  workOrderPriorityFormFields,
 } from "@/data/forms";
 import { apiCall } from "@/utils/apis";
 import { handleApiError } from "@/utils/errorHandling";
@@ -48,6 +50,8 @@ const Settings = () => {
     | "accountCode"
     | "jobCode"
     | "assetStatus"
+    | "maintenanceTypes"
+    | "workOrderPriority"
     | null
   >(null);
   const [loading, setLoading] = useState(false);
@@ -442,6 +446,86 @@ const Settings = () => {
     }
   };
 
+  const handleMaintenanceTypesSubmit = async (data: Record<string, any>) => {
+    try {
+      setLoading(true);
+      if (editingItem) {
+        await apiCall(`/work-orders/maintenance-types/${editingItem.id}`, {
+          method: "PUT",
+          body: data,
+        });
+        toast({
+          title: "Success",
+          description: "Maintenance type updated successfully",
+        });
+      } else {
+        await apiCall("/work-orders/maintenance-types", {
+          method: "POST",
+          body: data,
+        });
+        toast({
+          title: "Success",
+          description: "Maintenance type created successfully",
+        });
+      }
+      await queryClient.invalidateQueries({
+        queryKey: ["/work-orders/maintenance-types"],
+      });
+      setDialogOpen(null);
+      setEditingItem(null);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description:
+          error.message ||
+          `Failed to ${editingItem ? "update" : "create"} maintenance type`,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleWorkOrderPrioritySubmit = async (data: Record<string, any>) => {
+    try {
+      setLoading(true);
+      if (editingItem) {
+        await apiCall(`/work-orders/priorities/${editingItem.id}`, {
+          method: "PUT",
+          body: data,
+        });
+        toast({
+          title: "Success",
+          description: "Work order priority updated successfully",
+        });
+      } else {
+        await apiCall("/work-orders/priorities", {
+          method: "POST",
+          body: data,
+        });
+        toast({
+          title: "Success",
+          description: "Work order priority created successfully",
+        });
+      }
+      await queryClient.invalidateQueries({
+        queryKey: ["/work-orders/priorities"],
+      });
+      setDialogOpen(null);
+      setEditingItem(null);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description:
+          error.message ||
+          `Failed to ${editingItem ? "update" : "create"} work order priority`,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Helper function to handle row clicks for editing
   const handleRowClick = (
     row: any,
@@ -456,6 +540,8 @@ const Settings = () => {
       | "accountCode"
       | "jobCode"
       | "assetStatus"
+      | "maintenanceTypes"
+      | "workOrderPriority"
   ) => {
     setEditingItem(row);
     setDialogOpen(type);
@@ -483,29 +569,30 @@ const Settings = () => {
 
   const customLayout = useCallback(
     (
-      title: string,
-      onSubmit: (data: Record<string, any>) => Promise<void>,
-      fields: any[]
-    ) =>
-      (props: any) => (
-        <div className="space-y-6">
-          <div className="p-4 space-y-4">
-            {props.error && (
-              <div className="text-red-600 text-sm">{props.error}</div>
-            )}
-            {fields.map(props.renderField)}
-          </div>
+        title: string,
+        onSubmit: (data: Record<string, any>) => Promise<void>,
+        fields: any[]
+      ) =>
+      (props: any) =>
+        (
+          <div className="space-y-6">
+            <div className="p-4 space-y-4">
+              {props.error && (
+                <div className="text-red-600 text-sm">{props.error}</div>
+              )}
+              {fields.map(props.renderField)}
+            </div>
 
-          <div className="flex justify-end p-4 border-t">
-            <Button
-              onClick={(e) => props.handleSubmit(e)}
-              disabled={props.loading}
-            >
-              {props.loading ? "Saving..." : "Save"}
-            </Button>
+            <div className="flex justify-end p-4 border-t">
+              <Button
+                onClick={(e) => props.handleSubmit(e)}
+                disabled={props.loading}
+              >
+                {props.loading ? "Saving..." : "Save"}
+              </Button>
+            </div>
           </div>
-        </div>
-      ),
+        ),
     []
   );
 
@@ -600,7 +687,7 @@ const Settings = () => {
                 />
               </div>
 
-              {/* Third Column - WorkOrder Status and Weight Class */}
+              {/* Third Column - WorkOrder Status, Weight Class, Maintenance Types, and Priority */}
               <div className="space-y-4">
                 <ApiTable
                   title="WorkOrder Status"
@@ -612,7 +699,7 @@ const Settings = () => {
                   onRowClick={(row) => handleRowClick(row, "workOrderStatus")}
                   createNewText="Add WorkOrder Status"
                   className="h-fit"
-                  maxHeight="max-h-80"
+                  maxHeight="max-h-40"
                   columns={[
                     { key: "name", header: "Name" },
                     { key: "control", header: "Control", type: "object" },
@@ -629,11 +716,42 @@ const Settings = () => {
                   onRowClick={(row) => handleRowClick(row, "weightClass")}
                   createNewText="New Weight Class"
                   className="h-fit"
-                  maxHeight="max-h-80"
+                  maxHeight="max-h-40"
                   columns={[
                     { key: "name", header: "Name" },
                     { key: "weight", header: "Weight" },
                   ]}
+                />
+
+                <ApiTable
+                  title="Maintenance Types"
+                  endpoint="/work-orders/maintenance-types"
+                  onCreateNew={() => {
+                    setEditingItem(null);
+                    setDialogOpen("maintenanceTypes");
+                  }}
+                  onRowClick={(row) => handleRowClick(row, "maintenanceTypes")}
+                  createNewText="New Maintenance Type"
+                  className="h-fit"
+                  maxHeight="max-h-40"
+                  columns={[
+                    { key: "name", header: "Name" },
+                    { key: "hlmtype", header: "Type", type: "object" },
+                  ]}
+                />
+
+                <ApiTable
+                  title="Work Order Priority"
+                  endpoint="/work-orders/priorities"
+                  onCreateNew={() => {
+                    setEditingItem(null);
+                    setDialogOpen("workOrderPriority");
+                  }}
+                  onRowClick={(row) => handleRowClick(row, "workOrderPriority")}
+                  createNewText="New Priority"
+                  className="h-fit"
+                  maxHeight="max-h-40"
+                  columns={[{ key: "name", header: "Name" }]}
                 />
               </div>
 
@@ -1058,6 +1176,82 @@ const Settings = () => {
                 editingItem ? "Edit Asset Status" : "Create New Asset Status",
                 handleAssetStatusSubmit,
                 assetStatusFormFields
+              )}
+            />
+          </DialogContent>
+        </Dialog>
+
+        {/* Maintenance Types Dialog */}
+        <Dialog
+          open={dialogOpen === "maintenanceTypes"}
+          onOpenChange={(open) => {
+            if (!open) {
+              setDialogOpen(null);
+              setEditingItem(null);
+            }
+          }}
+        >
+          <DialogContent className="max-w-md max-h-[80vh] overflow-hidden">
+            <DialogHeader>
+              <DialogTitle>
+                {editingItem
+                  ? "Edit Maintenance Type"
+                  : "Create New Maintenance Type"}
+              </DialogTitle>
+            </DialogHeader>
+            <ApiForm
+              fields={maintenanceTypesFormFields}
+              onSubmit={handleMaintenanceTypesSubmit}
+              loading={loading}
+              initialData={
+                editingItem
+                  ? prepareInitialData(editingItem, maintenanceTypesFormFields)
+                  : {}
+              }
+              customLayout={customLayout(
+                editingItem
+                  ? "Edit Maintenance Type"
+                  : "Create New Maintenance Type",
+                handleMaintenanceTypesSubmit,
+                maintenanceTypesFormFields
+              )}
+            />
+          </DialogContent>
+        </Dialog>
+
+        {/* Work Order Priority Dialog */}
+        <Dialog
+          open={dialogOpen === "workOrderPriority"}
+          onOpenChange={(open) => {
+            if (!open) {
+              setDialogOpen(null);
+              setEditingItem(null);
+            }
+          }}
+        >
+          <DialogContent className="max-w-md max-h-[80vh] overflow-hidden">
+            <DialogHeader>
+              <DialogTitle>
+                {editingItem
+                  ? "Edit Work Order Priority"
+                  : "Create New Work Order Priority"}
+              </DialogTitle>
+            </DialogHeader>
+            <ApiForm
+              fields={workOrderPriorityFormFields}
+              onSubmit={handleWorkOrderPrioritySubmit}
+              loading={loading}
+              initialData={
+                editingItem
+                  ? prepareInitialData(editingItem, workOrderPriorityFormFields)
+                  : {}
+              }
+              customLayout={customLayout(
+                editingItem
+                  ? "Edit Work Order Priority"
+                  : "Create New Work Order Priority",
+                handleWorkOrderPrioritySubmit,
+                workOrderPriorityFormFields
               )}
             />
           </DialogContent>
