@@ -30,6 +30,7 @@ const AssetScheduledMaintenanceTab: React.FC<
     lead_time_value: "",
     next_iteration: "",
     is_active: true,
+    maint_type: "",
   });
 
   const { data: pmSettingsData } = useQuery({
@@ -109,6 +110,10 @@ const AssetScheduledMaintenanceTab: React.FC<
                                     item.is_active !== undefined
                                       ? item.is_active
                                       : true,
+                                  maint_type:
+                                    item.maint_type?.id ||
+                                    item.maint_type ||
+                                    "",
                                 });
                                 setIsEditMode(true);
                                 setSelectedItemId(item.id);
@@ -122,6 +127,7 @@ const AssetScheduledMaintenanceTab: React.FC<
                                   lead_time_value: "",
                                   next_iteration: "",
                                   is_active: true,
+                                  maint_type: "",
                                 });
                                 setIsEditMode(false);
                                 setSelectedItemId(null);
@@ -219,11 +225,11 @@ const AssetScheduledMaintenanceTab: React.FC<
                         optionLabelKey="name"
                         placeholder="Select iteration"
                         disabled={!isFieldsEditable}
-                        className="w-full [&>button]:h-7 [&>button]:text-xs [&>button]:px-2 [&>button]:py-0 [&>button]:min-h-0 [&>button]:border-input [&>button]:bg-background [&>button]:hover:bg-accent [&>button]:focus:bg-accent [&>button]:rounded-sm [&>button]:shadow-sm [&>button]:transition-colors [&>button]:duration-150"
+                        className="w-full [&>button]:h-6 [&>button]:text-xs [&>button]:px-1 [&>button]:py-0 [&>button]:min-h-0 [&>button]:max-h-6 [&>button]:border-input [&>button]:bg-background [&>button]:hover:bg-accent [&>button]:focus:bg-accent [&>button]:rounded-sm [&>button]:shadow-sm [&>button]:transition-colors [&>button]:duration-150 [&>button]:leading-none [&>button]:!leading-3 [&>button]:box-border [&>button>span]:leading-none [&>button>span]:text-xs"
                       />
                     </div>
                   ) : (
-                    <div className="w-full h-7 px-2 text-xs border border-input rounded-sm flex items-center text-muted-foreground bg-muted/50 shadow-sm">
+                    <div className="w-full h-6 px-1 text-xs border border-input rounded-sm flex items-center text-muted-foreground bg-muted/50 shadow-sm">
                       No PM setting selected
                     </div>
                   )}
@@ -248,7 +254,7 @@ const AssetScheduledMaintenanceTab: React.FC<
                     }
                     disabled={!isFieldsEditable}
                     required
-                    className={`flex-1 h-6 px-2 text-xs border rounded ${
+                    className={`flex-1 h-6 px-1 text-xs border rounded ${
                       !isFieldsEditable
                         ? "bg-muted/50 text-muted-foreground cursor-not-allowed"
                         : "bg-background"
@@ -269,7 +275,7 @@ const AssetScheduledMaintenanceTab: React.FC<
                       }))
                     }
                     disabled={!isFieldsEditable}
-                    className={`w-16 h-6 px-2 text-xs border rounded ${
+                    className={`w-16 h-6 px-1 text-xs border rounded ${
                       !isFieldsEditable
                         ? "bg-muted/50 text-muted-foreground cursor-not-allowed"
                         : "bg-background"
@@ -284,7 +290,7 @@ const AssetScheduledMaintenanceTab: React.FC<
                       }))
                     }
                     disabled={!isFieldsEditable}
-                    className={`h-6 px-2 text-xs border rounded w-20 ${
+                    className={`h-6 px-1 text-xs border rounded w-20 ${
                       !isFieldsEditable
                         ? "bg-muted/50 text-muted-foreground cursor-not-allowed"
                         : "bg-background"
@@ -313,11 +319,31 @@ const AssetScheduledMaintenanceTab: React.FC<
                       }))
                     }
                     disabled={!isFieldsEditable}
-                    className={`w-40 h-6 px-2 text-xs border rounded ${
+                    className={`w-20 h-6 px-1 text-xs border rounded ${
                       !isFieldsEditable
                         ? "bg-muted/50 text-muted-foreground cursor-not-allowed"
                         : "bg-background"
                     }`}
+                  />
+                  <span className="text-xs text-muted-foreground">
+                    Maint Type
+                  </span>
+                  <AutoSelectDropdown
+                    name="maint_type"
+                    value={meterTriggerData.maint_type}
+                    onChange={(value) => {
+                      setMeterTriggerData((prev) => ({
+                        ...prev,
+                        maint_type: value,
+                      }));
+                    }}
+                    endpoint="/work-orders/maintenance-types"
+                    queryKey={["work_orders_maintenance_types"]}
+                    optionValueKey="id"
+                    optionLabelKey="name"
+                    placeholder="Select type"
+                    disabled={!isFieldsEditable}
+                    className="w-40 [&>button]:h-6 [&>button]:text-xs [&>button]:px-1 [&>button]:py-0 [&>button]:min-h-0 [&>button]:max-h-6 [&>button]:border-input [&>button]:bg-background [&>button]:hover:bg-accent [&>button]:focus:bg-accent [&>button]:rounded [&>button]:shadow-sm [&>button]:transition-colors [&>button]:duration-150 [&>button]:!leading-3 [&>button]:box-border [&>button>span]:leading-none [&>button>span]:text-xs"
                   />
                 </div>
                 <div className="flex items-center gap-2">
@@ -334,7 +360,7 @@ const AssetScheduledMaintenanceTab: React.FC<
                       }))
                     }
                     disabled={!isFieldsEditable}
-                    className={`w-16 h-6 px-2 text-xs border rounded ${
+                    className={`w-16 h-6 px-1 text-xs border rounded ${
                       !isFieldsEditable
                         ? "bg-muted/50 text-muted-foreground cursor-not-allowed"
                         : "bg-background"
@@ -384,6 +410,7 @@ const AssetScheduledMaintenanceTab: React.FC<
                       lead_time_unit: meterTriggerData.interval_unit,
                       next_iteration: meterTriggerData.next_iteration,
                       is_active: meterTriggerData.is_active,
+                      maint_type: meterTriggerData.maint_type,
                       asset: assetId,
                     };
                     try {
@@ -493,7 +520,17 @@ const AssetScheduledMaintenanceTab: React.FC<
                 name: "start_date",
                 type: "datepicker",
                 label: "Starting at",
-                width: "flex-1",
+                width: "w-32",
+              },
+              {
+                name: "maint_type",
+                type: "dropdown",
+                label: "Maint Type",
+                width: "w-32",
+                endpoint: "/work-orders/maintenance-types",
+                queryKey: ["work_orders_maintenance_types"],
+                optionValueKey: "id",
+                optionLabelKey: "name",
               },
               {
                 name: "calendar_lead_time_days",
@@ -507,6 +544,7 @@ const AssetScheduledMaintenanceTab: React.FC<
             dataKeyMapping={{
               start_date: "start_date",
               calendar_lead_time_days: "calendar_lead_time_days",
+              maint_type: "maint_type",
             }}
             generateWorkOrderEndpoint="/pm-automation/pm-settings/manual-generation"
             nextIterationEndpoint="/pm-automation/pm-settings/manual-generation"

@@ -18,12 +18,23 @@ interface TableColumn {
 
 interface FormField {
   name: string;
-  type: "text" | "number" | "select" | "hidden" | "date" | "datepicker";
+  type:
+    | "text"
+    | "number"
+    | "select"
+    | "hidden"
+    | "date"
+    | "datepicker"
+    | "dropdown";
   label: string;
   options?: { value: string; label: string }[];
   width?: string;
   suffix?: string;
   required?: boolean;
+  endpoint?: string;
+  queryKey?: string[];
+  optionValueKey?: string;
+  optionLabelKey?: string;
 }
 
 interface PMTriggerContainerProps {
@@ -56,16 +67,13 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
   const [isFieldsEditable, setIsFieldsEditable] = useState(false);
 
   // Initialize form data based on form fields
-  const initialFormData = formFields.reduce(
-    (acc, field) => {
-      acc[field.name] =
-        field.type === "select" && field.options
-          ? field.options[0]?.value || ""
-          : "";
-      return acc;
-    },
-    {} as Record<string, any>
-  );
+  const initialFormData = formFields.reduce((acc, field) => {
+    acc[field.name] =
+      field.type === "select" && field.options
+        ? field.options[0]?.value || ""
+        : "";
+    return acc;
+  }, {} as Record<string, any>);
 
   initialFormData.is_active = true;
   initialFormData.trigger_type = "CALENDAR";
@@ -80,29 +88,29 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
       console.log("PMTriggerContainer: Data key mapping:", dataKeyMapping);
 
       // Map data using provided mapping or use direct keys
-      const mappedData = formFields.reduce(
-        (acc, field) => {
-          const dataKey = dataKeyMapping[field.name] || field.name;
-          let value = item[dataKey];
+      const mappedData = formFields.reduce((acc, field) => {
+        const dataKey = dataKeyMapping[field.name] || field.name;
+        let value = item[dataKey];
 
-          console.log(
-            `PMTriggerContainer: Field ${field.name}, dataKey: ${dataKey}, value:`,
-            value
-          );
+        console.log(
+          `PMTriggerContainer: Field ${field.name}, dataKey: ${dataKey}, value:`,
+          value
+        );
 
-          // Handle different field types appropriately
-          if (value === undefined || value === null) {
-            value =
-              field.type === "number" ? "" : field.options?.[0]?.value || "";
-          } else if (field.type === "date" && value) {
-            value = new Date(value).toISOString().split("T")[0];
-          }
+        // Handle different field types appropriately
+        if (value === undefined || value === null) {
+          value =
+            field.type === "number" ? "" : field.options?.[0]?.value || "";
+        } else if (field.type === "date" && value) {
+          value = new Date(value).toISOString().split("T")[0];
+        } else if (field.type === "dropdown" && value) {
+          // Handle dropdown values - extract ID if it's an object
+          value = value?.id || value || "";
+        }
 
-          acc[field.name] = value;
-          return acc;
-        },
-        {} as Record<string, any>
-      );
+        acc[field.name] = value;
+        return acc;
+      }, {} as Record<string, any>);
 
       console.log("PMTriggerContainer: Mapped data:", mappedData);
 
@@ -223,7 +231,13 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
             value={value}
             onChange={(e) => handleFieldChange(field.name, e.target.value)}
             disabled={!isFieldsEditable}
-            className={`h-6 px-2 text-xs border rounded ${field.width || "w-20"} ${!isFieldsEditable ? "bg-muted/50 text-muted-foreground cursor-not-allowed" : "bg-background"}`}
+            className={`h-6 px-1 text-xs border rounded ${
+              field.width || "w-20"
+            } ${
+              !isFieldsEditable
+                ? "bg-muted/50 text-muted-foreground cursor-not-allowed"
+                : "bg-background"
+            }`}
           >
             {field.options?.map((option) => (
               <option key={option.value} value={option.value}>
@@ -245,7 +259,13 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
             onChange={(e) => handleFieldChange(field.name, e.target.value)}
             disabled={!isFieldsEditable}
             required={field.required}
-            className={`h-6 px-2 text-xs border rounded ${field.width || "w-16"} ${!isFieldsEditable ? "bg-muted/50 text-muted-foreground cursor-not-allowed" : "bg-background"} ${field.required && !value ? "border-red-300" : ""}`}
+            className={`h-6 px-1 text-xs border rounded ${
+              field.width || "w-16"
+            } ${
+              !isFieldsEditable
+                ? "bg-muted/50 text-muted-foreground cursor-not-allowed"
+                : "bg-background"
+            } ${field.required && !value ? "border-red-300" : ""}`}
           />
         );
       case "date":
@@ -256,7 +276,13 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
             onChange={(e) => handleFieldChange(field.name, e.target.value)}
             disabled={!isFieldsEditable}
             required={field.required}
-            className={`h-6 px-2 text-xs border rounded ${field.width || "flex-1"} ${!isFieldsEditable ? "bg-muted/50 text-muted-foreground cursor-not-allowed" : "bg-background"} ${field.required && !value ? "border-red-300" : ""}`}
+            className={`h-6 px-1 text-xs border rounded ${
+              field.width || "flex-1"
+            } ${
+              !isFieldsEditable
+                ? "bg-muted/50 text-muted-foreground cursor-not-allowed"
+                : "bg-background"
+            } ${field.required && !value ? "border-red-300" : ""}`}
           />
         );
       case "datepicker":
@@ -272,7 +298,24 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
               }}
               disabled={!isFieldsEditable}
               required={field.required}
-              className="h-6 text-xs"
+              className="[&>button]:h-6 [&>button]:text-xs [&>button]:px-1 [&>button]:py-0 [&>button]:min-h-0 [&>button]:max-h-6 [&>button]:border-input [&>button]:bg-background [&>button]:hover:bg-accent [&>button]:focus:bg-accent [&>button]:rounded [&>button]:shadow-sm [&>button]:transition-colors [&>button]:duration-150 [&>button]:!leading-3 [&>button]:box-border [&>button>span]:leading-none [&>button>span]:text-xs"
+            />
+          </div>
+        );
+      case "dropdown":
+        return (
+          <div className={field.width || "flex-1"}>
+            <AutoSelectDropdown
+              name={field.name}
+              value={value}
+              onChange={(newValue) => handleFieldChange(field.name, newValue)}
+              endpoint={field.endpoint}
+              queryKey={field.queryKey}
+              optionValueKey={field.optionValueKey || "id"}
+              optionLabelKey={field.optionLabelKey || "name"}
+              placeholder={`Select ${field.label.toLowerCase()}`}
+              disabled={!isFieldsEditable}
+              className="w-full [&>button]:h-6 [&>button]:text-xs [&>button]:px-1 [&>button]:py-0 [&>button]:min-h-0 [&>button]:max-h-6 [&>button]:border-input [&>button]:bg-background [&>button]:hover:bg-accent [&>button]:focus:bg-accent [&>button]:rounded [&>button]:shadow-sm [&>button]:transition-colors [&>button]:duration-150 [&>button]:!leading-3 [&>button]:box-border [&>button>span]:leading-none [&>button>span]:text-xs"
             />
           </div>
         );
@@ -284,7 +327,13 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
             onChange={(e) => handleFieldChange(field.name, e.target.value)}
             disabled={!isFieldsEditable}
             required={field.required}
-            className={`h-6 px-2 text-xs border rounded ${field.width || "flex-1"} ${!isFieldsEditable ? "bg-muted/50 text-muted-foreground cursor-not-allowed" : "bg-background"} ${field.required && !value ? "border-red-300" : ""}`}
+            className={`h-6 px-1 text-xs border rounded ${
+              field.width || "flex-1"
+            } ${
+              !isFieldsEditable
+                ? "bg-muted/50 text-muted-foreground cursor-not-allowed"
+                : "bg-background"
+            } ${field.required && !value ? "border-red-300" : ""}`}
           />
         );
     }
@@ -307,7 +356,9 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
                 {tableColumns.map((column, index) => (
                   <th
                     key={index}
-                    className={`h-4 px-1 py-0.5 text-left align-middle font-medium text-primary-foreground bg-primary text-xs ${column.width || ""}`}
+                    className={`h-4 px-1 py-0.5 text-left align-middle font-medium text-primary-foreground bg-primary text-xs ${
+                      column.width || ""
+                    }`}
                   >
                     {column.label}
                   </th>
@@ -326,7 +377,9 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
                     <td className="px-1 py-0.5 text-left align-middle text-xs">
                       <input
                         type="radio"
-                        name={`${title.toLowerCase().replace(/\s+/g, "-")}-selection`}
+                        name={`${title
+                          .toLowerCase()
+                          .replace(/\s+/g, "-")}-selection`}
                         value={item?.id || i}
                         checked={selectedRadioId === (item?.id || i.toString())}
                         onChange={() => {}}
@@ -342,8 +395,8 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
                         displayValue = item?.is_active
                           ? "Active"
                           : item?.is_active === false
-                            ? "Inactive"
-                            : "-";
+                          ? "Inactive"
+                          : "-";
                       } else if (column.type === "date") {
                         displayValue = formatDateOptimized(value);
                       } else if (
@@ -404,11 +457,11 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
                     optionLabelKey="name"
                     placeholder="Select iteration"
                     disabled={!isFieldsEditable}
-                    className="w-full [&>button]:h-7 [&>button]:text-xs [&>button]:px-2 [&>button]:py-0 [&>button]:min-h-0 [&>button]:border-input [&>button]:bg-background [&>button]:hover:bg-accent [&>button]:focus:bg-accent [&>button]:rounded-sm [&>button]:shadow-sm [&>button]:transition-colors [&>button]:duration-150"
+                    className="w-full [&>button]:h-6 [&>button]:text-xs [&>button]:px-1 [&>button]:py-0 [&>button]:min-h-0 [&>button]:max-h-6 [&>button]:border-input [&>button]:bg-background [&>button]:hover:bg-accent [&>button]:focus:bg-accent [&>button]:rounded-sm [&>button]:shadow-sm [&>button]:transition-colors [&>button]:duration-150 [&>button]:!leading-3 [&>button]:box-border [&>button>span]:leading-none [&>button>span]:text-xs"
                   />
                 </div>
               ) : (
-                <div className="w-full h-7 px-2 text-xs border border-input rounded-sm flex items-center text-muted-foreground bg-muted/50 shadow-sm">
+                <div className="w-full h-6 px-1 text-xs border border-input rounded-sm flex items-center text-muted-foreground bg-muted/50 shadow-sm">
                   No PM setting selected
                 </div>
               )}
@@ -452,8 +505,35 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
               }
             }
 
+            // Group start_date and maint_type together
+            if (field.name === "start_date") {
+              const nextField = formFields[index + 1];
+              if (nextField?.name === "maint_type") {
+                return (
+                  <div key={index} className="flex items-center gap-2">
+                    <span className="text-xs text-muted-foreground w-16">
+                      {field.label}
+                      {field.required && (
+                        <span className="text-red-500 ml-1">*</span>
+                      )}
+                    </span>
+                    {renderFormField(field)}
+                    <span className="text-xs text-muted-foreground">
+                      {nextField.label}
+                    </span>
+                    {renderFormField(nextField)}
+                  </div>
+                );
+              }
+            }
+
             // Skip interval_unit as it's rendered with interval_value
             if (field.name === "interval_unit") {
+              return null;
+            }
+
+            // Skip maint_type as it's rendered with start_date
+            if (field.name === "maint_type") {
               return null;
             }
 
@@ -478,7 +558,11 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
 
         <div>
           <Button
-            className={`w-full h-8 text-xs ${formData.is_active ? "bg-green-500 hover:bg-green-600 text-white" : "bg-gray-500 hover:bg-gray-600 text-white"}`}
+            className={`w-full h-8 text-xs ${
+              formData.is_active
+                ? "bg-green-500 hover:bg-green-600 text-white"
+                : "bg-gray-500 hover:bg-gray-600 text-white"
+            }`}
             onClick={() =>
               isFieldsEditable &&
               handleFieldChange("is_active", !formData.is_active)
