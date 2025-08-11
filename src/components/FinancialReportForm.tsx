@@ -1,31 +1,35 @@
-
-import React from 'react';
-import ApiForm from '@/components/ApiForm';
-import ApiInput from '@/components/ApiInput';
-import { apiCall } from '@/utils/apis';
-import { useToast } from '@/hooks/use-toast';
-import { useQueryClient } from '@tanstack/react-query';
-import { useFinancialDataOptimized } from '@/hooks/useFinancialDataOptimized';
-import { handleApiError } from '@/utils/errorHandling';
+import React, { useEffect, useCallback } from "react";
+import ApiForm from "@/components/ApiForm";
+import ApiInput from "@/components/ApiInput";
+import { apiCall } from "@/utils/apis";
+import { useToast } from "@/hooks/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
+import { useFinancialDataOptimized } from "@/hooks/useFinancialDataOptimized";
+import { handleApiError } from "@/utils/errorHandling";
 
 interface FinancialReportFormProps {
   assetId: string;
   onSuccess?: () => void;
   fieldsToShow?: string[];
   containerType?: string;
+  columns?: number;
+  onSubmitRef?: (submitFn: () => void) => void;
 }
 
 const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
   assetId,
   onSuccess,
   fieldsToShow,
-  containerType
+  containerType,
+  columns = 2,
+  onSubmitRef,
 }) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
   // Use the optimized hook for shared data
-  const { data: existingData, isLoading: loading } = useFinancialDataOptimized(assetId);
+  const { data: existingData, isLoading: loading } =
+    useFinancialDataOptimized(assetId);
 
   const formTemplate = [
     {
@@ -35,7 +39,7 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
       component: "InputGroup",
       required: false,
       value: assetId,
-      hidden: true
+      hidden: true,
     },
     {
       label: "Purchase Cost",
@@ -43,7 +47,7 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
       size: "1",
       component: "InputGroup",
       required: true,
-      editable: true
+      editable: true,
     },
     {
       label: "Resale Cost",
@@ -51,7 +55,7 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
       size: "1",
       component: "InputGroup",
       required: true,
-      editable: true
+      editable: true,
     },
     {
       label: "Finance Years",
@@ -59,7 +63,7 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
       size: "1",
       component: "InputGroup",
       required: true,
-      editable: true
+      editable: true,
     },
     {
       label: "Interest Rate",
@@ -67,7 +71,7 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
       size: "1",
       component: "InputGroup",
       required: true,
-      editable: true
+      editable: true,
     },
     {
       label: "Expected Hours",
@@ -75,7 +79,7 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
       size: "1",
       component: "InputGroup",
       required: true,
-      editable: true
+      editable: true,
     },
     {
       label: "Operational Cost Per Year",
@@ -83,7 +87,7 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
       size: "1",
       component: "InputGroup",
       required: true,
-      editable: true
+      editable: true,
     },
     {
       label: "Capital Work Cost",
@@ -91,7 +95,7 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
       size: "1",
       component: "InputGroup",
       required: true,
-      editable: true
+      editable: true,
     },
     // Calculated fields - displayed as disabled
     {
@@ -100,7 +104,7 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
       size: "1",
       component: "InputGroup",
       required: false,
-      editable: false
+      editable: false,
     },
     {
       label: "Interest Amount",
@@ -108,7 +112,7 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
       size: "1",
       component: "InputGroup",
       required: false,
-      editable: false
+      editable: false,
     },
     {
       label: "Yearly Hours",
@@ -116,7 +120,7 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
       size: "1",
       component: "InputGroup",
       required: false,
-      editable: false
+      editable: false,
     },
     {
       label: "Capital Cost Per Hour",
@@ -124,7 +128,7 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
       size: "1",
       component: "InputGroup",
       required: false,
-      editable: false
+      editable: false,
     },
     {
       label: "Maintenance Cost Per Hour",
@@ -132,7 +136,7 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
       size: "1",
       component: "InputGroup",
       required: false,
-      editable: false
+      editable: false,
     },
     {
       label: "Operational Cost Per Hour",
@@ -140,7 +144,7 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
       size: "1",
       component: "InputGroup",
       required: false,
-      editable: false
+      editable: false,
     },
     {
       label: "Total Cost Per Hour",
@@ -148,75 +152,92 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
       size: "1",
       component: "InputGroup",
       required: false,
-      editable: false
-    }
+      editable: false,
+    },
   ];
 
   // Convert template to ApiForm fields
   const formFields = formTemplate
-    .filter(field => !field.hidden)
-    .filter(field => !fieldsToShow || fieldsToShow.includes(field.name))
-    .map(field => ({
+    .filter((field) => !field.hidden)
+    .filter((field) => !fieldsToShow || fieldsToShow.includes(field.name))
+    .map((field) => ({
       name: field.name,
-      type: 'input' as const,
-      inputType: field.editable === false ? 'text' as const : 'number' as const,
+      type: "input" as const,
+      inputType:
+        field.editable === false ? ("text" as const) : ("number" as const),
       label: field.label,
       required: field.required && field.editable !== false,
       disabled: field.editable === false,
-      placeholder: field.editable === false ? '' : `Enter ${field.label.toLowerCase()}`
+      placeholder:
+        field.editable === false ? "" : `Enter ${field.label.toLowerCase()}`,
     }));
 
   // Check if all fields are disabled (read-only)
-  const allFieldsDisabled = formFields.every(field => field.disabled);
+  const allFieldsDisabled = formFields.every((field) => field.disabled);
 
-  const handleSubmit = async (data: Record<string, any>) => {
-    try {
-      const initialData = existingData || {};
-      
-      // Only send fields that changed
-      const changedFields = Object.keys(data).reduce((acc: Record<string, any>, key) => {
-        if (data[key] !== initialData[key]) {
-          acc[key] = data[key];
+  const handleSubmit = useCallback(
+    async (data: Record<string, any>) => {
+      try {
+        const initialData = existingData || {};
+
+        // Only send fields that changed
+        const changedFields = Object.keys(data).reduce(
+          (acc: Record<string, any>, key) => {
+            if (data[key] !== initialData[key]) {
+              acc[key] = data[key];
+            }
+            return acc;
+          },
+          {}
+        );
+
+        if (existingData && Object.keys(changedFields).length > 0) {
+          // Update existing record with PATCH and only send changed fields
+          await apiCall(`/financial-reports/${assetId}`, {
+            method: "PATCH",
+            body: changedFields,
+          });
+        } else if (!existingData) {
+          // Create new record - add assetId to the data
+          const submissionData = {
+            ...data,
+            asset: assetId,
+          };
+          await apiCall(`/financial-reports/${assetId}`, {
+            method: "POST",
+            body: submissionData,
+          });
         }
-        return acc;
-      }, {});
-      
-      if (existingData && Object.keys(changedFields).length > 0) {
-        // Update existing record with PATCH and only send changed fields
-        await apiCall(`/financial-reports/${assetId}`, { 
-          method: 'PATCH', 
-          body: changedFields 
-        });
-      } else if (!existingData) {
-        // Create new record - add assetId to the data
-        const submissionData = {
-          ...data,
-          asset: assetId
-        };
-        await apiCall(`/financial-reports/${assetId}`, {
-          method: 'POST',
-          body: submissionData
-        });
-      }
-      
-      toast({
-        title: "Success",
-        description: existingData ? "Financial data updated successfully" : "Financial data saved successfully",
-      });
 
-      // Invalidate the shared query to refresh all components
-      await queryClient.invalidateQueries({
-        queryKey: ['financial-data', assetId]
-      });
+        toast({
+          title: "Success",
+          description: existingData
+            ? "Financial data updated successfully"
+            : "Financial data saved successfully",
+        });
 
-      if (onSuccess) {
-        onSuccess();
+        // Invalidate the shared query to refresh all components
+        await queryClient.invalidateQueries({
+          queryKey: ["financial-data", assetId],
+        });
+
+        if (onSuccess) {
+          onSuccess();
+        }
+      } catch (error) {
+        console.error("Failed to submit financial data:", error);
+        handleApiError(error, "Save Failed");
       }
-    } catch (error) {
-      console.error('Failed to submit financial data:', error);
-      handleApiError(error, "Save Failed");
+    },
+    [existingData, assetId, toast, queryClient, onSuccess]
+  );
+
+  // Expose submit function to parent component
+  useEffect(() => {
+    if (onSubmitRef) {
+      onSubmitRef(() => handleSubmit(existingData || {}));
     }
-  };
+  }, [onSubmitRef, existingData, handleSubmit]);
 
   // Create initial data from template and existing data
   const initialData = formTemplate.reduce((acc, field) => {
@@ -232,116 +253,86 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
     <div className="h-full">
       <ApiForm
         fields={formFields}
-        title={containerType ? "" : (existingData ? "Update Financial Data" : "Create Financial Data")}
+        title={
+          containerType
+            ? ""
+            : existingData
+            ? "Update Financial Data"
+            : "Create Financial Data"
+        }
         onSubmit={handleSubmit}
-        submitText={containerType ? (existingData ? "Update" : "Save") : (existingData ? "Update Financial Data" : "Save Financial Data")}
+        submitText={
+          containerType
+            ? existingData
+              ? "Update"
+              : "Save"
+            : existingData
+            ? "Update Financial Data"
+            : "Save Financial Data"
+        }
         initialData={initialData}
         loading={loading}
         className="h-full"
-        customLayout={containerType ? ({ handleSubmit, formData, handleFieldChange }) => {
-          if (containerType === "ownership") {
-            // Group fields by type for ownership cost container
-            const editableFields = formFields.filter(field => !field.disabled);
-            const readOnlyFields = formFields.filter(field => field.disabled);
+        customLayout={
+          containerType
+            ? ({ handleSubmit, formData, handleFieldChange }) => {
+                // Group fields by type for all container types
+                const editableFields = formFields.filter(
+                  (field) => !field.disabled
+                );
+                const readOnlyFields = formFields.filter(
+                  (field) => field.disabled
+                );
 
-            return (
-              <div className="space-y-2">
-                {/* Editable fields - 2 per row */}
-                {editableFields.length > 0 && (
-                  <div className="grid grid-cols-2 gap-2">
-                    {editableFields.map(field => (
-                      <div key={field.name} className="space-y-1">
-                        <label className="text-sm font-medium text-muted-foreground">
-                          {field.label}
-                          {field.required && <span className="text-destructive ml-1">*</span>}
-                        </label>
-                        <ApiInput
-                          name={field.name}
-                          type={field.inputType}
-                          placeholder={field.placeholder}
-                          value={formData[field.name] || ""}
-                          onChange={(value) => handleFieldChange(field.name, value)}
-                          disabled={field.disabled}
-                          className="mb-0"
-                        />
+                return (
+                  <div className="space-y-2">
+                    {/* Editable fields - flexible columns */}
+                    {editableFields.length > 0 && (
+                      <div className={`grid grid-cols-${columns} gap-2`}>
+                        {editableFields.map((field) => (
+                          <div key={field.name} className="space-y-1">
+                            <label className="text-sm font-medium text-muted-foreground">
+                              {field.label}
+                              {field.required && (
+                                <span className="text-destructive ml-1">*</span>
+                              )}
+                            </label>
+                            <ApiInput
+                              name={field.name}
+                              type={field.inputType}
+                              placeholder={field.placeholder}
+                              value={formData[field.name] || ""}
+                              onChange={(value) =>
+                                handleFieldChange(field.name, value)
+                              }
+                              disabled={field.disabled}
+                              className="mb-0"
+                            />
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                )}
+                    )}
 
-                {/* Read-only fields - 2 per row */}
-                {readOnlyFields.length > 0 && (
-                  <div className="grid grid-cols-2 gap-2">
-                    {readOnlyFields.map(field => (
-                      <div key={field.name} className="space-y-1">
-                        <label className="text-sm font-medium text-muted-foreground">
-                          {field.label}
-                        </label>
-                        <span className="text-sm text-foreground block">
-                          {formData[field.name] || "-"}
-                        </span>
+                    {/* Read-only fields - flexible columns */}
+                    {readOnlyFields.length > 0 && (
+                      <div className={`grid grid-cols-${columns} gap-2`}>
+                        {readOnlyFields.map((field) => (
+                          <div key={field.name} className="space-y-1">
+                            <label className="text-sm font-medium text-muted-foreground">
+                              {field.label}
+                            </label>
+                            <span className="text-sm text-foreground block">
+                              {formData[field.name] || "-"}
+                            </span>
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                )}
-
-                {!allFieldsDisabled && (
-                  <div className="pt-2">
-                    <button
-                      type="button"
-                      onClick={handleSubmit}
-                      className="w-full px-3 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 rounded-md transition-colors"
-                    >
-                      {existingData ? "Update" : "Save"}
-                    </button>
-                  </div>
-                )}
-              </div>
-            );
-          }
-
-          // Default layout for other container types
-          return (
-            <div className="space-y-2">
-              {formFields.map(field => (
-                <div key={field.name} className="space-y-1">
-                  <label className="text-sm font-medium text-muted-foreground">
-                    {field.label}
-                    {field.required && <span className="text-destructive ml-1">*</span>}
-                  </label>
-                  <div>
-                    {field.disabled ? (
-                      <span className="text-sm text-foreground">
-                        {formData[field.name] || "-"}
-                      </span>
-                    ) : (
-                      <ApiInput
-                        name={field.name}
-                        type={field.inputType}
-                        placeholder={field.placeholder}
-                        value={formData[field.name] || ""}
-                        onChange={(value) => handleFieldChange(field.name, value)}
-                        disabled={field.disabled}
-                        className="mb-0"
-                      />
                     )}
                   </div>
-                </div>
-              ))}
-              {!allFieldsDisabled && (
-                <div className="pt-2">
-                  <button
-                    type="button"
-                    onClick={handleSubmit}
-                    className="w-full px-3 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 rounded-md transition-colors"
-                  >
-                    {existingData ? "Update" : "Save"}
-                  </button>
-                </div>
-              )}
-            </div>
-          );
-        } : undefined}
+                );
+              }
+            : undefined
+        }
       />
     </div>
   );
