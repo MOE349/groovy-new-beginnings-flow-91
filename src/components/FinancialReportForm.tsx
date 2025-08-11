@@ -286,44 +286,50 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
 
                 return (
                   <div className="space-y-2">
-                    {/* Editable fields - flexible columns */}
-                    {editableFields.length > 0 && (
-                      <div className={`grid grid-cols-${columns} gap-2`}>
-                        {editableFields.map((field) => (
+                    {/* All fields in a single grid - flexible columns */}
+                    {formFields.length > 0 && (
+                      <div
+                        className={
+                          columns === 1
+                            ? "grid grid-cols-1 gap-2"
+                            : columns === 2
+                            ? "grid grid-cols-2 gap-2"
+                            : columns === 3
+                            ? "grid grid-cols-3 gap-2"
+                            : columns === 4
+                            ? "grid grid-cols-4 gap-2"
+                            : columns === 5
+                            ? "grid grid-cols-5 gap-2"
+                            : columns === 6
+                            ? "grid grid-cols-6 gap-2"
+                            : "grid grid-cols-2 gap-2"
+                        }
+                      >
+                        {formFields.map((field) => (
                           <div key={field.name} className="space-y-1">
                             <label className="text-sm font-medium text-muted-foreground">
                               {field.label}
-                              {field.required && (
+                              {field.required && !field.disabled && (
                                 <span className="text-destructive ml-1">*</span>
                               )}
                             </label>
-                            <ApiInput
-                              name={field.name}
-                              type={field.inputType}
-                              placeholder={field.placeholder}
-                              value={formData[field.name] || ""}
-                              onChange={(value) =>
-                                handleFieldChange(field.name, value)
-                              }
-                              disabled={field.disabled}
-                              className="mb-0"
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    {/* Read-only fields - flexible columns */}
-                    {readOnlyFields.length > 0 && (
-                      <div className={`grid grid-cols-${columns} gap-2`}>
-                        {readOnlyFields.map((field) => (
-                          <div key={field.name} className="space-y-1">
-                            <label className="text-sm font-medium text-muted-foreground">
-                              {field.label}
-                            </label>
-                            <span className="text-sm text-foreground block">
-                              {formData[field.name] || "-"}
-                            </span>
+                            {field.disabled ? (
+                              <span className="text-sm text-foreground block">
+                                {formData[field.name] || "-"}
+                              </span>
+                            ) : (
+                              <ApiInput
+                                name={field.name}
+                                type={field.inputType}
+                                placeholder={field.placeholder}
+                                value={formData[field.name] || ""}
+                                onChange={(value) =>
+                                  handleFieldChange(field.name, value)
+                                }
+                                disabled={field.disabled}
+                                className="mb-0"
+                              />
+                            )}
                           </div>
                         ))}
                       </div>

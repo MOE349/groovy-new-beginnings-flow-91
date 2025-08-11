@@ -42,12 +42,12 @@ const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({
     >
       {/* Row 1: Three Financial Containers - Horizontal Cards Stacked Vertically */}
       <div
-        className="flex flex-col gap-3 h-full animate-fade-in mb-8 px-8"
+        className="flex flex-col gap-1.5 h-full animate-fade-in mb-8 px-8 pt-4"
         style={{ scrollSnapAlign: "start" }}
       >
         {/* Ownership Cost Container */}
         <div className="w-full">
-          <div className="p-4 h-52 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-row">
+          <div className="p-4 h-[12.5rem] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-row">
             {/* Left sidebar with vertical title and update button */}
             <div className="flex flex-col items-center justify-between w-24 border-r border-primary/10 py-2">
               <div className="flex-1 flex items-center justify-center">
@@ -79,11 +79,10 @@ const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({
                     "capital_work_cost",
                     "monthly_payment",
                     "interst_amount",
-                    "capital_cost_per_hr",
                     "yearly_hours",
                   ]}
                   containerType="ownership"
-                  columns={4}
+                  columns={5}
                   onSubmitRef={(submitFn) =>
                     (ownershipSubmitRef.current = submitFn)
                   }
@@ -110,7 +109,7 @@ const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({
 
         {/* Maintenance Cost Container */}
         <div className="w-full">
-          <div className="p-4 h-52 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-row">
+          <div className="p-4 h-[12.5rem] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-row">
             {/* Left sidebar with vertical title and update button */}
             <div className="flex flex-col items-center justify-between w-24 border-r border-primary/10 py-2">
               <div className="flex-1 flex items-center justify-center">
@@ -133,9 +132,9 @@ const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({
               ) : (
                 <FinancialReportForm
                   assetId={assetId}
-                  fieldsToShow={["maintnance_cost_per_hr"]}
+                  fieldsToShow={[]}
                   containerType="maintenance"
-                  columns={4}
+                  columns={5}
                   onSubmitRef={(submitFn) =>
                     (maintenanceSubmitRef.current = submitFn)
                   }
@@ -162,7 +161,7 @@ const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({
 
         {/* Operational Cost Container */}
         <div className="w-full">
-          <div className="p-4 h-52 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-row">
+          <div className="p-4 h-[12.5rem] relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-row">
             {/* Left sidebar with vertical title and update button */}
             <div className="flex flex-col items-center justify-between w-24 border-r border-primary/10 py-2">
               <div className="flex-1 flex items-center justify-center">
@@ -185,13 +184,9 @@ const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({
               ) : (
                 <FinancialReportForm
                   assetId={assetId}
-                  fieldsToShow={[
-                    "operational_cost_per_year",
-                    "operational_cost_per_hr",
-                    "total_cost_per_hr",
-                  ]}
+                  fieldsToShow={["operational_cost_per_year"]}
                   containerType="operational"
-                  columns={4}
+                  columns={5}
                   onSubmitRef={(submitFn) =>
                     (operationalSubmitRef.current = submitFn)
                   }
