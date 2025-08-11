@@ -118,9 +118,9 @@ const PMChecklistTabs: React.FC<PMChecklistTabsProps> = ({
 
   return (
     <div className="h-full flex flex-col">
-      {/* Navigation Header */}
-      <div className="flex items-center justify-center gap-4 mb-4 py-3 bg-accent/20 border border-accent/30 rounded-lg">
-        <h4 className="text-lg font-semibold text-primary dark:text-secondary">
+      {/* Compact Navigation Header */}
+      <div className="flex items-center justify-center gap-4 mb-2 py-2 bg-accent/20 border border-accent/30 rounded-lg">
+        <h4 className="text-base font-semibold text-primary dark:text-secondary">
           PM Checklist/Parts Management
         </h4>
       </div>

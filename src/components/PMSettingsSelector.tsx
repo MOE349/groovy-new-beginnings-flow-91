@@ -109,9 +109,9 @@ const ChecklistTable: React.FC<{ iteration: Iteration }> = ({ iteration }) => {
     <div className="w-full">
       <Card className="p-4">
         {/* Fixed Header */}
-        <CardHeader className="py-3 px-4">
+        <CardHeader className="py-2 px-4">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-lg">Checklist Items</CardTitle>
+            <CardTitle className="text-base">Checklist Items</CardTitle>
             <Button
               onClick={() => setIsChecklistDialogOpen(true)}
               size="sm"
@@ -137,7 +137,7 @@ const ChecklistTable: React.FC<{ iteration: Iteration }> = ({ iteration }) => {
 
         {/* Scrollable Body */}
         <CardContent className="p-0">
-          <ScrollArea className="h-96">
+          <ScrollArea className="h-80">
             <div className="px-4">
               <Table>
                 <TableBody>
@@ -375,201 +375,264 @@ const PMSettingsSelector: React.FC<PMSettingsSelectorProps> = ({ assetId }) => {
   }
 
   return (
-    <div className="space-y-6 h-full flex flex-col">
-      {/* PM Settings Selection Section */}
-      <div className="bg-card border rounded-lg p-4">
-        <div className="flex items-center justify-center gap-4">
-          <label className="text-lg font-semibold text-primary">
-            Select PM Settings
-          </label>
-          <Select
-            value={selectedPMSettingId}
-            onValueChange={setSelectedPMSettingId}
-          >
-            <SelectTrigger className="w-fit min-w-64">
-              <SelectValue placeholder="Choose a PM setting..." />
-            </SelectTrigger>
-            <SelectContent>
-              {pmSettings.map((setting) => (
-                <SelectItem key={setting.id} value={setting.id}>
-                  <div className="flex items-center gap-3">
-                    <span className="font-medium">{setting.name}</span>
-                    <Badge
-                      variant={setting.is_active ? "default" : "secondary"}
-                      className="text-xs"
+    <div className="h-full flex flex-col">
+      {/* PM Settings and Iteration Tabs in Same Row */}
+      {selectedPMSetting && iterations.length > 0 ? (
+        <Tabs
+          value={activeIterationId}
+          onValueChange={setActiveIterationId}
+          className="flex-1 flex flex-col"
+        >
+          {/* Combined Row: Iteration Tabs (Left) + PM Settings (Right) */}
+          <div className="flex items-center justify-between mb-3">
+            {/* Iteration Tabs - Left Side */}
+            <div className="flex items-center">
+              <TabsList className="w-fit flex items-center gap-2 bg-muted/50 p-2 rounded-lg">
+                {iterations
+                  .sort((a, b) => a.order - b.order)
+                  .map((iteration, index) => (
+                    <TabsTrigger
+                      key={iteration.id}
+                      value={iteration.id}
+                      className="group relative px-6 py-2 rounded-md bg-transparent text-muted-foreground data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm transition-all duration-200 hover:bg-background hover:text-foreground font-medium text-sm min-w-[100px]"
                     >
-                      {setting.is_active ? "Active" : "Inactive"}
-                    </Badge>
-                  </div>
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
+                      {iteration.name}
+                      {index > 0 && (
+                        <button
+                          onClick={async (e) => {
+                            e.stopPropagation();
+                            try {
+                              await apiCall(
+                                `/pm-automation/pm-iterations/${iteration.id}`,
+                                {
+                                  method: "DELETE",
+                                }
+                              );
+                              toast({
+                                title: "Success",
+                                description: "Iteration deleted successfully",
+                              });
+                              queryClient.invalidateQueries({
+                                queryKey: ["/pm-automation/pm-settings"],
+                              });
+                            } catch (error) {
+                              handleApiError(error, "Delete Failed");
+                            }
+                          }}
+                          className="opacity-0 group-hover:opacity-100 absolute -top-1 -right-1 bg-destructive text-destructive-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-destructive/80 transition-opacity"
+                        >
+                          ×
+                        </button>
+                      )}
+                    </TabsTrigger>
+                  ))}
 
-      {/* Iterations and Checklist Section */}
-      {selectedPMSetting && (
-        <div className="flex-1 flex flex-col space-y-4">
-          {iterations.length > 0 && (
-            <Tabs
-              value={activeIterationId}
-              onValueChange={setActiveIterationId}
-              className="flex-1 flex flex-col"
-            >
-              {/* Iteration Tabs */}
-              <div className="flex items-center justify-center">
-                <TabsList className="w-fit flex items-center gap-2 bg-muted/50 p-2 rounded-lg">
-                  {iterations
-                    .sort((a, b) => a.order - b.order)
-                    .map((iteration, index) => (
-                      <TabsTrigger
-                        key={iteration.id}
-                        value={iteration.id}
-                        className="group relative px-6 py-2 rounded-md bg-transparent text-muted-foreground data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm transition-all duration-200 hover:bg-background hover:text-foreground font-medium text-sm min-w-[100px]"
-                      >
-                        {iteration.name}
-                        {index > 0 && (
-                          <button
-                            onClick={async (e) => {
-                              e.stopPropagation();
-                              try {
-                                await apiCall(
-                                  `/pm-automation/pm-iterations/${iteration.id}`,
-                                  {
-                                    method: "DELETE",
-                                  }
-                                );
-                                toast({
-                                  title: "Success",
-                                  description: "Iteration deleted successfully",
-                                });
-                                queryClient.invalidateQueries({
-                                  queryKey: ["/pm-automation/pm-settings"],
-                                });
-                              } catch (error) {
-                                handleApiError(error, "Delete Failed");
-                              }
-                            }}
-                            className="opacity-0 group-hover:opacity-100 absolute -top-1 -right-1 bg-destructive text-destructive-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-destructive/80 transition-opacity"
+                {/* Add new iteration button */}
+                <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                  <DialogTrigger asChild>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="px-4 py-2 h-10 ml-2 gap-2"
+                    >
+                      <Plus className="h-4 w-4" />
+                      Add Iteration
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Add New Iteration</DialogTitle>
+                    </DialogHeader>
+                    <ApiForm
+                      fields={[
+                        {
+                          name: "pm_settings",
+                          label: "PM Settings",
+                          type: "input",
+                          inputType: "hidden",
+                        },
+                        {
+                          name: "interval_value",
+                          label: `Interval Value (${selectedPMSetting.interval_unit})`,
+                          type: "input",
+                          inputType: "number",
+                          required: true,
+                        },
+                        {
+                          name: "name",
+                          label: "Name",
+                          type: "input",
+                          inputType: "hidden",
+                        },
+                      ]}
+                      initialData={{
+                        pm_settings: selectedPMSettingId,
+                        name: "",
+                      }}
+                      title=""
+                      onSubmit={async (data) => {
+                        try {
+                          const intervalValue = parseFloat(data.interval_value);
+                          const name = `${intervalValue} ${selectedPMSetting.interval_unit}`;
+
+                          await apiCall("/pm-automation/pm-iterations", {
+                            method: "POST",
+                            body: {
+                              pm_settings: selectedPMSettingId,
+                              interval_value: intervalValue,
+                              name: name,
+                            },
+                          });
+
+                          toast({
+                            title: "Success",
+                            description: "Iteration created successfully",
+                          });
+
+                          // Refresh the data
+                          queryClient.invalidateQueries({
+                            queryKey: ["/pm-automation/pm-settings"],
+                          });
+
+                          setIsDialogOpen(false);
+                        } catch (error) {
+                          handleApiError(error, "Creation Failed");
+                        }
+                      }}
+                      submitText="Create Iteration"
+                    />
+                  </DialogContent>
+                </Dialog>
+              </TabsList>
+            </div>
+
+            {/* PM Settings Selection - Right Side */}
+            <div className="flex items-center">
+              <div className="flex items-center gap-3">
+                <label className="text-sm font-semibold text-primary whitespace-nowrap">
+                  Select PM Settings:
+                </label>
+                <Select
+                  value={selectedPMSettingId}
+                  onValueChange={setSelectedPMSettingId}
+                >
+                  <SelectTrigger className="w-fit min-w-64">
+                    <SelectValue placeholder="Choose a PM setting..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {pmSettings.map((setting) => (
+                      <SelectItem key={setting.id} value={setting.id}>
+                        <div className="flex items-center gap-3">
+                          <span className="font-medium">{setting.name}</span>
+                          <Badge
+                            variant={
+                              setting.is_active ? "default" : "secondary"
+                            }
+                            className="text-xs"
                           >
-                            ×
-                          </button>
-                        )}
-                      </TabsTrigger>
+                            {setting.is_active ? "Active" : "Inactive"}
+                          </Badge>
+                        </div>
+                      </SelectItem>
                     ))}
-
-                  {/* Add new iteration button */}
-                  <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                    <DialogTrigger asChild>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="px-4 py-2 h-10 ml-2 gap-2"
-                      >
-                        <Plus className="h-4 w-4" />
-                        Add Iteration
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>Add New Iteration</DialogTitle>
-                      </DialogHeader>
-                      <ApiForm
-                        fields={[
-                          {
-                            name: "pm_settings",
-                            label: "PM Settings",
-                            type: "input",
-                            inputType: "hidden",
-                          },
-                          {
-                            name: "interval_value",
-                            label: `Interval Value (${selectedPMSetting.interval_unit})`,
-                            type: "input",
-                            inputType: "number",
-                            required: true,
-                          },
-                          {
-                            name: "name",
-                            label: "Name",
-                            type: "input",
-                            inputType: "hidden",
-                          },
-                        ]}
-                        initialData={{
-                          pm_settings: selectedPMSettingId,
-                          name: "",
-                        }}
-                        title=""
-                        onSubmit={async (data) => {
-                          try {
-                            const intervalValue = parseFloat(
-                              data.interval_value
-                            );
-                            const name = `${intervalValue} ${selectedPMSetting.interval_unit}`;
-
-                            await apiCall("/pm-automation/pm-iterations", {
-                              method: "POST",
-                              body: {
-                                pm_settings: selectedPMSettingId,
-                                interval_value: intervalValue,
-                                name: name,
-                              },
-                            });
-
-                            toast({
-                              title: "Success",
-                              description: "Iteration created successfully",
-                            });
-
-                            // Refresh the data
-                            queryClient.invalidateQueries({
-                              queryKey: ["/pm-automation/pm-settings"],
-                            });
-
-                            setIsDialogOpen(false);
-                          } catch (error) {
-                            handleApiError(error, "Creation Failed");
-                          }
-                        }}
-                        submitText="Create Iteration"
-                      />
-                    </DialogContent>
-                  </Dialog>
-                </TabsList>
+                  </SelectContent>
+                </Select>
               </div>
+            </div>
+          </div>
 
-              {/* Tab Content */}
-              <div className="flex-1 mt-4">
-                {iterations.map((iteration) => (
-                  <TabsContent
-                    key={iteration.id}
-                    value={iteration.id}
-                    className="h-full"
-                  >
-                    <ChecklistTable iteration={iteration} />
-                  </TabsContent>
-                ))}
-              </div>
-            </Tabs>
-          )}
+          {/* Tab Content */}
+          <div className="flex-1">
+            {iterations.map((iteration) => (
+              <TabsContent
+                key={iteration.id}
+                value={iteration.id}
+                className="h-full"
+              >
+                <ChecklistTable iteration={iteration} />
+              </TabsContent>
+            ))}
+          </div>
+        </Tabs>
+      ) : selectedPMSetting && iterations.length === 0 ? (
+        <div className="h-full flex flex-col">
+          {/* PM Settings Only (No Tabs) */}
+          <div className="flex items-center justify-center mb-3">
+            <div className="flex items-center gap-3">
+              <label className="text-sm font-semibold text-primary whitespace-nowrap">
+                Select PM Settings:
+              </label>
+              <Select
+                value={selectedPMSettingId}
+                onValueChange={setSelectedPMSettingId}
+              >
+                <SelectTrigger className="w-fit min-w-64">
+                  <SelectValue placeholder="Choose a PM setting..." />
+                </SelectTrigger>
+                <SelectContent>
+                  {pmSettings.map((setting) => (
+                    <SelectItem key={setting.id} value={setting.id}>
+                      <div className="flex items-center gap-3">
+                        <span className="font-medium">{setting.name}</span>
+                        <Badge
+                          variant={setting.is_active ? "default" : "secondary"}
+                          className="text-xs"
+                        >
+                          {setting.is_active ? "Active" : "Inactive"}
+                        </Badge>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
 
-          {iterations.length === 0 && (
-            <Card className="flex-1">
-              <CardContent className="pt-6 h-full flex items-center justify-center">
-                <div className="text-center text-muted-foreground">
-                  <div className="text-lg font-medium mb-2">
-                    No iterations found
-                  </div>
-                  <div>
-                    Click the "Add Iteration" button to create your first
-                    iteration for this PM setting.
-                  </div>
+          <Card className="flex-1">
+            <CardContent className="pt-6 h-full flex items-center justify-center">
+              <div className="text-center text-muted-foreground">
+                <div className="text-lg font-medium mb-2">
+                  No iterations found
                 </div>
-              </CardContent>
-            </Card>
-          )}
+                <div>
+                  Click the "Add Iteration" button to create your first
+                  iteration for this PM setting.
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      ) : (
+        /* No PM Setting Selected */
+        <div className="h-full flex items-center justify-center">
+          <div className="flex items-center gap-3">
+            <label className="text-sm font-semibold text-primary whitespace-nowrap">
+              Select PM Settings:
+            </label>
+            <Select
+              value={selectedPMSettingId}
+              onValueChange={setSelectedPMSettingId}
+            >
+              <SelectTrigger className="w-fit min-w-64">
+                <SelectValue placeholder="Choose a PM setting..." />
+              </SelectTrigger>
+              <SelectContent>
+                {pmSettings.map((setting) => (
+                  <SelectItem key={setting.id} value={setting.id}>
+                    <div className="flex items-center gap-3">
+                      <span className="font-medium">{setting.name}</span>
+                      <Badge
+                        variant={setting.is_active ? "default" : "secondary"}
+                        className="text-xs"
+                      >
+                        {setting.is_active ? "Active" : "Inactive"}
+                      </Badge>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       )}
     </div>
