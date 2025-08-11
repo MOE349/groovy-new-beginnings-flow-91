@@ -65,6 +65,11 @@ export const workOrderEditConfig: EntityConfig<WorkOrderData> = {
 
   getInitialData: (data: WorkOrderData) => {
     const workOrder = data.data.data;
+    // Extract asset data from the API response
+    const assetIsOnline = workOrder?.asset?.is_online;
+    const assetLocation = workOrder?.asset?.location?.name;
+    console.log("assetLocation", assetLocation);
+
     return {
       ...workOrder,
       priority: workOrder?.priority?.id || workOrder?.priority || "",
@@ -74,12 +79,15 @@ export const workOrderEditConfig: EntityConfig<WorkOrderData> = {
       assigned_to: workOrder?.assigned_to?.id || workOrder?.assigned_to || "",
       category: workOrder?.category?.id || workOrder?.category || "",
       work_type: workOrder?.work_type?.id || workOrder?.work_type || "",
+      // Extract asset online status for the toggle
+      asset__is_online: assetIsOnline,
+      is_online: assetIsOnline,
+      // Extract asset location for display
+      asset_location: assetLocation,
     };
   },
 
   getTabs: (id: string) => {
-    const queryClient = useQueryClient();
-
     return [
       {
         id: "completion",
@@ -87,11 +95,6 @@ export const workOrderEditConfig: EntityConfig<WorkOrderData> = {
         content: React.createElement(WorkOrderCompletionTab, {
           workOrderId: id,
         }),
-        onTabChange: () => {
-          queryClient.invalidateQueries({
-            queryKey: ["work_order_completion_note", id],
-          });
-        },
       },
       {
         id: "checklist",

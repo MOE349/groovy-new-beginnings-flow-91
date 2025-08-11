@@ -69,7 +69,7 @@ export const workOrderFields: FormField[] = [
     rows: 3,
   },
   {
-    name: "asset.location",
+    name: "asset_location",
     type: "input",
     label: "Location",
     required: false,

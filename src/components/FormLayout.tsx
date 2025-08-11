@@ -175,7 +175,7 @@ const FormLayout = ({
                   <div className="flex items-center space-x-0">
                     <div
                       className={`flex items-center cursor-pointer transition-all duration-300 rounded border w-40 h-7 ${
-                        (formData?.is_online ?? initialData?.asset__is_online)
+                        formData?.is_online ?? initialData?.asset__is_online
                           ? "bg-green-500 border-green-600"
                           : "bg-red-500 border-red-600"
                       }`}
@@ -190,8 +190,8 @@ const FormLayout = ({
                     >
                       {/* Status text with icon */}
                       <div className="flex items-center justify-center gap-1 text-xs font-medium text-white w-full">
-                        {(formData?.is_online ??
-                        initialData?.asset__is_online) ? (
+                        {formData?.is_online ??
+                        initialData?.asset__is_online ? (
                           <>
                             <Check size={10} />
                             Online
@@ -226,8 +226,7 @@ const FormLayout = ({
                     </label>
                     {config.title.includes("Work Order") ? (
                       <div className="w-full p-1.5 bg-muted rounded border text-xs text-foreground text-center">
-                        {initialData?.["asset.location"] ||
-                          "No location assigned"}
+                        {initialData?.asset?.location?.name}
                       </div>
                     ) : config.title.includes("Attachment") ? (
                       <LocationEquipmentDropdown
@@ -264,11 +263,11 @@ const FormLayout = ({
                   config.columns.length === 1
                     ? "grid-cols-1"
                     : config.columns.length === 2 &&
-                        config.title.includes("Work Order")
-                      ? "grid-cols-[2fr_1fr]"
-                      : config.columns.length === 2
-                        ? "grid-cols-2"
-                        : "grid-cols-3"
+                      config.title.includes("Work Order")
+                    ? "grid-cols-[2fr_1fr]"
+                    : config.columns.length === 2
+                    ? "grid-cols-2"
+                    : "grid-cols-3"
                 }`}
               >
                 {config.columns.map((column, colIndex) => (
@@ -456,12 +455,12 @@ const FormLayout = ({
                               field.name === "weight_class"
                                 ? "pt-1.5 text-right w-24"
                                 : field.name === "suggested_start_date"
-                                  ? "pt-0 text-right w-24"
-                                  : field.name === "completion_end_date"
-                                    ? "pt-0 text-right w-24"
-                                    : field.name === "suggested_completion_date"
-                                      ? "pt-0 text-right w-24"
-                                      : "pt-2 text-right w-24"
+                                ? "pt-0 text-right w-24"
+                                : field.name === "completion_end_date"
+                                ? "pt-0 text-right w-24"
+                                : field.name === "suggested_completion_date"
+                                ? "pt-0 text-right w-24"
+                                : "pt-2 text-right w-24"
                             }`}
                           >
                             {field.label}
