@@ -36,17 +36,19 @@ const LocationEquipmentDropdown = ({
   disabled = false,
 }: LocationEquipmentDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [hoveredLocationId, setHoveredLocationId] = useState<string | null>(null);
-  const [equipmentMenuPosition, setEquipmentMenuPosition] = useState({ top: 0, left: 0 });
-  
+  const [hoveredLocationId, setHoveredLocationId] = useState<string | null>(
+    null
+  );
+  const [equipmentMenuPosition, setEquipmentMenuPosition] = useState({
+    top: 0,
+    left: 0,
+  });
+
   const dropdownRef = useRef<HTMLDivElement>(null);
   const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Fetch locations
-  const {
-    data: locations,
-    isLoading: locationsLoading,
-  } = useQuery({
+  const { data: locations, isLoading: locationsLoading } = useQuery({
     queryKey: ["company_location"],
     queryFn: async () => {
       const response = await apiCall("/company/location");
@@ -55,10 +57,7 @@ const LocationEquipmentDropdown = ({
   });
 
   // Fetch equipment for all locations
-  const {
-    data: allEquipment,
-    isLoading: equipmentLoading,
-  } = useQuery({
+  const { data: allEquipment, isLoading: equipmentLoading } = useQuery({
     queryKey: ["assets_assets_equipment"],
     queryFn: async () => {
       const response = await apiCall("/assets/assets");
@@ -71,8 +70,8 @@ const LocationEquipmentDropdown = ({
   // Get equipment for a specific location
   const getEquipmentForLocation = (locationId: string) => {
     if (!allEquipment) return [];
-    return allEquipment.filter((equipment: any) => 
-      equipment.location?.id === locationId
+    return allEquipment.filter(
+      (equipment: any) => equipment.location?.id === locationId
     );
   };
 
@@ -83,21 +82,35 @@ const LocationEquipmentDropdown = ({
     return location?.name || "";
   };
 
-  // Get equipment name  
+  // Get equipment name
   const getEquipmentName = (equipmentId: string) => {
     if (!allEquipment) return "";
-    const equipment = allEquipment.find((eq: Equipment) => eq.id === equipmentId);
+    const equipment = allEquipment.find(
+      (eq: Equipment) => eq.id === equipmentId
+    );
     return equipment?.name || "";
   };
 
   // Get display text for the select trigger
   const getDisplayText = () => {
     const locationName = locationValue ? getLocationName(locationValue) : "";
-    const equipmentName = equipmentValue ? getEquipmentName(equipmentValue) : "";
-    
-    console.log('getDisplayText - locationValue:', locationValue, 'locationName:', locationName);
-    console.log('getDisplayText - equipmentValue:', equipmentValue, 'equipmentName:', equipmentName);
-    
+    const equipmentName = equipmentValue
+      ? getEquipmentName(equipmentValue)
+      : "";
+
+    console.log(
+      "getDisplayText - locationValue:",
+      locationValue,
+      "locationName:",
+      locationName
+    );
+    console.log(
+      "getDisplayText - equipmentValue:",
+      equipmentValue,
+      "equipmentName:",
+      equipmentName
+    );
+
     if (locationName && equipmentName) {
       return `${locationName} → ${equipmentName}`;
     } else if (locationName) {
@@ -110,32 +123,32 @@ const LocationEquipmentDropdown = ({
   const isLoading = locationsLoading || equipmentLoading;
 
   const handleLocationSelect = (locationId: string) => {
-    console.log('Location selected:', locationId);
+    console.log("Location selected:", locationId);
     onLocationChange?.(locationId);
     setIsOpen(false);
     setHoveredLocationId(null);
   };
 
   const handleEquipmentSelect = (equipmentId: string) => {
-    console.log('Equipment selected:', equipmentId);
+    console.log("Equipment selected:", equipmentId);
     const equipmentName = getEquipmentName(equipmentId);
-    console.log('Equipment name:', equipmentName);
+    console.log("Equipment name:", equipmentName);
     onEquipmentChange?.(equipmentId);
     setHoveredLocationId(null);
     setIsOpen(false);
   };
 
   const handleLocationHover = (locationId: string, event: React.MouseEvent) => {
-    console.log('Hovering over location:', locationId);
-    
+    console.log("Hovering over location:", locationId);
+
     // Clear any pending hide timeout
     if (hideTimeoutRef.current) {
       clearTimeout(hideTimeoutRef.current);
       hideTimeoutRef.current = null;
     }
-    
+
     setHoveredLocationId(locationId);
-    
+
     // Calculate position for equipment menu
     const rect = event.currentTarget.getBoundingClientRect();
     setEquipmentMenuPosition({
@@ -166,14 +179,23 @@ const LocationEquipmentDropdown = ({
 
   // Debug: Track prop changes
   useEffect(() => {
-    console.log('LocationEquipmentDropdown - equipmentValue changed:', equipmentValue);
-    console.log('LocationEquipmentDropdown - locationValue changed:', locationValue);
+    console.log(
+      "LocationEquipmentDropdown - equipmentValue changed:",
+      equipmentValue
+    );
+    console.log(
+      "LocationEquipmentDropdown - locationValue changed:",
+      locationValue
+    );
   }, [equipmentValue, locationValue]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
         setHoveredLocationId(null);
       }
@@ -219,7 +241,20 @@ const LocationEquipmentDropdown = ({
 
       {/* Custom dropdown content */}
       {isOpen && !isLoading && (
-        <div className="absolute top-full left-0 z-50 mt-1 w-full bg-popover border rounded-md shadow-lg">
+        <div
+          className="fixed z-50 w-64 bg-popover border rounded-md shadow-lg"
+          style={{
+            top: dropdownRef.current
+              ? dropdownRef.current.getBoundingClientRect().bottom + 4
+              : 0,
+            left: dropdownRef.current
+              ? dropdownRef.current.getBoundingClientRect().left
+              : 0,
+            width: dropdownRef.current
+              ? dropdownRef.current.getBoundingClientRect().width
+              : "auto",
+          }}
+        >
           <div className="max-h-60 overflow-auto p-1">
             {!locations || locations.length === 0 ? (
               <div className="px-3 py-2 text-xs text-muted-foreground">
@@ -229,7 +264,7 @@ const LocationEquipmentDropdown = ({
               locations.map((location: Location) => {
                 const locationEquipment = getEquipmentForLocation(location.id);
                 const isSelected = locationValue === location.id;
-                
+
                 return (
                   <div
                     key={location.id}
@@ -275,8 +310,9 @@ const LocationEquipmentDropdown = ({
               Equipment in {getLocationName(hoveredLocationId)}
             </div>
             {(() => {
-              const locationEquipment = getEquipmentForLocation(hoveredLocationId);
-              
+              const locationEquipment =
+                getEquipmentForLocation(hoveredLocationId);
+
               if (locationEquipment.length === 0) {
                 return (
                   <div className="px-2 py-2 text-xs text-muted-foreground">
@@ -290,10 +326,15 @@ const LocationEquipmentDropdown = ({
                   key={equipment.id}
                   className={cn(
                     "w-full px-2 py-1.5 text-xs text-left hover:bg-accent hover:text-accent-foreground rounded-sm transition-colors cursor-pointer",
-                    equipmentValue === equipment.id && "bg-accent text-accent-foreground"
+                    equipmentValue === equipment.id &&
+                      "bg-accent text-accent-foreground"
                   )}
                   onClick={() => {
-                    console.log('Equipment clicked directly:', equipment.id, equipment.name);
+                    console.log(
+                      "Equipment clicked directly:",
+                      equipment.id,
+                      equipment.name
+                    );
                     handleEquipmentSelect(equipment.id);
                   }}
                 >

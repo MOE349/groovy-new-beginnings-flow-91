@@ -68,7 +68,6 @@ export const workOrderEditConfig: EntityConfig<WorkOrderData> = {
     // Extract asset data from the API response
     const assetIsOnline = workOrder?.asset?.is_online;
     const assetLocation = workOrder?.asset?.location?.name;
-    console.log("assetLocation", assetLocation);
 
     return {
       ...workOrder,
