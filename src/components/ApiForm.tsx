@@ -14,5 +14,6 @@ export type {
   SwitchFieldConfig,
   DatePickerFieldConfig,
   DropdownFieldConfig,
+  FileManagerFieldConfig,
   CustomLayoutProps,
 } from "./ApiForm/index";

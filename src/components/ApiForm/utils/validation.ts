@@ -19,10 +19,28 @@ export function generateSchema(fields: FieldConfig[]): z.ZodObject<any> {
       case "input":
         switch (field.inputType) {
           case "email":
-            fieldSchema = z.string().email("Invalid email address").or(z.literal("")).or(z.null()).or(z.undefined());
+            fieldSchema = z
+              .string()
+              .email("Invalid email address")
+              .or(z.literal(""))
+              .or(z.null())
+              .or(z.undefined());
             break;
           case "number":
-            fieldSchema = z.coerce.number().or(z.null()).or(z.undefined());
+            fieldSchema = z
+              .union([
+                z
+                  .string()
+                  .transform((val) => (val === "" ? null : Number(val))),
+                z.number(),
+                z.null(),
+                z.undefined(),
+              ])
+              .refine(
+                (val) =>
+                  val === null || val === undefined || !isNaN(val as number),
+                "Must be a valid number"
+              );
             if (field.min !== undefined) {
               fieldSchema = fieldSchema.refine(
                 (val) => val === null || val === undefined || val >= field.min!,
@@ -37,16 +55,27 @@ export function generateSchema(fields: FieldConfig[]): z.ZodObject<any> {
             }
             break;
           case "url":
-            fieldSchema = z.string().url("Invalid URL").or(z.literal("")).or(z.null()).or(z.undefined());
+            fieldSchema = z
+              .string()
+              .url("Invalid URL")
+              .or(z.literal(""))
+              .or(z.null())
+              .or(z.undefined());
             break;
           case "tel":
             fieldSchema = z
               .string()
               .regex(/^\+?[1-9]\d{1,14}$/, "Invalid phone number")
-              .or(z.literal("")).or(z.null()).or(z.undefined());
+              .or(z.literal(""))
+              .or(z.null())
+              .or(z.undefined());
             break;
           default:
-            fieldSchema = z.string().or(z.literal("")).or(z.null()).or(z.undefined());
+            fieldSchema = z
+              .string()
+              .or(z.literal(""))
+              .or(z.null())
+              .or(z.undefined());
             if (field.pattern) {
               fieldSchema = fieldSchema.refine(
                 (val) => !val || new RegExp(field.pattern!).test(val),
@@ -57,7 +86,11 @@ export function generateSchema(fields: FieldConfig[]): z.ZodObject<any> {
         break;
 
       case "textarea":
-        fieldSchema = z.string().or(z.literal("")).or(z.null()).or(z.undefined());
+        fieldSchema = z
+          .string()
+          .or(z.literal(""))
+          .or(z.null())
+          .or(z.undefined());
         if (field.maxLength) {
           fieldSchema = fieldSchema.refine(
             (val) => !val || val.length <= field.maxLength!,
@@ -71,7 +104,11 @@ export function generateSchema(fields: FieldConfig[]): z.ZodObject<any> {
         break;
 
       case "datepicker":
-        fieldSchema = z.date().or(z.string().transform((val) => new Date(val))).or(z.null()).or(z.undefined());
+        fieldSchema = z
+          .date()
+          .or(z.string().transform((val) => new Date(val)))
+          .or(z.null())
+          .or(z.undefined());
         if (field.minDate) {
           fieldSchema = fieldSchema.refine(
             (date) => !date || date >= field.minDate!,
@@ -90,7 +127,11 @@ export function generateSchema(fields: FieldConfig[]): z.ZodObject<any> {
         if (field.multiple) {
           fieldSchema = z.array(z.string()).or(z.null()).or(z.undefined());
         } else {
-          fieldSchema = z.string().or(z.literal("")).or(z.null()).or(z.undefined());
+          fieldSchema = z
+            .string()
+            .or(z.literal(""))
+            .or(z.null())
+            .or(z.undefined());
         }
         break;
 
@@ -222,6 +263,15 @@ export function transformFormData<T extends Record<string, any>>(
       transformed[field.name] = (transformed[field.name] as Date)
         .toISOString()
         .split("T")[0];
+    }
+
+    // Handle numeric fields - convert empty strings to null
+    if (
+      field.type === "input" &&
+      field.inputType === "number" &&
+      transformed[field.name] === ""
+    ) {
+      transformed[field.name] = null;
     }
   });
 

@@ -66,13 +66,24 @@ export interface DropdownFieldConfig extends BaseFieldConfig {
   searchable?: boolean;
 }
 
+// File manager field specific config
+export interface FileManagerFieldConfig extends BaseFieldConfig {
+  type: "file_manager";
+  linkToModel?: string;
+  linkToId?: string;
+  maxSize?: number; // in MB
+  multiple?: boolean;
+  accept?: string;
+}
+
 // Union type for all field configurations
 export type FieldConfig =
   | InputFieldConfig
   | TextareaFieldConfig
   | SwitchFieldConfig
   | DatePickerFieldConfig
-  | DropdownFieldConfig;
+  | DropdownFieldConfig
+  | FileManagerFieldConfig;
 
 // Form configuration
 export interface FormConfig<T extends FieldValues = FieldValues> {

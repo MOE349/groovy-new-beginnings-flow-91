@@ -11,6 +11,7 @@ import {
   SwitchField,
   DatePickerField,
   DropdownField,
+  FileManagerField,
 } from "../fields";
 import type { FieldConfig } from "../types";
 
@@ -40,6 +41,9 @@ export function FieldRenderer<T extends FieldValues = FieldValues>({
 
     case "dropdown":
       return <DropdownField field={field} form={form} name={name} />;
+
+    case "file_manager":
+      return <FileManagerField field={field} form={form} name={name} />;
 
     default:
       console.warn(`Unknown field type: ${(field as any).type}`);

@@ -29,7 +29,7 @@ import type {
  * - Number inputs: coerce numeric strings to number
  */
 function normalizeDefaultsByFields<
-  T extends Record<string, unknown> | undefined,
+  T extends Record<string, unknown> | undefined
 >(defaults: T, fields: FieldConfig[]): T {
   if (!defaults) return defaults;
 
@@ -195,41 +195,43 @@ function ApiFormComponent<T extends FieldValues = FieldValues>({
         const allValues = form.getValues() as Record<string, unknown>;
         const dataWithCustom: Record<string, unknown> = { ...(data as any) };
         for (const key of customLayoutFields) {
-          if (dataWithCustom[key] === undefined && allValues[key] !== undefined) {
+          if (
+            dataWithCustom[key] === undefined &&
+            allValues[key] !== undefined
+          ) {
             dataWithCustom[key] = allValues[key];
           }
         }
 
         // Filter out system fields that shouldn't be in create/update requests
-        const filteredData = (Object.keys(dataWithCustom) as Array<keyof T>).reduce(
-          (acc, key) => {
-            // Skip system-generated fields
-            if (
-              [
-                "id",
-                "created_at",
-                "updated_at",
-                "created_by",
-                "updated_by",
-              ].includes(key as unknown as string)
-            ) {
-              return acc;
-            }
-            // Include field if it's defined in fields array OR if it's from custom layout fields
-            const fieldExists = fields.some(
-              (field) => field.name === (key as unknown as string)
-            );
-
-            if (
-              fieldExists ||
-              customLayoutFields.includes(key as unknown as string)
-            ) {
-              (acc as any)[key] = (dataWithCustom as any)[key];
-            }
+        const filteredData = (
+          Object.keys(dataWithCustom) as Array<keyof T>
+        ).reduce((acc, key) => {
+          // Skip system-generated fields
+          if (
+            [
+              "id",
+              "created_at",
+              "updated_at",
+              "created_by",
+              "updated_by",
+            ].includes(key as unknown as string)
+          ) {
             return acc;
-          },
-          {} as T
-        );
+          }
+          // Include field if it's defined in fields array OR if it's from custom layout fields
+          const fieldExists = fields.some(
+            (field) => field.name === (key as unknown as string)
+          );
+
+          if (
+            fieldExists ||
+            customLayoutFields.includes(key as unknown as string)
+          ) {
+            (acc as any)[key] = (dataWithCustom as any)[key];
+          }
+          return acc;
+        }, {} as T);
 
         const transformedData = transformFormData(filteredData, fields);
         const dirtyFieldsMap = shouldShowDirtyOnly
@@ -397,7 +399,7 @@ function ApiFormComponent<T extends FieldValues = FieldValues>({
 
 // Export with proper generic typing
 export const ApiForm = React.memo(ApiFormComponent) as <
-  T extends FieldValues = FieldValues,
+  T extends FieldValues = FieldValues
 >(
   props: ApiFormProps<T>
 ) => JSX.Element;
@@ -414,6 +416,7 @@ export type {
   SwitchFieldConfig,
   DatePickerFieldConfig,
   DropdownFieldConfig,
+  FileManagerFieldConfig,
   CustomLayoutProps, // Backward compatibility
 } from "./types";
 
