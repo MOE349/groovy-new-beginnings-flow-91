@@ -31,6 +31,7 @@ const AssetScheduledMaintenanceTab: React.FC<
     next_iteration: "",
     is_active: true,
     maint_type: "",
+    is_fixed_trigger: false,
   });
 
   const { data: pmSettingsData } = useQuery({
@@ -114,6 +115,7 @@ const AssetScheduledMaintenanceTab: React.FC<
                                     item.maint_type?.id ||
                                     item.maint_type ||
                                     "",
+                                  is_fixed_trigger: !!item.is_fixed_trigger,
                                 });
                                 setIsEditMode(true);
                                 setSelectedItemId(item.id);
@@ -128,6 +130,7 @@ const AssetScheduledMaintenanceTab: React.FC<
                                   next_iteration: "",
                                   is_active: true,
                                   maint_type: "",
+                                  is_fixed_trigger: false,
                                 });
                                 setIsEditMode(false);
                                 setSelectedItemId(null);
@@ -225,7 +228,7 @@ const AssetScheduledMaintenanceTab: React.FC<
                         optionLabelKey="name"
                         placeholder="Select iteration"
                         disabled={!isFieldsEditable}
-                        className="w-full [&>button]:h-6 [&>button]:text-xs [&>button]:px-1 [&>button]:py-0 [&>button]:min-h-0 [&>button]:max-h-6 [&>button]:border-input [&>button]:bg-background [&>button]:hover:bg-accent [&>button]:focus:bg-accent [&>button]:rounded-sm [&>button]:shadow-sm [&>button]:transition-colors [&>button]:duration-150 [&>button]:leading-none [&>button]:!leading-3 [&>button]:box-border [&>button>span]:leading-none [&>button>span]:text-xs"
+                        className="w-full [&>button]:h-6 [&>button]:text-xs [&>button]:px-1 [&>button]:py-0 [&>button]:min-h-0 [&>button]:max-h-6 [&>button]:border-input [&>button]:bg-background [&>button]:hover:bg-accent [&>button]:focus:bg-accent [&>button]:rounded-sm [&>button]:shadow-sm [&>button]:transition-colors [&>button]:duration-150 [&>button]:!leading-3 [&>button]:box-border [&>button>span]:leading-none [&>button>span]:text-xs"
                       />
                     </div>
                   ) : (
@@ -370,6 +373,25 @@ const AssetScheduledMaintenanceTab: React.FC<
                     before trigger
                   </span>
                 </div>
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-1">
+                    <input
+                      type="checkbox"
+                      checked={meterTriggerData.is_fixed_trigger}
+                      onChange={(e) =>
+                        setMeterTriggerData((prev) => ({
+                          ...prev,
+                          is_fixed_trigger: e.target.checked,
+                        }))
+                      }
+                      disabled={!isFieldsEditable}
+                      className="w-4 h-4 rounded border border-input bg-background checked:bg-primary checked:border-primary"
+                    />
+                    <span className="text-xs text-muted-foreground">
+                      Fixed Trigger
+                    </span>
+                  </div>
+                </div>
               </div>
               <div>
                 <Button
@@ -411,6 +433,7 @@ const AssetScheduledMaintenanceTab: React.FC<
                       next_iteration: meterTriggerData.next_iteration,
                       is_active: meterTriggerData.is_active,
                       maint_type: meterTriggerData.maint_type,
+                      is_fixed_trigger: meterTriggerData.is_fixed_trigger,
                       asset: assetId,
                     };
                     try {
@@ -539,12 +562,19 @@ const AssetScheduledMaintenanceTab: React.FC<
                 width: "w-16",
                 suffix: "days in advance",
               },
+              {
+                name: "is_fixed_trigger",
+                type: "checkbox",
+                label: "Fixed Trigger",
+                width: "flex-1",
+              },
             ]}
             assetId={assetId}
             dataKeyMapping={{
               start_date: "start_date",
               calendar_lead_time_days: "calendar_lead_time_days",
               maint_type: "maint_type",
+              is_fixed_trigger: "is_fixed_trigger",
             }}
             generateWorkOrderEndpoint="/pm-automation/pm-settings/manual-generation"
             nextIterationEndpoint="/pm-automation/pm-settings/manual-generation"

@@ -25,7 +25,8 @@ interface FormField {
     | "hidden"
     | "date"
     | "datepicker"
-    | "dropdown";
+    | "dropdown"
+    | "checkbox";
   label: string;
   options?: { value: string; label: string }[];
   width?: string;
@@ -71,6 +72,8 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
     acc[field.name] =
       field.type === "select" && field.options
         ? field.options[0]?.value || ""
+        : field.type === "checkbox"
+        ? false
         : "";
     return acc;
   }, {} as Record<string, any>);
@@ -100,12 +103,19 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
         // Handle different field types appropriately
         if (value === undefined || value === null) {
           value =
-            field.type === "number" ? "" : field.options?.[0]?.value || "";
+            field.type === "number"
+              ? ""
+              : field.type === "checkbox"
+              ? false
+              : field.options?.[0]?.value || "";
         } else if (field.type === "date" && value) {
           value = new Date(value).toISOString().split("T")[0];
         } else if (field.type === "dropdown" && value) {
           // Handle dropdown values - extract ID if it's an object
           value = value?.id || value || "";
+        } else if (field.type === "checkbox") {
+          // Ensure checkbox values are boolean
+          value = !!value;
         }
 
         acc[field.name] = value;
@@ -317,6 +327,19 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
               disabled={!isFieldsEditable}
               className="w-full [&>button]:h-6 [&>button]:text-xs [&>button]:px-1 [&>button]:py-0 [&>button]:min-h-0 [&>button]:max-h-6 [&>button]:border-input [&>button]:bg-background [&>button]:hover:bg-accent [&>button]:focus:bg-accent [&>button]:rounded [&>button]:shadow-sm [&>button]:transition-colors [&>button]:duration-150 [&>button]:!leading-3 [&>button]:box-border [&>button>span]:leading-none [&>button>span]:text-xs"
             />
+          </div>
+        );
+      case "checkbox":
+        return (
+          <div className={`flex items-center gap-2 ${field.width || "flex-1"}`}>
+            <input
+              type="checkbox"
+              checked={!!value}
+              onChange={(e) => handleFieldChange(field.name, e.target.checked)}
+              disabled={!isFieldsEditable}
+              className="w-4 h-4 rounded border border-input bg-background checked:bg-primary checked:border-primary"
+            />
+            <span className="text-xs text-muted-foreground">{field.label}</span>
           </div>
         );
       default:
@@ -535,6 +558,15 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
             // Skip maint_type as it's rendered with start_date
             if (field.name === "maint_type") {
               return null;
+            }
+
+            // Special handling for checkbox fields - no external label needed
+            if (field.type === "checkbox") {
+              return (
+                <div key={index} className="flex items-center gap-2">
+                  {renderFormField(field)}
+                </div>
+              );
             }
 
             return (
