@@ -135,6 +135,7 @@ function ApiFormComponent<T extends FieldValues = FieldValues>({
   layout = "vertical",
   columns = 1,
   showDirtyOnly,
+  resetOnSuccess = true, // Default to true for better UX
   customRender,
   customLayout, // Backward compatibility
 }: ApiFormProps<T>) {
@@ -256,12 +257,18 @@ function ApiFormComponent<T extends FieldValues = FieldValues>({
         }
 
         await onSubmit(dataToSubmit, dirtyFieldsMap);
+
+        // Reset dirty fields after successful submission if enabled
+        if (resetOnSuccess) {
+          // Use the current form values as the new baseline
+          utils.resetDirtyFields();
+        }
       } catch (error) {
         // Error handling is done by the parent component
         console.error("Form submission error:", error);
       }
     },
-    [onSubmit, fields, shouldShowDirtyOnly, utils, form]
+    [onSubmit, fields, shouldShowDirtyOnly, utils, form, resetOnSuccess]
   );
 
   const renderField = useCallback(
@@ -316,6 +323,8 @@ function ApiFormComponent<T extends FieldValues = FieldValues>({
             (!isDirty && shouldShowDirtyOnly)
           ),
           shouldShowDirtyOnly,
+          resetOnSuccess,
+          utils,
         })}
       </div>
     );

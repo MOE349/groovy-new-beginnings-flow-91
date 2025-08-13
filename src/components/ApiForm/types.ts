@@ -114,6 +114,7 @@ export interface ApiFormProps<T extends FieldValues = FieldValues> {
   layout?: "vertical" | "horizontal" | "inline";
   columns?: number;
   showDirtyOnly?: boolean;
+  resetOnSuccess?: boolean; // Reset form dirty state after successful submission
   customRender?: (props: CustomRenderProps<T>) => React.ReactNode;
   customLayout?: (props: CustomLayoutProps<T>) => React.ReactNode; // Backward compatibility
 }
@@ -143,6 +144,8 @@ export interface CustomLayoutProps<T extends FieldValues = FieldValues> {
   isDirty: boolean;
   canSubmit: boolean;
   shouldShowDirtyOnly?: boolean;
+  resetOnSuccess?: boolean;
+  utils: FormUtils<T>; // Expose form utilities including resetDirtyFields
 }
 
 // Field component props
@@ -170,6 +173,7 @@ export interface ValidationResult {
 // Form utilities
 export interface FormUtils<T extends FieldValues = FieldValues> {
   reset: (values?: Partial<T>) => void;
+  resetDirtyFields: (values?: Partial<T>) => void; // Reset form with new baseline values
   setFieldValue: (name: Path<T>, value: any) => void;
   setFieldError: (name: Path<T>, error: string) => void;
   clearErrors: () => void;

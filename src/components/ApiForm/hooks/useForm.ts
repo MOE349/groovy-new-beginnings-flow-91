@@ -10,6 +10,7 @@ import {
 } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback, useEffect } from "react";
+import React from "react";
 import { z } from "zod";
 import type { FormConfig, FormUtils, ValidationResult } from "../types";
 import {
@@ -43,6 +44,9 @@ export function useForm<T extends FieldValues = FieldValues>({
 }: UseFormOptions<T>): UseFormReturn<T> {
   // Generate schema from fields if not provided
   const formSchema = schema || (generateSchema(fields) as z.ZodType<T>);
+
+  // Track the current baseline for dirty field comparison
+  const [currentBaseline, setCurrentBaseline] = React.useState(defaultValues);
 
   // Initialize React Hook Form
   const form = useReactHookForm<T>({
@@ -78,8 +82,18 @@ export function useForm<T extends FieldValues = FieldValues>({
     reset: useCallback(
       (values?: Partial<T>) => {
         reset(values as any);
+        setCurrentBaseline(values || defaultValues);
       },
-      [reset]
+      [reset, defaultValues]
+    ),
+
+    resetDirtyFields: useCallback(
+      (values?: Partial<T>) => {
+        const newBaseline = values || getValues();
+        setCurrentBaseline(newBaseline);
+        reset(newBaseline as any);
+      },
+      [reset, getValues]
     ),
 
     setFieldValue: useCallback(
@@ -120,8 +134,8 @@ export function useForm<T extends FieldValues = FieldValues>({
     }, [getValues]),
 
     getDirtyFields: useCallback(() => {
-      return getDirtyFields(getValues(), defaultValues || {});
-    }, [getValues, defaultValues]),
+      return getDirtyFields(getValues(), currentBaseline || {});
+    }, [getValues, currentBaseline]),
   };
 
   return {
