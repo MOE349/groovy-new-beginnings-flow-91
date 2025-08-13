@@ -151,10 +151,10 @@ const WorkOrderCompletionTab: React.FC<WorkOrderCompletionTabProps> = ({
   ];
 
   return (
-    <div className="bg-card rounded-lg border p-4 space-y-4">
+    <div className="tab-content-generic">
       {/* Read-only indicator */}
       {isReadOnly && (
-        <div className="bg-orange-50 border border-orange-200 rounded-md p-3 mb-4">
+        <div className="bg-orange-50 border border-orange-200 rounded-md p-3 mb-4 mx-4 mt-4">
           <div className="flex items-center">
             <div className="text-orange-600 text-sm font-medium">
               🔒 This work order is closed. All data is read-only.
@@ -163,80 +163,82 @@ const WorkOrderCompletionTab: React.FC<WorkOrderCompletionTabProps> = ({
         </div>
       )}
 
-      {/* Problem Analysis and Summary - Side by side */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <div className="bg-background/50 rounded border p-3">
-          <h4 className="text-sm font-medium text-foreground mb-2 border-b border-border pb-1">
-            Problem Analysis
-          </h4>
-          <ApiForm
-            fields={completionFormFields.filter(
-              (field) =>
-                field.name === "work_order" ||
-                field.name === "problem" ||
-                field.name === "solution" ||
-                field.name === "completion_notes"
-            )}
-            onSubmit={handleCompletionSubmit}
-            initialData={{
-              work_order: workOrderId,
-              problem: completionData?.data?.data?.problem || "",
-              solution: completionData?.data?.data?.solution || "",
-              completion_notes:
-                completionData?.data?.data?.completion_notes || "",
-            }}
-            submitText={isReadOnly ? undefined : "Save"}
-            cancelText={isReadOnly ? undefined : "Cancel"}
-            customLayout={({ fields, formData, renderField }) => (
-              <div className="space-y-3">
-                {fields.map((field) => {
-                  if (
-                    "inputType" in field &&
-                    (field as InputFieldConfig).inputType === "hidden"
-                  ) {
-                    return renderField(field);
-                  }
-                  return (
-                    <div
-                      key={field.name}
-                      onBlur={
-                        !isReadOnly
-                          ? () => {
-                              handleCompletionFieldChange(
-                                field.name,
-                                formData[field.name],
-                                formData
-                              );
-                            }
-                          : undefined
-                      }
-                    >
-                      {renderField(field)}
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          />
-        </div>
-
-        <div className="bg-background/50 rounded border p-3">
-          <h4 className="text-sm font-medium text-foreground mb-2 border-b border-border pb-1">
-            Summary
-          </h4>
-          <div className="space-y-3">
-            {/* Compact Summary */}
-            <div className="grid grid-cols-2 gap-2 text-xs">
-              <div>
-                <span className="font-medium">Hours:</span>
-                <div className="bg-card rounded border px-2 py-1 mt-1">
-                  {completionData?.data?.data?.total_hrs_spent || "Not set"}
+      <div className="p-4 space-y-4">
+        {/* Problem Analysis and Summary - Side by side */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="bg-background/50 rounded border p-3">
+            <h4 className="text-sm font-medium text-foreground mb-2 border-b border-border pb-1">
+              Problem Analysis
+            </h4>
+            <ApiForm
+              fields={completionFormFields.filter(
+                (field) =>
+                  field.name === "work_order" ||
+                  field.name === "problem" ||
+                  field.name === "solution" ||
+                  field.name === "completion_notes"
+              )}
+              onSubmit={handleCompletionSubmit}
+              initialData={{
+                work_order: workOrderId,
+                problem: completionData?.data?.data?.problem || "",
+                solution: completionData?.data?.data?.solution || "",
+                completion_notes:
+                  completionData?.data?.data?.completion_notes || "",
+              }}
+              submitText={isReadOnly ? undefined : "Save"}
+              cancelText={isReadOnly ? undefined : "Cancel"}
+              customLayout={({ fields, formData, renderField }) => (
+                <div className="space-y-3">
+                  {fields.map((field) => {
+                    if (
+                      "inputType" in field &&
+                      (field as InputFieldConfig).inputType === "hidden"
+                    ) {
+                      return renderField(field);
+                    }
+                    return (
+                      <div
+                        key={field.name}
+                        onBlur={
+                          !isReadOnly
+                            ? () => {
+                                handleCompletionFieldChange(
+                                  field.name,
+                                  formData[field.name],
+                                  formData
+                                );
+                              }
+                            : undefined
+                        }
+                      >
+                        {renderField(field)}
+                      </div>
+                    );
+                  })}
                 </div>
-              </div>
-              <div>
-                <span className="font-medium">By:</span>
-                <div className="bg-card rounded border px-2 py-1 mt-1">
-                  {completionData?.data?.data?.completed_by || "Not set"}
+              )}
+            />
+          </div>
+
+          <div className="bg-background/50 rounded border p-3">
+            <h4 className="text-sm font-medium text-foreground mb-2 border-b border-border pb-1">
+              Summary
+            </h4>
+            <div className="space-y-3">
+              {/* Compact Summary */}
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <div>
+                  <span className="font-medium">Hours:</span>
+                  <div className="bg-card rounded border px-2 py-1 mt-1">
+                    {completionData?.data?.data?.total_hrs_spent || "Not set"}
+                  </div>
+                </div>
+                <div>
+                  <span className="font-medium">By:</span>
+                  <div className="bg-card rounded border px-2 py-1 mt-1">
+                    {completionData?.data?.data?.completed_by || "Not set"}
+                  </div>
                 </div>
               </div>
             </div>

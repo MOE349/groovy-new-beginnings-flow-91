@@ -140,10 +140,10 @@ const WorkOrderServicesTab: React.FC<WorkOrderServicesTabProps> = ({
   };
 
   return (
-    <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
+    <div className="tab-content-generic">
       {/* Read-only indicator */}
       {isReadOnly && (
-        <div className="bg-orange-50 border border-orange-200 rounded-md p-3 mb-4">
+        <div className="bg-orange-50 border border-orange-200 rounded-md p-3 mb-4 mx-4 mt-4">
           <div className="flex items-center">
             <div className="text-orange-600 text-sm font-medium">
               🔒 This work order is closed. All data is read-only.
@@ -152,79 +152,85 @@ const WorkOrderServicesTab: React.FC<WorkOrderServicesTabProps> = ({
         </div>
       )}
 
-      {/* Header */}
-      <div className="flex justify-between items-center mb-4">
-        <div>
-          <h3 className="text-h3 font-medium text-foreground">
-            Third-party Services
-          </h3>
+      <div className="p-4 h-full min-h-[500px]">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-4">
+          <div>
+            <h3 className="text-h3 font-medium text-foreground">
+              Third-party Services
+            </h3>
+          </div>
+
+          <div className="flex gap-2">
+            {!isReadOnly && (
+              <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+                <Button size="sm" onClick={() => setIsAddDialogOpen(true)}>
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Third-party Service
+                </Button>
+                <DialogContent className="max-w-2xl">
+                  <DialogHeader>
+                    <DialogTitle>Add Third-party Service</DialogTitle>
+                  </DialogHeader>
+                  <ApiForm
+                    fields={addFormFields}
+                    onSubmit={handleAddSubmit}
+                    submitText="Add Third-party Service"
+                    initialData={{ work_order: workOrderId }}
+                  />
+                </DialogContent>
+              </Dialog>
+            )}
+          </div>
         </div>
 
-        <div className="flex gap-2">
-          {!isReadOnly && (
-            <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-              <Button size="sm" onClick={() => setIsAddDialogOpen(true)}>
-                <Plus className="h-4 w-4 mr-2" />
-                Add Third-party Service
-              </Button>
-              <DialogContent className="max-w-2xl">
-                <DialogHeader>
-                  <DialogTitle>Add Third-party Service</DialogTitle>
-                </DialogHeader>
-                <ApiForm
-                  fields={addFormFields}
-                  onSubmit={handleAddSubmit}
-                  submitText="Add Third-party Service"
-                  initialData={{ work_order: workOrderId }}
-                />
-              </DialogContent>
-            </Dialog>
-          )}
-        </div>
+        {/* Table */}
+        <ApiTable
+          endpoint={`/work-orders/work_order_misc_cost?work_order=${workOrderId}`}
+          columns={[
+            { key: "total_cost", header: "Total Cost", type: "string" },
+            { key: "description", header: "Description", type: "string" },
+          ]}
+          queryKey={["work_order_misc_cost", workOrderId]}
+          emptyMessage="No third-party services found"
+          onRowClick={handleRowClick}
+          className="w-full"
+        />
+
+        {/* Edit Dialog */}
+        <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+          <DialogContent className="max-w-2xl">
+            <DialogHeader>
+              <DialogTitle>
+                {isReadOnly ? "View" : "Edit"} Third-party Service
+              </DialogTitle>
+            </DialogHeader>
+            {selectedItem && (
+              <ApiForm
+                fields={
+                  isReadOnly
+                    ? getEditFormFields(String(selectedItem.id)).map(
+                        (field) => ({
+                          ...field,
+                          disabled: true,
+                        })
+                      )
+                    : getEditFormFields(String(selectedItem.id))
+                }
+                onSubmit={handleEditSubmit}
+                submitText={
+                  isReadOnly ? undefined : "Update Third-party Service"
+                }
+                cancelText={isReadOnly ? undefined : "Cancel"}
+                initialData={{
+                  ...selectedItem,
+                  work_order: workOrderId,
+                }}
+              />
+            )}
+          </DialogContent>
+        </Dialog>
       </div>
-
-      {/* Table */}
-      <ApiTable
-        endpoint={`/work-orders/work_order_misc_cost?work_order=${workOrderId}`}
-        columns={[
-          { key: "total_cost", header: "Total Cost", type: "string" },
-          { key: "description", header: "Description", type: "string" },
-        ]}
-        queryKey={["work_order_misc_cost", workOrderId]}
-        emptyMessage="No third-party services found"
-        onRowClick={handleRowClick}
-        className="w-full"
-      />
-
-      {/* Edit Dialog */}
-      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle>
-              {isReadOnly ? "View" : "Edit"} Third-party Service
-            </DialogTitle>
-          </DialogHeader>
-          {selectedItem && (
-            <ApiForm
-              fields={
-                isReadOnly
-                  ? getEditFormFields(String(selectedItem.id)).map((field) => ({
-                      ...field,
-                      disabled: true,
-                    }))
-                  : getEditFormFields(String(selectedItem.id))
-              }
-              onSubmit={handleEditSubmit}
-              submitText={isReadOnly ? undefined : "Update Third-party Service"}
-              cancelText={isReadOnly ? undefined : "Cancel"}
-              initialData={{
-                ...selectedItem,
-                work_order: workOrderId,
-              }}
-            />
-          )}
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };

@@ -11,7 +11,7 @@ const WorkOrderLogsTab: React.FC<WorkOrderLogsTabProps> = ({
   isReadOnly = false,
 }) => {
   return (
-    <div>
+    <div className="tab-content-generic">
       {/* Read-only indicator */}
       {isReadOnly && (
         <div className="bg-orange-50 border border-orange-200 rounded-md p-3 mb-4 mx-4 mt-4">
