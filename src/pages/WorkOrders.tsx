@@ -9,8 +9,8 @@ const WorkOrders = () => {
     { key: "description", header: "Description" },
     { key: "asset", header: "Asset", type: "object" },
     { key: "status", header: "Status", type: "object" },
-    { key: "maint_type", header: "Maint Type" },
-    { key: "priority", header: "Priority" },
+    { key: "maint_type", header: "Maint Type", type: "object" },
+    { key: "priority", header: "Priority", type: "object" },
     {
       key: "suggested_start_date",
       header: "Suggested Start Date",

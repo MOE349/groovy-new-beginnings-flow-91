@@ -15,7 +15,7 @@ const WorkOrderChecklistTab: React.FC<WorkOrderChecklistTabProps> = ({
   const queryClient = useQueryClient();
 
   const { data: workOrderData } = useQuery({
-    queryKey: ["work_order", workOrderId],
+    queryKey: ["work_order_checklist_data", workOrderId],
     queryFn: () => apiCall(`/work-orders/work_order/${workOrderId}`),
     enabled: !!workOrderId,
   });
@@ -148,8 +148,7 @@ const WorkOrderChecklistTab: React.FC<WorkOrderChecklistTabProps> = ({
                 });
               } else {
                 const errorMessage =
-                  apiError?.message ||
-                  "Failed to import backlog items";
+                  apiError?.message || "Failed to import backlog items";
                 toast({
                   title: "Error",
                   description: errorMessage,
