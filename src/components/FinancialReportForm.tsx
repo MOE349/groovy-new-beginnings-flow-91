@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useCallback, useRef } from "react";
 import ApiForm from "@/components/ApiForm";
 import ApiInput from "@/components/ApiInput";
 import { apiCall } from "@/utils/apis";
@@ -232,12 +232,8 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
     [existingData, assetId, toast, queryClient, onSuccess]
   );
 
-  // Expose submit function to parent component
-  useEffect(() => {
-    if (onSubmitRef) {
-      onSubmitRef(() => handleSubmit(existingData || {}));
-    }
-  }, [onSubmitRef, existingData, handleSubmit]);
+  // Store the submit function from the custom layout
+  const submitFormRef = useRef<(() => void) | null>(null);
 
   // Create initial data from template and existing data
   const initialData = formTemplate.reduce((acc, field) => {
@@ -276,6 +272,14 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
         customLayout={
           containerType
             ? ({ handleSubmit, formData, handleFieldChange }) => {
+                // Store the submit function for parent access
+                submitFormRef.current = handleSubmit;
+                
+                // Expose submit function to parent component immediately
+                if (onSubmitRef && submitFormRef.current) {
+                  onSubmitRef(submitFormRef.current);
+                }
+                
                 // Group fields by type for all container types
                 const editableFields = formFields.filter(
                   (field) => !field.disabled
