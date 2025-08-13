@@ -78,7 +78,11 @@ const AssetComponentsTab: React.FC<AssetComponentsTabProps> = ({ assetId }) => {
       name: "work_order",
       label: "Work Order",
       type: "dropdown",
-      endpoint: `/work-orders/work_order?asset=${assetId}&is_closed=false`,
+      endpoint: `/work-orders/work_order?asset=${assetId}&created_at__gt=${
+        new Date(Date.now() - 3 * 30 * 24 * 60 * 60 * 1000)
+          .toISOString()
+          .split("T")[0]
+      }`,
       queryKey: ["work_orders", "by_asset", assetId],
       optionValueKey: "id",
       optionLabelKey: "code",
@@ -261,30 +265,94 @@ const AssetComponentsTab: React.FC<AssetComponentsTabProps> = ({ assetId }) => {
                       </div>
                     )}
 
-                    <div className="grid gap-4">
-                      {modifiedFields.map((field) => {
-                        // Render field with updated disabled state
-                        if (
-                          field.name === "work_order" ||
-                          field.name === "changed_at_meter_reading"
-                        ) {
-                          const FieldComponent =
-                            field.type === "dropdown"
-                              ? DropdownField
-                              : InputField;
+                    <div className="space-y-4">
+                      {/* First row: Name and Work Order */}
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          {renderField(
+                            modifiedFields.find((f) => f.name === "name")
+                          )}
+                        </div>
+                        <div>
+                          <DropdownField
+                            field={
+                              modifiedFields.find(
+                                (f) => f.name === "work_order"
+                              ) as any
+                            }
+                            form={form}
+                            name="work_order"
+                          />
+                        </div>
+                      </div>
 
-                          return (
-                            <FieldComponent
-                              key={field.name}
-                              field={field}
-                              form={form}
-                              name={field.name}
-                            />
-                          );
-                        }
-                        // For other fields, use the default renderer
-                        return renderField(field);
-                      })}
+                      {/* OR section with Changed at meter reading */}
+                      <div className="flex items-center justify-center">
+                        <div className="flex-1"></div>
+                        <div className="px-4 text-sm text-gray-500 font-medium">
+                          OR
+                        </div>
+                        <div className="flex-1">
+                          <InputField
+                            field={
+                              modifiedFields.find(
+                                (f) => f.name === "changed_at_meter_reading"
+                              ) as any
+                            }
+                            form={form}
+                            name="changed_at_meter_reading"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Second row: Initial Meter reading and empty space */}
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          {renderField(
+                            modifiedFields.find(
+                              (f) => f.name === "initial_meter_reading"
+                            )
+                          )}
+                        </div>
+                        <div></div>
+                      </div>
+
+                      {/* Third row: Component meter reading and empty space */}
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          {renderField(
+                            modifiedFields.find(
+                              (f) => f.name === "component_meter_reading"
+                            )
+                          )}
+                        </div>
+                        <div></div>
+                      </div>
+
+                      {/* Fourth row: Warranty Meter reading and Warranty Exp Date */}
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          {renderField(
+                            modifiedFields.find(
+                              (f) => f.name === "warranty_meter_reading"
+                            )
+                          )}
+                        </div>
+                        <div>
+                          {renderField(
+                            modifiedFields.find(
+                              (f) => f.name === "warranty_exp_date"
+                            )
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Files section - full width */}
+                      <div>
+                        {renderField(
+                          modifiedFields.find((f) => f.name === "files")
+                        )}
+                      </div>
                     </div>
 
                     <div className="flex gap-2 justify-end">
