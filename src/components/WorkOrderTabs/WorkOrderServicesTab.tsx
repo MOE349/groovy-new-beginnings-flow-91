@@ -15,10 +15,12 @@ import { apiCall } from "@/utils/apis";
 
 export interface WorkOrderServicesTabProps {
   workOrderId: string;
+  isReadOnly?: boolean;
 }
 
 const WorkOrderServicesTab: React.FC<WorkOrderServicesTabProps> = ({
   workOrderId,
+  isReadOnly = false,
 }) => {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -74,6 +76,8 @@ const WorkOrderServicesTab: React.FC<WorkOrderServicesTabProps> = ({
   ];
 
   const handleAddSubmit = async (data: Record<string, unknown>) => {
+    if (isReadOnly) return; // Prevent submission when read-only
+
     try {
       const response = await apiCall("/work-orders/work_order_misc_cost", {
         method: "POST",
@@ -101,7 +105,7 @@ const WorkOrderServicesTab: React.FC<WorkOrderServicesTabProps> = ({
   };
 
   const handleEditSubmit = async (data: Record<string, unknown>) => {
-    if (!selectedItem) return;
+    if (!selectedItem || isReadOnly) return; // Prevent submission when read-only
 
     try {
       await apiCall(`/work-orders/work_order_misc_cost/${selectedItem.id}`, {
@@ -137,6 +141,17 @@ const WorkOrderServicesTab: React.FC<WorkOrderServicesTabProps> = ({
 
   return (
     <div className="bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]">
+      {/* Read-only indicator */}
+      {isReadOnly && (
+        <div className="bg-orange-50 border border-orange-200 rounded-md p-3 mb-4">
+          <div className="flex items-center">
+            <div className="text-orange-600 text-sm font-medium">
+              🔒 This work order is closed. All data is read-only.
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <div>
@@ -146,23 +161,25 @@ const WorkOrderServicesTab: React.FC<WorkOrderServicesTabProps> = ({
         </div>
 
         <div className="flex gap-2">
-          <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-            <Button size="sm" onClick={() => setIsAddDialogOpen(true)}>
-              <Plus className="h-4 w-4 mr-2" />
-              Add Third-party Service
-            </Button>
-            <DialogContent className="max-w-2xl">
-              <DialogHeader>
-                <DialogTitle>Add Third-party Service</DialogTitle>
-              </DialogHeader>
-              <ApiForm
-                fields={addFormFields}
-                onSubmit={handleAddSubmit}
-                submitText="Add Third-party Service"
-                initialData={{ work_order: workOrderId }}
-              />
-            </DialogContent>
-          </Dialog>
+          {!isReadOnly && (
+            <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+              <Button size="sm" onClick={() => setIsAddDialogOpen(true)}>
+                <Plus className="h-4 w-4 mr-2" />
+                Add Third-party Service
+              </Button>
+              <DialogContent className="max-w-2xl">
+                <DialogHeader>
+                  <DialogTitle>Add Third-party Service</DialogTitle>
+                </DialogHeader>
+                <ApiForm
+                  fields={addFormFields}
+                  onSubmit={handleAddSubmit}
+                  submitText="Add Third-party Service"
+                  initialData={{ work_order: workOrderId }}
+                />
+              </DialogContent>
+            </Dialog>
+          )}
         </div>
       </div>
 
@@ -183,13 +200,23 @@ const WorkOrderServicesTab: React.FC<WorkOrderServicesTabProps> = ({
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>Edit Third-party Service</DialogTitle>
+            <DialogTitle>
+              {isReadOnly ? "View" : "Edit"} Third-party Service
+            </DialogTitle>
           </DialogHeader>
           {selectedItem && (
             <ApiForm
-              fields={getEditFormFields(String(selectedItem.id))}
+              fields={
+                isReadOnly
+                  ? getEditFormFields(String(selectedItem.id)).map((field) => ({
+                      ...field,
+                      disabled: true,
+                    }))
+                  : getEditFormFields(String(selectedItem.id))
+              }
               onSubmit={handleEditSubmit}
-              submitText="Update Third-party Service"
+              submitText={isReadOnly ? undefined : "Update Third-party Service"}
+              cancelText={isReadOnly ? undefined : "Cancel"}
               initialData={{
                 ...selectedItem,
                 work_order: workOrderId,

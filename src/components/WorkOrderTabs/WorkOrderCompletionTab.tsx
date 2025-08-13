@@ -8,21 +8,27 @@ import type { InputFieldConfig } from "@/components/ApiForm";
 
 export interface WorkOrderCompletionTabProps {
   workOrderId: string;
+  isReadOnly?: boolean;
 }
 
 const WorkOrderCompletionTab: React.FC<WorkOrderCompletionTabProps> = ({
   workOrderId,
+  isReadOnly = false,
 }) => {
   const queryClient = useQueryClient();
 
   const { data: completionData } = useQuery({
     queryKey: ["work_order_completion_note", workOrderId],
     queryFn: () =>
-      apiCall(`/work-orders/work_order_completion_note?work_order=${workOrderId}`),
+      apiCall(
+        `/work-orders/work_order_completion_note?work_order=${workOrderId}`
+      ),
     enabled: !!workOrderId,
   });
 
   const handleCompletionSubmit = async (data: Record<string, unknown>) => {
+    if (isReadOnly) return; // Prevent submission when read-only
+
     try {
       const completionId = completionData?.data?.data?.id;
       const initialData = completionData?.data?.data || {};
@@ -59,7 +65,10 @@ const WorkOrderCompletionTab: React.FC<WorkOrderCompletionTabProps> = ({
         description: "Completion notes saved successfully!",
       });
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "Failed to save completion notes";
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Failed to save completion notes";
       toast({
         title: "Error",
         description: errorMessage,
@@ -73,6 +82,8 @@ const WorkOrderCompletionTab: React.FC<WorkOrderCompletionTabProps> = ({
     value: unknown,
     allFormData: Record<string, unknown>
   ) => {
+    if (isReadOnly) return; // Prevent auto-save when read-only
+
     try {
       const completionId = completionData?.data?.data?.id;
       const initialData = completionData?.data?.data || {};
@@ -119,6 +130,7 @@ const WorkOrderCompletionTab: React.FC<WorkOrderCompletionTabProps> = ({
       label: "Problem",
       required: false,
       rows: 4,
+      disabled: isReadOnly,
     },
     {
       name: "solution",
@@ -126,6 +138,7 @@ const WorkOrderCompletionTab: React.FC<WorkOrderCompletionTabProps> = ({
       label: "Solution",
       required: false,
       rows: 4,
+      disabled: isReadOnly,
     },
     {
       name: "completion_notes",
@@ -133,11 +146,23 @@ const WorkOrderCompletionTab: React.FC<WorkOrderCompletionTabProps> = ({
       label: "Completion Notes",
       required: false,
       rows: 4,
+      disabled: isReadOnly,
     },
   ];
 
   return (
     <div className="bg-card rounded-lg border p-4 space-y-4">
+      {/* Read-only indicator */}
+      {isReadOnly && (
+        <div className="bg-orange-50 border border-orange-200 rounded-md p-3 mb-4">
+          <div className="flex items-center">
+            <div className="text-orange-600 text-sm font-medium">
+              🔒 This work order is closed. All data is read-only.
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Problem Analysis and Summary - Side by side */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="bg-background/50 rounded border p-3">
@@ -160,6 +185,8 @@ const WorkOrderCompletionTab: React.FC<WorkOrderCompletionTabProps> = ({
               completion_notes:
                 completionData?.data?.data?.completion_notes || "",
             }}
+            submitText={isReadOnly ? undefined : "Save"}
+            cancelText={isReadOnly ? undefined : "Cancel"}
             customLayout={({ fields, formData, renderField }) => (
               <div className="space-y-3">
                 {fields.map((field) => {
@@ -172,13 +199,17 @@ const WorkOrderCompletionTab: React.FC<WorkOrderCompletionTabProps> = ({
                   return (
                     <div
                       key={field.name}
-                      onBlur={() => {
-                        handleCompletionFieldChange(
-                          field.name,
-                          formData[field.name],
-                          formData
-                        );
-                      }}
+                      onBlur={
+                        !isReadOnly
+                          ? () => {
+                              handleCompletionFieldChange(
+                                field.name,
+                                formData[field.name],
+                                formData
+                              );
+                            }
+                          : undefined
+                      }
                     >
                       {renderField(field)}
                     </div>
@@ -199,15 +230,13 @@ const WorkOrderCompletionTab: React.FC<WorkOrderCompletionTabProps> = ({
               <div>
                 <span className="font-medium">Hours:</span>
                 <div className="bg-card rounded border px-2 py-1 mt-1">
-                  {completionData?.data?.data?.total_hrs_spent ||
-                    "Not set"}
+                  {completionData?.data?.data?.total_hrs_spent || "Not set"}
                 </div>
               </div>
               <div>
                 <span className="font-medium">By:</span>
                 <div className="bg-card rounded border px-2 py-1 mt-1">
-                  {completionData?.data?.data?.completed_by ||
-                    "Not set"}
+                  {completionData?.data?.data?.completed_by || "Not set"}
                 </div>
               </div>
             </div>

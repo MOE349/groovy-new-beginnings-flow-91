@@ -1,8 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Check, X } from "lucide-react";
+import { ArrowLeft, Check, X, RotateCcw } from "lucide-react";
 import LocationEquipmentDropdown from "@/components/LocationEquipmentDropdown";
+import { apiCall } from "@/utils/apis";
+import { toast } from "@/hooks/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 export interface FormLayoutConfig {
   title: string;
@@ -53,6 +56,9 @@ interface FormLayoutProps {
   // Optional slots for customization
   headerActions?: React.ReactNode;
   leftSidebar?: React.ReactNode;
+  // Work order specific props
+  workOrderId?: string;
+  isWorkOrderClosed?: boolean;
 }
 
 const FormLayout = ({
@@ -71,8 +77,72 @@ const FormLayout = ({
   form,
   headerActions,
   leftSidebar,
+  workOrderId,
+  isWorkOrderClosed,
 }: FormLayoutProps) => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const [isReopening, setIsReopening] = useState(false);
+
+  // Function to handle work order reopen
+  const handleReopen = async () => {
+    if (!workOrderId) return;
+
+    try {
+      setIsReopening(true);
+
+      // First, fetch the active status ID from the status dropdown
+      const statusResponse = await apiCall("/work-orders/status", {
+        method: "GET",
+      });
+
+      // Find the Active status (you may need to adjust this based on your actual status names)
+      const activeStatus = statusResponse.data?.data?.find(
+        (status: any) =>
+          status.name.toLowerCase() === "active" ||
+          status.name.toLowerCase() === "open" ||
+          status.name.toLowerCase() === "in progress"
+      );
+
+      if (!activeStatus) {
+        toast({
+          title: "Error",
+          description: "Could not find active status. Please contact support.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Send PATCH request to reopen the work order
+      await apiCall(`/work-orders/work_order/${workOrderId}`, {
+        method: "PATCH",
+        body: { status: activeStatus.id },
+      });
+
+      toast({
+        title: "Success",
+        description: "Work order has been reopened successfully.",
+      });
+
+      // Invalidate and refetch the work order data
+      await queryClient.invalidateQueries({
+        queryKey: ["work_order", workOrderId],
+      });
+
+      // Simple approach: refresh the page to ensure clean form state
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to reopen work order.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsReopening(false);
+    }
+  };
 
   // Keyboard shortcut: Ctrl/Cmd + S to submit
   useEffect(() => {
@@ -137,9 +207,30 @@ const FormLayout = ({
         </div>
         <div className="flex items-center gap-4">
           {headerActions}
+          {/* Show reopen button when work order is closed */}
+          {isWorkOrderClosed && (
+            <Button
+              onClick={handleReopen}
+              disabled={isReopening}
+              variant="outline"
+              className="px-4 py-1 h-8 text-sm font-medium border-orange-500 text-orange-600 hover:bg-orange-50 hover:border-orange-600 min-w-20"
+            >
+              {isReopening ? (
+                "Reopening..."
+              ) : (
+                <>
+                  <RotateCcw className="h-3 w-3 mr-1" />
+                  Reopen
+                </>
+              )}
+            </Button>
+          )}
           <Button
             onClick={handleSubmit}
-            disabled={canSubmit === undefined ? loading : !canSubmit}
+            disabled={
+              (canSubmit === undefined ? loading : !canSubmit) ||
+              (isWorkOrderClosed && !isReopening)
+            }
             className="bg-secondary-foreground text-secondary hover:bg-secondary-foreground/90 px-6 py-1 h-8 text-sm font-medium shadow-lg border border-secondary-foreground/20 hover:shadow-md transition-all duration-200 min-w-20"
             style={{
               boxShadow:
@@ -174,12 +265,17 @@ const FormLayout = ({
                 {config.showOnlineToggle && (
                   <div className="flex items-center space-x-0">
                     <div
-                      className={`flex items-center cursor-pointer transition-all duration-300 rounded border w-40 h-7 ${
+                      className={`flex items-center transition-all duration-300 rounded border w-40 h-7 ${
                         formData?.is_online ?? initialData?.asset__is_online
                           ? "bg-green-500 border-green-600"
                           : "bg-red-500 border-red-600"
+                      } ${
+                        isWorkOrderClosed
+                          ? "cursor-not-allowed opacity-60"
+                          : "cursor-pointer"
                       }`}
                       onClick={() => {
+                        if (isWorkOrderClosed) return; // Disable click when work order is closed
                         const next = !(
                           formData?.is_online ?? initialData?.asset__is_online
                         );
@@ -249,6 +345,7 @@ const FormLayout = ({
                         queryKey: ["company_location"],
                         optionValueKey: "id",
                         optionLabelKey: "name",
+                        disabled: isWorkOrderClosed,
                       })
                     )}
                   </div>
@@ -300,7 +397,8 @@ const FormLayout = ({
                                           label: opt.name,
                                         }))
                                       : undefined,
-                                    disabled: field.disabled,
+                                    disabled:
+                                      field.disabled || isWorkOrderClosed,
                                   })}
                                 </div>
                                 <label className="text-caption font-normal text-foreground shrink-0 pt-0">
@@ -316,7 +414,9 @@ const FormLayout = ({
                                           label: opt.name,
                                         }))
                                       : undefined,
-                                    disabled: completionField.disabled,
+                                    disabled:
+                                      completionField.disabled ||
+                                      isWorkOrderClosed,
                                   })}
                                 </div>
                               </div>
@@ -355,7 +455,8 @@ const FormLayout = ({
                                           label: opt.name,
                                         }))
                                       : undefined,
-                                    disabled: field.disabled,
+                                    disabled:
+                                      field.disabled || isWorkOrderClosed,
                                   })}
                                 </div>
                                 <label className="text-caption font-normal text-foreground shrink-0 -mt-1">
@@ -371,7 +472,8 @@ const FormLayout = ({
                                           label: opt.name,
                                         }))
                                       : undefined,
-                                    disabled: meterField.disabled,
+                                    disabled:
+                                      meterField.disabled || isWorkOrderClosed,
                                   })}
                                 </div>
                               </div>
@@ -409,7 +511,8 @@ const FormLayout = ({
                                           label: opt.name,
                                         }))
                                       : undefined,
-                                    disabled: field.disabled,
+                                    disabled:
+                                      field.disabled || isWorkOrderClosed,
                                   })}
                                 </div>
                                 <label className="text-caption font-normal text-foreground shrink-0 -mt-2">
@@ -425,7 +528,8 @@ const FormLayout = ({
                                           label: opt.name,
                                         }))
                                       : undefined,
-                                    disabled: yearField.disabled,
+                                    disabled:
+                                      yearField.disabled || isWorkOrderClosed,
                                   })}
                                 </div>
                               </div>
@@ -475,7 +579,7 @@ const FormLayout = ({
                                     label: opt.name,
                                   }))
                                 : undefined,
-                              disabled: field.disabled,
+                              disabled: field.disabled || isWorkOrderClosed,
                             })}
                           </div>
                         </div>

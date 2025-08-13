@@ -25,7 +25,7 @@ export interface TableTabProps {
   emptyMessage?: string;
   className?: string;
   tableClassName?: string;
-  
+
   // Add/Edit functionality
   canAdd?: boolean;
   addButtonText?: string;
@@ -33,7 +33,7 @@ export interface TableTabProps {
   addEndpoint?: string;
   addInitialData?: Record<string, any>;
   onAddSuccess?: (data: any) => void;
-  
+
   // Edit functionality
   canEdit?: boolean;
   editFields?: FormField[];
@@ -41,16 +41,23 @@ export interface TableTabProps {
   editInitialData?: (row: any) => Record<string, any>;
   onEditSuccess?: (data: any) => void;
   onRowClick?: (row: any) => void;
-  
+  editReadOnly?: boolean; // Make edit forms read-only
+
   // Custom actions
   actions?: Array<{
     label: string;
-    variant?: "default" | "outline" | "secondary" | "destructive" | "ghost" | "link";
+    variant?:
+      | "default"
+      | "outline"
+      | "secondary"
+      | "destructive"
+      | "ghost"
+      | "link";
     onClick: () => void | Promise<void>;
     disabled?: boolean;
     icon?: React.ReactNode;
   }>;
-  
+
   // Additional table props
   editRoutePattern?: string;
   showFilters?: boolean;
@@ -80,6 +87,7 @@ const TableTab: React.FC<TableTabProps> = ({
   editInitialData,
   onEditSuccess,
   onRowClick,
+  editReadOnly = false,
   actions = [],
   editRoutePattern,
   showFilters = true,
@@ -94,61 +102,63 @@ const TableTab: React.FC<TableTabProps> = ({
 
   const handleAddSubmit = async (data: Record<string, any>) => {
     if (!addEndpoint) return;
-    
+
     try {
       const response = await apiCall(addEndpoint, {
         method: "POST",
         body: { ...addInitialData, ...data },
       });
-      
+
       queryClient.invalidateQueries({ queryKey });
-      
+
       toast({
         title: "Success",
         description: `${title || "Item"} created successfully!`,
       });
-      
+
       setIsAddDialogOpen(false);
       onAddSuccess?.(response);
     } catch (error: any) {
       toast({
         title: "Error",
-        description: error.message || `Failed to create ${title?.toLowerCase() || "item"}`,
+        description:
+          error.message || `Failed to create ${title?.toLowerCase() || "item"}`,
         variant: "destructive",
       });
     }
   };
 
   const handleEditSubmit = async (data: Record<string, any>) => {
-    if (!editEndpoint || !selectedItem) return;
-    
+    if (!editEndpoint || !selectedItem || editReadOnly) return; // Prevent submission when read-only
+
     try {
       const response = await apiCall(editEndpoint(selectedItem.id), {
         method: "PATCH",
         body: data,
       });
-      
+
       queryClient.invalidateQueries({ queryKey });
-      
+
       toast({
         title: "Success",
         description: `${title || "Item"} updated successfully!`,
       });
-      
+
       setIsEditDialogOpen(false);
       setSelectedItem(null);
       onEditSuccess?.(response);
     } catch (error: any) {
       toast({
         title: "Error",
-        description: error.message || `Failed to update ${title?.toLowerCase() || "item"}`,
+        description:
+          error.message || `Failed to update ${title?.toLowerCase() || "item"}`,
         variant: "destructive",
       });
     }
   };
 
   const handleRowClickInternal = (row: any) => {
-    if (canEdit && editFields.length > 0) {
+    if ((canEdit || editReadOnly) && editFields.length > 0) {
       setSelectedItem(row);
       setIsEditDialogOpen(true);
     }
@@ -156,15 +166,26 @@ const TableTab: React.FC<TableTabProps> = ({
   };
 
   return (
-    <div className={cn("bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]", className)}>
+    <div
+      className={cn(
+        "bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]",
+        className
+      )}
+    >
       {/* Header */}
       {(title || description || canAdd || actions.length > 0) && (
         <div className="flex justify-between items-center mb-4">
           <div>
-            {title && <h3 className="text-h3 font-medium text-foreground">{title}</h3>}
-            {description && <p className="text-caption text-muted-foreground">{description}</p>}
+            {title && (
+              <h3 className="text-h3 font-medium text-foreground">{title}</h3>
+            )}
+            {description && (
+              <p className="text-caption text-muted-foreground">
+                {description}
+              </p>
+            )}
           </div>
-          
+
           <div className="flex gap-2">
             {actions.map((action, index) => (
               <Button
@@ -178,7 +199,7 @@ const TableTab: React.FC<TableTabProps> = ({
                 {action.label}
               </Button>
             ))}
-            
+
             {canAdd && addFields.length > 0 && (
               <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
                 <DialogTrigger asChild>
@@ -210,7 +231,9 @@ const TableTab: React.FC<TableTabProps> = ({
         columns={columns}
         queryKey={queryKey}
         emptyMessage={emptyMessage}
-        onRowClick={canEdit ? handleRowClickInternal : onRowClick}
+        onRowClick={
+          canEdit || editReadOnly ? handleRowClickInternal : onRowClick
+        }
         editRoutePattern={editRoutePattern}
         showFilters={showFilters}
         maxHeight={maxHeight}
@@ -220,18 +243,32 @@ const TableTab: React.FC<TableTabProps> = ({
       />
 
       {/* Edit Dialog */}
-      {canEdit && editFields.length > 0 && (
+      {(canEdit || editReadOnly) && editFields.length > 0 && (
         <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
           <DialogContent className="max-w-2xl">
             <DialogHeader>
-              <DialogTitle>Edit {title || "Item"}</DialogTitle>
+              <DialogTitle>
+                {editReadOnly ? "View" : "Edit"} {title || "Item"}
+              </DialogTitle>
             </DialogHeader>
             {selectedItem && (
               <ApiForm
-                fields={editFields}
+                fields={
+                  editReadOnly
+                    ? editFields.map((field) => ({ ...field, disabled: true }))
+                    : editFields
+                }
                 onSubmit={handleEditSubmit}
-                submitText={`Update ${title || "Item"}`}
-                initialData={editInitialData ? editInitialData(selectedItem) : selectedItem}
+                submitText={
+                  editReadOnly ? undefined : `Update ${title || "Item"}`
+                }
+                cancelText={editReadOnly ? undefined : "Cancel"}
+                onCancel={
+                  editReadOnly ? undefined : () => setIsEditDialogOpen(false)
+                }
+                initialData={
+                  editInitialData ? editInitialData(selectedItem) : selectedItem
+                }
               />
             )}
           </DialogContent>

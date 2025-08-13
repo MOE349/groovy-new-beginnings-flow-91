@@ -6,6 +6,7 @@ import { EntityTabs } from "@/components/EntityTabs";
 import GearSpinner from "@/components/ui/gear-spinner";
 import { AlertTriangle } from "lucide-react";
 import type { CustomLayoutProps } from "@/components/ApiForm";
+import { useQueryClient } from "@tanstack/react-query";
 
 // Base entity configuration interface
 export interface EntityConfig<TData = any, TInitialData = any> {
@@ -59,6 +60,7 @@ export const EditEntityTemplate = <TData = any, TInitialData = any>({
   config,
 }: EditEntityTemplateProps<TData, TInitialData>) => {
   const { id } = useParams();
+  const queryClient = useQueryClient();
 
   // Use entity-specific data hook
   const { data, isLoading, isError, error } = config.useEntityData(id || "");
@@ -110,6 +112,17 @@ export const EditEntityTemplate = <TData = any, TInitialData = any>({
   const customLayout = config.getCustomLayout?.(data);
   const tabs = config.getTabs(id || "", data);
 
+  // Handle after successful form submission
+  const handleAfterSuccess = async (response?: any) => {
+    // For work orders, always invalidate when status changes (either to closed or reopened)
+    if (config.entityName === "work_order" && response?.data) {
+      // Invalidate the work order query to refresh the data and UI
+      await queryClient.invalidateQueries({
+        queryKey: ["work_order", id],
+      });
+    }
+  };
+
   return (
     <div className="h-full w-full max-w-full overflow-hidden flex flex-col">
       {/* Form Section */}
@@ -123,6 +136,7 @@ export const EditEntityTemplate = <TData = any, TInitialData = any>({
             onSuccessToast={{
               description: `${config.entityDisplayName} updated successfully!`,
             }}
+            afterSuccess={handleAfterSuccess}
           />
         </div>
       </div>

@@ -7,7 +7,7 @@ import { apiCall } from "@/services/api";
 import { toast } from "@/hooks/use-toast";
 
 export interface EditEntityFormPageProps<
-  TForm extends Record<string, unknown> = Record<string, unknown>,
+  TForm extends Record<string, unknown> = Record<string, unknown>
 > {
   // ApiForm core props
   fields: ApiFormProps<TForm>["fields"];
@@ -26,11 +26,11 @@ export interface EditEntityFormPageProps<
 
   // Optional hooks
   onSuccessToast?: { title?: string; description?: string };
-  afterSuccess?: () => void;
+  afterSuccess?: (response?: any) => void;
 }
 
 export function EditEntityFormPage<
-  TForm extends Record<string, unknown> = Record<string, unknown>,
+  TForm extends Record<string, unknown> = Record<string, unknown>
 >({
   fields,
   initialData,
@@ -47,7 +47,7 @@ export function EditEntityFormPage<
   afterSuccess,
 }: EditEntityFormPageProps<TForm>) {
   const handleSubmit: ApiFormProps<TForm>["onSubmit"] = async (data) => {
-    await apiCall(updateEndpoint, {
+    const response = await apiCall(updateEndpoint, {
       method: "PATCH",
       body: data as Record<string, unknown>,
     });
@@ -55,7 +55,7 @@ export function EditEntityFormPage<
       title: onSuccessToast?.title || "Success",
       description: onSuccessToast?.description || "Updated successfully",
     });
-    afterSuccess?.();
+    afterSuccess?.(response);
   };
 
   const formProps: ApiFormProps<TForm> = {
