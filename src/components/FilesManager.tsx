@@ -1,14 +1,22 @@
-import React, { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Progress } from '@/components/ui/progress';
-import { Switch } from '@/components/ui/switch';
-import { toast } from '@/hooks/use-toast';
-import { Upload, X, File, CheckCircle, Download, Trash2, Edit } from 'lucide-react';
-import { apiCall } from '@/utils/apis';
-import { handleApiError } from '@/utils/errorHandling';
+import React, { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Progress } from "@/components/ui/progress";
+import { Switch } from "@/components/ui/switch";
+import { toast } from "@/hooks/use-toast";
+import {
+  Upload,
+  X,
+  File,
+  CheckCircle,
+  Download,
+  Trash2,
+  Edit,
+} from "lucide-react";
+import { apiCall } from "@/utils/apis";
+import { handleApiError } from "@/utils/errorHandling";
 import {
   Table,
   TableBody,
@@ -16,14 +24,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 
 interface FilesManagerProps {
   linkToModel: string;
@@ -51,7 +59,7 @@ interface UploadedFile {
   id: string;
   name: string;
   size: number;
-  status: 'uploading' | 'completed' | 'error';
+  status: "uploading" | "completed" | "error";
   progress: number;
 }
 
@@ -59,69 +67,76 @@ const FilesManager: React.FC<FilesManagerProps> = ({
   linkToModel,
   linkToId,
   maxSize = 10,
-  className = ""
+  className = "",
 }) => {
   const queryClient = useQueryClient();
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false);
-  const [description, setDescription] = useState('');
-  const [tags, setTags] = useState('');
+  const [description, setDescription] = useState("");
+  const [tags, setTags] = useState("");
   const [setAsDefaultImage, setSetAsDefaultImage] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [editingFile, setEditingFile] = useState<FileItem | null>(null);
-  const [editDescription, setEditDescription] = useState('');
-  const [editTags, setEditTags] = useState('');
+  const [editDescription, setEditDescription] = useState("");
+  const [editTags, setEditTags] = useState("");
   const [editSetAsDefaultImage, setEditSetAsDefaultImage] = useState(false);
 
   // Fetch files
   const { data: filesData, isLoading } = useQuery({
-    queryKey: ['files', linkToModel, linkToId],
+    queryKey: ["files", linkToModel, linkToId],
     queryFn: async () => {
-      const response = await apiCall(`/file-uploads/files/?link_to_model=${linkToModel}&object_id=${linkToId}`);
+      const response = await apiCall(
+        `/file-uploads/files/?link_to_model=${linkToModel}&object_id=${linkToId}`
+      );
       return response.data.data as FileItem[];
-    }
+    },
   });
 
   // Delete file mutation
   const deleteFileMutation = useMutation({
     mutationFn: async (fileId: string) => {
-      await apiCall(`/file-uploads/files/${fileId}/`, { method: 'DELETE' });
+      await apiCall(`/file-uploads/files/${fileId}/`, { method: "DELETE" });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['files', linkToModel, linkToId] });
+      queryClient.invalidateQueries({
+        queryKey: ["files", linkToModel, linkToId],
+      });
       toast({
         title: "File Deleted",
-        description: "File has been successfully deleted"
+        description: "File has been successfully deleted",
       });
     },
     onError: (error) => {
       handleApiError(error, "Failed to delete file");
-    }
+    },
   });
 
   // Update file mutation
   const updateFileMutation = useMutation({
-    mutationFn: async (data: { 
-      fileId: string; 
-      description: string; 
-      tags: string; 
-      setAsDefaultImage?: boolean; 
-      isImage?: boolean 
+    mutationFn: async (data: {
+      fileId: string;
+      description: string;
+      tags: string;
+      setAsDefaultImage?: boolean;
+      isImage?: boolean;
     }) => {
       // Update file metadata using FormData
       const formData = new FormData();
-      formData.append('description', data.description);
-      formData.append('tags', data.tags);
+      formData.append("description", data.description);
+      formData.append("tags", data.tags);
 
-      const token = localStorage.getItem('access_token');
-      const response = await fetch(`https://tenmil.api.alfrih.com/v1/api/file-uploads/files/${data.fileId}/`, {
-        method: 'PATCH',
-        headers: {
-          ...(token && { 'Authorization': `Bearer ${token}` }),
-        },
-        body: formData
-      });
+      const token = localStorage.getItem("access_token");
+      const response = await fetch(
+        `https://tenmil.api.alfrih.com/v1/api/file-uploads/files/${data.fileId}/`,
+        {
+          method: "PATCH",
+          headers: {
+            ...(token && { Authorization: `Bearer ${token}` }),
+          },
+          body: formData,
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -129,42 +144,51 @@ const FilesManager: React.FC<FilesManagerProps> = ({
 
       // Set as default image if requested and file is an image
       if (data.setAsDefaultImage && data.isImage) {
-        const assetType = linkToModel.includes('equipment') ? 'equipments' : 'attachments';
+        const assetType = linkToModel.includes("equipment")
+          ? "equipments"
+          : "attachments";
         await apiCall(`/assets/${assetType}/${linkToId}/set-image/`, {
-          method: 'POST',
-          body: { file_id: data.fileId }
+          method: "POST",
+          body: { file_id: data.fileId },
         });
       }
     },
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['files', linkToModel, linkToId] });
-      const successMessage = variables.setAsDefaultImage && variables.isImage 
-        ? "File updated and set as default image"
-        : "File metadata updated successfully";
-      
+      queryClient.invalidateQueries({
+        queryKey: ["files", linkToModel, linkToId],
+      });
+      const successMessage =
+        variables.setAsDefaultImage && variables.isImage
+          ? "File updated and set as default image"
+          : "File metadata updated successfully";
+
       toast({
         title: "File Updated",
-        description: successMessage
+        description: successMessage,
       });
       setIsEditDialogOpen(false);
       setEditingFile(null);
     },
     onError: (error) => {
       handleApiError(error, "Failed to update file");
-    }
+    },
   });
 
-  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const files = Array.from(event.target.files || []);
     if (files.length === 0) return;
 
     // Validate file sizes
-    const oversizedFiles = files.filter(file => file.size > maxSize * 1024 * 1024);
+    const oversizedFiles = files.filter(
+      (file) => file.size > maxSize * 1024 * 1024
+    );
     if (oversizedFiles.length > 0) {
       toast({
         title: "File Size Error",
         description: `Some files exceed the ${maxSize}MB limit`,
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
@@ -172,42 +196,45 @@ const FilesManager: React.FC<FilesManagerProps> = ({
     setIsUploading(true);
 
     // Initialize file states
-    const newFiles: UploadedFile[] = files.map(file => ({
-      id: '',
+    const newFiles: UploadedFile[] = files.map((file) => ({
+      id: "",
       name: file.name,
       size: file.size,
-      status: 'uploading',
-      progress: 0
+      status: "uploading",
+      progress: 0,
     }));
 
-    setUploadedFiles(prev => [...prev, ...newFiles]);
+    setUploadedFiles((prev) => [...prev, ...newFiles]);
 
     try {
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         const formData = new FormData();
-        formData.append('file', file);
-        formData.append('link_to_model', linkToModel);
-        formData.append('link_to_id', linkToId);
-        if (description) formData.append('description', description);
-        if (tags) formData.append('tags', tags);
+        formData.append("file", file);
+        formData.append("link_to_model", linkToModel);
+        formData.append("link_to_id", linkToId);
+        if (description) formData.append("description", description);
+        if (tags) formData.append("tags", tags);
 
         try {
           // Update progress
-          setUploadedFiles(prev => prev.map((f, index) => 
-            index === prev.length - files.length + i 
-              ? { ...f, progress: 50 }
-              : f
-          ));
+          setUploadedFiles((prev) =>
+            prev.map((f, index) =>
+              index === prev.length - files.length + i
+                ? { ...f, progress: 50 }
+                : f
+            )
+          );
 
-          const token = localStorage.getItem('access_token');
-          const apiUrl = 'https://tenmil.api.alfrih.com/v1/api/file-uploads/files/';
+          const token = localStorage.getItem("access_token");
+          const apiUrl =
+            "https://tenmil.api.alfrih.com/v1/api/file-uploads/files/";
           const response = await fetch(apiUrl, {
-            method: 'POST',
+            method: "POST",
             headers: {
-              ...(token && { 'Authorization': `Bearer ${token}` }),
+              ...(token && { Authorization: `Bearer ${token}` }),
             },
-            body: formData
+            body: formData,
           });
 
           if (!response.ok) {
@@ -216,57 +243,66 @@ const FilesManager: React.FC<FilesManagerProps> = ({
 
           const result = await response.json();
           const fileId = result.data?.id || result.id;
-          
+
           if (fileId) {
             // Update file status to completed
-            setUploadedFiles(prev => prev.map((f, index) => 
-              index === prev.length - files.length + i 
-                ? { ...f, id: fileId, status: 'completed', progress: 100 }
-                : f
-            ));
+            setUploadedFiles((prev) =>
+              prev.map((f, index) =>
+                index === prev.length - files.length + i
+                  ? { ...f, id: fileId, status: "completed", progress: 100 }
+                  : f
+              )
+            );
 
             // Set as default image if toggle is checked and file is an image
-            if (setAsDefaultImage && file.type.startsWith('image/')) {
-               try {
-                 const assetType = linkToModel.includes('equipment') ? 'equipments' : 'attachments';
-                 await apiCall(`/assets/${assetType}/${linkToId}/set-image/`, {
-                   method: 'POST',
-                   body: { file_id: fileId }
-                 });
-                
+            if (setAsDefaultImage && file.type.startsWith("image/")) {
+              try {
+                const assetType = linkToModel.includes("equipment")
+                  ? "equipments"
+                  : "attachments";
+                await apiCall(`/assets/${assetType}/${linkToId}/set-image/`, {
+                  method: "POST",
+                  body: { file_id: fileId },
+                });
+
                 toast({
                   title: "Default Image Set",
-                  description: "Image has been set as the default for this asset"
+                  description:
+                    "Image has been set as the default for this asset",
                 });
               } catch (imageError) {
                 handleApiError(imageError, "Failed to set default image");
               }
             }
           } else {
-            throw new Error('No file ID returned from server');
+            throw new Error("No file ID returned from server");
           }
         } catch (error) {
           // Update file status to error
-          setUploadedFiles(prev => prev.map((f, index) => 
-            index === prev.length - files.length + i 
-              ? { ...f, status: 'error', progress: 0 }
-              : f
-          ));
+          setUploadedFiles((prev) =>
+            prev.map((f, index) =>
+              index === prev.length - files.length + i
+                ? { ...f, status: "error", progress: 0 }
+                : f
+            )
+          );
           handleApiError(error, `Upload failed for ${file.name}`);
         }
       }
 
       // Refresh the files list
-      queryClient.invalidateQueries({ queryKey: ['files', linkToModel, linkToId] });
-      
+      queryClient.invalidateQueries({
+        queryKey: ["files", linkToModel, linkToId],
+      });
+
       toast({
         title: "Upload Successful",
-        description: `${files.length} file(s) uploaded successfully`
+        description: `${files.length} file(s) uploaded successfully`,
       });
 
       // Clear form
-      setDescription('');
-      setTags('');
+      setDescription("");
+      setTags("");
       setSetAsDefaultImage(false);
       setIsUploadDialogOpen(false);
     } finally {
@@ -277,12 +313,15 @@ const FilesManager: React.FC<FilesManagerProps> = ({
 
   const handleDownload = async (fileId: string, fileName: string) => {
     try {
-      const token = localStorage.getItem('access_token');
-      const response = await fetch(`https://tenmil.api.alfrih.com/v1/api/file-uploads/files/${fileId}/download/`, {
-        headers: {
-          ...(token && { 'Authorization': `Bearer ${token}` }),
-        },
-      });
+      const token = localStorage.getItem("access_token");
+      const response = await fetch(
+        `https://tenmil.api.alfrih.com/v1/api/file-uploads/files/${fileId}/download/`,
+        {
+          headers: {
+            ...(token && { Authorization: `Bearer ${token}` }),
+          },
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -290,8 +329,8 @@ const FilesManager: React.FC<FilesManagerProps> = ({
 
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.style.display = 'none';
+      const a = document.createElement("a");
+      a.style.display = "none";
       a.href = url;
       a.download = fileName;
       document.body.appendChild(a);
@@ -304,11 +343,11 @@ const FilesManager: React.FC<FilesManagerProps> = ({
   };
 
   const formatFileSize = (bytes: number): string => {
-    if (bytes === 0) return '0 Bytes';
+    if (bytes === 0) return "0 Bytes";
     const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const sizes = ["Bytes", "KB", "MB", "GB"];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
   };
 
   const formatDate = (dateString: string): string => {
@@ -317,21 +356,21 @@ const FilesManager: React.FC<FilesManagerProps> = ({
 
   const handleEditFile = (file: FileItem) => {
     setEditingFile(file);
-    setEditDescription(file.description || '');
-    setEditTags(file.tags || '');
+    setEditDescription(file.description || "");
+    setEditTags(file.tags || "");
     setEditSetAsDefaultImage(false);
     setIsEditDialogOpen(true);
   };
 
   const handleUpdateFile = () => {
     if (!editingFile) return;
-    
+
     updateFileMutation.mutate({
       fileId: editingFile.id,
       description: editDescription,
       tags: editTags,
       setAsDefaultImage: editSetAsDefaultImage,
-      isImage: editingFile.is_image
+      isImage: editingFile.is_image,
     });
   };
 
@@ -375,7 +414,10 @@ const FilesManager: React.FC<FilesManagerProps> = ({
                   checked={setAsDefaultImage}
                   onCheckedChange={setSetAsDefaultImage}
                 />
-                <label htmlFor="set-default-image" className="text-sm font-medium">
+                <label
+                  htmlFor="set-default-image"
+                  className="text-sm font-medium"
+                >
                   Set as default image (for image files only)
                 </label>
               </div>
@@ -394,17 +436,16 @@ const FilesManager: React.FC<FilesManagerProps> = ({
                 <p className="text-xs text-muted-foreground mb-4">
                   Maximum file size: {maxSize}MB
                 </p>
-                <Button 
+                <Button
                   type="button"
-                  variant="outline" 
-                  onClick={() => document.getElementById('file-upload')?.click()}
+                  variant="outline"
+                  onClick={() =>
+                    document.getElementById("file-upload")?.click()
+                  }
                   disabled={isUploading}
-                  asChild
                 >
-                  <label htmlFor="file-upload" className="cursor-pointer">
-                    <Upload className="mr-2 h-4 w-4" />
-                    Select Files
-                  </label>
+                  <Upload className="mr-2 h-4 w-4" />
+                  Select Files
                 </Button>
               </div>
 
@@ -412,24 +453,32 @@ const FilesManager: React.FC<FilesManagerProps> = ({
                 <div className="space-y-2">
                   <h4 className="text-sm font-medium">Uploading Files</h4>
                   {uploadedFiles.map((file, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
+                    <div
+                      key={index}
+                      className="flex items-center justify-between p-3 border rounded-lg"
+                    >
                       <div className="flex items-center space-x-3 flex-1 min-w-0">
                         <div className="flex-shrink-0">
-                          {file.status === 'completed' ? (
+                          {file.status === "completed" ? (
                             <CheckCircle className="h-4 w-4 text-green-500" />
-                          ) : file.status === 'error' ? (
+                          ) : file.status === "error" ? (
                             <X className="h-4 w-4 text-red-500" />
                           ) : (
                             <File className="h-4 w-4 text-blue-500" />
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium truncate">{file.name}</p>
+                          <p className="text-sm font-medium truncate">
+                            {file.name}
+                          </p>
                           <p className="text-xs text-muted-foreground">
                             {formatFileSize(file.size)}
                           </p>
-                          {file.status === 'uploading' && (
-                            <Progress value={file.progress} className="w-full h-1 mt-1" />
+                          {file.status === "uploading" && (
+                            <Progress
+                              value={file.progress}
+                              className="w-full h-1 mt-1"
+                            />
                           )}
                         </div>
                       </div>
@@ -460,22 +509,26 @@ const FilesManager: React.FC<FilesManagerProps> = ({
             <TableBody>
               {filesData && filesData.length > 0 ? (
                 filesData.map((file) => (
-                  <TableRow 
-                    key={file.id} 
+                  <TableRow
+                    key={file.id}
                     className="cursor-pointer hover:bg-muted/50"
                     onClick={() => handleEditFile(file)}
                   >
-                    <TableCell className="font-medium">{file.original_filename}</TableCell>
+                    <TableCell className="font-medium">
+                      {file.original_filename}
+                    </TableCell>
                     <TableCell>{file.file_size_human}</TableCell>
-                    <TableCell>{file.description || '-'}</TableCell>
-                    <TableCell>{file.tags || '-'}</TableCell>
+                    <TableCell>{file.description || "-"}</TableCell>
+                    <TableCell>{file.tags || "-"}</TableCell>
                     <TableCell>{formatDate(file.created_at)}</TableCell>
                     <TableCell onClick={(e) => e.stopPropagation()}>
                       <div className="flex space-x-2">
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => handleDownload(file.id, file.original_filename)}
+                          onClick={() =>
+                            handleDownload(file.id, file.original_filename)
+                          }
                         >
                           <Download className="h-4 w-4" />
                         </Button>
@@ -493,7 +546,10 @@ const FilesManager: React.FC<FilesManagerProps> = ({
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={6} className="text-center py-4 text-muted-foreground">
+                  <TableCell
+                    colSpan={6}
+                    className="text-center py-4 text-muted-foreground"
+                  >
                     No files uploaded yet
                   </TableCell>
                 </TableRow>
@@ -513,7 +569,7 @@ const FilesManager: React.FC<FilesManagerProps> = ({
             <div>
               <label className="text-sm font-medium">File Name</label>
               <Input
-                value={editingFile?.original_filename || ''}
+                value={editingFile?.original_filename || ""}
                 disabled
                 className="mt-1 bg-muted"
               />
@@ -543,7 +599,10 @@ const FilesManager: React.FC<FilesManagerProps> = ({
                   checked={editSetAsDefaultImage}
                   onCheckedChange={setEditSetAsDefaultImage}
                 />
-                <label htmlFor="edit-set-default-image" className="text-sm font-medium">
+                <label
+                  htmlFor="edit-set-default-image"
+                  className="text-sm font-medium"
+                >
                   Set as default image for this asset
                 </label>
               </div>
