@@ -210,7 +210,7 @@ const AssetComponentsTab: React.FC<AssetComponentsTabProps> = ({ assetId }) => {
         />
 
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="max-w-4xl max-h-[95vh] overflow-y-auto w-full">
             <DialogHeader>
               <DialogTitle>
                 {editingItem ? "Edit Component" : "Create Component"}
@@ -265,14 +265,39 @@ const AssetComponentsTab: React.FC<AssetComponentsTabProps> = ({ assetId }) => {
                       </div>
                     )}
 
-                    <div className="space-y-4">
-                      {/* First row: Name and Work Order */}
-                      <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-2 gap-8">
+                      {/* Left column: Name and all meter readings */}
+                      <div className="space-y-6">
                         <div>
                           {renderField(
                             modifiedFields.find((f) => f.name === "name")
                           )}
                         </div>
+                        <div>
+                          {renderField(
+                            modifiedFields.find(
+                              (f) => f.name === "initial_meter_reading"
+                            )
+                          )}
+                        </div>
+                        <div>
+                          {renderField(
+                            modifiedFields.find(
+                              (f) => f.name === "component_meter_reading"
+                            )
+                          )}
+                        </div>
+                        <div>
+                          {renderField(
+                            modifiedFields.find(
+                              (f) => f.name === "warranty_meter_reading"
+                            )
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Right column: Work Order, OR, Changed at meter reading, Warranty Exp Date */}
+                      <div className="space-y-6">
                         <div>
                           <DropdownField
                             field={
@@ -284,15 +309,15 @@ const AssetComponentsTab: React.FC<AssetComponentsTabProps> = ({ assetId }) => {
                             name="work_order"
                           />
                         </div>
-                      </div>
 
-                      {/* OR section with Changed at meter reading */}
-                      <div className="flex items-center justify-center">
-                        <div className="flex-1"></div>
-                        <div className="px-4 text-sm text-gray-500 font-medium">
-                          OR
+                        {/* OR section */}
+                        <div className="text-center py-2">
+                          <div className="text-sm text-gray-500 font-medium">
+                            OR
+                          </div>
                         </div>
-                        <div className="flex-1">
+
+                        <div>
                           <InputField
                             field={
                               modifiedFields.find(
@@ -303,41 +328,7 @@ const AssetComponentsTab: React.FC<AssetComponentsTabProps> = ({ assetId }) => {
                             name="changed_at_meter_reading"
                           />
                         </div>
-                      </div>
 
-                      {/* Second row: Initial Meter reading and empty space */}
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          {renderField(
-                            modifiedFields.find(
-                              (f) => f.name === "initial_meter_reading"
-                            )
-                          )}
-                        </div>
-                        <div></div>
-                      </div>
-
-                      {/* Third row: Component meter reading and empty space */}
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          {renderField(
-                            modifiedFields.find(
-                              (f) => f.name === "component_meter_reading"
-                            )
-                          )}
-                        </div>
-                        <div></div>
-                      </div>
-
-                      {/* Fourth row: Warranty Meter reading and Warranty Exp Date */}
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          {renderField(
-                            modifiedFields.find(
-                              (f) => f.name === "warranty_meter_reading"
-                            )
-                          )}
-                        </div>
                         <div>
                           {renderField(
                             modifiedFields.find(
@@ -346,13 +337,13 @@ const AssetComponentsTab: React.FC<AssetComponentsTabProps> = ({ assetId }) => {
                           )}
                         </div>
                       </div>
+                    </div>
 
-                      {/* Files section - full width */}
-                      <div>
-                        {renderField(
-                          modifiedFields.find((f) => f.name === "files")
-                        )}
-                      </div>
+                    {/* Files section - full width */}
+                    <div className="mt-6">
+                      {renderField(
+                        modifiedFields.find((f) => f.name === "files")
+                      )}
                     </div>
 
                     <div className="flex gap-2 justify-end">
