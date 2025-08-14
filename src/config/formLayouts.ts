@@ -452,3 +452,96 @@ export const workOrderFormConfig: FormLayoutConfig = {
     },
   ],
 };
+
+// Parts form configuration
+export const partFormConfig: FormLayoutConfig = {
+  title: "Part Information",
+  backRoute: "/parts",
+  showImage: true,
+  showOnlineToggle: false,
+  showSpecialSections: {},
+  staticImageUrl: "/src/images/part.PNG",
+  columns: [
+    {
+      fields: [
+        {
+          name: "part_number",
+          label: "Part Number",
+          type: "input",
+          required: true,
+          inputType: "text",
+        },
+        {
+          name: "name",
+          label: "Part Name",
+          type: "input",
+          required: true,
+          inputType: "text",
+        },
+        {
+          name: "last_price",
+          label: "Last Price",
+          type: "input",
+          required: false,
+          inputType: "number",
+          sameRow: true,
+        },
+        {
+          name: "make",
+          label: "Make",
+          type: "input",
+          required: false,
+          inputType: "text",
+          sameRow: true,
+        },
+        {
+          name: "description",
+          label: "Description",
+          type: "textarea",
+          required: false,
+          rows: 1,
+        },
+      ],
+    },
+    {
+      fields: [
+        {
+          name: "category",
+          label: "Category",
+          type: "input",
+          required: false,
+          inputType: "text",
+          sameRow: true,
+        },
+        {
+          name: "component",
+          label: "Component",
+          type: "input",
+          required: false,
+          inputType: "text",
+          sameRow: true,
+        },
+        {
+          name: "notes_placeholder",
+          label: "Notes",
+          type: "textarea",
+          required: false,
+          disabled: true,
+          rows: 4,
+        },
+      ],
+    },
+    {
+      fields: [
+        {
+          name: "cross_parts_placeholder",
+          label: "Cross Parts",
+          type: "textarea",
+          required: false,
+          disabled: true,
+          rows: 4,
+        },
+      ],
+    },
+  ],
+};

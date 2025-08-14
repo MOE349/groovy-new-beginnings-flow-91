@@ -12,11 +12,18 @@ export interface FormLayoutConfig {
   backRoute: string;
   showImage?: boolean;
   showOnlineToggle?: boolean;
+  staticImageUrl?: string;
   showSpecialSections?: {
     location?: boolean;
     equipment?: boolean;
+    notes?: boolean;
+    crossParts?: boolean;
+    categoryComponent?: boolean;
   };
   columns: FormColumnConfig[];
+  specialFields?: {
+    categoryComponent?: FormFieldConfig[];
+  };
 }
 
 export interface FormColumnConfig {
@@ -36,6 +43,7 @@ export interface FormFieldConfig {
   optionLabelKey?: string;
   options?: Array<{ id: string; name: string }>;
   disabled?: boolean;
+  sameRow?: boolean;
 }
 
 interface FormLayoutProps {
@@ -198,9 +206,13 @@ const FormLayout = ({
               )}
             </h3>
             {!config.title.includes("Work Order") &&
-              (formData?.code || formData?.name) && (
+              (formData?.code || formData?.name || formData?.part_number) && (
                 <span className="text-h3 font-medium text-muted-foreground">
-                  {formData?.code && `(${formData.code})`} {formData?.name}
+                  {config.title.includes("Part") && formData?.part_number
+                    ? `[${formData.part_number}] ${formData?.name || ""}`
+                    : formData?.code
+                    ? `(${formData.code}) ${formData?.name || ""}`
+                    : formData?.name}
                 </span>
               )}
           </div>
@@ -303,15 +315,20 @@ const FormLayout = ({
                   </div>
                 )}
                 {config.showImage && (
-                  <div className="w-40 h-28 bg-muted rounded border-2 border-border overflow-hidden">
+                  <div
+                    className="w-40 bg-orange-200 rounded border-2 border-orange-400 overflow-hidden"
+                    style={{ height: "calc(100% - 4px)" }}
+                  >
                     <img
                       src={
-                        initialData?.image?.url
+                        config.staticImageUrl ||
+                        (initialData?.image?.url
                           ? `https://tenmil.api.alfrih.com${initialData.image.url}`
-                          : "/lovable-uploads/cf9d21df-6820-4bea-ae16-54c41a67117e.png"
+                          : "/lovable-uploads/cf9d21df-6820-4bea-ae16-54c41a67117e.png")
                       }
                       alt={config.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-fill"
+                      style={{ width: "100%", height: "100%" }}
                     />
                   </div>
                 )}
@@ -544,9 +561,149 @@ const FormLayout = ({
                       ) {
                         return null;
                       }
+                      // General sameRow handling for parts
+                      if (
+                        field.sameRow &&
+                        column.fields[fieldIndex + 1]?.sameRow
+                      ) {
+                        const nextField = column.fields[fieldIndex + 1];
+                        // Special handling for last_price and make to have labels before inputs
+                        if (
+                          field.name === "last_price" &&
+                          nextField.name === "make"
+                        ) {
+                          return (
+                            <div
+                              key={`${field.name}-${nextField.name}-row`}
+                              className="flex items-start gap-2 h-8"
+                            >
+                              <label className="text-caption font-normal text-right w-24 text-foreground shrink-0 pt-2">
+                                {field.label}
+                              </label>
+                              <div className="flex items-center gap-2 flex-grow">
+                                <div className="flex-1">
+                                  {renderField({
+                                    ...field,
+                                    label: "",
+                                    disabled:
+                                      field.disabled || isWorkOrderClosed,
+                                  })}
+                                </div>
+                                <label className="text-caption font-normal text-foreground shrink-0 pt-0">
+                                  {nextField.label}
+                                </label>
+                                <div className="w-48">
+                                  {renderField({
+                                    ...nextField,
+                                    label: "",
+                                    disabled:
+                                      nextField.disabled || isWorkOrderClosed,
+                                  })}
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        }
+                        // Special handling for category and component with no left margin
+                        if (
+                          field.name === "category" &&
+                          nextField.name === "component"
+                        ) {
+                          return (
+                            <div
+                              key={`${field.name}-${nextField.name}-row`}
+                              className="flex items-center gap-2 h-8"
+                            >
+                              <div className="flex items-center gap-2 flex-grow">
+                                <label className="text-caption font-normal text-foreground shrink-0 flex items-center">
+                                  {field.label}
+                                </label>
+                                <div className="flex-1">
+                                  {renderField({
+                                    ...field,
+                                    label: "",
+                                    disabled:
+                                      field.disabled || isWorkOrderClosed,
+                                  })}
+                                </div>
+                                <label className="text-caption font-normal text-foreground shrink-0 flex items-center">
+                                  {nextField.label}
+                                </label>
+                                <div className="flex-1">
+                                  {renderField({
+                                    ...nextField,
+                                    label: "",
+                                    disabled:
+                                      nextField.disabled || isWorkOrderClosed,
+                                  })}
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        }
+                        // Default sameRow with labels above for other fields
+                        return (
+                          <div
+                            key={`${field.name}-${nextField.name}-row`}
+                            className="space-y-1"
+                          >
+                            <div className="flex gap-2">
+                              <div className="flex-1 space-y-1">
+                                <label className="text-caption font-normal text-foreground">
+                                  {field.label}
+                                </label>
+                                {renderField({
+                                  ...field,
+                                  label: "",
+                                  disabled: field.disabled || isWorkOrderClosed,
+                                })}
+                              </div>
+                              <div className="flex-1 space-y-1">
+                                <label className="text-caption font-normal text-foreground">
+                                  {nextField.label}
+                                </label>
+                                {renderField({
+                                  ...nextField,
+                                  label: "",
+                                  disabled:
+                                    nextField.disabled || isWorkOrderClosed,
+                                })}
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      }
+                      // Skip second field in sameRow pair
+                      if (
+                        field.sameRow &&
+                        column.fields[fieldIndex - 1]?.sameRow
+                      ) {
+                        return null;
+                      }
                       // Handle spacer field type
                       if (field.type === "spacer") {
                         return <div key={field.name} className="h-2"></div>;
+                      }
+                      // Special handling for textarea fields (Notes and Cross Parts)
+                      if (
+                        field.type === "textarea" &&
+                        (field.name === "notes_placeholder" ||
+                          field.name === "cross_parts_placeholder")
+                      ) {
+                        return (
+                          <div key={field.name} className="space-y-1">
+                            <label className="text-caption font-normal text-foreground">
+                              {field.label}
+                            </label>
+                            <div className="w-full">
+                              {renderField({
+                                ...field,
+                                label: "",
+                                disabled: field.disabled || isWorkOrderClosed,
+                              })}
+                            </div>
+                          </div>
+                        );
                       }
                       // Default single field rendering
                       return (

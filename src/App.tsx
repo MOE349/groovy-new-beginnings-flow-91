@@ -27,6 +27,8 @@ import WorkOrders from "./pages/WorkOrders";
 import CreateWorkOrder from "./pages/CreateWorkOrder";
 import EditWorkOrder from "./pages/EditWorkOrder";
 import Parts from "./pages/Parts";
+import CreatePart from "./pages/CreatePart";
+import EditPart from "./pages/EditPart";
 import PurchaseOrders from "./pages/PurchaseOrders";
 import Billing from "./pages/Billing";
 import Analytics from "./pages/Analytics";
@@ -202,6 +204,22 @@ const App = () => (
                       element={
                         <Layout>
                           <Parts />
+                        </Layout>
+                      }
+                    />
+                    <Route
+                      path="/parts/create"
+                      element={
+                        <Layout>
+                          <CreatePart />
+                        </Layout>
+                      }
+                    />
+                    <Route
+                      path="/parts/edit/:id"
+                      element={
+                        <Layout>
+                          <EditPart />
                         </Layout>
                       }
                     />
