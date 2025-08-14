@@ -7,6 +7,7 @@ import { partFormConfig } from "@/config/formLayouts";
 import FormLayout from "@/components/FormLayout";
 import type { CustomLayoutProps } from "@/components/ApiForm";
 import { GenericTab } from "@/components/EntityTabs";
+import ApiTable, { TableColumn } from "@/components/ApiTable";
 import { apiCall } from "@/utils/apis";
 
 // Part data type
@@ -73,90 +74,133 @@ export const partEditConfig: EntityConfig<PartData> = {
     };
   },
 
-  getTabs: (id: string, data: PartData) => [
-    {
-      id: "completion",
-      label: "Completion",
-      content: React.createElement(GenericTab, {
-        title: "Completion",
-        description: "Part completion tracking and details will go here",
-        children: React.createElement(
+  getTabs: (id: string, data: PartData) => {
+    const stockColumns: TableColumn[] = [
+      { key: "site", header: "Site", type: "object" },
+      { key: "location", header: "Location", type: "object" },
+      { key: "qty_on_hand", header: "QTY on hand", type: "text" },
+    ];
+
+    const openPoColumns: TableColumn[] = [
+      { key: "placeholder", header: "-", type: "text" },
+    ];
+
+    const movementColumns: TableColumn[] = [
+      { key: "created_by", header: "Created By", type: "object" },
+      { key: "movment_type", header: "Movement Type", type: "text" },
+      { key: "from_location", header: "From Location", type: "object" },
+      { key: "to_location", header: "To Location", type: "object" },
+      { key: "qty_delta", header: "Qty Delta", type: "text" },
+      { key: "work_order", header: "Work Order", type: "object" },
+      { key: "receipt_id", header: "Receipt ID", type: "text" },
+    ];
+
+    return [
+      {
+        id: "stock_location",
+        label: "Stock/Location",
+        content: React.createElement(
           "div",
-          { className: "p-4" },
-          "Content will be available after creation."
+          { className: "p-4 h-full" },
+          React.createElement(
+            "div",
+            { className: "flex gap-4 h-full" },
+            React.createElement(
+              "div",
+              { className: "flex-1 min-w-0 flex flex-col" },
+              React.createElement(ApiTable, {
+                title: "Stock Location",
+                endpoint: "/parts/inventory/locations-summary/",
+                filters: { part_id: id },
+                columns: stockColumns,
+                queryKey: ["parts", id, "inventory-locations-summary"],
+                emptyMessage: "No stock locations found",
+                className: "w-full flex-1 min-h-0 flex flex-col",
+                height: "100%",
+              })
+            ),
+            React.createElement(
+              "div",
+              { className: "flex-1 min-w-0 flex flex-col" },
+              React.createElement(ApiTable, {
+                title: "Open Purchase Orders",
+                endpoint: "/parts/inventory-batches",
+                filters: { part: id },
+                columns: openPoColumns,
+                emptyMessage: "Coming soon",
+                className: "w-full flex-1 min-h-0 flex flex-col",
+                height: "100%",
+              })
+            )
+          )
         ),
-      }),
-    },
-    {
-      id: "checklist",
-      label: "Checklist",
-      content: React.createElement(GenericTab, {
-        title: "Checklist",
-        description: "Part checklist items and progress will go here",
-        children: React.createElement(
-          "div",
-          { className: "p-4" },
-          "Content will be available after creation."
-        ),
-      }),
-    },
-    {
-      id: "parts",
-      label: "Parts",
-      content: React.createElement(GenericTab, {
-        title: "Parts",
-        description: "Related parts and materials will go here",
-        children: React.createElement(
-          "div",
-          { className: "p-4" },
-          "Content will be available after creation."
-        ),
-      }),
-    },
-    {
-      id: "services",
-      label: "Third-party services",
-      content: React.createElement(GenericTab, {
-        title: "Third-party services",
-        description: "Third-party services and contractors will go here",
-        children: React.createElement(
-          "div",
-          { className: "p-4" },
-          "Content will be available after creation."
-        ),
-      }),
-    },
-    {
-      id: "files",
-      label: "Files",
-      content: React.createElement(GenericTab, {
-        title: "Files",
-        description: "Attached files and documents will go here",
-        children: React.createElement(
-          "div",
-          { className: "p-4" },
-          "Content will be available after creation."
-        ),
-      }),
-    },
-    {
-      id: "log",
-      label: "Logs",
-      content: React.createElement(GenericTab, {
-        title: "Logs",
-        description: "Part activity log will go here",
-        children: React.createElement(
-          "div",
-          { className: "p-4" },
-          "Content will be available after creation."
-        ),
-      }),
-    },
-  ],
+      },
+      {
+        id: "vendors",
+        label: "Vendors",
+        content: React.createElement(GenericTab, {
+          title: "Vendors",
+          description: "Vendors and supplier relationships will appear here",
+          children: React.createElement(
+            "div",
+            { className: "p-4" },
+            "Placeholder content."
+          ),
+        }),
+      },
+      {
+        id: "warrenty",
+        label: "Warrenty",
+        content: React.createElement(GenericTab, {
+          title: "Warrenty",
+          description: "Warranty details and terms will appear here",
+          children: React.createElement(
+            "div",
+            { className: "p-4" },
+            "Placeholder content."
+          ),
+        }),
+      },
+      {
+        id: "files",
+        label: "Files",
+        content: React.createElement(GenericTab, {
+          title: "Files",
+          description: "Attached files and documents will appear here",
+          children: React.createElement(
+            "div",
+            { className: "p-4" },
+            "Placeholder content."
+          ),
+        }),
+      },
+      {
+        id: "log",
+        label: "Log",
+        content: React.createElement(GenericTab, {
+          title: "Log",
+          description: "Part movement history",
+          children: React.createElement(
+            "div",
+            { className: "p-4 h-full" },
+            React.createElement(ApiTable, {
+              endpoint: "/parts/movements",
+              filters: { part: id },
+              columns: movementColumns,
+              queryKey: ["parts", id, "movements"],
+              emptyMessage: "No movements found",
+              className: "w-full flex-1 min-h-0 flex flex-col",
+              height: "100%",
+            })
+          ),
+        }),
+      },
+    ];
+  },
 
   validateData: (data: PartData) => !!data?.data?.data,
 
-  defaultTab: "completion",
+  defaultTab: "stock_location",
 };
 
 // Create configuration for new parts
