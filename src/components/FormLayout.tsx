@@ -612,10 +612,10 @@ const FormLayout = ({
                           return (
                             <div
                               key={`${field.name}-${nextField.name}-row`}
-                              className="flex items-center gap-2 h-8"
+                              className="flex items-start gap-2 h-8"
                             >
-                              <div className="flex items-center gap-2 flex-grow">
-                                <label className="text-caption font-normal text-foreground shrink-0 flex items-center">
+                              <div className="flex items-start gap-2 flex-grow">
+                                <label className="text-caption font-normal text-right w-24 text-foreground shrink-0 pt-2">
                                   {field.label}
                                 </label>
                                 <div className="flex-1">
@@ -626,7 +626,7 @@ const FormLayout = ({
                                       field.disabled || isWorkOrderClosed,
                                   })}
                                 </div>
-                                <label className="text-caption font-normal text-foreground shrink-0 flex items-center">
+                                <label className="text-caption font-normal text-right w-24 text-foreground shrink-0 pt-2">
                                   {nextField.label}
                                 </label>
                                 <div className="flex-1">
@@ -687,8 +687,30 @@ const FormLayout = ({
                       // Special handling for textarea fields (Notes and Cross Parts)
                       if (
                         field.type === "textarea" &&
-                        (field.name === "notes_placeholder" ||
-                          field.name === "cross_parts_placeholder")
+                        field.name === "notes_placeholder"
+                      ) {
+                        return (
+                          <div
+                            key={field.name}
+                            className="flex items-start gap-2"
+                          >
+                            <label className="text-caption font-normal text-right w-24 text-foreground shrink-0 pt-2">
+                              {field.label}
+                            </label>
+                            <div className="flex-grow min-w-0">
+                              {renderField({
+                                ...field,
+                                label: "",
+                                className: "w-full h-28 resize-y overflow-auto",
+                                disabled: field.disabled || isWorkOrderClosed,
+                              })}
+                            </div>
+                          </div>
+                        );
+                      }
+                      if (
+                        field.type === "textarea" &&
+                        field.name === "cross_parts_placeholder"
                       ) {
                         return (
                           <div key={field.name} className="space-y-1">

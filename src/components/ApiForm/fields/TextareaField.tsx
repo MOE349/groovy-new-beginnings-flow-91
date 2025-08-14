@@ -21,7 +21,7 @@ export function TextareaField<T>({ field, form, name }: TextareaFieldProps<T>) {
   const error = errors[name as keyof typeof errors];
 
   return (
-    <div className={field.className}>
+    <div>
       <Controller
         name={name}
         control={control}
@@ -36,7 +36,9 @@ export function TextareaField<T>({ field, form, name }: TextareaFieldProps<T>) {
             rows={field.rows || 3}
             inputValue={value || ""}
             onInputChange={onChange}
-            className={error ? "border-destructive focus:ring-destructive" : ""}
+            className={`${field.className ?? ""} ${
+              error ? "border-destructive focus:ring-destructive" : ""
+            }`}
           />
         )}
       />
