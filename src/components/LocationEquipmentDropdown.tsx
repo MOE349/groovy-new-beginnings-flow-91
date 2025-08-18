@@ -5,6 +5,18 @@ import { apiCall } from "@/utils/apis";
 import { cn } from "@/lib/utils";
 import GearSpinner from "@/components/ui/gear-spinner";
 
+// Normalize various backend list response shapes to a plain array
+function extractListData(payload: any): any[] {
+  if (!payload) return [];
+  // Common shapes: { data: [...] }, { results: [...] }, [...]
+  if (Array.isArray(payload)) return payload;
+  if (Array.isArray(payload.data)) return payload.data;
+  if (Array.isArray(payload.results)) return payload.results;
+  if (payload.data && Array.isArray(payload.data.results)) return payload.data.results;
+  if (Array.isArray(payload.items)) return payload.items;
+  return [];
+}
+
 interface Location {
   id: string;
   name: string;
@@ -52,7 +64,7 @@ const LocationEquipmentDropdown = ({
     queryKey: ["company_location"],
     queryFn: async () => {
       const response = await apiCall("/company/location");
-      return response.data.data || response.data;
+      return extractListData(response.data);
     },
   });
 
@@ -61,15 +73,15 @@ const LocationEquipmentDropdown = ({
     queryKey: ["assets_assets_equipment"],
     queryFn: async () => {
       const response = await apiCall("/assets/assets");
-      const data = response.data.data || response.data;
+      const data = extractListData(response.data);
       // Filter only equipment type assets
-      return data.filter((asset: any) => asset.type === "equipment");
+      return data.filter((asset: any) => asset?.type === "equipment");
     },
   });
 
   // Get equipment for a specific location
   const getEquipmentForLocation = (locationId: string) => {
-    if (!allEquipment) return [];
+    if (!Array.isArray(allEquipment)) return [];
     return allEquipment.filter(
       (equipment: any) => equipment.location?.id === locationId
     );
@@ -77,14 +89,14 @@ const LocationEquipmentDropdown = ({
 
   // Get location name
   const getLocationName = (locationId: string) => {
-    if (!locations) return "";
+    if (!Array.isArray(locations)) return "";
     const location = locations.find((loc: Location) => loc.id === locationId);
     return location?.name || "";
   };
 
   // Get equipment name
   const getEquipmentName = (equipmentId: string) => {
-    if (!allEquipment) return "";
+    if (!Array.isArray(allEquipment)) return "";
     const equipment = allEquipment.find(
       (eq: Equipment) => eq.id === equipmentId
     );
@@ -256,7 +268,7 @@ const LocationEquipmentDropdown = ({
           }}
         >
           <div className="max-h-60 overflow-auto p-1">
-            {!locations || locations.length === 0 ? (
+            {!Array.isArray(locations) || locations.length === 0 ? (
               <div className="px-3 py-2 text-xs text-muted-foreground">
                 No locations available
               </div>

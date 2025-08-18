@@ -161,6 +161,10 @@ export const UniversalFormField: React.FC<UniversalFormFieldProps> = ({
       ) {
         dataArray = apiData.data.iterations;
       }
+      // Support paginated shapes { data: { results: [...] } }
+      else if (apiData.data.results && Array.isArray(apiData.data.results)) {
+        dataArray = apiData.data.results;
+      }
       // Then check for standard data array
       else if (apiData.data.data && Array.isArray(apiData.data.data)) {
         dataArray = apiData.data.data;
