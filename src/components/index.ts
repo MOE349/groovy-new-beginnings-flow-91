@@ -17,6 +17,7 @@ export * from "./ApiForm";
 
 // ✅ Table System (Phase 4)
 export * from "./ApiTable";
+export * from "./PartStockLocationTable";
 
 // ✅ Legacy Compatibility (Phase 4)
 export * from "./legacy";

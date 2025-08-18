@@ -8,6 +8,7 @@ import FormLayout from "@/components/FormLayout";
 import type { CustomLayoutProps } from "@/components/ApiForm";
 import { GenericTab } from "@/components/EntityTabs";
 import ApiTable, { TableColumn } from "@/components/ApiTable";
+import { PartStockLocationTable } from "@/components";
 import { apiCall } from "@/utils/apis";
 
 // Part data type
@@ -78,6 +79,9 @@ export const partEditConfig: EntityConfig<PartData> = {
     const stockColumns: TableColumn[] = [
       { key: "site", header: "Site", type: "object" },
       { key: "location", header: "Location", type: "object" },
+      { key: "aisle", header: "Aisle", type: "text" },
+      { key: "row", header: "Row", type: "text" },
+      { key: "bin", header: "Bin", type: "text" },
       { key: "qty_on_hand", header: "QTY on hand", type: "text" },
     ];
 
@@ -108,12 +112,12 @@ export const partEditConfig: EntityConfig<PartData> = {
             React.createElement(
               "div",
               { className: "flex-1 min-w-0 flex flex-col" },
-              React.createElement(ApiTable, {
+              React.createElement(PartStockLocationTable, {
                 title: "Stock Location",
-                endpoint: "/parts/inventory/locations-summary/",
+                endpoint: "/parts/locations-on-hand",
                 filters: { part_id: id },
                 columns: stockColumns,
-                queryKey: ["parts", id, "inventory-locations-summary"],
+                queryKey: ["parts", id, "locations-on-hand"],
                 emptyMessage: "No stock locations found",
                 className: "w-full flex-1 min-h-0 flex flex-col",
                 height: "100%",

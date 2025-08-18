@@ -31,6 +31,7 @@ export interface ApiTableProps<T = any> {
   onRowClick?: (row: T) => void;
   onDelete?: (row: T) => void;
   persistColumnOrder?: boolean;
+  enableColumnReorder?: boolean;
   tableId?: string;
   height?: string;
   maxHeight?: string;
@@ -38,6 +39,7 @@ export interface ApiTableProps<T = any> {
   refreshInterval?: number;
   virtualScroll?: boolean;
   rowHeight?: number | ((row: T, index: number) => number);
+  enabled?: boolean;
 }
 
 export interface TableState {

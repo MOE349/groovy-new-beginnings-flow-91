@@ -26,6 +26,7 @@ interface SortableTableHeadProps {
   width?: number;
   onResizeStart: (columnKey: string, startX: number) => void;
   isLastColumn: boolean;
+  enableColumnReorder?: boolean;
   showFilters?: boolean;
 }
 
@@ -43,6 +44,7 @@ export const SortableTableHead: React.FC<SortableTableHeadProps> = ({
   onResizeStart,
   isLastColumn,
   showFilters = true,
+  enableColumnReorder = true,
 }) => {
   const {
     attributes,
@@ -78,11 +80,14 @@ export const SortableTableHead: React.FC<SortableTableHeadProps> = ({
     >
       <div className="flex items-center justify-between gap-2 min-w-0">
         <div
-          className="flex items-center gap-2 min-w-0 cursor-grab active:cursor-grabbing"
-          {...attributes}
-          {...listeners}
+          className={`flex items-center gap-2 min-w-0 ${
+            enableColumnReorder ? "cursor-grab active:cursor-grabbing" : ""
+          }`}
+          {...(enableColumnReorder ? { ...attributes, ...listeners } : {})}
         >
-          <GripVertical className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+          {enableColumnReorder && (
+            <GripVertical className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+          )}
           <span className="truncate">{column.header}</span>
         </div>
 
@@ -98,7 +103,11 @@ export const SortableTableHead: React.FC<SortableTableHeadProps> = ({
                 <Button
                   variant="ghost"
                   size="sm"
-                  className={`h-6 w-6 p-0 ${hasActiveFilter ? "text-primary ring-2 ring-secondary ring-offset-4" : "text-muted-foreground hover:text-foreground"}`}
+                  className={`h-6 w-6 p-0 ${
+                    hasActiveFilter
+                      ? "text-primary ring-2 ring-secondary ring-offset-4"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
                   onClick={handleSearchClick}
                 >
                   <Search className="h-3 w-3" />

@@ -67,6 +67,7 @@ function ApiTableComponent<T extends Record<string, any>>({
   onRowClick,
   onDelete,
   persistColumnOrder = true,
+  enableColumnReorder = true,
   tableId,
   height,
   maxHeight,
@@ -74,6 +75,7 @@ function ApiTableComponent<T extends Record<string, any>>({
   refreshInterval,
   virtualScroll = false,
   rowHeight = 40,
+  enabled = true,
 }: ApiTableProps<T>) {
   const navigate = useNavigate();
 
@@ -84,6 +86,7 @@ function ApiTableComponent<T extends Record<string, any>>({
     filters: endpointFilters,
     queryKey,
     refreshInterval,
+    enabled,
   });
 
   const { orderedColumns, handleDragEnd } = useColumnOrder({
@@ -222,15 +225,19 @@ function ApiTableComponent<T extends Record<string, any>>({
   // Table content with frozen header
   const tableContent = (
     <DndContext
-      sensors={sensors}
-      collisionDetection={closestCenter}
-      onDragEnd={handleDragEnd}
+      sensors={enableColumnReorder ? sensors : (undefined as any)}
+      collisionDetection={enableColumnReorder ? closestCenter : undefined}
+      onDragEnd={enableColumnReorder ? handleDragEnd : undefined}
     >
       <div className="flex flex-col h-full min-h-0">
         {/* Fixed Header */}
         <div className="flex-shrink-0 border-b bg-background overflow-hidden">
           <div className="w-full">
-            <table className={`w-full caption-bottom text-sm table-fixed ${tableClassName || ""}`}>
+            <table
+              className={`w-full caption-bottom text-sm table-fixed ${
+                tableClassName || ""
+              }`}
+            >
               <TableHeader>
                 <TableRow>
                   <SortableContext
@@ -254,6 +261,7 @@ function ApiTableComponent<T extends Record<string, any>>({
                         width={columnWidths[column.key]}
                         onResizeStart={handleResizeStart}
                         isLastColumn={index === orderedColumns.length - 1}
+                        enableColumnReorder={enableColumnReorder}
                         showFilters={showFilters}
                       />
                     ))}
@@ -271,9 +279,9 @@ function ApiTableComponent<T extends Record<string, any>>({
         <div
           ref={virtualScroll ? scrollContainerRef : undefined}
           className="flex-1 overflow-auto min-h-0"
-          style={{ 
+          style={{
             height: height ? `calc(${height} - 60px)` : undefined,
-            maxHeight: maxHeight ? `calc(${maxHeight} - 60px)` : undefined 
+            maxHeight: maxHeight ? `calc(${maxHeight} - 60px)` : undefined,
           }}
           onScroll={virtualScroll ? handleVirtualScroll : undefined}
         >
@@ -281,7 +289,9 @@ function ApiTableComponent<T extends Record<string, any>>({
             // Virtual scrolling table body
             <div style={{ height: totalHeight, position: "relative" }}>
               <table
-                className={`w-full caption-bottom text-sm table-fixed ${tableClassName || ""}`}
+                className={`w-full caption-bottom text-sm table-fixed ${
+                  tableClassName || ""
+                }`}
                 style={{
                   position: "absolute",
                   top: offsetY,
@@ -294,7 +304,11 @@ function ApiTableComponent<T extends Record<string, any>>({
                     displayData.map((row: T, index: number) => (
                       <TableRow
                         key={row.id || startIndex + index}
-                        className={`group ${isRowClickable ? "cursor-pointer hover:bg-muted/50 transition-colors" : ""} relative`}
+                        className={`group ${
+                          isRowClickable
+                            ? "cursor-pointer hover:bg-muted/50 transition-colors"
+                            : ""
+                        } relative`}
                         onClick={() => isRowClickable && handleRowClick(row)}
                       >
                         {orderedColumns.map((column) => (
@@ -316,7 +330,10 @@ function ApiTableComponent<T extends Record<string, any>>({
                           </TableCell>
                         ))}
                         {onDelete && (
-                          <TableCell className="w-8 p-0" style={{ width: "32px" }}>
+                          <TableCell
+                            className="w-8 p-0"
+                            style={{ width: "32px" }}
+                          >
                             <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex justify-center">
                               <Button
                                 variant="ghost"
@@ -351,13 +368,21 @@ function ApiTableComponent<T extends Record<string, any>>({
             </div>
           ) : (
             // Regular non-virtual scrolling table body
-            <table className={`w-full caption-bottom text-sm table-fixed ${tableClassName || ""}`}>
+            <table
+              className={`w-full caption-bottom text-sm table-fixed ${
+                tableClassName || ""
+              }`}
+            >
               <TableBody>
                 {filteredData && filteredData.length > 0 ? (
                   filteredData.map((row: T, index: number) => (
                     <TableRow
                       key={row.id || index}
-                      className={`group ${isRowClickable ? "cursor-pointer hover:bg-muted/50 transition-colors" : ""} relative`}
+                      className={`group ${
+                        isRowClickable
+                          ? "cursor-pointer hover:bg-muted/50 transition-colors"
+                          : ""
+                      } relative`}
                       onClick={() => isRowClickable && handleRowClick(row)}
                     >
                       {orderedColumns.map((column) => (
@@ -464,7 +489,7 @@ function ApiTableComponent<T extends Record<string, any>>({
 
 // Export with proper generic typing
 export const ApiTable = React.memo(ApiTableComponent) as <
-  T extends Record<string, any>,
+  T extends Record<string, any>
 >(
   props: ApiTableProps<T>
 ) => JSX.Element;
