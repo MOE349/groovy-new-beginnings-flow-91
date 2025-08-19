@@ -36,6 +36,7 @@ export function PartStockLocationTable(props: PartStockLocationTableProps) {
   const [open, setOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState<StockLocationRow | null>(null);
   const [createOpen, setCreateOpen] = useState(false);
+  const [mainCreateOpen, setMainCreateOpen] = useState(false);
   const [reloadNonce, setReloadNonce] = useState(0);
 
   const partId = useMemo(() => {
@@ -51,6 +52,16 @@ export function PartStockLocationTable(props: PartStockLocationTableProps) {
   const [formBin, setFormBin] = useState("");
   const [formQtyReceived, setFormQtyReceived] = useState("");
   const [formLastUnitCost, setFormLastUnitCost] = useState("");
+
+  // Main create form state (no initial data)
+  const [mainFormLocationId, setMainFormLocationId] = useState<
+    string | undefined
+  >(undefined);
+  const [mainFormAisle, setMainFormAisle] = useState("");
+  const [mainFormRow, setMainFormRow] = useState("");
+  const [mainFormBin, setMainFormBin] = useState("");
+  const [mainFormQtyReceived, setMainFormQtyReceived] = useState("");
+  const [mainFormLastUnitCost, setMainFormLastUnitCost] = useState("");
 
   const resetCreateForm = () => {
     // Use the location_id UUID extracted by ApiTable
@@ -89,6 +100,50 @@ export function PartStockLocationTable(props: PartStockLocationTableProps) {
         body: payload,
       });
       setCreateOpen(false);
+      setReloadNonce((n) => n + 1);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const resetMainCreateForm = () => {
+    setMainFormLocationId(undefined);
+    setMainFormAisle("");
+    setMainFormRow("");
+    setMainFormBin("");
+    setMainFormQtyReceived("");
+    setMainFormLastUnitCost("");
+  };
+
+  const openMainCreate = () => {
+    resetMainCreateForm();
+    setMainCreateOpen(true);
+  };
+
+  const submitMainCreate = async () => {
+    if (!partId || !mainFormLocationId) {
+      return;
+    }
+    const payload: Record<string, unknown> = {
+      part: partId,
+      location: mainFormLocationId,
+      aisle: mainFormAisle || undefined,
+      row: mainFormRow || undefined,
+      bin: mainFormBin || undefined,
+      qty_received: mainFormQtyReceived
+        ? Number(mainFormQtyReceived)
+        : undefined,
+      last_unit_cost: mainFormLastUnitCost
+        ? Number(mainFormLastUnitCost)
+        : undefined,
+      received_date: new Date().toISOString().slice(0, 10),
+    };
+    try {
+      await apiCall("/parts/inventory-batches", {
+        method: "POST",
+        body: payload,
+      });
+      setMainCreateOpen(false);
       setReloadNonce((n) => n + 1);
     } catch (e) {
       console.error(e);
@@ -175,6 +230,8 @@ export function PartStockLocationTable(props: PartStockLocationTableProps) {
         enableColumnReorder={false}
         persistColumnOrder={false}
         onRowClick={handleRowClick}
+        createNewText="Create"
+        onCreateNew={openMainCreate}
       />
 
       <Dialog open={open} onOpenChange={setOpen}>
@@ -367,9 +424,23 @@ export function PartStockLocationTable(props: PartStockLocationTableProps) {
                 <CardContent className="p-0 flex-1 min-h-0 flex flex-col overflow-hidden">
                   <ApiTable
                     endpoint="/parts/inventory-batches"
-                    filters={undefined}
-                    enabled={true}
-                    queryKey={["/parts/inventory-batches", String(reloadNonce)]}
+                    filters={{
+                      part: partId,
+                      location: locationId,
+                      ...(selectedRow?.aisle && { aisle: selectedRow.aisle }),
+                      ...(selectedRow?.row && { row: selectedRow.row }),
+                      ...(selectedRow?.bin && { bin: selectedRow.bin }),
+                    }}
+                    enabled={shouldFetch}
+                    queryKey={[
+                      "/parts/inventory-batches",
+                      String(reloadNonce),
+                      partId || "",
+                      String(locationId || ""),
+                      selectedRow?.aisle || "",
+                      selectedRow?.row || "",
+                      selectedRow?.bin || "",
+                    ]}
                     columns={rightColumns}
                     emptyMessage="Coming soon"
                     className="w-full flex-1 min-h-0 flex flex-col"
@@ -391,44 +462,7 @@ export function PartStockLocationTable(props: PartStockLocationTableProps) {
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent className="max-w-lg">
           <div className="grid grid-cols-1 gap-4">
-            {/* part is hidden: carried in payload */}
-
-            <div className="grid grid-cols-3 items-center gap-2">
-              <Label className="col-span-1 text-right">Location</Label>
-              <div className="col-span-2">
-                <ApiDropDown
-                  name="location"
-                  endpoint="/company/location"
-                  value={formLocationId}
-                  onChange={(v) => setFormLocationId(v)}
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-3 items-center gap-2">
-              <Label className="col-span-1 text-right">Aisle</Label>
-              <Input
-                className="col-span-2"
-                value={formAisle}
-                onChange={(e) => setFormAisle(e.target.value)}
-              />
-            </div>
-            <div className="grid grid-cols-3 items-center gap-2">
-              <Label className="col-span-1 text-right">Row</Label>
-              <Input
-                className="col-span-2"
-                value={formRow}
-                onChange={(e) => setFormRow(e.target.value)}
-              />
-            </div>
-            <div className="grid grid-cols-3 items-center gap-2">
-              <Label className="col-span-1 text-right">Bin</Label>
-              <Input
-                className="col-span-2"
-                value={formBin}
-                onChange={(e) => setFormBin(e.target.value)}
-              />
-            </div>
+            {/* part, location, aisle, row, bin are hidden: carried in payload from selected row context */}
 
             <div className="grid grid-cols-3 items-center gap-2">
               <Label className="col-span-1 text-right">Add Quantity</Label>
@@ -454,6 +488,83 @@ export function PartStockLocationTable(props: PartStockLocationTableProps) {
               <Button
                 onClick={submitCreate}
                 disabled={!partId || !formLocationId}
+              >
+                Save
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={mainCreateOpen} onOpenChange={setMainCreateOpen}>
+        <DialogContent className="max-w-lg">
+          <div className="grid grid-cols-1 gap-4">
+            {/* part is hidden: carried in payload */}
+
+            <div className="grid grid-cols-3 items-center gap-2">
+              <Label className="col-span-1 text-right">Location</Label>
+              <div className="col-span-2">
+                <ApiDropDown
+                  name="location"
+                  endpoint="/company/location"
+                  value={mainFormLocationId}
+                  onChange={(v) => setMainFormLocationId(v)}
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-3 items-center gap-2">
+              <Label className="col-span-1 text-right">Aisle</Label>
+              <Input
+                className="col-span-2"
+                value={mainFormAisle}
+                onChange={(e) => setMainFormAisle(e.target.value)}
+              />
+            </div>
+            <div className="grid grid-cols-3 items-center gap-2">
+              <Label className="col-span-1 text-right">Row</Label>
+              <Input
+                className="col-span-2"
+                value={mainFormRow}
+                onChange={(e) => setMainFormRow(e.target.value)}
+              />
+            </div>
+            <div className="grid grid-cols-3 items-center gap-2">
+              <Label className="col-span-1 text-right">Bin</Label>
+              <Input
+                className="col-span-2"
+                value={mainFormBin}
+                onChange={(e) => setMainFormBin(e.target.value)}
+              />
+            </div>
+
+            <div className="grid grid-cols-3 items-center gap-2">
+              <Label className="col-span-1 text-right">Add Quantity</Label>
+              <Input
+                className="col-span-2"
+                value={mainFormQtyReceived}
+                onChange={(e) => setMainFormQtyReceived(e.target.value)}
+              />
+            </div>
+            <div className="grid grid-cols-3 items-center gap-2">
+              <Label className="col-span-1 text-right">Price</Label>
+              <Input
+                className="col-span-2"
+                value={mainFormLastUnitCost}
+                onChange={(e) => setMainFormLastUnitCost(e.target.value)}
+              />
+            </div>
+
+            <div className="flex justify-end gap-2 pt-2">
+              <Button
+                variant="outline"
+                onClick={() => setMainCreateOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={submitMainCreate}
+                disabled={!partId || !mainFormLocationId}
               >
                 Save
               </Button>

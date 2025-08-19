@@ -41,28 +41,6 @@ const WorkOrders = () => {
       header: "Closed",
       render: (value) => (value ? "Yes" : "No"),
     },
-    {
-      key: "actions",
-      header: "Actions",
-      render: (_, row) => (
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={(e) => {
-            e.stopPropagation();
-            console.log("Row data with extracted IDs:", {
-              id: row.id,
-              asset_id: row.asset_id,
-              status_id: row.status_id,
-              priority_id: row.priority_id,
-              maint_type_id: row.maint_type_id,
-            });
-          }}
-        >
-          View IDs
-        </Button>
-      ),
-    },
   ];
 
   return (
