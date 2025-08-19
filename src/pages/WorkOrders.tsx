@@ -7,10 +7,25 @@ const WorkOrders = () => {
   const columns: TableColumn[] = [
     { key: "code", header: "Code" },
     { key: "description", header: "Description" },
-    { key: "asset", header: "Asset", type: "object" },
-    { key: "status", header: "Status", type: "object" },
-    { key: "maint_type", header: "Maint Type", type: "object" },
-    { key: "priority", header: "Priority", type: "object" },
+    { key: "asset", header: "Asset", type: "object", objectIdKey: "asset_id" },
+    {
+      key: "status",
+      header: "Status",
+      type: "object",
+      objectIdKey: "status_id",
+    },
+    {
+      key: "maint_type",
+      header: "Maint Type",
+      type: "object",
+      objectIdKey: "maint_type_id",
+    },
+    {
+      key: "priority",
+      header: "Priority",
+      type: "object",
+      objectIdKey: "priority_id",
+    },
     {
       key: "suggested_start_date",
       header: "Suggested Start Date",
@@ -25,6 +40,28 @@ const WorkOrders = () => {
       key: "is_closed",
       header: "Closed",
       render: (value) => (value ? "Yes" : "No"),
+    },
+    {
+      key: "actions",
+      header: "Actions",
+      render: (_, row) => (
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={(e) => {
+            e.stopPropagation();
+            console.log("Row data with extracted IDs:", {
+              id: row.id,
+              asset_id: row.asset_id,
+              status_id: row.status_id,
+              priority_id: row.priority_id,
+              maint_type_id: row.maint_type_id,
+            });
+          }}
+        >
+          View IDs
+        </Button>
+      ),
     },
   ];
 

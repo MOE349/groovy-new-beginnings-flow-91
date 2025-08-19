@@ -5,7 +5,11 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { apiCall } from "@/utils/apis";
-import type { UseTableDataOptions, UseTableDataReturn } from "../types";
+import type {
+  UseTableDataOptions,
+  UseTableDataReturn,
+  TableColumn,
+} from "../types";
 
 export function useTableData<T = any>({
   endpoint,
@@ -14,6 +18,7 @@ export function useTableData<T = any>({
   queryKey,
   refreshInterval,
   enabled = true,
+  columns,
 }: UseTableDataOptions<T>): UseTableDataReturn<T> {
   const { data, isLoading, error, isError, refetch, isRefetching } = useQuery({
     queryKey:
@@ -75,7 +80,30 @@ export function useTableData<T = any>({
         : [];
 
       // Combine data arrays
-      return [...primaryWithSource, ...secondaryWithSource];
+      const combinedData = [...primaryWithSource, ...secondaryWithSource];
+
+      // Process object columns to extract and store IDs
+      if (columns && combinedData.length > 0) {
+        const objectColumns = columns.filter((col) => col.type === "object");
+
+        if (objectColumns.length > 0) {
+          return combinedData.map((row) => {
+            const processedRow = { ...row };
+
+            objectColumns.forEach((column) => {
+              const value = row[column.key];
+              if (value && typeof value === "object" && value.id) {
+                const idKey = column.objectIdKey || `${column.key}_id`;
+                processedRow[idKey] = value.id;
+              }
+            });
+
+            return processedRow;
+          });
+        }
+      }
+
+      return combinedData;
     },
     enabled,
     refetchInterval: refreshInterval,

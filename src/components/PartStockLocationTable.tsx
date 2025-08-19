@@ -1,4 +1,5 @@
 import React, { useMemo, useState, useCallback } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { ApiTable } from "./ApiTable";
 import type { ApiTableProps, TableColumn } from "./ApiTable";
 import { Dialog, DialogContent } from "./ui/dialog";
@@ -19,7 +20,10 @@ interface StockLocationRow {
   part_name?: string;
   name?: string;
   part?: { number?: string; name?: string } | null;
-  location?: { id?: string | number; name?: string; code?: string } | null;
+  location?: { id?: string; name?: string; code?: string } | null; // Should be object with UUID
+  location_id?: string; // UUID auto-extracted by ApiTable object ID storage
+  site?: { id?: string; name?: string; code?: string } | null; // Should be object with UUID
+  site_id?: string; // UUID auto-extracted by ApiTable object ID storage
   qty_on_hand?: number | string;
   aisle?: string;
   row?: string;
@@ -49,8 +53,9 @@ export function PartStockLocationTable(props: PartStockLocationTableProps) {
   const [formLastUnitCost, setFormLastUnitCost] = useState("");
 
   const resetCreateForm = () => {
+    // Use the location_id UUID extracted by ApiTable
     setFormLocationId(
-      selectedRow?.location?.id ? String(selectedRow.location.id) : undefined
+      selectedRow?.location_id ? String(selectedRow.location_id) : undefined
     );
     setFormAisle(selectedRow?.aisle || "");
     setFormRow(selectedRow?.row || "");
@@ -112,6 +117,50 @@ export function PartStockLocationTable(props: PartStockLocationTableProps) {
     []
   );
 
+  // Fetch on-hand data for the form section
+  // Use the location_id UUID that should be auto-extracted by ApiTable object ID storage
+  const locationId = selectedRow?.location_id;
+
+  const shouldFetch = Boolean(selectedRow && partId && locationId);
+
+  const {
+    data: onHandData,
+    isLoading: onHandLoading,
+    error: onHandError,
+  } = useQuery({
+    queryKey: [
+      "parts-on-hand",
+      partId || "",
+      String(locationId || ""),
+      selectedRow?.aisle || "",
+      selectedRow?.row || "",
+      selectedRow?.bin || "",
+    ],
+    queryFn: async () => {
+      const params = new URLSearchParams({
+        part: String(partId),
+        location: String(locationId),
+      });
+
+      if (selectedRow?.aisle) params.append("aisle", selectedRow.aisle);
+      if (selectedRow?.row) params.append("row", selectedRow.row);
+      if (selectedRow?.bin) params.append("bin", selectedRow.bin);
+
+      const url = `/parts/on-hand?${params.toString()}`;
+      const response = await apiCall(url);
+
+      let result = response.data?.data || response.data || [];
+
+      // If result is a single object (not array), wrap it in an array
+      if (result && !Array.isArray(result)) {
+        result = [result];
+      }
+
+      return result;
+    },
+    enabled: shouldFetch,
+  });
+
   const handleRowClick = useCallback((row: Record<string, unknown>) => {
     const r = row as StockLocationRow;
     setSelectedRow(r);
@@ -131,122 +180,166 @@ export function PartStockLocationTable(props: PartStockLocationTableProps) {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-5xl">
           <div className="grid grid-cols-1 gap-4">
-            {/* Row 1: Form section */}
+            {/* Row 1: Form section - Data from /parts/on-hand/ endpoint */}
             <Card>
               <div className="py-3" />
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {/* part_number */}
-                  <div className="grid grid-cols-3 items-center gap-2">
-                    <Label className="col-span-1 text-right">Part Number</Label>
-                    <Input
-                      className="col-span-2"
-                      value={
-                        selectedRow?.part_number ||
-                        selectedRow?.part?.number ||
-                        "-"
-                      }
-                      readOnly
-                      disabled
-                    />
+                {onHandLoading ? (
+                  <div className="flex justify-center items-center py-8">
+                    Loading on-hand data...
                   </div>
+                ) : onHandError ? (
+                  <div className="flex justify-center items-center py-8 text-red-600">
+                    Error loading data: {onHandError.message}
+                  </div>
+                ) : !shouldFetch ? (
+                  <div className="flex flex-col justify-center items-center py-8 text-yellow-600">
+                    <div className="text-center">
+                      <div>
+                        Cannot fetch data - missing required parameters:
+                      </div>
+                      <div className="text-sm mt-2">
+                        partId: {partId || "missing"} | locationId:{" "}
+                        {locationId || "missing"}
+                      </div>
+                      {!locationId &&
+                        selectedRow?.location &&
+                        typeof selectedRow.location === "string" && (
+                          <div className="text-xs mt-2 text-red-500">
+                            ⚠️ API Issue: location should be an object with
+                            UUID, not string "{selectedRow.location}"
+                          </div>
+                        )}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* part_number */}
+                    <div className="grid grid-cols-3 items-center gap-2">
+                      <Label className="col-span-1 text-right">
+                        Part Number
+                      </Label>
+                      <Input
+                        className="col-span-2"
+                        value={
+                          onHandData?.[0]?.part_number ||
+                          selectedRow?.part_number ||
+                          selectedRow?.part?.number ||
+                          "-"
+                        }
+                        readOnly
+                        disabled
+                      />
+                    </div>
 
-                  {/* part_name */}
-                  <div className="grid grid-cols-3 items-center gap-2">
-                    <Label className="col-span-1 text-right">Part Name</Label>
-                    <Input
-                      className="col-span-2"
-                      value={
-                        selectedRow?.part_name ||
-                        selectedRow?.name ||
-                        selectedRow?.part?.name ||
-                        "-"
-                      }
-                      readOnly
-                      disabled
-                    />
-                  </div>
+                    {/* part_name */}
+                    <div className="grid grid-cols-3 items-center gap-2">
+                      <Label className="col-span-1 text-right">Part Name</Label>
+                      <Input
+                        className="col-span-2"
+                        value={
+                          onHandData?.[0]?.part_name ||
+                          selectedRow?.part_name ||
+                          selectedRow?.name ||
+                          selectedRow?.part?.name ||
+                          "-"
+                        }
+                        readOnly
+                        disabled
+                      />
+                    </div>
 
-                  {/* location */}
-                  <div className="grid grid-cols-3 items-center gap-2">
-                    <Label className="col-span-1 text-right">Location</Label>
-                    <Input
-                      className="col-span-2"
-                      value={
-                        selectedRow?.location?.name ||
-                        selectedRow?.location?.code ||
-                        (selectedRow?.location?.id != null
-                          ? String(selectedRow.location.id)
-                          : "-")
-                      }
-                      readOnly
-                      disabled
-                    />
-                  </div>
+                    {/* location */}
+                    <div className="grid grid-cols-3 items-center gap-2">
+                      <Label className="col-span-1 text-right">Location</Label>
+                      <Input
+                        className="col-span-2"
+                        value={
+                          onHandData?.[0]?.location?.name ||
+                          onHandData?.[0]?.location?.code ||
+                          selectedRow?.location?.name ||
+                          selectedRow?.location?.code ||
+                          "-"
+                        }
+                        readOnly
+                        disabled
+                      />
+                    </div>
 
-                  {/* qty on hand */}
-                  <div className="grid grid-cols-3 items-center gap-2">
-                    <Label className="col-span-1 text-right">QTY on hand</Label>
-                    <Input
-                      className="col-span-2"
-                      value={
-                        selectedRow?.qty_on_hand != null
-                          ? String(selectedRow.qty_on_hand)
-                          : "-"
-                      }
-                      readOnly
-                      disabled
-                    />
-                  </div>
+                    {/* qty on hand */}
+                    <div className="grid grid-cols-3 items-center gap-2">
+                      <Label className="col-span-1 text-right">
+                        QTY on hand
+                      </Label>
+                      <Input
+                        className="col-span-2"
+                        value={
+                          onHandData?.[0]?.qty_on_hand != null
+                            ? String(onHandData[0].qty_on_hand)
+                            : selectedRow?.qty_on_hand != null
+                            ? String(selectedRow.qty_on_hand)
+                            : "-"
+                        }
+                        readOnly
+                        disabled
+                      />
+                    </div>
 
-                  {/* aisle */}
-                  <div className="grid grid-cols-3 items-center gap-2">
-                    <Label className="col-span-1 text-right">Aisle</Label>
-                    <Input
-                      className="col-span-2"
-                      value={selectedRow?.aisle || "-"}
-                      readOnly
-                      disabled
-                    />
-                  </div>
+                    {/* aisle */}
+                    <div className="grid grid-cols-3 items-center gap-2">
+                      <Label className="col-span-1 text-right">Aisle</Label>
+                      <Input
+                        className="col-span-2"
+                        value={
+                          onHandData?.[0]?.aisle || selectedRow?.aisle || "-"
+                        }
+                        readOnly
+                        disabled
+                      />
+                    </div>
 
-                  {/* row */}
-                  <div className="grid grid-cols-3 items-center gap-2">
-                    <Label className="col-span-1 text-right">Row</Label>
-                    <Input
-                      className="col-span-2"
-                      value={selectedRow?.row || "-"}
-                      readOnly
-                      disabled
-                    />
-                  </div>
+                    {/* row */}
+                    <div className="grid grid-cols-3 items-center gap-2">
+                      <Label className="col-span-1 text-right">Row</Label>
+                      <Input
+                        className="col-span-2"
+                        value={onHandData?.[0]?.row || selectedRow?.row || "-"}
+                        readOnly
+                        disabled
+                      />
+                    </div>
 
-                  {/* bin */}
-                  <div className="grid grid-cols-3 items-center gap-2">
-                    <Label className="col-span-1 text-right">Bin</Label>
-                    <Input
-                      className="col-span-2"
-                      value={selectedRow?.bin || "-"}
-                      readOnly
-                      disabled
-                    />
-                  </div>
+                    {/* bin */}
+                    <div className="grid grid-cols-3 items-center gap-2">
+                      <Label className="col-span-1 text-right">Bin</Label>
+                      <Input
+                        className="col-span-2"
+                        value={onHandData?.[0]?.bin || selectedRow?.bin || "-"}
+                        readOnly
+                        disabled
+                      />
+                    </div>
 
-                  {/* last_price */}
-                  <div className="grid grid-cols-3 items-center gap-2">
-                    <Label className="col-span-1 text-right">Last Price</Label>
-                    <Input
-                      className="col-span-2"
-                      value={
-                        selectedRow?.last_price != null
-                          ? String(selectedRow.last_price)
-                          : "-"
-                      }
-                      readOnly
-                      disabled
-                    />
+                    {/* last_price */}
+                    <div className="grid grid-cols-3 items-center gap-2">
+                      <Label className="col-span-1 text-right">
+                        Last Price
+                      </Label>
+                      <Input
+                        className="col-span-2"
+                        value={
+                          onHandData?.[0]?.last_unit_cost != null
+                            ? String(onHandData[0].last_unit_cost)
+                            : selectedRow?.last_price != null
+                            ? String(selectedRow.last_price)
+                            : "-"
+                        }
+                        readOnly
+                        disabled
+                      />
+                    </div>
                   </div>
-                </div>
+                )}
               </CardContent>
             </Card>
 
@@ -256,23 +349,9 @@ export function PartStockLocationTable(props: PartStockLocationTableProps) {
                 <CardContent className="p-0 flex-1 min-h-0 flex flex-col overflow-hidden">
                   <ApiTable
                     endpoint="/parts/movements"
-                    filters={
-                      selectedRow?.location?.id && partId
-                        ? {
-                            part: partId,
-                            location: selectedRow.location.id as
-                              | string
-                              | number,
-                          }
-                        : undefined
-                    }
-                    enabled={Boolean(selectedRow?.location?.id && partId)}
-                    queryKey={[
-                      "/parts/movements",
-                      partId || "",
-                      String(selectedRow?.location?.id || ""),
-                      String(reloadNonce),
-                    ]}
+                    filters={undefined}
+                    enabled={true}
+                    queryKey={["/parts/movements", String(reloadNonce)]}
                     columns={leftColumns}
                     emptyMessage="Coming soon"
                     className="w-full flex-1 min-h-0 flex flex-col"
@@ -288,23 +367,9 @@ export function PartStockLocationTable(props: PartStockLocationTableProps) {
                 <CardContent className="p-0 flex-1 min-h-0 flex flex-col overflow-hidden">
                   <ApiTable
                     endpoint="/parts/inventory-batches"
-                    filters={
-                      selectedRow?.location?.id && partId
-                        ? {
-                            part: partId,
-                            location: selectedRow.location.id as
-                              | string
-                              | number,
-                          }
-                        : undefined
-                    }
-                    enabled={Boolean(selectedRow?.location?.id && partId)}
-                    queryKey={[
-                      "/parts/inventory-batches",
-                      partId || "",
-                      String(selectedRow?.location?.id || ""),
-                      String(reloadNonce),
-                    ]}
+                    filters={undefined}
+                    enabled={true}
+                    queryKey={["/parts/inventory-batches", String(reloadNonce)]}
                     columns={rightColumns}
                     emptyMessage="Coming soon"
                     className="w-full flex-1 min-h-0 flex flex-col"

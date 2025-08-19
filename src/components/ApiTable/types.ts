@@ -12,6 +12,12 @@ export interface TableColumn<T = any> {
   width?: number;
   sortable?: boolean;
   filterable?: boolean;
+  /**
+   * For object-type columns, specifies the key where the object's ID should be stored.
+   * If not provided, defaults to `${key}_id`
+   * Example: column key "location" with objectIdKey "location_id" will store the object's ID in row.location_id
+   */
+  objectIdKey?: string;
 }
 
 export interface ApiTableProps<T = any> {
@@ -87,6 +93,7 @@ export interface UseTableDataOptions<T> {
   queryKey?: string[];
   refreshInterval?: number;
   enabled?: boolean;
+  columns?: TableColumn<T>[];
 }
 
 export interface UseTableDataReturn<T> {

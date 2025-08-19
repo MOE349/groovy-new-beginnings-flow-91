@@ -87,6 +87,7 @@ function ApiTableComponent<T extends Record<string, any>>({
     queryKey,
     refreshInterval,
     enabled,
+    columns,
   });
 
   const { orderedColumns, handleDragEnd } = useColumnOrder({

@@ -77,8 +77,13 @@ export const partEditConfig: EntityConfig<PartData> = {
 
   getTabs: (id: string, data: PartData) => {
     const stockColumns: TableColumn[] = [
-      { key: "site", header: "Site", type: "object" },
-      { key: "location", header: "Location", type: "object" },
+      { key: "site", header: "Site", type: "object", objectIdKey: "site_id" },
+      {
+        key: "location",
+        header: "Location",
+        type: "object",
+        objectIdKey: "location_id",
+      },
       { key: "aisle", header: "Aisle", type: "text" },
       { key: "row", header: "Row", type: "text" },
       { key: "bin", header: "Bin", type: "text" },
@@ -90,12 +95,32 @@ export const partEditConfig: EntityConfig<PartData> = {
     ];
 
     const movementColumns: TableColumn[] = [
-      { key: "created_by", header: "Created By", type: "object" },
+      {
+        key: "created_by",
+        header: "Created By",
+        type: "object",
+        objectIdKey: "created_by_id",
+      },
       { key: "movment_type", header: "Movement Type", type: "text" },
-      { key: "from_location", header: "From Location", type: "object" },
-      { key: "to_location", header: "To Location", type: "object" },
+      {
+        key: "from_location",
+        header: "From Location",
+        type: "object",
+        objectIdKey: "from_location_id",
+      },
+      {
+        key: "to_location",
+        header: "To Location",
+        type: "object",
+        objectIdKey: "to_location_id",
+      },
       { key: "qty_delta", header: "Qty Delta", type: "text" },
-      { key: "work_order", header: "Work Order", type: "object" },
+      {
+        key: "work_order",
+        header: "Work Order",
+        type: "object",
+        objectIdKey: "work_order_id",
+      },
       { key: "receipt_id", header: "Receipt ID", type: "text" },
     ];
 
@@ -115,7 +140,7 @@ export const partEditConfig: EntityConfig<PartData> = {
               React.createElement(PartStockLocationTable, {
                 title: "Stock Location",
                 endpoint: "/parts/locations-on-hand",
-                filters: { part_id: id },
+                filters: { part_id: id, part: id }, // Add both part_id and part for compatibility
                 columns: stockColumns,
                 queryKey: ["parts", id, "locations-on-hand"],
                 emptyMessage: "No stock locations found",
