@@ -101,7 +101,7 @@ export const partEditConfig: EntityConfig<PartData> = {
         type: "object",
         objectIdKey: "created_by_id",
       },
-      { key: "movment_type", header: "Movement Type", type: "text" },
+      { key: "movement_type", header: "Movement Type", type: "text" },
       {
         key: "from_location",
         header: "From Location",

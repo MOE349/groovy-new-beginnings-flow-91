@@ -11,8 +11,9 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react(),
-    mode === 'development' &&
-    componentTagger(),
+    // Temporarily disabled lovable-tagger to fix JSX syntax errors
+    // mode === 'development' &&
+    // componentTagger(),
   ].filter(Boolean),
   resolve: {
     alias: {
@@ -20,8 +21,8 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
-    assetsDir: 'assets',
+    assetsDir: "assets",
     copyPublicDir: true,
   },
-  publicDir: 'public',
+  publicDir: "public",
 }));
