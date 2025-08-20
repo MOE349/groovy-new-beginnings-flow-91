@@ -1,6 +1,7 @@
 import React from "react";
 import ApiForm from "@/components/ApiForm";
 import { toast } from "@/hooks/use-toast";
+import { handleApiError } from "@/utils/errorHandling";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiCall } from "@/utils/apis";
 import { FormField } from "@/components/ApiForm";
@@ -65,15 +66,7 @@ const WorkOrderCompletionTab: React.FC<WorkOrderCompletionTabProps> = ({
         description: "Completion notes saved successfully!",
       });
     } catch (error) {
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "Failed to save completion notes";
-      toast({
-        title: "Error",
-        description: errorMessage,
-        variant: "destructive",
-      });
+      handleApiError(error, "Failed to save completion notes");
     }
   };
 

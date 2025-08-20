@@ -12,6 +12,7 @@ import ApiTable from "@/components/ApiTable";
 import ApiForm from "@/components/ApiForm";
 import { FormField } from "@/components/ApiForm";
 import { toast } from "@/hooks/use-toast";
+import { handleApiError } from "@/utils/errorHandling";
 import { useQueryClient } from "@tanstack/react-query";
 import { apiCall } from "@/utils/apis";
 import { cn } from "@/lib/utils";
@@ -119,12 +120,10 @@ const TableTab: React.FC<TableTabProps> = ({
       setIsAddDialogOpen(false);
       onAddSuccess?.(response);
     } catch (error: any) {
-      toast({
-        title: "Error",
-        description:
-          error.message || `Failed to create ${title?.toLowerCase() || "item"}`,
-        variant: "destructive",
-      });
+      handleApiError(
+        error,
+        `Failed to create ${title?.toLowerCase() || "item"}`
+      );
     }
   };
 
@@ -148,12 +147,10 @@ const TableTab: React.FC<TableTabProps> = ({
       setSelectedItem(null);
       onEditSuccess?.(response);
     } catch (error: any) {
-      toast({
-        title: "Error",
-        description:
-          error.message || `Failed to update ${title?.toLowerCase() || "item"}`,
-        variant: "destructive",
-      });
+      handleApiError(
+        error,
+        `Failed to update ${title?.toLowerCase() || "item"}`
+      );
     }
   };
 

@@ -8,6 +8,7 @@ import { AutoSelectDropdown } from "@/components/forms";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiCall } from "@/utils/apis";
 import { toast } from "@/hooks/use-toast";
+import { handleApiError } from "@/utils/errorHandling";
 
 export interface AssetScheduledMaintenanceTabProps {
   assetId: string;
@@ -191,14 +192,7 @@ const AssetScheduledMaintenanceTab: React.FC<
                         description: "Work order generated successfully!",
                       });
                     } catch (error) {
-                      const errorMessage =
-                        (error as Error).message ||
-                        "Failed to generate work order";
-                      toast({
-                        title: "Error",
-                        description: errorMessage,
-                        variant: "destructive",
-                      });
+                      handleApiError(error, "Failed to generate work order");
                     }
                   }}
                 >

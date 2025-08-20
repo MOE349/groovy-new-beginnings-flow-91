@@ -10,6 +10,7 @@ import {
 import ApiTable from "@/components/ApiTable";
 import ApiForm, { FormField } from "@/components/ApiForm";
 import { toast } from "@/hooks/use-toast";
+import { handleApiError } from "@/utils/errorHandling";
 import { useQueryClient } from "@tanstack/react-query";
 import { apiCall } from "@/utils/apis";
 
@@ -95,12 +96,7 @@ const WorkOrderServicesTab: React.FC<WorkOrderServicesTabProps> = ({
 
       setIsAddDialogOpen(false);
     } catch (error: unknown) {
-      toast({
-        title: "Error",
-        description:
-          (error as Error)?.message || "Failed to create third-party service",
-        variant: "destructive",
-      });
+      handleApiError(error, "Failed to create third-party service");
     }
   };
 
@@ -125,12 +121,7 @@ const WorkOrderServicesTab: React.FC<WorkOrderServicesTabProps> = ({
       setIsEditDialogOpen(false);
       setSelectedItem(null);
     } catch (error: unknown) {
-      toast({
-        title: "Error",
-        description:
-          (error as Error)?.message || "Failed to update third-party service",
-        variant: "destructive",
-      });
+      handleApiError(error, "Failed to update third-party service");
     }
   };
 

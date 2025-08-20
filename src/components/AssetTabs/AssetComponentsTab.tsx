@@ -7,6 +7,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
+import { handleApiError } from "@/utils/errorHandling";
 import { useQueryClient } from "@tanstack/react-query";
 import { apiCall } from "@/utils/apis";
 import ApiTable, { TableColumn } from "@/components/ApiTable";
@@ -168,13 +169,10 @@ const AssetComponentsTab: React.FC<AssetComponentsTabProps> = ({ assetId }) => {
       setDialogOpen(false);
       setEditingItem(null);
     } catch (error: any) {
-      toast({
-        title: "Error",
-        description:
-          error.message ||
-          `Failed to ${editingItem ? "update" : "create"} component`,
-        variant: "destructive",
-      });
+      handleApiError(
+        error,
+        `Failed to ${editingItem ? "update" : "create"} component`
+      );
     } finally {
       setLoading(false);
     }

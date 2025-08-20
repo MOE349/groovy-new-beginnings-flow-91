@@ -5,6 +5,7 @@ import { ArrowLeft, Check, X, RotateCcw } from "lucide-react";
 import LocationEquipmentDropdown from "@/components/LocationEquipmentDropdown";
 import { apiCall } from "@/utils/apis";
 import { toast } from "@/hooks/use-toast";
+import { handleApiError } from "@/utils/errorHandling";
 import { useQueryClient } from "@tanstack/react-query";
 
 export interface FormLayoutConfig {
@@ -142,11 +143,7 @@ const FormLayout = ({
         window.location.reload();
       }, 500);
     } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to reopen work order.",
-        variant: "destructive",
-      });
+      handleApiError(error, "Failed to reopen work order");
     } finally {
       setIsReopening(false);
     }

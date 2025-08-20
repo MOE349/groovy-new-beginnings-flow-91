@@ -13,6 +13,7 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { apiCall } from "@/utils/apis";
 import { toast } from "@/components/ui/use-toast";
+import { handleApiError } from "@/utils/errorHandling";
 
 export interface WorkOrderPartsTabProps {
   workOrderId: string;
@@ -128,11 +129,7 @@ const WorkOrderPartsTab: React.FC<WorkOrderPartsTabProps> = ({
         });
       } catch (error) {
         console.error("Failed to add part to work order:", error);
-        toast({
-          title: "Error",
-          description: "Failed to add part to work order",
-          variant: "destructive",
-        });
+        handleApiError(error, "Failed to add part to work order");
       }
     },
     [workOrderId, queryClient]
@@ -179,11 +176,7 @@ const WorkOrderPartsTab: React.FC<WorkOrderPartsTabProps> = ({
         });
       } catch (error) {
         console.error("Failed to update part quantity:", error);
-        toast({
-          title: "Error",
-          description: "Failed to update part quantity",
-          variant: "destructive",
-        });
+        handleApiError(error, "Failed to update part quantity");
       }
     },
     [selectedRecord, workOrderId, queryClient]

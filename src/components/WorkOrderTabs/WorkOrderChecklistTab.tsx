@@ -1,6 +1,7 @@
 import React from "react";
 import { TableTab } from "@/components/EntityTabs";
 import { toast } from "@/hooks/use-toast";
+import { handleApiError } from "@/utils/errorHandling";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiCall } from "@/utils/apis";
 import { FormField } from "@/components/ApiForm";
@@ -150,31 +151,7 @@ const WorkOrderChecklistTab: React.FC<WorkOrderChecklistTabProps> = ({
                         description: "Backlog items imported successfully!",
                       });
                     } catch (error) {
-                      const apiError = error as {
-                        data?: { errors?: Record<string, string> };
-                        status?: number;
-                        message?: string;
-                      };
-                      if (apiError?.data?.errors && apiError?.status) {
-                        const errors = apiError.data.errors;
-                        const statusCode = apiError.status;
-                        const errorKey = Object.keys(errors)[0];
-                        const errorValue = errors[errorKey];
-
-                        toast({
-                          title: `${errorKey} ${statusCode}`,
-                          description: errorValue,
-                          variant: "destructive",
-                        });
-                      } else {
-                        const errorMessage =
-                          apiError?.message || "Failed to import backlog items";
-                        toast({
-                          title: "Error",
-                          description: errorMessage,
-                          variant: "destructive",
-                        });
-                      }
+                      handleApiError(error, "Failed to import backlog items");
                     }
                   },
                 },

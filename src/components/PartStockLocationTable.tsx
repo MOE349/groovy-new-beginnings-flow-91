@@ -9,6 +9,18 @@ import { Label } from "./ui/label";
 import ApiDropDown from "./ApiDropDown";
 import { Button } from "./ui/button";
 import { apiCall } from "@/utils/apis";
+import ApiForm from "@/components/ApiForm";
+import type { FieldConfig } from "@/components/ApiForm";
+import { toast } from "@/hooks/use-toast";
+
+// Simple UUID v4 generator using crypto API
+const generateUUID = () => {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+    const r = (Math.random() * 16) | 0;
+    const v = c == "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+};
 
 export type PartStockLocationTableProps = ApiTableProps<
   Record<string, unknown>
@@ -37,12 +49,60 @@ export function PartStockLocationTable(props: PartStockLocationTableProps) {
   const [selectedRow, setSelectedRow] = useState<StockLocationRow | null>(null);
   const [createOpen, setCreateOpen] = useState(false);
   const [mainCreateOpen, setMainCreateOpen] = useState(false);
+  const [transferOpen, setTransferOpen] = useState(false);
   const [reloadNonce, setReloadNonce] = useState(0);
 
   const partId = useMemo(() => {
     const filters = props.filters || {};
     return (filters.part_id as string) || (filters.part as string) || undefined;
   }, [props.filters]);
+
+  // Transfer parts form fields
+  const transferFormFields: FieldConfig[] = useMemo(
+    () => [
+      {
+        name: "part_id",
+        type: "input",
+        inputType: "hidden",
+        label: "Part ID",
+      },
+      {
+        name: "from_location_id",
+        type: "dropdown",
+        label: "From Location",
+        required: true,
+        endpoint: `/parts/get-part-location?part=${partId}`,
+        optionValueKey: "id",
+        optionLabelKey: "name",
+        queryKey: ["parts-get-part-location", partId, "from"],
+      },
+      {
+        name: "to_location_id",
+        type: "dropdown",
+        label: "To Location",
+        required: true,
+        endpoint: `/parts/get-part-location?part=${partId}`,
+        optionValueKey: "id",
+        optionLabelKey: "name",
+        queryKey: ["parts-get-part-location", partId, "to"],
+      },
+      {
+        name: "qty",
+        type: "input",
+        inputType: "number",
+        label: "Quantity",
+        required: true,
+        min: 1,
+      },
+      {
+        name: "idempotency_key",
+        type: "input",
+        inputType: "hidden",
+        label: "Idempotency Key",
+      },
+    ],
+    [partId]
+  );
 
   const [formLocationId, setFormLocationId] = useState<string | undefined>(
     undefined
@@ -150,6 +210,41 @@ export function PartStockLocationTable(props: PartStockLocationTableProps) {
     }
   };
 
+  // Transfer parts handlers
+  const openTransferDialog = () => {
+    setTransferOpen(true);
+  };
+
+  const handleTransferSubmit = async (data: Record<string, any>) => {
+    try {
+      await apiCall("/parts/transfer", {
+        method: "POST",
+        body: data,
+      });
+      toast({
+        title: "Success",
+        description: "Parts transferred successfully!",
+      });
+      setTransferOpen(false);
+      setReloadNonce((n) => n + 1);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to transfer parts",
+        variant: "destructive",
+      });
+    }
+  };
+
+  // Transfer form initial data with hidden fields
+  const transferFormData = useMemo(
+    () => ({
+      part_id: partId,
+      idempotency_key: generateUUID(),
+    }),
+    [partId]
+  );
+
   // Left table: movements
   const leftColumns: TableColumn[] = useMemo(
     () => [
@@ -224,15 +319,27 @@ export function PartStockLocationTable(props: PartStockLocationTableProps) {
 
   return (
     <>
-      <ApiTable
-        {...props}
-        showFilters={false}
-        enableColumnReorder={false}
-        persistColumnOrder={false}
-        onRowClick={handleRowClick}
-        createNewText="Create"
-        onCreateNew={openMainCreate}
-      />
+      <div className="space-y-2">
+        <div className="flex justify-end gap-2">
+          <Button
+            onClick={openTransferDialog}
+            variant="outline"
+            size="sm"
+            className="gap-2"
+          >
+            Transfer parts
+          </Button>
+        </div>
+        <ApiTable
+          {...props}
+          showFilters={false}
+          enableColumnReorder={false}
+          persistColumnOrder={false}
+          onRowClick={handleRowClick}
+          createNewText="Create"
+          onCreateNew={openMainCreate}
+        />
+      </div>
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-5xl">
@@ -569,6 +676,24 @@ export function PartStockLocationTable(props: PartStockLocationTableProps) {
                 Save
               </Button>
             </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Transfer Parts Dialog */}
+      <Dialog open={transferOpen} onOpenChange={setTransferOpen}>
+        <DialogContent className="max-w-md">
+          <div className="space-y-4">
+            <div className="text-lg font-semibold">Transfer Parts</div>
+            <ApiForm
+              fields={transferFormFields}
+              onSubmit={handleTransferSubmit}
+              initialData={transferFormData}
+              submitText="Transfer"
+              cancelText="Cancel"
+              onCancel={() => setTransferOpen(false)}
+              className="space-y-4"
+            />
           </div>
         </DialogContent>
       </Dialog>

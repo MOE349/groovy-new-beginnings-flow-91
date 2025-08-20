@@ -1,4 +1,9 @@
 import { toast } from "@/hooks/use-toast";
+import {
+  handleApiError,
+  parseBackendError,
+  showErrorToasts,
+} from "./errorHandling";
 
 /**
  * Standardized toast utilities for consistent messaging
@@ -19,6 +24,22 @@ export const showErrorToast = (title: string, description?: string) => {
       "Please try again or contact support if the problem persists.",
     variant: "destructive",
   });
+};
+
+/**
+ * Show error from any source (API response, error object, string)
+ * Uses the centralized error parsing logic
+ */
+export const showError = (error: any, customTitle?: string) => {
+  handleApiError(error, customTitle);
+};
+
+/**
+ * Show multiple errors at once from backend response
+ */
+export const showBackendErrors = (backendErrorData: any) => {
+  const errorPairs = parseBackendError(backendErrorData);
+  showErrorToasts(errorPairs);
 };
 
 export const showInfoToast = (title: string, description?: string) => {
