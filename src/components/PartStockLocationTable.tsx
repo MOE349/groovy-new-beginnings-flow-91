@@ -513,11 +513,25 @@ export function PartStockLocationTable(props: PartStockLocationTableProps) {
                 <CardContent className="p-0 flex-1 min-h-0 flex flex-col overflow-hidden">
                   <ApiTable
                     endpoint="/parts/movements"
-                    filters={undefined}
-                    enabled={true}
-                    queryKey={["/parts/movements", String(reloadNonce)]}
+                    filters={{
+                      part: partId,
+                      location: locationId,
+                      ...(selectedRow?.aisle && { aisle: selectedRow.aisle }),
+                      ...(selectedRow?.row && { row: selectedRow.row }),
+                      ...(selectedRow?.bin && { bin: selectedRow.bin }),
+                    }}
+                    enabled={shouldFetch}
+                    queryKey={[
+                      "/parts/movements",
+                      String(reloadNonce),
+                      partId || "",
+                      String(locationId || ""),
+                      selectedRow?.aisle || "",
+                      selectedRow?.row || "",
+                      selectedRow?.bin || "",
+                    ]}
                     columns={leftColumns}
-                    emptyMessage="Coming soon"
+                    emptyMessage="No movements found for this location"
                     className="w-full flex-1 min-h-0 flex flex-col"
                     height="320px"
                     showFilters={false}
