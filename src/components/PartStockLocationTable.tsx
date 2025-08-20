@@ -345,7 +345,7 @@ export function PartStockLocationTable(props: PartStockLocationTableProps) {
         <DialogContent className="w-[90vw] h-[90vh] max-w-none flex flex-col overflow-hidden">
           <div className="flex flex-col gap-4 h-full overflow-hidden">
             {/* Row 1: Form section - Data from /parts/on-hand/ endpoint */}
-            <Card>
+            <Card className="flex-shrink-0 max-h-[40vh] overflow-auto">
               <div className="py-3" />
               <CardContent>
                 {onHandLoading ? (
@@ -529,72 +529,62 @@ export function PartStockLocationTable(props: PartStockLocationTableProps) {
 
             {/* Row 2: Two tables */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 min-h-0">
-              <Card className="p-2 flex flex-col h-full">
-                <CardContent className="p-0 flex-1 min-h-0 flex flex-col overflow-hidden">
-                  <ApiTable
-                    endpoint="/parts/movements"
-                    filters={{
-                      part: partId,
-                      location: locationId,
-                      ...(selectedRow?.aisle && { aisle: selectedRow.aisle }),
-                      ...(selectedRow?.row && { row: selectedRow.row }),
-                      ...(selectedRow?.bin && { bin: selectedRow.bin }),
-                    }}
-                    enabled={shouldFetch}
-                    queryKey={[
-                      "/parts/movements",
-                      String(reloadNonce),
-                      partId || "",
-                      String(locationId || ""),
-                      selectedRow?.aisle || "",
-                      selectedRow?.row || "",
-                      selectedRow?.bin || "",
-                    ]}
-                    columns={leftColumns}
-                    emptyMessage="No movements found for this location"
-                    className="w-full flex-1 min-h-0 flex flex-col"
-                    height="100%"
-                    showFilters={false}
-                    enableColumnReorder={false}
-                    persistColumnOrder={false}
-                  />
-                </CardContent>
-              </Card>
+              <ApiTable
+                endpoint="/parts/movements"
+                filters={{
+                  part: partId,
+                  location: locationId,
+                  ...(selectedRow?.aisle && { aisle: selectedRow.aisle }),
+                  ...(selectedRow?.row && { row: selectedRow.row }),
+                  ...(selectedRow?.bin && { bin: selectedRow.bin }),
+                }}
+                enabled={shouldFetch}
+                queryKey={[
+                  "/parts/movements",
+                  String(reloadNonce),
+                  partId || "",
+                  String(locationId || ""),
+                  selectedRow?.aisle || "",
+                  selectedRow?.row || "",
+                  selectedRow?.bin || "",
+                ]}
+                columns={leftColumns}
+                emptyMessage="No movements found for this location"
+                height="100%"
+                showFilters={false}
+                enableColumnReorder={false}
+                persistColumnOrder={false}
+              />
 
-              <Card className="p-2 flex flex-col h-full">
-                <CardContent className="p-0 flex-1 min-h-0 flex flex-col overflow-hidden">
-                  <ApiTable
-                    endpoint="/parts/inventory-batches"
-                    filters={{
-                      part: partId,
-                      location: locationId,
-                      ...(selectedRow?.aisle && { aisle: selectedRow.aisle }),
-                      ...(selectedRow?.row && { row: selectedRow.row }),
-                      ...(selectedRow?.bin && { bin: selectedRow.bin }),
-                    }}
-                    enabled={shouldFetch}
-                    queryKey={[
-                      "/parts/inventory-batches",
-                      String(reloadNonce),
-                      partId || "",
-                      String(locationId || ""),
-                      selectedRow?.aisle || "",
-                      selectedRow?.row || "",
-                      selectedRow?.bin || "",
-                    ]}
-                    columns={rightColumns}
-                    emptyMessage="Coming soon"
-                    className="w-full flex-1 min-h-0 flex flex-col"
-                    height="100%"
-                    showFilters={false}
-                    enableColumnReorder={false}
-                    persistColumnOrder={false}
-                    title="Inventory Batches"
-                    createNewText="Create"
-                    onCreateNew={openCreate}
-                  />
-                </CardContent>
-              </Card>
+              <ApiTable
+                endpoint="/parts/inventory-batches"
+                filters={{
+                  part: partId,
+                  location: locationId,
+                  ...(selectedRow?.aisle && { aisle: selectedRow.aisle }),
+                  ...(selectedRow?.row && { row: selectedRow.row }),
+                  ...(selectedRow?.bin && { bin: selectedRow.bin }),
+                }}
+                enabled={shouldFetch}
+                queryKey={[
+                  "/parts/inventory-batches",
+                  String(reloadNonce),
+                  partId || "",
+                  String(locationId || ""),
+                  selectedRow?.aisle || "",
+                  selectedRow?.row || "",
+                  selectedRow?.bin || "",
+                ]}
+                columns={rightColumns}
+                emptyMessage="Coming soon"
+                height="100%"
+                showFilters={false}
+                enableColumnReorder={false}
+                persistColumnOrder={false}
+                title="Inventory Batches"
+                createNewText="Create"
+                onCreateNew={openCreate}
+              />
             </div>
           </div>
         </DialogContent>

@@ -60,7 +60,6 @@ const WorkOrders = () => {
         queryKey={["work_orders"]}
         emptyMessage="No work orders found"
         editRoutePattern="/workorders/edit/{id}"
-        className="w-full flex-1 min-h-0 flex flex-col"
         height="100%"
       />
     </div>

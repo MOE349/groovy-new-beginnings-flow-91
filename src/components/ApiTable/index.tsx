@@ -203,6 +203,27 @@ function ApiTableComponent<T extends Record<string, any>>({
     return value?.toString() || "-";
   }, []);
 
+  // Auto-detect container type and apply appropriate classes
+  const containerClassName = useMemo(() => {
+    // If manual className contains flex layout classes, use it as-is with minimal base classes
+    const hasFlexClasses =
+      className && /flex|min-h-0|h-full|h-screen/.test(className);
+
+    if (hasFlexClasses) {
+      // Manual override - just add base styling, keep existing layout classes
+      return `p-2 ${className}`;
+    }
+
+    // Auto-detection for containers without explicit layout classes
+    const baseClasses = "p-2 flex flex-col";
+    const containerClasses =
+      height || maxHeight
+        ? "flex-1 min-h-0" // For constrained containers (modals, cards with explicit height)
+        : "h-full"; // For full-page containers
+
+    return `${baseClasses} ${containerClasses} ${className || ""}`;
+  }, [height, maxHeight, className]);
+
   // Loading state
   if (isLoading) {
     return (
@@ -446,7 +467,7 @@ function ApiTableComponent<T extends Record<string, any>>({
   // With title/card wrapper
   if (title) {
     return (
-      <Card className={`p-2 flex flex-col h-full ${className || ""}`}>
+      <Card className={containerClassName}>
         <CardHeader className="py-2 px-3 flex-shrink-0">
           <div className="flex items-center justify-between">
             {(createNewHref || onCreateNew) && (
@@ -480,7 +501,7 @@ function ApiTableComponent<T extends Record<string, any>>({
 
   // Without title
   return (
-    <Card className={`p-2 flex flex-col h-full ${className || ""}`}>
+    <Card className={containerClassName}>
       <CardContent className="p-0 flex-1 min-h-0 flex flex-col overflow-hidden">
         {tableContent}
       </CardContent>
