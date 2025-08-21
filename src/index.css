@@ -178,9 +178,16 @@
 
   /* Shake animation for form errors */
   @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-4px); }
-    75% { transform: translateX(4px); }
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-4px);
+    }
+    75% {
+      transform: translateX(4px);
+    }
   }
 
   .shake {
@@ -226,15 +233,15 @@
 
   /* Tab Content Management Classes */
   .tab-content-container {
-    @apply flex-1 mt-1;
+    @apply flex-1;
   }
 
   .tab-content-body {
-    @apply bg-card rounded-sm shadow-xs p-4 h-full overflow-auto;
+    @apply rounded-sm shadow-xs p-3 h-full overflow-auto;
   }
 
   .tab-content-scrollable {
-    @apply bg-card rounded-sm shadow-xs p-4 h-full overflow-auto;
+    @apply rounded-sm shadow-xs p-3 h-full overflow-auto;
   }
 
   .tab-content-grid-2 {
@@ -282,24 +289,24 @@
     font-family: inherit !important;
     font-size: inherit !important;
     font-weight: inherit !important;
-    
+
     /* Background and border consistency */
     background-color: inherit !important;
     border-width: inherit !important;
     border-style: inherit !important;
     border-color: inherit !important;
     border-radius: inherit !important;
-    
+
     /* Padding and spacing */
     padding-left: inherit !important;
     padding-right: inherit !important;
     padding-top: inherit !important;
     padding-bottom: inherit !important;
-    
+
     /* Text and color properties */
     color: inherit !important;
     text-align: inherit !important;
-    
+
     /* Focus and interaction states */
     outline: inherit !important;
     transition: inherit !important;
@@ -366,7 +373,9 @@
     font-size: 0.875rem !important; /* text-sm to match Input */
     line-height: 1.25rem !important;
     border-color: hsl(var(--input)) !important; /* match Input border color */
-    background-color: hsl(var(--background)) !important; /* match Input background */
+    background-color: hsl(
+      var(--background)
+    ) !important; /* match Input background */
   }
 
   /* Fix datepicker button in popover trigger specifically */
@@ -387,39 +396,39 @@
   }
 
   /* Fix for Radix UI tabs - ensure inactive tabs don't take up space */
-[role="tabpanel"][data-state="inactive"] {
-  display: none !important;
-  position: absolute !important;
-  visibility: hidden !important;
-}
+  [role="tabpanel"][data-state="inactive"] {
+    display: none !important;
+    position: absolute !important;
+    visibility: hidden !important;
+  }
 
-/* Ensure active tab panels are properly displayed */
-[role="tabpanel"][data-state="active"] {
-  display: flex !important;
-  position: relative !important;
-  visibility: visible !important;
-}
+  /* Ensure active tab panels are properly displayed */
+  [role="tabpanel"][data-state="active"] {
+    display: flex !important;
+    position: relative !important;
+    visibility: visible !important;
+  }
 
-/* Smooth scrolling for tab content */
-.tab-content-container {
-  scrollbar-width: thin;
-  scrollbar-color: hsl(var(--border)) transparent;
-}
+  /* Smooth scrolling for tab content */
+  .tab-content-container {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+  }
 
-.tab-content-container::-webkit-scrollbar {
-  width: 6px;
-}
+  .tab-content-container::-webkit-scrollbar {
+    width: 6px;
+  }
 
-.tab-content-container::-webkit-scrollbar-track {
-  background: transparent;
-}
+  .tab-content-container::-webkit-scrollbar-track {
+    background: transparent;
+  }
 
-.tab-content-container::-webkit-scrollbar-thumb {
-  background-color: hsl(var(--border));
-  border-radius: 3px;
-}
+  .tab-content-container::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--border));
+    border-radius: 3px;
+  }
 
-.tab-content-container::-webkit-scrollbar-thumb:hover {
-  background-color: hsl(var(--border) / 0.8);
-}
+  .tab-content-container::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--border) / 0.8);
+  }
 }

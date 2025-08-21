@@ -49,6 +49,7 @@ const Asset = () => {
         editRoutePattern="/asset/edit/{id}"
         className="w-full flex-1 min-h-0 flex flex-col"
         height="100%"
+        hasCreateButton={false}
       />
     </div>
   );

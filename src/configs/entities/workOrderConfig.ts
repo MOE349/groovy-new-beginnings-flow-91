@@ -214,7 +214,7 @@ export const workOrderCreateConfig: CreateEntityConfig = {
         description: "Completion tracking and details will go here",
         children: React.createElement(
           "div",
-          { className: "p-4" },
+          { className: "p-3" },
           "Content will be available after creation."
         ),
       }),
@@ -227,7 +227,7 @@ export const workOrderCreateConfig: CreateEntityConfig = {
         description: "Checklist items and progress will go here",
         children: React.createElement(
           "div",
-          { className: "p-4" },
+          { className: "p-3" },
           "Content will be available after creation."
         ),
       }),
@@ -240,7 +240,7 @@ export const workOrderCreateConfig: CreateEntityConfig = {
         description: "Parts and materials needed will go here",
         children: React.createElement(
           "div",
-          { className: "p-4" },
+          { className: "p-3" },
           "Content will be available after creation."
         ),
       }),
@@ -253,7 +253,7 @@ export const workOrderCreateConfig: CreateEntityConfig = {
         description: "Third-party services and contractors will go here",
         children: React.createElement(
           "div",
-          { className: "p-4" },
+          { className: "p-3" },
           "Content will be available after creation."
         ),
       }),
@@ -266,7 +266,7 @@ export const workOrderCreateConfig: CreateEntityConfig = {
         description: "Attached files and documents will go here",
         children: React.createElement(
           "div",
-          { className: "p-4" },
+          { className: "p-3" },
           "Content will be available after creation."
         ),
       }),
@@ -279,7 +279,7 @@ export const workOrderCreateConfig: CreateEntityConfig = {
         description: "Work order activity log will go here",
         children: React.createElement(
           "div",
-          { className: "p-4" },
+          { className: "p-3" },
           "Content will be available after creation."
         ),
       }),

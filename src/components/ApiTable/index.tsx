@@ -392,15 +392,15 @@ function ApiTableComponent<T extends Record<string, any>>({
   return (
     <Card className={containerClassName}>
       <CardHeader className="py-2 px-3 flex-shrink-0">
-        <div className="flex items-center justify-between min-h-[2rem]">
-          {showAnyButton ? (
-            renderButtons()
-          ) : title ? (
-            <h3 className="text-lg font-semibold">{title}</h3>
-          ) : (
-            <div></div> // Empty div to maintain height
-          )}
-        </div>
+        {(showAnyButton || title) && (
+          <div className="flex items-center justify-between min-h-[2rem]">
+            {showAnyButton ? (
+              renderButtons()
+            ) : (
+              <h3 className="text-lg font-semibold">{title}</h3>
+            )}
+          </div>
+        )}
       </CardHeader>
       <CardContent className="px-3 pt-0 flex-1 min-h-0 flex flex-col">
         {tableContent}

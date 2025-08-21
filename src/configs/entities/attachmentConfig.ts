@@ -160,7 +160,7 @@ export const attachmentCreateConfig: CreateEntityConfig = {
         description: "Parts and Bill of Materials content will go here",
         children: React.createElement(
           "div",
-          { className: "p-4" },
+          { className: "p-3" },
           "Content will be available after creation."
         ),
       }),
@@ -175,7 +175,7 @@ export const attachmentCreateConfig: CreateEntityConfig = {
         children: React.createElement(
           "div",
           {
-            className: "p-4 flex items-center justify-center min-h-[200px]",
+            className: "p-3 flex items-center justify-center min-h-[200px]",
           },
           "Meter readings will be available in the edit view."
         ),
@@ -189,7 +189,7 @@ export const attachmentCreateConfig: CreateEntityConfig = {
         description: "Scheduled maintenance content will go here",
         children: React.createElement(
           "div",
-          { className: "p-4" },
+          { className: "p-3" },
           "Content will be available after creation."
         ),
       }),
@@ -202,7 +202,7 @@ export const attachmentCreateConfig: CreateEntityConfig = {
         description: "Financial information content will go here",
         children: React.createElement(
           "div",
-          { className: "p-4" },
+          { className: "p-3" },
           "Content will be available after creation."
         ),
       }),
@@ -215,7 +215,7 @@ export const attachmentCreateConfig: CreateEntityConfig = {
         description: "File attachments and documents will go here",
         children: React.createElement(
           "div",
-          { className: "p-4" },
+          { className: "p-3" },
           "Content will be available after creation."
         ),
       }),
@@ -228,7 +228,7 @@ export const attachmentCreateConfig: CreateEntityConfig = {
         description: "Backlog items and tasks will go here",
         children: React.createElement(
           "div",
-          { className: "p-4" },
+          { className: "p-3" },
           "Content will be available after creation."
         ),
       }),
@@ -241,7 +241,7 @@ export const attachmentCreateConfig: CreateEntityConfig = {
         description: "Activity log content will go here",
         children: React.createElement(
           "div",
-          { className: "p-4" },
+          { className: "p-3" },
           "Content will be available after creation."
         ),
       }),

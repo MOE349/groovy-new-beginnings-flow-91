@@ -47,112 +47,81 @@ const AssetMeteringEventsTab: React.FC<AssetMeteringEventsTabProps> = ({
 
   return (
     <div className="tab-content-metering">
-      <div className="tab-content-grid-2">
-        <div className="min-w-0">
-          <div className="mb-1">
-            <Button
-              variant="default"
-              size="sm"
-              className="flex items-center gap-2 px-3 py-1"
-              onClick={() => setIsDialogOpen(true)}
-            >
-              <Plus className="h-3 w-3" />
-              Update Reading
-            </Button>
-          </div>
-
-          <div className="w-full max-w-full">
-            <ApiTable
-              endpoint={`/meter-readings/meter_reading?asset=${assetId}`}
-              columns={[
-                {
-                  key: "meter_reading",
-                  header: "Meter Reading",
-                },
-                {
-                  key: "created_at",
-                  header: "Creation Date",
-                  render: (value: string | null | undefined) =>
-                    value ? new Date(value).toLocaleDateString() : "-",
-                },
-                {
-                  key: "created_by",
-                  header: "Created By",
-                  render: (value: unknown): React.ReactNode => {
-                    if (typeof value === "object" && value) {
-                      const user = value as Record<string, unknown>;
-                      return String(user.name || user.email || user.id || "-");
-                    }
-                    return String(value || "-");
-                  },
-                },
-                {
-                  key: "actions",
-                  header: "",
-                  render: (value: unknown, row: Record<string, unknown>) => (
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex justify-end">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
-                        onClick={() =>
-                          handleDeleteMeterReading(row.id as string)
-                        }
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  ),
-                },
-              ]}
-              tableId={`meter-readings-${assetId}`}
-            />
-          </div>
-        </div>
-
-        <div className="min-w-0">
-          <div className="mb-1">
-            <Button
-              variant="default"
-              size="sm"
-              className="flex items-center gap-2 px-3 py-1"
-              onClick={() => setIsCodeDialogOpen(true)}
-            >
-              <Plus className="h-3 w-3" />
-              Update Code
-            </Button>
-          </div>
-
-          <div className="w-full max-w-full">
-            <ApiTable
-              endpoint={`/fault-codes/codes?asset=${assetId}`}
-              columns={[
-                {
-                  key: "code",
-                  header: "Code",
-                },
-                {
-                  key: "created_at",
-                  header: "Creation Date",
-                  render: (value: string | null | undefined) =>
-                    value ? new Date(value).toLocaleDateString() : "-",
-                },
-                {
-                  key: "created_by",
-                  header: "Created By",
-                  render: (value: unknown): React.ReactNode => {
-                    if (typeof value === "object" && value) {
-                      const user = value as Record<string, unknown>;
-                      return String(user.name || user.email || user.id || "-");
-                    }
-                    return String(value || "-");
-                  },
-                },
-              ]}
-              tableId={`codes-${assetId}`}
-            />
-          </div>
-        </div>
+      <div className="tab-content-grid-2 gap-3">
+        <ApiTable
+          createNewText="Update Reading"
+          onCreateNew={() => setIsDialogOpen(true)}
+          endpoint={`/meter-readings/meter_reading?asset=${assetId}`}
+          columns={[
+            {
+              key: "meter_reading",
+              header: "Meter Reading",
+            },
+            {
+              key: "created_at",
+              header: "Creation Date",
+              render: (value: string | null | undefined) =>
+                value ? new Date(value).toLocaleDateString() : "-",
+            },
+            {
+              key: "created_by",
+              header: "Created By",
+              render: (value: unknown): React.ReactNode => {
+                if (typeof value === "object" && value) {
+                  const user = value as Record<string, unknown>;
+                  return String(user.name || user.email || user.id || "-");
+                }
+                return String(value || "-");
+              },
+            },
+            {
+              key: "actions",
+              header: "",
+              render: (value: unknown, row: Record<string, unknown>) => (
+                <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex justify-end">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
+                    onClick={() => handleDeleteMeterReading(row.id as string)}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
+              ),
+            },
+          ]}
+          tableId={`meter-readings-${assetId}`}
+        />
+        <ApiTable
+          createNewText="Update Code"
+          onCreateNew={() => setIsCodeDialogOpen(true)}
+          endpoint={`/fault-codes/codes?asset=${assetId}`}
+          columns={[
+            {
+              key: "code",
+              header: "Code",
+            },
+            {
+              key: "created_at",
+              header: "Creation Date",
+              render: (value: string | null | undefined) =>
+                value ? new Date(value).toLocaleDateString() : "-",
+            },
+            {
+              key: "created_by",
+              header: "Created By",
+              render: (value: unknown): React.ReactNode => {
+                if (typeof value === "object" && value) {
+                  const user = value as Record<string, unknown>;
+                  return String(user.name || user.email || user.id || "-");
+                }
+                return String(value || "-");
+              },
+            },
+          ]}
+          tableId={`codes-${assetId}`}
+        />
       </div>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>

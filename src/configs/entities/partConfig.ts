@@ -7,9 +7,19 @@ import { partFormConfig } from "@/config/formLayouts";
 import FormLayout from "@/components/FormLayout";
 import type { CustomLayoutProps } from "@/components/ApiForm";
 import { GenericTab } from "@/components/EntityTabs";
-import ApiTable, { TableColumn } from "@/components/ApiTable";
-import { PartStockLocationTable } from "@/components";
-import PartPurchaseOrderTable from "@/components/PartPurchaseOrderTable";
+import {
+  PartStockLocationTab,
+  PartVendorsTab,
+  PartWarrantyTab,
+  PartFilesTab,
+  PartLogTab,
+  PartCreateCompletionTab,
+  PartCreateChecklistTab,
+  PartCreatePartsTab,
+  PartCreateServicesTab,
+  PartCreateFilesTab,
+  PartCreateLogTab,
+} from "@/components/PartTabs";
 import { apiCall } from "@/utils/apis";
 
 // Part data type
@@ -77,164 +87,31 @@ export const partEditConfig: EntityConfig<PartData> = {
   },
 
   getTabs: (id: string, data: PartData) => {
-    const stockColumns: TableColumn[] = [
-      { key: "site", header: "Site", type: "object", objectIdKey: "site_id" },
-      {
-        key: "location",
-        header: "Location",
-        type: "object",
-        objectIdKey: "location_id",
-      },
-      { key: "aisle", header: "Aisle", type: "text" },
-      { key: "row", header: "Row", type: "text" },
-      { key: "bin", header: "Bin", type: "text" },
-      { key: "qty_on_hand", header: "QTY on hand", type: "text" },
-    ];
-
-    const openPoColumns: TableColumn[] = [
-      { key: "po_number", header: "PO Number", type: "text" },
-      {
-        key: "vendor",
-        header: "Vendor",
-        type: "object",
-        objectIdKey: "vendor_id",
-      },
-      { key: "status", header: "Status", type: "text" },
-      { key: "order_date", header: "Order Date", type: "date" },
-      { key: "expected_date", header: "Expected Date", type: "date" },
-      { key: "qty_ordered", header: "Qty Ordered", type: "text" },
-      { key: "qty_received", header: "Qty Received", type: "text" },
-      { key: "unit_cost", header: "Unit Cost", type: "text" },
-      { key: "total_cost", header: "Total Cost", type: "text" },
-    ];
-
-    const movementColumns: TableColumn[] = [
-      {
-        key: "created_by",
-        header: "Created By",
-        type: "object",
-        objectIdKey: "created_by_id",
-      },
-      { key: "movement_type", header: "Movement Type", type: "text" },
-      {
-        key: "from_location",
-        header: "From Location",
-        type: "object",
-        objectIdKey: "from_location_id",
-      },
-      {
-        key: "to_location",
-        header: "To Location",
-        type: "object",
-        objectIdKey: "to_location_id",
-      },
-      { key: "qty_delta", header: "Qty Delta", type: "text" },
-      {
-        key: "work_order",
-        header: "Work Order",
-        type: "object",
-        objectIdKey: "work_order_id",
-      },
-      { key: "receipt_id", header: "Receipt ID", type: "text" },
-    ];
-
     return [
       {
         id: "stock_location",
         label: "Stock/Location",
-        content: React.createElement(
-          "div",
-          { className: "p-4 h-full" },
-          React.createElement(
-            "div",
-            { className: "flex gap-4 h-full" },
-            React.createElement(
-              "div",
-              { className: "flex-1 min-w-0 flex flex-col" },
-              React.createElement(PartStockLocationTable, {
-                endpoint: "/parts/locations-on-hand",
-                filters: { part_id: id, part: id }, // Add both part_id and part for compatibility
-                columns: stockColumns,
-                queryKey: ["parts", id, "locations-on-hand"],
-                emptyMessage: "No stock locations found",
-                className: "w-full flex-1 min-h-0 flex flex-col",
-                height: "100%",
-              })
-            ),
-            React.createElement(
-              "div",
-              { className: "flex-1 min-w-0 flex flex-col" },
-              React.createElement(PartPurchaseOrderTable, {
-                endpoint: "/parts/parts",
-                columns: openPoColumns,
-                queryKey: ["purchase-orders", id],
-                emptyMessage: "No open purchase orders found",
-                className: "w-full flex-1 min-h-0 flex flex-col",
-                height: "100%",
-              })
-            )
-          )
-        ),
+        content: React.createElement(PartStockLocationTab, { partId: id }),
       },
       {
         id: "vendors",
         label: "Vendors",
-        content: React.createElement(GenericTab, {
-          title: "Vendors",
-          description: "Vendors and supplier relationships will appear here",
-          children: React.createElement(
-            "div",
-            { className: "p-4" },
-            "Placeholder content."
-          ),
-        }),
+        content: React.createElement(PartVendorsTab, { partId: id }),
       },
       {
-        id: "warrenty",
-        label: "Warrenty",
-        content: React.createElement(GenericTab, {
-          title: "Warrenty",
-          description: "Warranty details and terms will appear here",
-          children: React.createElement(
-            "div",
-            { className: "p-4" },
-            "Placeholder content."
-          ),
-        }),
+        id: "warranty",
+        label: "Warranty",
+        content: React.createElement(PartWarrantyTab, { partId: id }),
       },
       {
         id: "files",
         label: "Files",
-        content: React.createElement(GenericTab, {
-          title: "Files",
-          description: "Attached files and documents will appear here",
-          children: React.createElement(
-            "div",
-            { className: "p-4" },
-            "Placeholder content."
-          ),
-        }),
+        content: React.createElement(PartFilesTab, { partId: id }),
       },
       {
         id: "log",
         label: "Log",
-        content: React.createElement(GenericTab, {
-          title: "Log",
-          description: "Part movement history",
-          children: React.createElement(
-            "div",
-            { className: "p-4 h-full" },
-            React.createElement(ApiTable, {
-              endpoint: "/parts/movements",
-              filters: { part: id },
-              columns: movementColumns,
-              queryKey: ["parts", id, "movements"],
-              emptyMessage: "No movements found",
-              className: "w-full flex-1 min-h-0 flex flex-col",
-              height: "100%",
-            })
-          ),
-        }),
+        content: React.createElement(PartLogTab, { partId: id }),
       },
     ];
   },
@@ -258,80 +135,32 @@ export const partCreateConfig: CreateEntityConfig = {
     {
       id: "completion",
       label: "Completion",
-      content: React.createElement(GenericTab, {
-        title: "Completion",
-        description: "Completion tracking and details will go here",
-        children: React.createElement(
-          "div",
-          { className: "p-4" },
-          "Content will be available after creation."
-        ),
-      }),
+      content: React.createElement(PartCreateCompletionTab),
     },
     {
       id: "checklist",
       label: "Checklist",
-      content: React.createElement(GenericTab, {
-        title: "Checklist",
-        description: "Checklist items and progress will go here",
-        children: React.createElement(
-          "div",
-          { className: "p-4" },
-          "Content will be available after creation."
-        ),
-      }),
+      content: React.createElement(PartCreateChecklistTab),
     },
     {
       id: "parts",
       label: "Parts",
-      content: React.createElement(GenericTab, {
-        title: "Parts",
-        description: "Parts and materials needed will go here",
-        children: React.createElement(
-          "div",
-          { className: "p-4" },
-          "Content will be available after creation."
-        ),
-      }),
+      content: React.createElement(PartCreatePartsTab),
     },
     {
       id: "services",
       label: "Third-party services",
-      content: React.createElement(GenericTab, {
-        title: "Third-party services",
-        description: "Third-party services and contractors will go here",
-        children: React.createElement(
-          "div",
-          { className: "p-4" },
-          "Content will be available after creation."
-        ),
-      }),
+      content: React.createElement(PartCreateServicesTab),
     },
     {
       id: "files",
       label: "Files",
-      content: React.createElement(GenericTab, {
-        title: "Files",
-        description: "Attached files and documents will go here",
-        children: React.createElement(
-          "div",
-          { className: "p-4" },
-          "Content will be available after creation."
-        ),
-      }),
+      content: React.createElement(PartCreateFilesTab),
     },
     {
       id: "log",
       label: "Log",
-      content: React.createElement(GenericTab, {
-        title: "Log",
-        description: "Part activity log will go here",
-        children: React.createElement(
-          "div",
-          { className: "p-4" },
-          "Content will be available after creation."
-        ),
-      }),
+      content: React.createElement(PartCreateLogTab),
     },
   ],
 

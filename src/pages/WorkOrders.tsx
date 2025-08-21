@@ -61,6 +61,7 @@ const WorkOrders = () => {
         emptyMessage="No work orders found"
         editRoutePattern="/workorders/edit/{id}"
         height="100%"
+        hasCreateButton={false}
       />
     </div>
   );
