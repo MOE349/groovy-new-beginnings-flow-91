@@ -378,148 +378,180 @@ export function PartStockLocationTable(props: PartStockLocationTableProps) {
                   </div>
                 ) : (
                   <div className="space-y-6">
-                    {/* Row 1: part number, part name, qty, last price */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-4">
-                      {/* part_number */}
-                      <div className="grid grid-cols-3 items-center gap-2">
-                        <Label className="col-span-1 text-right text-sm font-medium">
-                          Part Number
-                        </Label>
-                        <Input
-                          className="col-span-2"
-                          value={
-                            onHandData?.[0]?.part_number ||
-                            selectedRow?.part_number ||
-                            selectedRow?.part?.number ||
-                            "-"
-                          }
-                          readOnly
-                          disabled
-                        />
+                    {/* Two column layout: Left group (Part info) and Right group (Location info) */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-6">
+                      {/* Left group: Part information (2x2 grid) */}
+                      <div className="space-y-4">
+                        {/* Row 1: Part Number and QTY on hand */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+                          {/* part_number */}
+                          <div className="grid grid-cols-3 items-center gap-2">
+                            <Label className="col-span-1 text-right text-sm font-medium">
+                              Part Number
+                            </Label>
+                            <Input
+                              className="col-span-2"
+                              value={
+                                onHandData?.[0]?.part_number ||
+                                selectedRow?.part_number ||
+                                selectedRow?.part?.number ||
+                                "-"
+                              }
+                              readOnly
+                              disabled
+                            />
+                          </div>
+
+                          {/* qty on hand */}
+                          <div className="grid grid-cols-3 items-center gap-2">
+                            <Label className="col-span-1 text-right text-sm font-medium">
+                              QTY on hand
+                            </Label>
+                            <Input
+                              className="col-span-2"
+                              value={
+                                onHandData?.[0]?.qty_on_hand != null
+                                  ? String(onHandData[0].qty_on_hand)
+                                  : selectedRow?.qty_on_hand != null
+                                  ? String(selectedRow.qty_on_hand)
+                                  : "-"
+                              }
+                              readOnly
+                              disabled
+                            />
+                          </div>
+                        </div>
+
+                        {/* Row 2: Part Name and Last Price */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+                          {/* part_name */}
+                          <div className="grid grid-cols-3 items-center gap-2">
+                            <Label className="col-span-1 text-right text-sm font-medium">
+                              Part Name
+                            </Label>
+                            <Input
+                              className="col-span-2"
+                              value={
+                                onHandData?.[0]?.part_name ||
+                                selectedRow?.part_name ||
+                                selectedRow?.name ||
+                                selectedRow?.part?.name ||
+                                "-"
+                              }
+                              readOnly
+                              disabled
+                            />
+                          </div>
+
+                          {/* last_price */}
+                          <div className="grid grid-cols-3 items-center gap-2">
+                            <Label className="col-span-1 text-right text-sm font-medium">
+                              Last Price
+                            </Label>
+                            <Input
+                              className="col-span-2"
+                              value={
+                                onHandData?.[0]?.last_unit_cost != null
+                                  ? String(onHandData[0].last_unit_cost)
+                                  : selectedRow?.last_price != null
+                                  ? String(selectedRow.last_price)
+                                  : "-"
+                              }
+                              readOnly
+                              disabled
+                            />
+                          </div>
+                        </div>
                       </div>
 
-                      {/* part_name */}
-                      <div className="grid grid-cols-3 items-center gap-2">
-                        <Label className="col-span-1 text-right text-sm font-medium">
-                          Part Name
-                        </Label>
-                        <Input
-                          className="col-span-2"
-                          value={
-                            onHandData?.[0]?.part_name ||
-                            selectedRow?.part_name ||
-                            selectedRow?.name ||
-                            selectedRow?.part?.name ||
-                            "-"
-                          }
-                          readOnly
-                          disabled
-                        />
-                      </div>
+                      {/* Right group: Location information (3x2 grid) */}
+                      <div className="space-y-4">
+                        {/* Row 1: Location in center column */}
+                        <div className="grid grid-cols-3 gap-x-4 gap-y-4">
+                          {/* Empty first column */}
+                          <div></div>
 
-                      {/* qty on hand */}
-                      <div className="grid grid-cols-3 items-center gap-2">
-                        <Label className="col-span-1 text-right text-sm font-medium">
-                          QTY on hand
-                        </Label>
-                        <Input
-                          className="col-span-2"
-                          value={
-                            onHandData?.[0]?.qty_on_hand != null
-                              ? String(onHandData[0].qty_on_hand)
-                              : selectedRow?.qty_on_hand != null
-                              ? String(selectedRow.qty_on_hand)
-                              : "-"
-                          }
-                          readOnly
-                          disabled
-                        />
-                      </div>
+                          {/* Location in second column */}
+                          <div className="grid grid-cols-3 items-center gap-2">
+                            <Label className="col-span-1 text-right text-sm font-medium">
+                              Location
+                            </Label>
+                            <Input
+                              className="col-span-2"
+                              value={
+                                onHandData?.[0]?.location?.name ||
+                                onHandData?.[0]?.location?.code ||
+                                selectedRow?.location?.name ||
+                                selectedRow?.location?.code ||
+                                "-"
+                              }
+                              readOnly
+                              disabled
+                            />
+                          </div>
 
-                      {/* last_price */}
-                      <div className="grid grid-cols-3 items-center gap-2">
-                        <Label className="col-span-1 text-right text-sm font-medium">
-                          Last Price
-                        </Label>
-                        <Input
-                          className="col-span-2"
-                          value={
-                            onHandData?.[0]?.last_unit_cost != null
-                              ? String(onHandData[0].last_unit_cost)
-                              : selectedRow?.last_price != null
-                              ? String(selectedRow.last_price)
-                              : "-"
-                          }
-                          readOnly
-                          disabled
-                        />
-                      </div>
-                    </div>
+                          {/* Add Quantity button in third column */}
+                          <div className="flex justify-end">
+                            <Button
+                              onClick={openCreate}
+                              variant="outline"
+                              size="sm"
+                              className="gap-2 bg-yellow-400 hover:bg-yellow-500 border-yellow-400 hover:border-yellow-500 text-black"
+                            >
+                              Add Quantity
+                            </Button>
+                          </div>
+                        </div>
 
-                    {/* Row 2: location, aisle, row, bin */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-4">
-                      {/* location */}
-                      <div className="grid grid-cols-3 items-center gap-2">
-                        <Label className="col-span-1 text-right text-sm font-medium">
-                          Location
-                        </Label>
-                        <Input
-                          className="col-span-2"
-                          value={
-                            onHandData?.[0]?.location?.name ||
-                            onHandData?.[0]?.location?.code ||
-                            selectedRow?.location?.name ||
-                            selectedRow?.location?.code ||
-                            "-"
-                          }
-                          readOnly
-                          disabled
-                        />
-                      </div>
+                        {/* Row 2: Aisle, Row, Bin */}
+                        <div className="grid grid-cols-3 gap-x-4 gap-y-4">
+                          {/* aisle */}
+                          <div className="grid grid-cols-3 items-center gap-2">
+                            <Label className="col-span-1 text-right text-sm font-medium">
+                              Aisle
+                            </Label>
+                            <Input
+                              className="col-span-2"
+                              value={
+                                onHandData?.[0]?.aisle ||
+                                selectedRow?.aisle ||
+                                "-"
+                              }
+                              readOnly
+                              disabled
+                            />
+                          </div>
 
-                      {/* aisle */}
-                      <div className="grid grid-cols-3 items-center gap-2">
-                        <Label className="col-span-1 text-right text-sm font-medium">
-                          Aisle
-                        </Label>
-                        <Input
-                          className="col-span-2"
-                          value={
-                            onHandData?.[0]?.aisle || selectedRow?.aisle || "-"
-                          }
-                          readOnly
-                          disabled
-                        />
-                      </div>
+                          {/* row */}
+                          <div className="grid grid-cols-3 items-center gap-2">
+                            <Label className="col-span-1 text-right text-sm font-medium">
+                              Row
+                            </Label>
+                            <Input
+                              className="col-span-2"
+                              value={
+                                onHandData?.[0]?.row || selectedRow?.row || "-"
+                              }
+                              readOnly
+                              disabled
+                            />
+                          </div>
 
-                      {/* row */}
-                      <div className="grid grid-cols-3 items-center gap-2">
-                        <Label className="col-span-1 text-right text-sm font-medium">
-                          Row
-                        </Label>
-                        <Input
-                          className="col-span-2"
-                          value={
-                            onHandData?.[0]?.row || selectedRow?.row || "-"
-                          }
-                          readOnly
-                          disabled
-                        />
-                      </div>
-
-                      {/* bin */}
-                      <div className="grid grid-cols-3 items-center gap-2">
-                        <Label className="col-span-1 text-right text-sm font-medium">
-                          Bin
-                        </Label>
-                        <Input
-                          className="col-span-2"
-                          value={
-                            onHandData?.[0]?.bin || selectedRow?.bin || "-"
-                          }
-                          readOnly
-                          disabled
-                        />
+                          {/* bin */}
+                          <div className="grid grid-cols-3 items-center gap-2">
+                            <Label className="col-span-1 text-right text-sm font-medium">
+                              Bin
+                            </Label>
+                            <Input
+                              className="col-span-2"
+                              value={
+                                onHandData?.[0]?.bin || selectedRow?.bin || "-"
+                              }
+                              readOnly
+                              disabled
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -555,7 +587,6 @@ export function PartStockLocationTable(props: PartStockLocationTableProps) {
                 enableColumnReorder={false}
                 persistColumnOrder={false}
               />
-
               <ApiTable
                 endpoint="/parts/inventory-batches"
                 filters={{
@@ -576,14 +607,11 @@ export function PartStockLocationTable(props: PartStockLocationTableProps) {
                   selectedRow?.bin || "",
                 ]}
                 columns={rightColumns}
-                emptyMessage="Coming soon"
+                emptyMessage="No batches found for this location"
                 height="100%"
                 showFilters={false}
                 enableColumnReorder={false}
                 persistColumnOrder={false}
-                title="Inventory Batches"
-                createNewText="Create"
-                onCreateNew={openCreate}
               />
             </div>
           </div>
