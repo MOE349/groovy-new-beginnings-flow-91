@@ -3,11 +3,12 @@ import { useQuery } from "@tanstack/react-query";
 import { ApiTable } from "./ApiTable";
 import type { ApiTableProps, TableColumn } from "./ApiTable";
 import { Dialog, DialogContent } from "./ui/dialog";
-import { Card, CardContent } from "./ui/card";
+import { Card, CardContent, CardHeader } from "./ui/card";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import ApiDropDown from "./ApiDropDown";
 import { Button } from "./ui/button";
+import { Plus } from "lucide-react";
 import { apiCall } from "@/utils/apis";
 import ApiForm from "@/components/ApiForm";
 import type { FieldConfig } from "@/components/ApiForm";
@@ -319,27 +320,18 @@ export function PartStockLocationTable(props: PartStockLocationTableProps) {
 
   return (
     <>
-      <div className="space-y-2">
-        <div className="flex justify-end gap-2">
-          <Button
-            onClick={openTransferDialog}
-            variant="outline"
-            size="sm"
-            className="gap-2"
-          >
-            Transfer parts
-          </Button>
-        </div>
-        <ApiTable
-          {...props}
-          showFilters={false}
-          enableColumnReorder={false}
-          persistColumnOrder={false}
-          onRowClick={handleRowClick}
-          createNewText="Create"
-          onCreateNew={openMainCreate}
-        />
-      </div>
+      <ApiTable
+        {...props}
+        showFilters={false}
+        enableColumnReorder={false}
+        persistColumnOrder={false}
+        onRowClick={handleRowClick}
+        createNewText="Add Location"
+        hasCreateButton={true}
+        onCreateNew={openCreate}
+        secondaryButtonText={"Transfer Parts"}
+        onSecondaryClick={openTransferDialog}
+      />
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="w-[90vw] h-[90vh] max-w-none flex flex-col overflow-hidden">
@@ -586,6 +578,8 @@ export function PartStockLocationTable(props: PartStockLocationTableProps) {
                 showFilters={false}
                 enableColumnReorder={false}
                 persistColumnOrder={false}
+                hasCreateButton={false}
+                title="Movment Log"
               />
               <ApiTable
                 endpoint="/parts/inventory-batches"
@@ -612,6 +606,8 @@ export function PartStockLocationTable(props: PartStockLocationTableProps) {
                 showFilters={false}
                 enableColumnReorder={false}
                 persistColumnOrder={false}
+                hasCreateButton={false}
+                title="Inventory Batch"
               />
             </div>
           </div>

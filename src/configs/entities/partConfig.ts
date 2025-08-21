@@ -9,6 +9,7 @@ import type { CustomLayoutProps } from "@/components/ApiForm";
 import { GenericTab } from "@/components/EntityTabs";
 import ApiTable, { TableColumn } from "@/components/ApiTable";
 import { PartStockLocationTable } from "@/components";
+import PartPurchaseOrderTable from "@/components/PartPurchaseOrderTable";
 import { apiCall } from "@/utils/apis";
 
 // Part data type
@@ -91,7 +92,20 @@ export const partEditConfig: EntityConfig<PartData> = {
     ];
 
     const openPoColumns: TableColumn[] = [
-      { key: "placeholder", header: "-", type: "text" },
+      { key: "po_number", header: "PO Number", type: "text" },
+      {
+        key: "vendor",
+        header: "Vendor",
+        type: "object",
+        objectIdKey: "vendor_id",
+      },
+      { key: "status", header: "Status", type: "text" },
+      { key: "order_date", header: "Order Date", type: "date" },
+      { key: "expected_date", header: "Expected Date", type: "date" },
+      { key: "qty_ordered", header: "Qty Ordered", type: "text" },
+      { key: "qty_received", header: "Qty Received", type: "text" },
+      { key: "unit_cost", header: "Unit Cost", type: "text" },
+      { key: "total_cost", header: "Total Cost", type: "text" },
     ];
 
     const movementColumns: TableColumn[] = [
@@ -138,7 +152,6 @@ export const partEditConfig: EntityConfig<PartData> = {
               "div",
               { className: "flex-1 min-w-0 flex flex-col" },
               React.createElement(PartStockLocationTable, {
-                title: "Stock Location",
                 endpoint: "/parts/locations-on-hand",
                 filters: { part_id: id, part: id }, // Add both part_id and part for compatibility
                 columns: stockColumns,
@@ -151,12 +164,11 @@ export const partEditConfig: EntityConfig<PartData> = {
             React.createElement(
               "div",
               { className: "flex-1 min-w-0 flex flex-col" },
-              React.createElement(ApiTable, {
-                title: "Open Purchase Orders",
-                endpoint: "/parts/inventory-batches",
-                filters: { part: id },
+              React.createElement(PartPurchaseOrderTable, {
+                endpoint: "/parts/parts",
                 columns: openPoColumns,
-                emptyMessage: "Coming soon",
+                queryKey: ["purchase-orders", id],
+                emptyMessage: "No open purchase orders found",
                 className: "w-full flex-1 min-h-0 flex flex-col",
                 height: "100%",
               })

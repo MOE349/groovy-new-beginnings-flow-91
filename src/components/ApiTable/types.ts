@@ -33,6 +33,17 @@ export interface ApiTableProps<T = any> {
   createNewHref?: string;
   createNewText?: string;
   onCreateNew?: () => void;
+  hasCreateButton?: boolean;
+  secondaryButtonText?: string;
+  onSecondaryClick?: () => void;
+  secondaryButtonHref?: string;
+  secondaryButtonVariant?:
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | "link";
   editRoutePattern?: string;
   onRowClick?: (row: T) => void;
   onDelete?: (row: T) => void;
@@ -43,8 +54,6 @@ export interface ApiTableProps<T = any> {
   maxHeight?: string;
   showFilters?: boolean;
   refreshInterval?: number;
-  virtualScroll?: boolean;
-  rowHeight?: number | ((row: T, index: number) => number);
   enabled?: boolean;
 }
 

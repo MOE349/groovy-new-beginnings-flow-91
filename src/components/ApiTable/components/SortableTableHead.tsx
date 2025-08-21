@@ -68,6 +68,10 @@ export const SortableTableHead: React.FC<SortableTableHeadProps> = ({
     setOpenFilterPopover(isPopoverOpen ? null : column.key);
   };
 
+  // If neither drag-and-drop nor filters are enabled, render simple header
+  const hasAdvancedFeatures =
+    enableColumnReorder || (showFilters && column.filterable !== false);
+
   return (
     <TableHead
       ref={setNodeRef}
@@ -76,57 +80,65 @@ export const SortableTableHead: React.FC<SortableTableHeadProps> = ({
         width: width ? `${width}px` : "auto",
         minWidth: width ? `${width}px` : "150px",
       }}
-      className={`${className} select-none relative text-secondary`}
+      className={`${className} select-none relative`}
     >
-      <div className="flex items-center justify-between gap-2 min-w-0">
-        <div
-          className={`flex items-center gap-2 min-w-0 ${
-            enableColumnReorder ? "cursor-grab active:cursor-grabbing" : ""
-          }`}
-          {...(enableColumnReorder ? { ...attributes, ...listeners } : {})}
-        >
-          {enableColumnReorder && (
-            <GripVertical className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-          )}
-          <span className="truncate">{column.header}</span>
-        </div>
+      {hasAdvancedFeatures ? (
+        // Complex structure for tables with drag-and-drop or filters
+        <div className="flex items-center justify-between gap-2 min-w-0 h-6">
+          <div
+            className={`flex items-center gap-2 min-w-0 h-6 ${
+              enableColumnReorder ? "cursor-grab active:cursor-grabbing" : ""
+            }`}
+            {...(enableColumnReorder ? { ...attributes, ...listeners } : {})}
+          >
+            {enableColumnReorder && (
+              <GripVertical className="h-3 w-3 text-muted-foreground flex-shrink-0" />
+            )}
+            <span className="truncate">{column.header}</span>
+          </div>
 
-        {showFilters && column.filterable !== false && (
-          <div className="flex-shrink-0">
-            <Popover
-              open={isPopoverOpen}
-              onOpenChange={(open) =>
-                setOpenFilterPopover(open ? column.key : null)
-              }
-            >
-              <PopoverTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className={`h-6 w-6 p-0 ${
-                    hasActiveFilter
-                      ? "text-primary ring-2 ring-secondary ring-offset-4"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                  onClick={handleSearchClick}
-                >
-                  <Search className="h-3 w-3" />
-                </Button>
-              </PopoverTrigger>
-
-              <FilterPopover
-                filterValue={filterValue}
-                onFilterChange={onFilterChange}
-                onApply={onFilterApply}
-                onClear={onFilterClear}
+          {showFilters && column.filterable !== false && (
+            <div className="flex-shrink-0 h-6 flex items-center">
+              <Popover
+                open={isPopoverOpen}
                 onOpenChange={(open) =>
                   setOpenFilterPopover(open ? column.key : null)
                 }
-              />
-            </Popover>
-          </div>
-        )}
-      </div>
+              >
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className={`h-4 w-4 p-0 ${
+                      hasActiveFilter
+                        ? "text-primary ring-2 ring-secondary ring-offset-4"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                    onClick={handleSearchClick}
+                  >
+                    <Search className="h-3 w-3" />
+                  </Button>
+                </PopoverTrigger>
+
+                <FilterPopover
+                  filterValue={filterValue}
+                  onFilterChange={onFilterChange}
+                  onApply={onFilterApply}
+                  onClear={onFilterClear}
+                  onOpenChange={(open) =>
+                    setOpenFilterPopover(open ? column.key : null)
+                  }
+                />
+              </Popover>
+            </div>
+          )}
+        </div>
+      ) : (
+        // Simple structure for basic tables
+        <div className="h-6 flex items-center">
+          <span className="truncate">{column.header}</span>
+        </div>
+      )}
 
       {/* Resize handle */}
       {!isLastColumn && (

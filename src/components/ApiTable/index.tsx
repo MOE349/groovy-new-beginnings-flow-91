@@ -3,13 +3,7 @@
  * Modular, performant table with sorting, filtering, resizing, and drag-and-drop
  */
 
-import React, {
-  useMemo,
-  useCallback,
-  useRef,
-  useEffect,
-  useState,
-} from "react";
+import React, { useMemo, useCallback, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   DndContext,
@@ -28,6 +22,7 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
@@ -36,13 +31,13 @@ import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Plus, Trash2 } from "lucide-react";
 import GearSpinner from "@/components/ui/gear-spinner";
+import { toast } from "@/hooks/use-toast";
 import { SortableTableHead } from "./components/SortableTableHead";
 import {
   useTableData,
   useTableFilters,
   useColumnOrder,
   useColumnResize,
-  useVirtualScroll,
 } from "./hooks";
 import {
   formatDateOptimized,
@@ -61,8 +56,13 @@ function ApiTableComponent<T extends Record<string, any>>({
   tableClassName,
   emptyMessage = "No data available",
   createNewHref,
-  createNewText = "Create New",
+  createNewText = "Create",
   onCreateNew,
+  hasCreateButton = true,
+  secondaryButtonText,
+  onSecondaryClick,
+  secondaryButtonHref,
+  secondaryButtonVariant = "outline",
   editRoutePattern,
   onRowClick,
   onDelete,
@@ -73,11 +73,37 @@ function ApiTableComponent<T extends Record<string, any>>({
   maxHeight,
   showFilters = true,
   refreshInterval,
-  virtualScroll = false,
-  rowHeight = 40,
   enabled = true,
 }: ApiTableProps<T>) {
   const navigate = useNavigate();
+
+  // Default create handler when no custom handlers are provided
+  const handleDefaultCreate = useCallback(() => {
+    toast({
+      title: "Create action not configured",
+      description:
+        "No create handler or route has been configured for this table.",
+      variant: "default",
+    });
+  }, []);
+
+  // Default secondary handler when no custom handlers are provided
+  const handleDefaultSecondary = useCallback(() => {
+    toast({
+      title: "Secondary action not configured",
+      description:
+        "No secondary button handler or route has been configured for this table.",
+      variant: "default",
+    });
+  }, []);
+
+  // Check if secondary button should be shown
+  const showSecondaryButton = Boolean(
+    secondaryButtonText && (onSecondaryClick || secondaryButtonHref)
+  );
+
+  // Check if any buttons should be shown
+  const showAnyButton = hasCreateButton || showSecondaryButton;
 
   // Custom hooks
   const { data, isLoading, error, isError } = useTableData<T>({
@@ -127,41 +153,11 @@ function ApiTableComponent<T extends Record<string, any>>({
   // Memoized filtered data
   const filteredData = useMemo(() => getFilteredData(), [getFilteredData]);
 
-  // Container height tracking for virtual scrolling
-  const [containerHeight, setContainerHeight] = useState(400);
+  // Simple scroll container ref
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  // Update container height when it changes
-  useEffect(() => {
-    const updateHeight = () => {
-      if (scrollContainerRef.current && virtualScroll) {
-        const rect = scrollContainerRef.current.getBoundingClientRect();
-        setContainerHeight(rect.height);
-      }
-    };
-
-    updateHeight();
-    window.addEventListener("resize", updateHeight);
-    return () => window.removeEventListener("resize", updateHeight);
-  }, [virtualScroll]);
-
-  // Virtual scrolling
-  const {
-    virtualItems,
-    totalHeight,
-    offsetY,
-    handleScroll: handleVirtualScroll,
-    startIndex,
-  } = useVirtualScroll({
-    items: filteredData || [],
-    containerHeight,
-    rowHeight,
-    overscan: 5,
-    enabled: virtualScroll,
-  });
-
-  // Use virtual items when virtual scrolling is enabled
-  const displayData = virtualScroll ? virtualItems : filteredData;
+  // Use filtered data directly (no virtual scrolling complexity)
+  const displayData = filteredData;
 
   // Row click handler
   const handleRowClick = useCallback(
@@ -203,26 +199,10 @@ function ApiTableComponent<T extends Record<string, any>>({
     return value?.toString() || "-";
   }, []);
 
-  // Auto-detect container type and apply appropriate classes
-  const containerClassName = useMemo(() => {
-    // If manual className contains flex layout classes, use it as-is with minimal base classes
-    const hasFlexClasses =
-      className && /flex|min-h-0|h-full|h-screen/.test(className);
-
-    if (hasFlexClasses) {
-      // Manual override - just add base styling, keep existing layout classes
-      return `p-2 ${className}`;
-    }
-
-    // Auto-detection for containers without explicit layout classes
-    const baseClasses = "p-2 flex flex-col";
-    const containerClasses =
-      height || maxHeight
-        ? "flex-1 min-h-0" // For constrained containers (modals, cards with explicit height)
-        : "h-full"; // For full-page containers
-
-    return `${baseClasses} ${containerClasses} ${className || ""}`;
-  }, [height, maxHeight, className]);
+  // Simple container classes - always fill parent and allow overflow
+  const containerClassName = `flex flex-col h-full min-h-0 p-0 ${
+    className || ""
+  }`;
 
   // Loading state
   if (isLoading) {
@@ -244,265 +224,185 @@ function ApiTableComponent<T extends Record<string, any>>({
     );
   }
 
-  // Table content with frozen header
+  // Simplified table content
   const tableContent = (
     <DndContext
       sensors={enableColumnReorder ? sensors : (undefined as any)}
       collisionDetection={enableColumnReorder ? closestCenter : undefined}
       onDragEnd={enableColumnReorder ? handleDragEnd : undefined}
     >
-      <div className="flex flex-col h-full min-h-0">
-        {/* Fixed Header */}
-        <div className="flex-shrink-0 border-b bg-background overflow-hidden">
-          <div className="w-full">
-            <table
-              className={`w-full caption-bottom text-sm table-fixed ${
-                tableClassName || ""
-              }`}
-            >
-              <TableHeader>
-                <TableRow>
-                  <SortableContext
-                    items={orderedColumns.map((col) => col.key)}
-                    strategy={horizontalListSortingStrategy}
-                  >
-                    {orderedColumns.map((column, index) => (
-                      <SortableTableHead
-                        key={column.key}
-                        column={column}
-                        className={column.className}
-                        filterValue={filters[column.key] || ""}
-                        onFilterChange={(value) =>
-                          handleFilterChange(column.key, value)
-                        }
-                        onFilterApply={() => applyFilter(column.key)}
-                        onFilterClear={() => clearFilter(column.key)}
-                        hasActiveFilter={Boolean(appliedFilters[column.key])}
-                        openFilterPopover={openFilterPopover}
-                        setOpenFilterPopover={setOpenFilterPopover}
-                        width={columnWidths[column.key]}
-                        onResizeStart={handleResizeStart}
-                        isLastColumn={index === orderedColumns.length - 1}
-                        enableColumnReorder={enableColumnReorder}
-                        showFilters={showFilters}
-                      />
-                    ))}
-                    {onDelete && (
-                      <th className="w-8 p-0" style={{ width: "32px" }}></th>
-                    )}
-                  </SortableContext>
-                </TableRow>
-              </TableHeader>
-            </table>
-          </div>
+      <div className="flex flex-col h-full">
+        {/* Sticky Header */}
+        <div className="flex-shrink-0 border-b bg-background">
+          <table
+            className={`w-full caption-bottom text-sm table-fixed ${
+              tableClassName || ""
+            }`}
+          >
+            <TableHeader>
+              <TableRow>
+                <SortableContext
+                  items={orderedColumns.map((col) => col.key)}
+                  strategy={horizontalListSortingStrategy}
+                >
+                  {orderedColumns.map((column, index) => (
+                    <SortableTableHead
+                      key={column.key}
+                      column={column}
+                      className={column.className}
+                      filterValue={filters[column.key] || ""}
+                      onFilterChange={(value) =>
+                        handleFilterChange(column.key, value)
+                      }
+                      onFilterApply={() => applyFilter(column.key)}
+                      onFilterClear={() => clearFilter(column.key)}
+                      hasActiveFilter={Boolean(appliedFilters[column.key])}
+                      openFilterPopover={openFilterPopover}
+                      setOpenFilterPopover={setOpenFilterPopover}
+                      width={columnWidths[column.key]}
+                      onResizeStart={handleResizeStart}
+                      isLastColumn={index === orderedColumns.length - 1}
+                      enableColumnReorder={enableColumnReorder}
+                      showFilters={showFilters}
+                    />
+                  ))}
+                  {onDelete && (
+                    <TableHead
+                      className="w-8 p-0"
+                      style={{ width: "32px" }}
+                    ></TableHead>
+                  )}
+                </SortableContext>
+              </TableRow>
+            </TableHeader>
+          </table>
         </div>
 
         {/* Scrollable Body */}
-        <div
-          ref={virtualScroll ? scrollContainerRef : undefined}
-          className="flex-1 overflow-auto min-h-0"
-          style={{
-            height: height ? `calc(${height} - 60px)` : undefined,
-            maxHeight: maxHeight ? `calc(${maxHeight} - 60px)` : undefined,
-          }}
-          onScroll={virtualScroll ? handleVirtualScroll : undefined}
-        >
-          {virtualScroll ? (
-            // Virtual scrolling table body
-            <div style={{ height: totalHeight, position: "relative" }}>
-              <table
-                className={`w-full caption-bottom text-sm table-fixed ${
-                  tableClassName || ""
-                }`}
-                style={{
-                  position: "absolute",
-                  top: offsetY,
-                  left: 0,
-                  right: 0,
-                }}
-              >
-                <TableBody>
-                  {displayData && displayData.length > 0 ? (
-                    displayData.map((row: T, index: number) => (
-                      <TableRow
-                        key={row.id || startIndex + index}
-                        className={`group ${
-                          isRowClickable
-                            ? "cursor-pointer hover:bg-muted/50 transition-colors"
-                            : ""
-                        } relative`}
-                        onClick={() => isRowClickable && handleRowClick(row)}
+        <div ref={scrollContainerRef} className="flex-1 overflow-auto">
+          <table
+            className={`w-full caption-bottom text-sm table-fixed ${
+              tableClassName || ""
+            }`}
+          >
+            <TableBody>
+              {displayData && displayData.length > 0 ? (
+                displayData.map((row: T, index: number) => (
+                  <TableRow
+                    key={row.id || index}
+                    className={`group ${
+                      isRowClickable
+                        ? "cursor-pointer hover:bg-muted/50 transition-colors"
+                        : ""
+                    } relative`}
+                    onClick={() => isRowClickable && handleRowClick(row)}
+                  >
+                    {orderedColumns.map((column) => (
+                      <TableCell
+                        key={column.key}
+                        className={`${column.className} min-w-0`}
                       >
-                        {orderedColumns.map((column) => (
-                          <TableCell
-                            key={column.key}
-                            className={`${column.className} min-w-0`}
-                            style={{
-                              width: columnWidths[column.key]
-                                ? `${columnWidths[column.key]}px`
-                                : "auto",
-                              minWidth: columnWidths[column.key]
-                                ? `${columnWidths[column.key]}px`
-                                : "150px",
+                        <div className="truncate">
+                          {renderCell(column, row)}
+                        </div>
+                      </TableCell>
+                    ))}
+                    {onDelete && (
+                      <TableCell className="w-8 p-0">
+                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex justify-center">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-6 w-6 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onDelete(row);
                             }}
                           >
-                            <div className="truncate">
-                              {renderCell(column, row)}
-                            </div>
-                          </TableCell>
-                        ))}
-                        {onDelete && (
-                          <TableCell
-                            className="w-8 p-0"
-                            style={{ width: "32px" }}
-                          >
-                            <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex justify-center">
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                className="h-6 w-6 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  onDelete(row);
-                                }}
-                              >
-                                <Trash2 className="h-3 w-3" />
-                              </Button>
-                            </div>
-                          </TableCell>
-                        )}
-                      </TableRow>
-                    ))
-                  ) : (
-                    <TableRow>
-                      <TableCell
-                        colSpan={orderedColumns.length + (onDelete ? 1 : 0)}
-                        className="text-center text-muted-foreground"
-                      >
-                        {Object.keys(appliedFilters).length > 0
-                          ? "No results match your filters"
-                          : emptyMessage}
+                            <Trash2 className="h-3 w-3" />
+                          </Button>
+                        </div>
                       </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </table>
-            </div>
-          ) : (
-            // Regular non-virtual scrolling table body
-            <table
-              className={`w-full caption-bottom text-sm table-fixed ${
-                tableClassName || ""
-              }`}
-            >
-              <TableBody>
-                {filteredData && filteredData.length > 0 ? (
-                  filteredData.map((row: T, index: number) => (
-                    <TableRow
-                      key={row.id || index}
-                      className={`group ${
-                        isRowClickable
-                          ? "cursor-pointer hover:bg-muted/50 transition-colors"
-                          : ""
-                      } relative`}
-                      onClick={() => isRowClickable && handleRowClick(row)}
-                    >
-                      {orderedColumns.map((column) => (
-                        <TableCell
-                          key={column.key}
-                          className={`${column.className} min-w-0`}
-                          style={{
-                            width: columnWidths[column.key]
-                              ? `${columnWidths[column.key]}px`
-                              : "auto",
-                            minWidth: columnWidths[column.key]
-                              ? `${columnWidths[column.key]}px`
-                              : "150px",
-                          }}
-                        >
-                          <div className="truncate">
-                            {renderCell(column, row)}
-                          </div>
-                        </TableCell>
-                      ))}
-                      {onDelete && (
-                        <TableCell className="w-8 p-0">
-                          <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex justify-center">
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="h-6 w-6 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                onDelete(row);
-                              }}
-                            >
-                              <Trash2 className="h-3 w-3" />
-                            </Button>
-                          </div>
-                        </TableCell>
-                      )}
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell
-                      colSpan={orderedColumns.length + (onDelete ? 1 : 0)}
-                      className="text-center text-muted-foreground"
-                    >
-                      {Object.keys(appliedFilters).length > 0
-                        ? "No results match your filters"
-                        : emptyMessage}
-                    </TableCell>
+                    )}
                   </TableRow>
-                )}
-              </TableBody>
-            </table>
-          )}
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={orderedColumns.length + (onDelete ? 1 : 0)}
+                    className="text-center text-muted-foreground"
+                  >
+                    {Object.keys(appliedFilters).length > 0
+                      ? "No results match your filters"
+                      : emptyMessage}
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </table>
         </div>
       </div>
     </DndContext>
   );
 
-  // With title/card wrapper
-  if (title) {
-    return (
-      <Card className={containerClassName}>
-        <CardHeader className="py-2 px-3 flex-shrink-0">
-          <div className="flex items-center justify-between">
-            {(createNewHref || onCreateNew) && (
-              <Button
-                {...(createNewHref
-                  ? { asChild: true }
-                  : { onClick: onCreateNew })}
-                size="sm"
-              >
-                {createNewHref ? (
-                  <Link to={createNewHref}>
-                    <Plus className="mr-2 h-4 w-4" />
-                    {createNewText}
-                  </Link>
-                ) : (
-                  <>
-                    <Plus className="mr-2 h-4 w-4" />
-                    {createNewText}
-                  </>
-                )}
-              </Button>
-            )}
-          </div>
-        </CardHeader>
-        <CardContent className="p-0 flex-1 min-h-0 flex flex-col overflow-hidden">
-          {tableContent}
-        </CardContent>
-      </Card>
-    );
-  }
+  // Render buttons
+  const renderButtons = () => (
+    <>
+      {hasCreateButton && (
+        <Button
+          {...(createNewHref
+            ? { asChild: true }
+            : { onClick: onCreateNew || handleDefaultCreate })}
+          variant="default"
+          size="sm"
+          className="flex items-center gap-2 px-3 py-1"
+        >
+          {createNewHref ? (
+            <Link to={createNewHref}>
+              <Plus className="h-3 w-3" />
+              {createNewText}
+            </Link>
+          ) : (
+            <>
+              <Plus className="h-3 w-3" />
+              {createNewText}
+            </>
+          )}
+        </Button>
+      )}
+      {showSecondaryButton && (
+        <Button
+          {...(secondaryButtonHref
+            ? { asChild: true }
+            : { onClick: onSecondaryClick || handleDefaultSecondary })}
+          size="sm"
+          variant={secondaryButtonVariant}
+          className="flex items-center gap-2 px-3 py-1"
+        >
+          {secondaryButtonHref ? (
+            <Link to={secondaryButtonHref}>{secondaryButtonText}</Link>
+          ) : (
+            secondaryButtonText
+          )}
+        </Button>
+      )}
+    </>
+  );
 
-  // Without title
   return (
     <Card className={containerClassName}>
-      <CardContent className="p-0 flex-1 min-h-0 flex flex-col overflow-hidden">
+      <CardHeader className="py-2 px-3 flex-shrink-0">
+        <div className="flex items-center justify-between min-h-[2rem]">
+          {showAnyButton ? (
+            renderButtons()
+          ) : title ? (
+            <h3 className="text-lg font-semibold">{title}</h3>
+          ) : (
+            <div></div> // Empty div to maintain height
+          )}
+        </div>
+      </CardHeader>
+      <CardContent className="px-3 pt-0 flex-1 min-h-0 flex flex-col">
         {tableContent}
       </CardContent>
     </Card>
