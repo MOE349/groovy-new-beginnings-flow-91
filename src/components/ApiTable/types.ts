@@ -3,11 +3,11 @@
  * Comprehensive type definitions for the table component
  */
 
-export interface TableColumn<T = any> {
+export interface TableColumn<T = Record<string, unknown>> {
   key: string;
   header: string;
   type?: string;
-  render?: (value: any, row: T) => React.ReactNode;
+  render?: (value: unknown, row: T) => React.ReactNode;
   className?: string;
   width?: number;
   sortable?: boolean;
@@ -20,9 +20,9 @@ export interface TableColumn<T = any> {
   objectIdKey?: string;
 }
 
-export interface ApiTableProps<T = any> {
+export interface ApiTableProps<T = Record<string, unknown>> {
   endpoint: string;
-  filters?: Record<string, any>;
+  filters?: Record<string, unknown>;
   secondaryEndpoint?: string;
   columns: TableColumn<T>[];
   title?: string;
@@ -90,7 +90,7 @@ export interface PaginationState {
 }
 
 export interface TableDataResponse<T> {
-  data: T[] | { data: T[]; meta_data?: any };
+  data: T[] | { data: T[]; meta_data?: Record<string, unknown> };
   status: number;
   statusText: string;
 }
@@ -98,7 +98,7 @@ export interface TableDataResponse<T> {
 export interface UseTableDataOptions<T> {
   endpoint: string;
   secondaryEndpoint?: string;
-  filters?: Record<string, any>;
+  filters?: Record<string, unknown>;
   queryKey?: string[];
   refreshInterval?: number;
   enabled?: boolean;

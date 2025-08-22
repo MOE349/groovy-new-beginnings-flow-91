@@ -11,6 +11,7 @@ interface UseColumnResizeProps {
   endpoint: string;
   minColumnWidth?: number;
   maxColumnWidth?: number;
+  columns?: Array<{ key: string }>;
 }
 
 interface UseColumnResizeReturn {
@@ -26,8 +27,11 @@ export function useColumnResize({
   endpoint,
   minColumnWidth = 100,
   maxColumnWidth = 800,
+  columns = [],
 }: UseColumnResizeProps): UseColumnResizeReturn {
-  const widthStorageKey = `table-column-widths-${tableId || endpoint.replace(/\//g, "-")}`;
+  const widthStorageKey = `table-column-widths-${
+    tableId || endpoint.replace(/\//g, "-")
+  }`;
 
   const [columnWidths, setColumnWidths] = useState<Record<string, number>>({});
   const [resizeState, setResizeState] = useState<ColumnResizeState>({
@@ -42,12 +46,36 @@ export function useColumnResize({
     try {
       const saved = localStorage.getItem(widthStorageKey);
       if (saved) {
-        setColumnWidths(JSON.parse(saved));
+        const savedWidths = JSON.parse(saved);
+
+        // If columns are provided, filter out widths for non-existent columns
+        if (columns.length > 0) {
+          const currentColumnKeys = columns.map((col) => col.key);
+          const validWidths: Record<string, number> = {};
+          let hasInvalidColumns = false;
+
+          Object.entries(savedWidths).forEach(([key, width]) => {
+            if (currentColumnKeys.includes(key)) {
+              validWidths[key] = width as number;
+            } else {
+              hasInvalidColumns = true;
+            }
+          });
+
+          // If we removed some invalid columns, update localStorage
+          if (hasInvalidColumns) {
+            localStorage.setItem(widthStorageKey, JSON.stringify(validWidths));
+          }
+
+          setColumnWidths(validWidths);
+        } else {
+          setColumnWidths(savedWidths);
+        }
       }
     } catch (error) {
       console.warn("Failed to load saved column widths:", error);
     }
-  }, [widthStorageKey]);
+  }, [widthStorageKey, columns]);
 
   // Save column widths to localStorage
   const saveColumnWidths = useCallback(

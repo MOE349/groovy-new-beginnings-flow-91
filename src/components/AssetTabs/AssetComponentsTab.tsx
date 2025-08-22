@@ -1,35 +1,16 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { useToast } from "@/hooks/use-toast";
-import { handleApiError } from "@/utils/errorHandling";
-import { useQueryClient } from "@tanstack/react-query";
-import { apiCall } from "@/utils/apis";
-import ApiTable, { TableColumn } from "@/components/ApiTable";
-import ApiForm, { FormField } from "@/components/ApiForm";
+import React from "react";
+import { TableTab } from "@/components/EntityTabs";
+import { TableColumn } from "@/components/ApiTable";
+import { FormField } from "@/components/ApiForm";
 import { DropdownField } from "@/components/ApiForm/fields/DropdownField";
 import { InputField } from "@/components/ApiForm/fields/InputField";
 import { transformFormData } from "@/components/ApiForm/utils/validation";
-import { formatFormDatesForAPI } from "@/utils/dateFormatting";
 
 export interface AssetComponentsTabProps {
   assetId: string;
 }
 
 const AssetComponentsTab: React.FC<AssetComponentsTabProps> = ({ assetId }) => {
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [editingItem, setEditingItem] = useState<Record<string, any> | null>(
-    null
-  );
-  const { toast } = useToast();
-  const queryClient = useQueryClient();
-
   // Define table columns
   const columns: TableColumn[] = [
     { key: "name", header: "Name", type: "string" },
@@ -72,8 +53,8 @@ const AssetComponentsTab: React.FC<AssetComponentsTabProps> = ({ assetId }) => {
     },
   ];
 
-  // Define form fields
-  const formFields: FormField[] = [
+  // Define form fields for add/edit
+  const getFormFields = (editingItemId?: string): FormField[] => [
     { name: "name", label: "Name", type: "input", required: true },
     {
       name: "work_order",
@@ -118,253 +99,42 @@ const AssetComponentsTab: React.FC<AssetComponentsTabProps> = ({ assetId }) => {
       label: "Warranty Exp Date",
       type: "datepicker",
     },
-    {
-      name: "files",
-      label: "Files",
-      type: "file_manager",
-      linkToModel: "components.component",
-      linkToId: editingItem?.id,
-    },
+    ...(editingItemId
+      ? [
+          {
+            name: "files",
+            label: "Files",
+            type: "file_manager" as const,
+            linkToModel: "components.component",
+            linkToId: editingItemId,
+          },
+        ]
+      : []),
   ];
 
-  // Handle form submission
-  const handleSubmit = async (data: Record<string, any>) => {
-    try {
-      setLoading(true);
-
-      // Use the generalized transformFormData utility for consistent date formatting
-      // Alternative: const transformedData = formatFormDatesForAPI(data); // For non-ApiForm components
-      const transformedData = transformFormData(data, formFields);
-
-      // Add asset ID to the data
-      const submissionData = {
-        ...transformedData,
-        asset: assetId,
-      };
-
-      if (editingItem) {
-        await apiCall(`/components/component/${editingItem.id}`, {
-          method: "PATCH",
-          body: submissionData,
-        });
-        toast({
-          title: "Success",
-          description: "Component updated successfully",
-        });
-      } else {
-        await apiCall("/components/component/", {
-          method: "POST",
-          body: submissionData,
-        });
-        toast({
-          title: "Success",
-          description: "Component created successfully",
-        });
-      }
-
-      await queryClient.invalidateQueries({
-        queryKey: ["components", assetId],
-      });
-
-      setDialogOpen(false);
-      setEditingItem(null);
-    } catch (error: any) {
-      handleApiError(
-        error,
-        `Failed to ${editingItem ? "update" : "create"} component`
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Handle row click for editing
-  const handleRowClick = (row: Record<string, any>) => {
-    setEditingItem(row);
-    setDialogOpen(true);
-  };
-
-  // Handle create new
-  const handleCreateNew = () => {
-    setEditingItem(null);
-    setDialogOpen(true);
-  };
-
   return (
-    <div className="tab-content-generic">
-      <div className="p-4 h-full flex flex-col">
-        <ApiTable
-          title="Components"
-          endpoint="/components/component/"
-          filters={{ asset: assetId }}
-          columns={columns}
-          queryKey={["components", assetId]}
-          onCreateNew={handleCreateNew}
-          onRowClick={handleRowClick}
-          createNewText="New Component"
-          emptyMessage="No components found"
-          className="flex-1"
-          height="100%"
-        />
-
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <DialogContent className="max-w-4xl max-h-[95vh] overflow-y-auto w-full">
-            <DialogHeader>
-              <DialogTitle>
-                {editingItem ? "Edit Component" : "Create Component"}
-              </DialogTitle>
-            </DialogHeader>
-            <ApiForm
-              fields={formFields}
-              onSubmit={handleSubmit}
-              submitText={editingItem ? "Update Component" : "Create Component"}
-              initialData={editingItem || {}}
-              loading={loading}
-              customRender={({
-                form,
-                fields,
-                renderField,
-                isSubmitting,
-                error,
-              }) => {
-                const workOrderValue = form.watch("work_order");
-                const changedAtMeterValue = form.watch(
-                  "changed_at_meter_reading"
-                );
-
-                // Create modified fields with conditional disabled states
-                const modifiedFields = fields.map((field) => {
-                  if (field.name === "work_order") {
-                    return {
-                      ...field,
-                      disabled:
-                        changedAtMeterValue != null &&
-                        changedAtMeterValue !== "" &&
-                        changedAtMeterValue !== 0,
-                    };
-                  }
-                  if (field.name === "changed_at_meter_reading") {
-                    return {
-                      ...field,
-                      disabled: workOrderValue != null && workOrderValue !== "",
-                    };
-                  }
-                  return field;
-                });
-
-                return (
-                  <form
-                    onSubmit={form.handleSubmit(handleSubmit)}
-                    className="space-y-4"
-                  >
-                    {error && (
-                      <div className="border border-red-300 bg-red-50 text-red-900 px-4 py-3 rounded">
-                        {error}
-                      </div>
-                    )}
-
-                    <div className="grid grid-cols-2 gap-8">
-                      {/* Left column: Name and all meter readings */}
-                      <div className="space-y-6">
-                        <div>
-                          {renderField(
-                            modifiedFields.find((f) => f.name === "name")
-                          )}
-                        </div>
-                        <div>
-                          {renderField(
-                            modifiedFields.find(
-                              (f) => f.name === "initial_meter_reading"
-                            )
-                          )}
-                        </div>
-                        <div>
-                          {renderField(
-                            modifiedFields.find(
-                              (f) => f.name === "component_meter_reading"
-                            )
-                          )}
-                        </div>
-                        <div>
-                          {renderField(
-                            modifiedFields.find(
-                              (f) => f.name === "warranty_meter_reading"
-                            )
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Right column: Work Order, OR, Changed at meter reading, Warranty Exp Date */}
-                      <div className="space-y-6">
-                        <div>
-                          <DropdownField
-                            field={
-                              modifiedFields.find(
-                                (f) => f.name === "work_order"
-                              ) as any
-                            }
-                            form={form}
-                            name="work_order"
-                          />
-                        </div>
-
-                        {/* OR section */}
-                        <div className="text-center py-2">
-                          <div className="text-sm text-gray-500 font-medium">
-                            OR
-                          </div>
-                        </div>
-
-                        <div>
-                          <InputField
-                            field={
-                              modifiedFields.find(
-                                (f) => f.name === "changed_at_meter_reading"
-                              ) as any
-                            }
-                            form={form}
-                            name="changed_at_meter_reading"
-                          />
-                        </div>
-
-                        <div>
-                          {renderField(
-                            modifiedFields.find(
-                              (f) => f.name === "warranty_exp_date"
-                            )
-                          )}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Files section - full width */}
-                    <div className="mt-6">
-                      {renderField(
-                        modifiedFields.find((f) => f.name === "files")
-                      )}
-                    </div>
-
-                    <div className="flex gap-2 justify-end">
-                      <button
-                        type="submit"
-                        disabled={isSubmitting || loading}
-                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
-                      >
-                        {isSubmitting || loading
-                          ? "Loading..."
-                          : editingItem
-                          ? "Update Component"
-                          : "Create Component"}
-                      </button>
-                    </div>
-                  </form>
-                );
-              }}
-            />
-          </DialogContent>
-        </Dialog>
-      </div>
-    </div>
+    <TableTab
+      endpoint="/components/component/"
+      filters={{ asset: assetId }}
+      columns={columns}
+      queryKey={["components", assetId]}
+      emptyMessage="No components found"
+      showFilters={false}
+      height="100%"
+      canAdd={true}
+      addButtonText="New Component"
+      addFields={getFormFields()}
+      addEndpoint="/components/component/"
+      addInitialData={{ asset: assetId }}
+      canEdit={true}
+      editFields={getFormFields("placeholder")} // Will be updated with actual ID
+      editEndpoint={(id) => `/components/component/${id}`}
+      editInitialData={(row) => ({
+        ...row,
+        // Ensure dates are properly formatted for the form
+        warranty_exp_date: row.warranty_exp_date || "",
+      })}
+    />
   );
 };
 

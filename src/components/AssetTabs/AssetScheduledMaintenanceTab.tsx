@@ -577,7 +577,7 @@ const AssetScheduledMaintenanceTab: React.FC<
 
         <div className="col-span-2 min-w-0">
           <div className="p-4 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
-            <div className="flex items-center justify-center gap-4 mb-1 py-1 -mt-2 bg-accent/20 border border-accent/30 rounded-md">
+            <div className="flex items-center justify-center gap-4  py-1  bg-accent/20 border border-accent/30 rounded-md">
               <h5 className="text-xs font-medium text-primary dark:text-secondary">
                 Log
               </h5>
@@ -586,6 +586,7 @@ const AssetScheduledMaintenanceTab: React.FC<
               <div>
                 <div className="flex-1 overflow-hidden border rounded-md">
                   <ApiTable
+                    hasCreateButton={false}
                     endpoint="/work-orders/work_order"
                     filters={{
                       asset: assetId,
@@ -630,10 +631,9 @@ const AssetScheduledMaintenanceTab: React.FC<
                     queryKey={["auto-generated-work-orders", assetId]}
                     tableId={`auto-generated-work-orders-${assetId}`}
                     editRoutePattern="/workorders/edit/{id}"
-                    className="h-full"
-                    tableClassName="text-xs"
-                    height="h-full"
                     showFilters={false}
+                    persistColumnOrder={false}
+                    enableColumnReorder={false}
                   />
                 </div>
               </div>
@@ -647,7 +647,7 @@ const AssetScheduledMaintenanceTab: React.FC<
         className="h-full animate-fade-in"
         style={{ scrollSnapAlign: "start" }}
       >
-        <div className="pt-6 px-6 pb-6 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
+        <div className="p-3 h-full relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-primary/60 before:via-primary/80 before:to-primary/60 before:rounded-full before:shadow-md after:absolute after:right-0 after:top-4 after:bottom-4 after:w-0.5 after:bg-gradient-to-b after:from-primary/60 after:via-primary/80 after:to-primary/60 after:rounded-full after:shadow-md shadow-xl shadow-primary/5 bg-gradient-to-br from-background via-card to-background border border-primary/10 rounded-3xl flex flex-col">
           <div className="flex-1 overflow-hidden">
             <PMChecklistTabs
               assetId={assetId}

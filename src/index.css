@@ -233,7 +233,7 @@
 
   /* Tab Content Management Classes */
   .tab-content-container {
-    @apply flex-1;
+    @apply flex-1 mt-1;
   }
 
   .tab-content-body {

@@ -29,6 +29,7 @@ export * from "./maintenance";
 export * from "./financial";
 export * from "./utility";
 export * from "./PartTabs";
+export * from "./EntityTabs";
 
 // ✅ Base UI Components (Shadcn/ui)
 // Note: These are typically imported directly from './ui/*' as needed

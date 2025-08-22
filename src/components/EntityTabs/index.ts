@@ -9,3 +9,9 @@ export type { FilesTabProps } from "./FilesTab";
 
 export { default as GenericTab } from "./GenericTab";
 export type { GenericTabProps } from "./GenericTab";
+
+export { DualApiTableTab } from "./DualApiTableTab";
+export type { DualApiTableTabProps, TableConfig } from "./DualApiTableTab";
+
+export { QuadApiTableTab } from "./QuadApiTableTab";
+export type { QuadApiTableTabProps, QuadTableConfig } from "./QuadApiTableTab";

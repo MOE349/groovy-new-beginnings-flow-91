@@ -18,6 +18,7 @@ import { apiCall } from "@/utils/apis";
 import { cn } from "@/lib/utils";
 
 export interface TableTabProps {
+  hasCreateButton?: boolean;
   title?: string;
   description?: string;
   endpoint: string;
@@ -68,6 +69,7 @@ export interface TableTabProps {
 }
 
 const TableTab: React.FC<TableTabProps> = ({
+  hasCreateButton = true,
   title,
   description,
   endpoint,
@@ -163,15 +165,10 @@ const TableTab: React.FC<TableTabProps> = ({
   };
 
   return (
-    <div
-      className={cn(
-        "bg-card rounded-sm shadow-xs p-4 h-full min-h-[500px]",
-        className
-      )}
-    >
+    <div className={cn("bg-card rounded-sm shadow-xs p-3 h-full", className)}>
       {/* Header */}
       {(title || description || canAdd || actions.length > 0) && (
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between items-center">
           <div>
             {title && (
               <h3 className="text-h3 font-medium text-foreground">{title}</h3>
@@ -199,12 +196,6 @@ const TableTab: React.FC<TableTabProps> = ({
 
             {canAdd && addFields.length > 0 && (
               <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-                <DialogTrigger asChild>
-                  <Button size="sm">
-                    <Plus className="h-4 w-4 mr-2" />
-                    {addButtonText}
-                  </Button>
-                </DialogTrigger>
                 <DialogContent className="max-w-2xl">
                   <DialogHeader>
                     <DialogTitle>{addButtonText}</DialogTitle>
@@ -224,6 +215,9 @@ const TableTab: React.FC<TableTabProps> = ({
 
       {/* Table */}
       <ApiTable
+        hasCreateButton={hasCreateButton}
+        createNewText={addButtonText}
+        onCreateNew={() => setIsAddDialogOpen(true)}
         endpoint={endpoint}
         columns={columns}
         queryKey={queryKey}

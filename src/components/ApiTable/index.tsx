@@ -45,7 +45,7 @@ import {
 } from "@/utils/dateFormatters";
 import type { ApiTableProps, TableColumn } from "./types";
 
-function ApiTableComponent<T extends Record<string, any>>({
+function ApiTableComponent<T extends Record<string, unknown>>({
   endpoint,
   filters: endpointFilters,
   secondaryEndpoint,
@@ -126,6 +126,7 @@ function ApiTableComponent<T extends Record<string, any>>({
   const { columnWidths, handleResizeStart } = useColumnResize({
     tableId,
     endpoint,
+    columns: orderedColumns,
   });
 
   const {
@@ -175,29 +176,37 @@ function ApiTableComponent<T extends Record<string, any>>({
   const isRowClickable = Boolean(onRowClick || editRoutePattern);
 
   // Cell rendering
-  const renderCell = useCallback((column: TableColumn<T>, row: T) => {
-    const value = row[column.key];
+  const renderCell = useCallback(
+    (column: TableColumn<T>, row: T): React.ReactNode => {
+      const value = row[column.key];
 
-    // Custom render function takes precedence
-    if (column.render) {
-      return column.render(value, row);
-    }
+      // Custom render function takes precedence
+      if (column.render) {
+        return column.render(value, row);
+      }
 
-    // Auto-format based on column type
-    if (column.type === "date") {
-      return formatDateOptimized(value);
-    }
+      // Auto-format based on column type
+      if (column.type === "date") {
+        return formatDateOptimized(
+          typeof value === "string" ? value : String(value || "")
+        );
+      }
 
-    if (column.type === "datetime" || column.type === "timestamp") {
-      return formatDateTimeOptimized(value);
-    }
+      if (column.type === "datetime" || column.type === "timestamp") {
+        return formatDateTimeOptimized(
+          typeof value === "string" ? value : String(value || "")
+        );
+      }
 
-    if (column.type === "object" && value && typeof value === "object") {
-      return value.code || value.name || value.id || "-";
-    }
+      if (column.type === "object" && value && typeof value === "object") {
+        const obj = value as Record<string, unknown>;
+        return String(obj.code || obj.name || obj.id || "-");
+      }
 
-    return value?.toString() || "-";
-  }, []);
+      return String(value?.toString() || "-");
+    },
+    []
+  );
 
   // Simple container classes - always fill parent and allow overflow
   const containerClassName = `flex flex-col h-full min-h-0 p-0 ${
@@ -223,11 +232,10 @@ function ApiTableComponent<T extends Record<string, any>>({
       </Alert>
     );
   }
-
   // Simplified table content
   const tableContent = (
     <DndContext
-      sensors={enableColumnReorder ? sensors : (undefined as any)}
+      sensors={enableColumnReorder ? sensors : undefined}
       collisionDetection={enableColumnReorder ? closestCenter : undefined}
       onDragEnd={enableColumnReorder ? handleDragEnd : undefined}
     >
@@ -266,12 +274,6 @@ function ApiTableComponent<T extends Record<string, any>>({
                       showFilters={showFilters}
                     />
                   ))}
-                  {onDelete && (
-                    <TableHead
-                      className="w-8 p-0"
-                      style={{ width: "32px" }}
-                    ></TableHead>
-                  )}
                 </SortableContext>
               </TableRow>
             </TableHeader>
@@ -289,47 +291,51 @@ function ApiTableComponent<T extends Record<string, any>>({
               {displayData && displayData.length > 0 ? (
                 displayData.map((row: T, index: number) => (
                   <TableRow
-                    key={row.id || index}
-                    className={`group ${
+                    key={
+                      typeof row.id === "string" || typeof row.id === "number"
+                        ? row.id
+                        : index
+                    }
+                    className={`group h-[2.75rem] ${
                       isRowClickable
                         ? "cursor-pointer hover:bg-muted/50 transition-colors"
                         : ""
                     } relative`}
                     onClick={() => isRowClickable && handleRowClick(row)}
                   >
-                    {orderedColumns.map((column) => (
+                    {orderedColumns.map((column, index) => (
                       <TableCell
                         key={column.key}
-                        className={`${column.className} min-w-0`}
+                        className={`${column.className} min-w-0 ${
+                          index === 0 ? "relative" : ""
+                        }`}
                       >
+                        {onDelete && index === 0 && (
+                          <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-20 bg-background/95 backdrop-blur-sm rounded-md border border-border shadow-md">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-6 w-6 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                onDelete(row);
+                              }}
+                            >
+                              <Trash2 className="h-3 w-3" />
+                            </Button>
+                          </div>
+                        )}
                         <div className="truncate">
                           {renderCell(column, row)}
                         </div>
                       </TableCell>
                     ))}
-                    {onDelete && (
-                      <TableCell className="w-8 p-0">
-                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex justify-center">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="h-6 w-6 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              onDelete(row);
-                            }}
-                          >
-                            <Trash2 className="h-3 w-3" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    )}
                   </TableRow>
                 ))
               ) : (
                 <TableRow>
                   <TableCell
-                    colSpan={orderedColumns.length + (onDelete ? 1 : 0)}
+                    colSpan={orderedColumns.length}
                     className="text-center text-muted-foreground"
                   >
                     {Object.keys(appliedFilters).length > 0
@@ -411,7 +417,7 @@ function ApiTableComponent<T extends Record<string, any>>({
 
 // Export with proper generic typing
 export const ApiTable = React.memo(ApiTableComponent) as <
-  T extends Record<string, any>
+  T extends Record<string, unknown>
 >(
   props: ApiTableProps<T>
 ) => JSX.Element;

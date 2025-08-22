@@ -21,14 +21,18 @@ interface UseColumnOrderReturn<T> {
   resetColumnOrder: () => void;
 }
 
-export function useColumnOrder<T = any>({
+export function useColumnOrder<
+  T extends Record<string, unknown> = Record<string, unknown>
+>({
   columns,
   persistColumnOrder = true,
   tableId,
   endpoint,
 }: UseColumnOrderProps<T>): UseColumnOrderReturn<T> {
   // Generate storage key for this table
-  const storageKey = `table-column-order-${tableId || endpoint.replace(/\//g, "-")}`;
+  const storageKey = `table-column-order-${
+    tableId || endpoint.replace(/\//g, "-")
+  }`;
 
   // Load saved column order from localStorage
   const getSavedColumnOrder = useCallback((): TableColumn<T>[] => {
@@ -38,9 +42,20 @@ export function useColumnOrder<T = any>({
       const saved = localStorage.getItem(storageKey);
       if (saved) {
         const savedOrder = JSON.parse(saved);
+        const currentColumnKeys = columns.map((col) => col.key);
 
-        // Reorder columns based on saved order, ensuring all columns are present
-        const orderedColumns = savedOrder
+        // Filter out any stored columns that no longer exist (like delete columns)
+        const validSavedOrder = savedOrder.filter((savedKey: string) =>
+          currentColumnKeys.includes(savedKey)
+        );
+
+        // If the saved order changed after filtering, update localStorage
+        if (validSavedOrder.length !== savedOrder.length) {
+          localStorage.setItem(storageKey, JSON.stringify(validSavedOrder));
+        }
+
+        // Reorder columns based on valid saved order
+        const orderedColumns = validSavedOrder
           .map((savedKey: string) =>
             columns.find((col) => col.key === savedKey)
           )
@@ -48,7 +63,7 @@ export function useColumnOrder<T = any>({
 
         // Add any new columns that weren't in the saved order
         const missingColumns = columns.filter(
-          (col) => !savedOrder.includes(col.key)
+          (col) => !validSavedOrder.includes(col.key)
         );
 
         return [...orderedColumns, ...missingColumns];
