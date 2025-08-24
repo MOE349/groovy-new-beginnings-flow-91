@@ -187,7 +187,7 @@ const TableTab: React.FC<TableTabProps> = ({
       {/* Table */}
       <ApiTable
         title={title}
-        hasCreateButton={hasCreateButton}
+        hasCreateButton={canAdd && hasCreateButton}
         createNewText={addButtonText}
         onCreateNew={() => setIsAddDialogOpen(true)}
         secondaryButtonText={secondaryButtonText}
@@ -209,6 +209,28 @@ const TableTab: React.FC<TableTabProps> = ({
         enableColumnReorder={enableColumnReorder}
         className={cn("w-full", tableClassName)}
       />
+
+      {/* Add Dialog */}
+      {canAdd && addFields.length > 0 && (
+        <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+          <DialogContent className="max-w-2xl">
+            <DialogHeader>
+              <DialogTitle>
+                {addButtonText.replace("Add ", "Add New ") ||
+                  `Add New ${title || "Item"}`}
+              </DialogTitle>
+            </DialogHeader>
+            <ApiForm
+              fields={addFields}
+              onSubmit={handleAddSubmit}
+              submitText={addButtonText || `Add ${title || "Item"}`}
+              cancelText="Cancel"
+              onCancel={() => setIsAddDialogOpen(false)}
+              initialData={addInitialData}
+            />
+          </DialogContent>
+        </Dialog>
+      )}
 
       {/* Edit Dialog */}
       {(canEdit || editReadOnly) && editFields.length > 0 && (
