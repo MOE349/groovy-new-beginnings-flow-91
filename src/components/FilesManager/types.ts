@@ -10,7 +10,7 @@ export interface FilesManagerProps {
   className?: string;
 }
 
-export interface FileItem {
+export interface FileItem extends Record<string, unknown> {
   id: string;
   original_filename: string;
   file_size: number;
@@ -68,17 +68,11 @@ export interface FilesTableProps {
   linkToId: string;
   className?: string;
   onEditFile: (file: FileItem) => void;
+  onCreateNew: () => void;
 }
 
 export interface FileUploadZoneProps {
   onFileSelect: (files: File[]) => void;
   maxSize: number;
   isUploading: boolean;
-}
-
-export interface FileActionsProps {
-  file: FileItem;
-  onEdit: (file: FileItem) => void;
-  onDelete: (fileId: string) => void;
-  isDeleting?: boolean;
 }

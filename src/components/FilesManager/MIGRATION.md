@@ -52,6 +52,7 @@ src/services/api/fileService.ts  # Centralized API operations
 - **Service Layer**: Centralized API operations like existing services
 - **Component Composition**: Modular components like `ApiForm/` structure
 - **Type Safety**: Dedicated types file like `ApiTable/types.ts`
+- **ApiTable Integration**: FilesTable now uses centralized ApiTable with custom render functions
 - **Memory Preferences**: Maintains className usage and PATCH methods
 
 ## Migration Impact
@@ -81,7 +82,15 @@ import { FileUploadDialog, FilesTable } from "@/components/FilesManager";
   linkToModel="assets.equipment"
   linkToId="123"
   maxSize={25}
-/>;
+/>
+
+// FilesTable now uses centralized ApiTable for consistency
+<FilesTable
+  linkToModel="assets.equipment"
+  linkToId="123"
+  onEditFile={handleEditFile}
+  onCreateNew={handleUploadFiles}  // Upload button integrated as create button
+/>
 ```
 
 ### Custom Hooks (new capability)
@@ -103,6 +112,17 @@ const MyComponent = () => {
 };
 ```
 
+## Key Updates (Latest)
+
+### ApiTable Integration ✨
+
+- **FilesTable now uses ApiTable**: Centralized table management following project patterns
+- **Upload Files as Create Button**: Integrated upload functionality into ApiTable's create button
+- **No Separate Title**: Clean integration without redundant "Files" header
+- **Custom Actions**: Download and delete buttons via `render` functions in columns
+- **Consistent Experience**: Same sorting, filtering, and interaction patterns as other tables
+- **Type Safety**: Proper TypeScript integration with `FileItem extends Record<string, unknown>`
+
 ## Testing
 
-All functionality has been preserved and follows the same patterns as existing components in the project.
+All functionality has been preserved and follows the same patterns as existing components in the project. The FilesTable now provides the same advanced features as other tables (sorting, filtering, column management) through ApiTable integration.

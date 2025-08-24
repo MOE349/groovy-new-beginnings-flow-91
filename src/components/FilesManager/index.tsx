@@ -4,9 +4,6 @@
  */
 
 import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Upload } from "lucide-react";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { FileUploadDialog, FileEditDialog, FilesTable } from "./components";
 import type { FilesManagerProps, FileItem } from "./types";
 
@@ -31,23 +28,12 @@ export const FilesManager: React.FC<FilesManagerProps> = ({
   };
 
   return (
-    <div className={`space-y-4 ${className}`}>
-      <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold">Files</h3>
-        <Dialog open={isUploadDialogOpen} onOpenChange={setIsUploadDialogOpen}>
-          <DialogTrigger asChild>
-            <Button>
-              <Upload className="mr-2 h-4 w-4" />
-              Upload Files
-            </Button>
-          </DialogTrigger>
-        </Dialog>
-      </div>
-
+    <div className={className}>
       <FilesTable
         linkToModel={linkToModel}
         linkToId={linkToId}
         onEditFile={handleEditFile}
+        onCreateNew={() => setIsUploadDialogOpen(true)}
       />
 
       <FileUploadDialog
