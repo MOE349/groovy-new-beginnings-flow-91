@@ -47,16 +47,11 @@ const PMChecklistTabs: React.FC<PMChecklistTabsProps> = ({
 
   const handleSubmitChecklistItem = async (data: Record<string, unknown>) => {
     try {
-      console.log("Submitting checklist item:", data);
-      console.log("Selected PM ID:", selectedPmId);
-
       // Ensure pm_settings is included in the payload
       const submitData = {
         ...data,
         pm_settings: selectedPmId,
       };
-
-      console.log("Final submit data:", submitData);
 
       await apiCall("/pm-automation/pm-settings-checklist", {
         method: "POST",
@@ -82,7 +77,6 @@ const PMChecklistTabs: React.FC<PMChecklistTabsProps> = ({
       // Close the dialog
       setIsDialogOpen(false);
     } catch (error) {
-      console.error("Error submitting checklist item:", error);
       toast({
         title: "Error",
         description: "Failed to add checklist item",

@@ -3,7 +3,7 @@
  * Modular, performant table with sorting, filtering, resizing, and drag-and-drop
  */
 
-import React, { useMemo, useCallback, useRef } from "react";
+import React, { useMemo, useCallback, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   DndContext,
@@ -29,6 +29,16 @@ import {
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Plus, Trash2 } from "lucide-react";
 import GearSpinner from "@/components/ui/gear-spinner";
 import { toast } from "@/hooks/use-toast";
@@ -77,6 +87,10 @@ function ApiTableComponent<T extends Record<string, unknown>>({
 }: ApiTableProps<T>) {
   const navigate = useNavigate();
 
+  // State for confirmation dialog
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [rowToDelete, setRowToDelete] = useState<T | null>(null);
+
   // Default create handler when no custom handlers are provided
   const handleDefaultCreate = useCallback(() => {
     toast({
@@ -95,6 +109,25 @@ function ApiTableComponent<T extends Record<string, unknown>>({
         "No secondary button handler or route has been configured for this table.",
       variant: "default",
     });
+  }, []);
+
+  // Delete confirmation handlers
+  const handleDeleteClick = useCallback((row: T) => {
+    setRowToDelete(row);
+    setDeleteDialogOpen(true);
+  }, []);
+
+  const handleDeleteConfirm = useCallback(() => {
+    if (rowToDelete && onDelete) {
+      onDelete(rowToDelete);
+    }
+    setDeleteDialogOpen(false);
+    setRowToDelete(null);
+  }, [rowToDelete, onDelete]);
+
+  const handleDeleteCancel = useCallback(() => {
+    setDeleteDialogOpen(false);
+    setRowToDelete(null);
   }, []);
 
   // Check if secondary button should be shown
@@ -296,7 +329,7 @@ function ApiTableComponent<T extends Record<string, unknown>>({
                         ? row.id
                         : index
                     }
-                    className={`group h-[2.75rem] ${
+                    className={`group h-[2.0625rem] ${
                       isRowClickable
                         ? "cursor-pointer hover:bg-muted/50 transition-colors"
                         : ""
@@ -311,14 +344,14 @@ function ApiTableComponent<T extends Record<string, unknown>>({
                         }`}
                       >
                         {onDelete && index === 0 && (
-                          <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-20 bg-background/95 backdrop-blur-sm rounded-md border border-border shadow-md">
+                          <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-20">
                             <Button
                               variant="ghost"
                               size="sm"
-                              className="h-6 w-6 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
+                              className="h-6 w-6 p-0 text-destructive hover:text-destructive hover:bg-transparent hover:scale-110 transition-transform duration-200"
                               onClick={(e) => {
                                 e.stopPropagation();
-                                onDelete(row);
+                                handleDeleteClick(row);
                               }}
                             >
                               <Trash2 className="h-3 w-3" />
@@ -408,9 +441,33 @@ function ApiTableComponent<T extends Record<string, unknown>>({
           </div>
         )}
       </CardHeader>
-      <CardContent className="px-3 pt-0 flex-1 min-h-0 flex flex-col">
+      <CardContent className="px-3 pt-0 pb-0 flex-1 min-h-0 flex flex-col">
         {tableContent}
       </CardContent>
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirm Delete</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete this item? This action cannot be
+              undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={handleDeleteCancel}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteConfirm}
+              className="bg-destructive hover:bg-destructive/90"
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </Card>
   );
 }

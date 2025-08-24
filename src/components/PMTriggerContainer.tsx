@@ -87,18 +87,10 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
     setSelectedRadioId(item?.id || index.toString());
 
     if (item) {
-      console.log("PMTriggerContainer: Selected item:", item);
-      console.log("PMTriggerContainer: Data key mapping:", dataKeyMapping);
-
       // Map data using provided mapping or use direct keys
       const mappedData = formFields.reduce((acc, field) => {
         const dataKey = dataKeyMapping[field.name] || field.name;
         let value = item[dataKey];
-
-        console.log(
-          `PMTriggerContainer: Field ${field.name}, dataKey: ${dataKey}, value:`,
-          value
-        );
 
         // Handle different field types appropriately
         if (value === undefined || value === null) {
@@ -121,8 +113,6 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
         acc[field.name] = value;
         return acc;
       }, {} as Record<string, any>);
-
-      console.log("PMTriggerContainer: Mapped data:", mappedData);
 
       mappedData.is_active =
         item.is_active !== undefined ? item.is_active : true;
@@ -219,12 +209,6 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
   const renderFormField = (field: FormField) => {
     const value =
       formData[field.name] !== undefined ? formData[field.name] : "";
-    console.log(
-      `PMTriggerContainer: renderFormField ${field.name}, formData value:`,
-      formData[field.name],
-      "final value:",
-      value
-    );
 
     switch (field.type) {
       case "hidden":
@@ -257,11 +241,6 @@ export const PMTriggerContainer: React.FC<PMTriggerContainerProps> = ({
           </select>
         );
       case "number":
-        console.log(
-          `PMTriggerContainer: Rendering number field ${field.name} with value:`,
-          value,
-          typeof value
-        );
         return (
           <input
             type="number"

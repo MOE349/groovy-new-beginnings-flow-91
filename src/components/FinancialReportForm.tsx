@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from "react";
 import ApiForm from "@/components/ApiForm";
-import ApiInput from "@/components/ApiInput";
+import { UniversalFormField } from "@/components/forms";
 import { apiCall } from "@/utils/apis";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
@@ -176,13 +176,13 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
   const allFieldsDisabled = formFields.every((field) => field.disabled);
 
   const handleSubmit = useCallback(
-    async (data: Record<string, any>) => {
+    async (data: Record<string, unknown>) => {
       try {
         const initialData = existingData || {};
 
         // Only send fields that changed
         const changedFields = Object.keys(data).reduce(
-          (acc: Record<string, any>, key) => {
+          (acc: Record<string, unknown>, key) => {
             if (data[key] !== initialData[key]) {
               acc[key] = data[key];
             }
@@ -225,7 +225,6 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
           onSuccess();
         }
       } catch (error) {
-        console.error("Failed to submit financial data:", error);
         handleApiError(error, "Save Failed");
       }
     },
@@ -243,10 +242,10 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
       acc[field.name] = existingData[field.name];
     }
     return acc;
-  }, {} as Record<string, any>);
+  }, {} as Record<string, unknown>);
 
   return (
-    <div className="h-full">
+    <div className="h-full bg-card">
       <ApiForm
         fields={formFields}
         title={
@@ -274,12 +273,12 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
             ? ({ handleSubmit, formData, handleFieldChange }) => {
                 // Store the submit function for parent access
                 submitFormRef.current = handleSubmit;
-                
+
                 // Expose submit function to parent component immediately
                 if (onSubmitRef && submitFormRef.current) {
                   onSubmitRef(submitFormRef.current);
                 }
-                
+
                 // Group fields by type for all container types
                 const editableFields = formFields.filter(
                   (field) => !field.disabled
@@ -319,15 +318,16 @@ const FinancialReportForm: React.FC<FinancialReportFormProps> = ({
                             </label>
                             {field.disabled ? (
                               <span className="text-sm text-foreground block">
-                                {formData[field.name] || "-"}
+                                {String(formData[field.name] || "-")}
                               </span>
                             ) : (
-                              <ApiInput
+                              <UniversalFormField
                                 name={field.name}
-                                type={field.inputType}
+                                type="input"
+                                inputType={field.inputType}
                                 placeholder={field.placeholder}
-                                value={formData[field.name] || ""}
-                                onChange={(value) =>
+                                inputValue={String(formData[field.name] || "")}
+                                onInputChange={(value) =>
                                   handleFieldChange(field.name, value)
                                 }
                                 disabled={field.disabled}

@@ -91,7 +91,7 @@ const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({
             </div>
 
             {/* Right display area for Capital Cost Per Hour */}
-            <div className="w-48 flex flex-col items-center justify-center border-l border-primary/10 px-4">
+            <div className="w-48 card- flex flex-col items-center justify-center border-l border-primary/10 px-4">
               <div className="text-center">
                 <div className="text-sm text-muted-foreground mb-1">
                   Capital Cost

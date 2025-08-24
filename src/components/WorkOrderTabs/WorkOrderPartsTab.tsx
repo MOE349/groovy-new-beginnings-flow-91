@@ -54,14 +54,15 @@ const WorkOrderPartsTab: React.FC<WorkOrderPartsTabProps> = ({
         endpoint={`/parts/work-order-parts?work_order=${workOrderId}`}
         columns={[
           {
-            key: "part",
+            key: "part_number",
             header: "Part Number",
             type: "object",
-            render: (value: unknown) => {
-              if (!value) return "—";
+            render: (value: unknown, row: Record<string, unknown>) => {
+              const partObj = row.part;
+              if (!partObj) return "—";
               const part =
-                typeof value === "object" && value !== null
-                  ? (value as Record<string, unknown>)
+                typeof partObj === "object" && partObj !== null
+                  ? (partObj as Record<string, unknown>)
                   : {};
               const partNumber =
                 (part.part_number as string) || (part.number as string) || "—";
@@ -69,14 +70,15 @@ const WorkOrderPartsTab: React.FC<WorkOrderPartsTabProps> = ({
             },
           },
           {
-            key: "part",
+            key: "part_name",
             header: "Part Name",
             type: "object",
-            render: (value: unknown) => {
-              if (!value) return "—";
+            render: (value: unknown, row: Record<string, unknown>) => {
+              const partObj = row.part;
+              if (!partObj) return "—";
               const part =
-                typeof value === "object" && value !== null
-                  ? (value as Record<string, unknown>)
+                typeof partObj === "object" && partObj !== null
+                  ? (partObj as Record<string, unknown>)
                   : {};
               const partName = (part.name as string) || "—";
               return <span>{partName}</span>;
