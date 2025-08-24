@@ -37,7 +37,7 @@ const FinancialsTabContent: React.FC<FinancialsTabContentProps> = ({
 
   return (
     <div
-      className="tab-content-financials h-full overflow-y-auto scroll-smooth"
+      className="tab-content-generic h-full overflow-y-auto scroll-smooth"
       style={{ scrollSnapType: "y mandatory" }}
     >
       {/* Row 1: Three Financial Containers - Horizontal Cards Stacked Vertically */}

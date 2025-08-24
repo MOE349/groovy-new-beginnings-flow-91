@@ -181,7 +181,7 @@ const TableTab: React.FC<TableTabProps> = ({
   };
 
   return (
-    <div className={cn("bg-card rounded-sm shadow-xs p-3 h-full", className)}>
+    <div className={cn("tab-content-generic", className)}>
       {/* Header */}
       {(title || description || canAdd || actions.length > 0) && (
         <div className="flex justify-between items-center">

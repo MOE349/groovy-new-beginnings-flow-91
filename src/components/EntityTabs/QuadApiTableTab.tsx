@@ -60,7 +60,7 @@ export const QuadApiTableTab: React.FC<QuadApiTableTabProps> = ({
   topRightTable,
   bottomLeftTable,
   bottomRightTable,
-  className = "tab-content-metering",
+  className = "tab-content-generic",
 }) => {
   const queryClient = useQueryClient();
   const [openDialogs, setOpenDialogs] = useState({

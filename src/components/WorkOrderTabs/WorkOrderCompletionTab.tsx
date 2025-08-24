@@ -156,7 +156,7 @@ const WorkOrderCompletionTab: React.FC<WorkOrderCompletionTabProps> = ({
         </div>
       )}
 
-      <div className="p-4 space-y-4">
+      <div className="rounded-lg p-3 bg-card text-card-foreground shadow-card hover:shadow-hover transition-shadow duration-150 border-0 flex flex-col h-full min-h-0 p-0 w-full">
         {/* Problem Analysis and Summary - Side by side */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="bg-background/50 rounded border p-3">
