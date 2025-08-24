@@ -214,6 +214,14 @@ const FormLayout = ({
               )}
           </div>
         </div>
+        {/* Centered read-only message when work order is closed */}
+        {config.title.includes("Work Order") && isWorkOrderClosed && (
+          <div className="flex-1 flex justify-center">
+            <span className="text-orange-600 text-sm font-medium">
+              🔒 This work order is closed. All data is read-only.
+            </span>
+          </div>
+        )}
         <div className="flex items-center gap-4">
           {headerActions}
           {/* Show reopen button when work order is closed */}

@@ -145,18 +145,7 @@ const WorkOrderCompletionTab: React.FC<WorkOrderCompletionTabProps> = ({
 
   return (
     <div className="tab-content-generic">
-      {/* Read-only indicator */}
-      {isReadOnly && (
-        <div className="bg-orange-50 border border-orange-200 rounded-md p-3 mb-4 mx-4 mt-4">
-          <div className="flex items-center">
-            <div className="text-orange-600 text-sm font-medium">
-              🔒 This work order is closed. All data is read-only.
-            </div>
-          </div>
-        </div>
-      )}
-
-      <div className="rounded-lg p-3 bg-card text-card-foreground shadow-card hover:shadow-hover transition-shadow duration-150 border-0 flex flex-col h-full min-h-0 p-0 w-full">
+      <div className="rounded-lg bg-card text-card-foreground shadow-card hover:shadow-hover transition-shadow duration-150 border-0 flex flex-col h-full min-h-0 p-3 w-full">
         {/* Problem Analysis and Summary - Side by side */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="bg-background/50 rounded border p-3">
