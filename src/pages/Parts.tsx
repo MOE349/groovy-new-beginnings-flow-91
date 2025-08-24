@@ -9,6 +9,7 @@ const Parts = () => {
     { key: "name", header: "Name", type: "text" },
     { key: "description", header: "Description", type: "text" },
     { key: "last_price", header: "Last Price", type: "text" },
+    { key: "total_on_hand", header: "Total QTY", type: "text" },
     { key: "make", header: "Make", type: "text" },
     { key: "category", header: "Category", type: "text" },
     { key: "component", header: "Component", type: "text" },

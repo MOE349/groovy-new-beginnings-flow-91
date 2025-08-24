@@ -17,6 +17,7 @@ export * from "./ApiForm";
 
 // ✅ Table System (Phase 4)
 export * from "./ApiTable";
+export * from "./InlineEditableApiTable";
 export * from "./PartStockLocationTable";
 export * from "./PartPurchaseOrderTable";
 
