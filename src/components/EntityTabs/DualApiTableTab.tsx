@@ -47,7 +47,7 @@ export const DualApiTableTab: React.FC<DualApiTableTabProps> = ({
   assetId,
   leftTable,
   rightTable,
-  className = "tab-content-metering",
+  className = "tab-content-generic",
 }) => {
   const queryClient = useQueryClient();
   const [isLeftDialogOpen, setIsLeftDialogOpen] = useState(false);

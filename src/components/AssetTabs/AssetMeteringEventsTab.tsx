@@ -126,7 +126,6 @@ const AssetMeteringEventsTab: React.FC<AssetMeteringEventsTabProps> = ({
       assetId={assetId}
       leftTable={leftTableConfig}
       rightTable={rightTableConfig}
-      className="tab-content-metering"
     />
   );
 };
