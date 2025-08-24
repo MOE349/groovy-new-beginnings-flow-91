@@ -45,6 +45,18 @@ export interface TableTabProps {
   onRowClick?: (row: any) => void;
   editReadOnly?: boolean; // Make edit forms read-only
 
+  // Secondary button support
+  secondaryButtonText?: string;
+  onSecondaryClick?: () => void | Promise<void>;
+  secondaryButtonHref?: string;
+  secondaryButtonVariant?:
+    | "default"
+    | "outline"
+    | "secondary"
+    | "destructive"
+    | "ghost"
+    | "link";
+
   // Custom actions
   actions?: Array<{
     label: string;
@@ -91,6 +103,10 @@ const TableTab: React.FC<TableTabProps> = ({
   onEditSuccess,
   onRowClick,
   editReadOnly = false,
+  secondaryButtonText,
+  onSecondaryClick,
+  secondaryButtonHref,
+  secondaryButtonVariant = "outline",
   actions = [],
   editRoutePattern,
   showFilters = true,
@@ -218,6 +234,10 @@ const TableTab: React.FC<TableTabProps> = ({
         hasCreateButton={hasCreateButton}
         createNewText={addButtonText}
         onCreateNew={() => setIsAddDialogOpen(true)}
+        secondaryButtonText={secondaryButtonText}
+        onSecondaryClick={onSecondaryClick}
+        secondaryButtonHref={secondaryButtonHref}
+        secondaryButtonVariant={secondaryButtonVariant}
         endpoint={endpoint}
         columns={columns}
         queryKey={queryKey}

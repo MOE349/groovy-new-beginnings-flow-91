@@ -115,48 +115,44 @@ const WorkOrderChecklistTab: React.FC<WorkOrderChecklistTabProps> = ({
             ? new Date(row.completion_date + "T00:00:00")
             : undefined,
         })}
-        actions={
-          isReadOnly
-            ? []
-            : [
-                {
-                  label: "Load Backlog",
-                  variant: "outline",
-                  onClick: async () => {
-                    try {
-                      if (!workOrderData?.data?.data?.asset?.id) {
-                        toast({
-                          title: "Error",
-                          description:
-                            "Asset information not available. Please wait for the work order to load.",
-                          variant: "destructive",
-                        });
-                        return;
-                      }
+        secondaryButtonText={!isReadOnly ? "Load Backlog" : undefined}
+        onSecondaryClick={
+          !isReadOnly
+            ? async () => {
+                try {
+                  if (!workOrderData?.data?.data?.asset?.id) {
+                    toast({
+                      title: "Error",
+                      description:
+                        "Asset information not available. Please wait for the work order to load.",
+                      variant: "destructive",
+                    });
+                    return;
+                  }
 
-                      await apiCall(
-                        `/work-orders/work_order/${workOrderId}/import-backlogs`,
-                        {
-                          method: "POST",
-                          body: { asset: workOrderData.data.data.asset.id },
-                        }
-                      );
-
-                      queryClient.invalidateQueries({
-                        queryKey: ["work_order_checklists", workOrderId],
-                      });
-
-                      toast({
-                        title: "Success",
-                        description: "Backlog items imported successfully!",
-                      });
-                    } catch (error) {
-                      handleApiError(error, "Failed to import backlog items");
+                  await apiCall(
+                    `/work-orders/work_order/${workOrderId}/import-backlogs`,
+                    {
+                      method: "POST",
+                      body: { asset: workOrderData.data.data.asset.id },
                     }
-                  },
-                },
-              ]
+                  );
+
+                  queryClient.invalidateQueries({
+                    queryKey: ["work_order_checklists", workOrderId],
+                  });
+
+                  toast({
+                    title: "Success",
+                    description: "Backlog items imported successfully!",
+                  });
+                } catch (error) {
+                  handleApiError(error, "Failed to import backlog items");
+                }
+              }
+            : undefined
         }
+        secondaryButtonVariant="outline"
       />
     </div>
   );
