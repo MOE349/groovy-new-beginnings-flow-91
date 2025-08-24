@@ -68,18 +68,22 @@ const WorkOrderServicesTab: React.FC<WorkOrderServicesTabProps> = ({
         addFields={servicesFormTemplate}
         addEndpoint="/work-orders/work_order_misc_cost"
         addInitialData={{ work_order: workOrderId }}
+        addLinkToModel="work_orders.workordermisccost"
         canEdit={true}
         editReadOnly={isReadOnly}
-        editFields={servicesFormTemplate.map((field) =>
-          field.name === "files"
-            ? { ...field, linkToId: "DYNAMIC_ID" } // Will be replaced by editInitialData
-            : field
-        )}
+        editFields={servicesFormTemplate} // Fields will be processed dynamically
         editEndpoint={(itemId) => `/work-orders/work_order_misc_cost/${itemId}`}
         editInitialData={(row: Record<string, unknown>) => ({
           ...row,
           work_order: workOrderId,
         })}
+        editFieldsTransform={(fields, row) =>
+          fields.map((field) =>
+            field.name === "files"
+              ? { ...field, linkToId: row?.id as string }
+              : field
+          )
+        }
       />
     </>
   );

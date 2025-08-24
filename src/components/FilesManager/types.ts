@@ -4,10 +4,17 @@
  */
 
 export interface FilesManagerProps {
-  linkToModel: string;
-  linkToId: string;
+  linkToModel?: string; // Optional for simple mode
+  linkToId?: string; // Optional for simple mode
   maxSize?: number; // in MB
   className?: string;
+  isReadOnly?: boolean;
+
+  // Simple mode props (backward compatibility with legacy FileUpload)
+  simple?: boolean;
+  multiple?: boolean;
+  accept?: string;
+  onFileUploaded?: (fileIds: string[]) => void;
 }
 
 export interface FileItem extends Record<string, unknown> {
@@ -61,6 +68,7 @@ export interface FileEditDialogProps {
   editingFile: FileItem | null;
   linkToModel: string;
   linkToId: string;
+  isReadOnly?: boolean;
 }
 
 export interface FilesTableProps {
@@ -69,6 +77,7 @@ export interface FilesTableProps {
   className?: string;
   onEditFile: (file: FileItem) => void;
   onCreateNew: () => void;
+  isReadOnly?: boolean;
 }
 
 export interface FileUploadZoneProps {

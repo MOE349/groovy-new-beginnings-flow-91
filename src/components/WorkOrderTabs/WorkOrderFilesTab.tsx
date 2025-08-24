@@ -27,6 +27,7 @@ const WorkOrderFilesTab: React.FC<WorkOrderFilesTabProps> = ({
         linkToModel="work_orders.workorder"
         linkToId={workOrderId}
         maxSize={25}
+        isReadOnly={isReadOnly}
       />
     </>
   );

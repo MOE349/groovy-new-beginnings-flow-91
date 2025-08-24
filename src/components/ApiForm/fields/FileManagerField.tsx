@@ -1,12 +1,14 @@
 /**
  * FileManagerField Component
  * File manager field for ApiForm with full upload/download/management capabilities
+ * Supports temporary file storage for creation forms
  */
 
-import React from "react";
+import React, { useEffect } from "react";
 import { FieldValues } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import FilesManager from "@/components/FilesManager";
+import PendingFileManager, { PendingFile } from "./PendingFileManager";
 import type { FieldProps, FileManagerFieldConfig } from "../types";
 
 interface FileManagerFieldProps<T extends FieldValues = FieldValues>
@@ -27,14 +29,29 @@ export function FileManagerField<T extends FieldValues = FieldValues>({
     className,
   } = field;
 
-  // Don't render file manager if no linkToId is provided (for new records)
+  // Handle pending files change
+  const handlePendingFilesChange = (pendingFiles: PendingFile[]) => {
+    form.setValue(name, pendingFiles);
+  };
+
+  // Initialize form value if not set
+  useEffect(() => {
+    if (!linkToId && !form.getValues(name)) {
+      form.setValue(name, []);
+    }
+  }, [linkToId, form, name]);
+
+  // Use PendingFileManager for creation forms (no linkToId)
   if (!linkToId) {
     return (
       <div className={`space-y-2 ${className || ""}`}>
         {label && <Label htmlFor={name}>{label}</Label>}
-        <div className="p-4 border rounded-lg bg-muted/50 text-center text-muted-foreground">
-          File management will be available after saving this record.
-        </div>
+        <PendingFileManager
+          maxSize={maxSize}
+          className="w-full"
+          onChange={handlePendingFilesChange}
+          disabled={field.disabled}
+        />
       </div>
     );
   }
@@ -48,6 +65,7 @@ export function FileManagerField<T extends FieldValues = FieldValues>({
           linkToId={linkToId}
           maxSize={maxSize}
           className="w-full"
+          isReadOnly={field.disabled}
         />
       </div>
     </div>

@@ -35,6 +35,11 @@ export const FileUploadDialog: React.FC<FileUploadDialogProps> = ({
     useFileUpload(linkToModel, linkToId);
 
   const handleFileSelect = async (files: File[]) => {
+    // Don't proceed if no files are selected
+    if (!files || files.length === 0) {
+      return;
+    }
+
     const success = await uploadFiles(
       files,
       { description, tags, setAsDefaultImage },

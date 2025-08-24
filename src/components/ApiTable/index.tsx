@@ -342,6 +342,14 @@ function ApiTableComponent<T extends Record<string, unknown>>({
                         className={`${column.className} min-w-0 ${
                           index === 0 ? "relative" : ""
                         }`}
+                        style={{
+                          width: columnWidths[column.key]
+                            ? `${columnWidths[column.key]}px`
+                            : "auto",
+                          minWidth: columnWidths[column.key]
+                            ? `${columnWidths[column.key]}px`
+                            : "150px",
+                        }}
                       >
                         {onDelete && index === 0 && (
                           <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-20">
@@ -391,7 +399,13 @@ function ApiTableComponent<T extends Record<string, unknown>>({
         <Button
           {...(createNewHref
             ? { asChild: true }
-            : { onClick: onCreateNew || handleDefaultCreate })}
+            : {
+                onClick: (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  (onCreateNew || handleDefaultCreate)?.();
+                },
+              })}
           variant="default"
           size="sm"
           className="flex items-center gap-2 px-3 py-1"

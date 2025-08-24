@@ -4,7 +4,12 @@
  */
 
 import React, { useState } from "react";
-import { FileUploadDialog, FileEditDialog, FilesTable } from "./components";
+import {
+  FileUploadDialog,
+  FileEditDialog,
+  FilesTable,
+  SimpleFileUploadZone,
+} from "./components";
 import type { FilesManagerProps, FileItem } from "./types";
 
 export const FilesManager: React.FC<FilesManagerProps> = ({
@@ -12,6 +17,11 @@ export const FilesManager: React.FC<FilesManagerProps> = ({
   linkToId,
   maxSize = 10,
   className = "",
+  isReadOnly = false,
+  simple = false,
+  multiple = true,
+  accept = "*/*",
+  onFileUploaded,
 }) => {
   const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -22,10 +32,46 @@ export const FilesManager: React.FC<FilesManagerProps> = ({
     setIsEditDialogOpen(true);
   };
 
+  const handleCreateNew = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    setIsUploadDialogOpen(true);
+  };
+
   const handleEditDialogClose = () => {
     setIsEditDialogOpen(false);
     setEditingFile(null);
   };
+
+  // Simple mode: Just file upload without table/management
+  if (simple) {
+    return (
+      <div className={className}>
+        <SimpleFileUploadZone
+          maxSize={maxSize}
+          multiple={multiple}
+          accept={accept}
+          onFileUploaded={onFileUploaded}
+        />
+      </div>
+    );
+  }
+
+  // Full mode: Complete file management system
+  if (!linkToModel || !linkToId) {
+    console.warn(
+      "FilesManager: linkToModel and linkToId are required for full mode"
+    );
+    return (
+      <div className={className}>
+        <div className="p-4 border rounded-lg bg-muted/50 text-center text-muted-foreground">
+          File management requires linkToModel and linkToId props.
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={className}>
@@ -33,16 +79,19 @@ export const FilesManager: React.FC<FilesManagerProps> = ({
         linkToModel={linkToModel}
         linkToId={linkToId}
         onEditFile={handleEditFile}
-        onCreateNew={() => setIsUploadDialogOpen(true)}
+        onCreateNew={handleCreateNew}
+        isReadOnly={isReadOnly}
       />
 
-      <FileUploadDialog
-        isOpen={isUploadDialogOpen}
-        onOpenChange={setIsUploadDialogOpen}
-        linkToModel={linkToModel}
-        linkToId={linkToId}
-        maxSize={maxSize}
-      />
+      {!isReadOnly && (
+        <FileUploadDialog
+          isOpen={isUploadDialogOpen}
+          onOpenChange={setIsUploadDialogOpen}
+          linkToModel={linkToModel}
+          linkToId={linkToId}
+          maxSize={maxSize}
+        />
+      )}
 
       <FileEditDialog
         isOpen={isEditDialogOpen}
@@ -50,6 +99,7 @@ export const FilesManager: React.FC<FilesManagerProps> = ({
         editingFile={editingFile}
         linkToModel={linkToModel}
         linkToId={linkToId}
+        isReadOnly={isReadOnly}
       />
     </div>
   );

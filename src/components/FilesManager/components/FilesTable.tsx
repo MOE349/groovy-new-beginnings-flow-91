@@ -16,6 +16,7 @@ export const FilesTable: React.FC<FilesTableProps> = ({
   className = "",
   onEditFile,
   onCreateNew,
+  isReadOnly = false,
 }) => {
   const { deleteFile, downloadFile, isDeleting } = useFileOperations(
     linkToModel,
@@ -63,18 +64,20 @@ export const FilesTable: React.FC<FilesTableProps> = ({
           >
             <Download className="h-4 w-4" />
           </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={(e) => {
-              e.stopPropagation();
-              deleteFile(file.id);
-            }}
-            disabled={isDeleting}
-            title="Delete file"
-          >
-            <Trash2 className="h-4 w-4" />
-          </Button>
+          {!isReadOnly && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={(e) => {
+                e.stopPropagation();
+                deleteFile(file.id);
+              }}
+              disabled={isDeleting}
+              title="Delete file"
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          )}
         </div>
       ),
       sortable: false,
@@ -89,9 +92,15 @@ export const FilesTable: React.FC<FilesTableProps> = ({
       queryKey={["files", linkToModel, linkToId]}
       emptyMessage="No files uploaded yet"
       onRowClick={onEditFile}
-      hasCreateButton={true}
+      hasCreateButton={!isReadOnly}
       createNewText="Upload Files"
-      onCreateNew={onCreateNew}
+      onCreateNew={(e?: React.MouseEvent) => {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        onCreateNew();
+      }}
       showFilters={false}
       className={className}
       tableId={`files-${linkToModel}-${linkToId}`}

@@ -3,6 +3,8 @@
  * Components for file upload, management, and display
  */
 
-// Re-export existing file components
+// Primary file management system
 export { default as FilesManager } from "../FilesManager";
-export { default as FileUpload } from "../FileUpload";
+
+// Legacy compatibility (deprecated)
+export { default as FileUpload } from "../FileUpload.deprecated";

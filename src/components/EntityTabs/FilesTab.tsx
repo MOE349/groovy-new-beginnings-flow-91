@@ -9,6 +9,7 @@ export interface FilesTabProps {
   title?: string;
   description?: string;
   className?: string;
+  isReadOnly?: boolean;
 }
 
 const FilesTab: React.FC<FilesTabProps> = ({
@@ -18,6 +19,7 @@ const FilesTab: React.FC<FilesTabProps> = ({
   title,
   description,
   className,
+  isReadOnly = false,
 }) => {
   return (
     <div className={cn("tab-content-generic", className)}>
@@ -26,6 +28,7 @@ const FilesTab: React.FC<FilesTabProps> = ({
           linkToModel={linkToModel}
           linkToId={linkToId}
           maxSize={maxSize}
+          isReadOnly={isReadOnly}
         />
       </div>
     </div>

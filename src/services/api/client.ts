@@ -162,9 +162,11 @@ export class ApiClient {
       // Build URL
       const url = this.buildURL(endpoint, params);
 
-      // Build headers
+      // Build headers - handle FormData specially
+      const isFormData = fetchConfig.body instanceof FormData;
       const headers: Record<string, string> = {
-        "Content-Type": "application/json",
+        // Don't set Content-Type for FormData - browser will set multipart/form-data
+        ...(!isFormData && { "Content-Type": "application/json" }),
         ...customHeaders,
         ...((fetchConfig.headers as Record<string, string>) || {}),
       };
@@ -176,8 +178,12 @@ export class ApiClient {
         signal: controller.signal,
       };
 
-      // Handle body serialization
-      if (fetchConfig.body && typeof fetchConfig.body !== "string") {
+      // Handle body serialization - don't JSON.stringify FormData
+      if (
+        fetchConfig.body &&
+        typeof fetchConfig.body !== "string" &&
+        !isFormData
+      ) {
         requestConfig.body = JSON.stringify(fetchConfig.body);
       }
 

@@ -15,6 +15,10 @@ import { toast } from "@/hooks/use-toast";
 import { handleApiError } from "@/utils/errorHandling";
 import { useQueryClient } from "@tanstack/react-query";
 import { apiCall } from "@/utils/apis";
+import {
+  PendingFileService,
+  type FileUploadResult,
+} from "@/services/api/pendingFileService";
 import { cn } from "@/lib/utils";
 
 export interface TableTabProps {
@@ -36,11 +40,15 @@ export interface TableTabProps {
   addInitialData?: Record<string, any>;
   onAddSuccess?: (data: any) => void;
 
+  // File upload support for add forms
+  addLinkToModel?: string; // Model name for file uploads (e.g., "work_orders.workordermisccost")
+
   // Edit functionality
   canEdit?: boolean;
   editFields?: FormField[];
   editEndpoint?: (id: string) => string;
   editInitialData?: (row: any) => Record<string, any>;
+  editFieldsTransform?: (fields: FormField[], row: any) => FormField[]; // Transform fields for each row
   onEditSuccess?: (data: any) => void;
   onRowClick?: (row: any) => void;
   editReadOnly?: boolean; // Make edit forms read-only
@@ -97,10 +105,12 @@ const TableTab: React.FC<TableTabProps> = ({
   addEndpoint,
   addInitialData = {},
   onAddSuccess,
+  addLinkToModel,
   canEdit = false,
   editFields = [],
   editEndpoint,
   editInitialData,
+  editFieldsTransform,
   onEditSuccess,
   onRowClick,
   editReadOnly = false,
@@ -125,10 +135,64 @@ const TableTab: React.FC<TableTabProps> = ({
     if (!addEndpoint) return;
 
     try {
+      // First, create the entity
       const response = await apiCall(addEndpoint, {
         method: "POST",
         body: { ...addInitialData, ...data },
       });
+
+      // Get the created entity ID from response
+      const entityId =
+        (response as any).data?.data?.id ||
+        (response as any).data?.id ||
+        (response as any).id;
+
+      // Process and upload any pending files if linkToModel is provided
+      let uploadResults: FileUploadResult[] = [];
+      if (addLinkToModel && entityId) {
+        try {
+          const { uploadResults: results } =
+            await PendingFileService.processFormFiles(
+              data,
+              entityId,
+              addLinkToModel
+            );
+          uploadResults = results;
+
+          // Show file upload results
+          const successCount = uploadResults.filter((r) => r.success).length;
+          const failCount = uploadResults.filter((r) => !r.success).length;
+
+          if (successCount > 0) {
+            toast({
+              title: "Files Uploaded",
+              description: `${successCount} file${
+                successCount !== 1 ? "s" : ""
+              } uploaded successfully${
+                failCount > 0 ? ` (${failCount} failed)` : ""
+              }.`,
+            });
+          }
+
+          if (failCount > 0) {
+            toast({
+              title: "File Upload Issues",
+              description: `${failCount} file${
+                failCount !== 1 ? "s" : ""
+              } failed to upload. Check console for details.`,
+              variant: "destructive",
+            });
+          }
+        } catch (fileError) {
+          console.error("Error uploading files:", fileError);
+          toast({
+            title: "File Upload Error",
+            description:
+              "Files could not be uploaded, but the record was created successfully.",
+            variant: "destructive",
+          });
+        }
+      }
 
       queryClient.invalidateQueries({ queryKey });
 
@@ -245,7 +309,12 @@ const TableTab: React.FC<TableTabProps> = ({
               <ApiForm
                 fields={
                   editReadOnly
-                    ? editFields.map((field) => ({ ...field, disabled: true }))
+                    ? (editFieldsTransform
+                        ? editFieldsTransform(editFields, selectedItem)
+                        : editFields
+                      ).map((field) => ({ ...field, disabled: true }))
+                    : editFieldsTransform
+                    ? editFieldsTransform(editFields, selectedItem)
                     : editFields
                 }
                 onSubmit={handleEditSubmit}

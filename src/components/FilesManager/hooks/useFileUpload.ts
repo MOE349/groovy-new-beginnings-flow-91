@@ -20,7 +20,9 @@ export const useFileUpload = (linkToModel: string, linkToId: string) => {
     uploadData: FileUploadData,
     maxSize: number
   ) => {
-    if (files.length === 0) return;
+    if (files.length === 0) {
+      return false; // Return false instead of undefined
+    }
 
     // Validate file sizes
     const oversizedFiles = files.filter(
@@ -32,7 +34,7 @@ export const useFileUpload = (linkToModel: string, linkToId: string) => {
         description: `Some files exceed the ${maxSize}MB limit`,
         variant: "destructive",
       });
-      return;
+      return false; // Return false instead of undefined
     }
 
     setIsUploading(true);
@@ -123,6 +125,11 @@ export const useFileUpload = (linkToModel: string, linkToId: string) => {
         queryKey: ["files", linkToModel, linkToId],
       });
 
+      console.log(
+        "useFileUpload: Showing success toast for",
+        files.length,
+        "files"
+      );
       toast({
         title: "Upload Successful",
         description: `${files.length} file(s) uploaded successfully`,

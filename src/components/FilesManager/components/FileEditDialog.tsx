@@ -24,6 +24,7 @@ export const FileEditDialog: React.FC<FileEditDialogProps> = ({
   editingFile,
   linkToModel,
   linkToId,
+  isReadOnly = false,
 }) => {
   const [editDescription, setEditDescription] = useState("");
   const [editTags, setEditTags] = useState("");
@@ -67,7 +68,7 @@ export const FileEditDialog: React.FC<FileEditDialogProps> = ({
     <Dialog open={isOpen} onOpenChange={handleDialogChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Edit File</DialogTitle>
+          <DialogTitle>{isReadOnly ? "View File Details" : "Edit File"}</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
           <div>
@@ -85,7 +86,8 @@ export const FileEditDialog: React.FC<FileEditDialogProps> = ({
               onChange={(e) => setEditDescription(e.target.value)}
               placeholder="Enter file description"
               className="mt-1"
-              disabled={isUpdating}
+              disabled={isUpdating || isReadOnly}
+              readOnly={isReadOnly}
             />
           </div>
           <div>
@@ -95,7 +97,8 @@ export const FileEditDialog: React.FC<FileEditDialogProps> = ({
               onChange={(e) => setEditTags(e.target.value)}
               placeholder="manual,maintenance"
               className="mt-1"
-              disabled={isUpdating}
+              disabled={isUpdating || isReadOnly}
+              readOnly={isReadOnly}
             />
           </div>
           {editingFile?.is_image && (
@@ -104,7 +107,7 @@ export const FileEditDialog: React.FC<FileEditDialogProps> = ({
                 id="edit-set-default-image"
                 checked={editSetAsDefaultImage}
                 onCheckedChange={setEditSetAsDefaultImage}
-                disabled={isUpdating}
+                disabled={isUpdating || isReadOnly}
               />
               <label
                 htmlFor="edit-set-default-image"
@@ -120,12 +123,14 @@ export const FileEditDialog: React.FC<FileEditDialogProps> = ({
               onClick={() => onOpenChange(false)}
               disabled={isUpdating}
             >
-              Cancel
+              {isReadOnly ? "Close" : "Cancel"}
             </Button>
-            <Button onClick={handleUpdateFile} disabled={isUpdating}>
-              <Edit className="mr-2 h-4 w-4" />
-              Update File
-            </Button>
+            {!isReadOnly && (
+              <Button onClick={handleUpdateFile} disabled={isUpdating}>
+                <Edit className="mr-2 h-4 w-4" />
+                Update File
+              </Button>
+            )}
           </div>
         </div>
       </DialogContent>

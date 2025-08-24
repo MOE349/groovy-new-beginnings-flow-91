@@ -14,8 +14,15 @@ export const FileUploadZone: React.FC<FileUploadZoneProps> = ({
   isUploading,
 }) => {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("FileUploadZone: File input changed");
     const files = Array.from(event.target.files || []);
+    console.log("FileUploadZone: Selected files:", files);
     if (files.length > 0) {
+      console.log(
+        "FileUploadZone: Calling onFileSelect with",
+        files.length,
+        "files"
+      );
       onFileSelect(files);
     }
     // Reset input value to allow selecting the same file again
