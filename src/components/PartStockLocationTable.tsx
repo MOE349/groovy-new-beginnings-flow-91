@@ -328,7 +328,7 @@ export function PartStockLocationTable(props: PartStockLocationTableProps) {
         onRowClick={handleRowClick}
         createNewText="Add Location"
         hasCreateButton={true}
-        onCreateNew={openCreate}
+        onCreateNew={openMainCreate}
         secondaryButtonText={"Transfer Parts"}
         onSecondaryClick={openTransferDialog}
       />
