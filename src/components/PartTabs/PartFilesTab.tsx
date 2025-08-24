@@ -1,19 +1,12 @@
 import React from "react";
-import { GenericTab } from "@/components/EntityTabs";
+import { FilesTab } from "@/components/EntityTabs";
 
 export interface PartFilesTabProps {
   partId: string;
 }
 
 const PartFilesTab: React.FC<PartFilesTabProps> = ({ partId }) => {
-  return (
-    <GenericTab
-      title="Files"
-      description="Attached files and documents will appear here"
-    >
-      <div className="p-4">Placeholder content.</div>
-    </GenericTab>
-  );
+  return <FilesTab linkToModel="parts.part" linkToId={partId} maxSize={25} />;
 };
 
 export default PartFilesTab;

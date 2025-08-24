@@ -117,7 +117,7 @@ const AssetLogTab: React.FC<AssetLogTabProps> = ({ assetId }) => {
     title: "Active Work Orders",
     editRoutePattern: "/workorders/edit/{id}",
     maxHeight: "max-h-[400px]",
-    showFilters: false,
+    showFilters: true,
     hasCreateButton: false,
     persistColumnOrder: false,
     enableColumnReorder: false,
