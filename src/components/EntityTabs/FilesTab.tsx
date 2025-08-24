@@ -21,22 +21,7 @@ const FilesTab: React.FC<FilesTabProps> = ({
 }) => {
   return (
     <div className={cn("tab-content-generic", className)}>
-      <div className="p-4">
-        {(title || description) && (
-          <div className="mb-4">
-            {title && (
-              <h3 className="text-h3 font-medium text-foreground mb-2">
-                {title}
-              </h3>
-            )}
-            {description && (
-              <p className="text-caption text-muted-foreground">
-                {description}
-              </p>
-            )}
-          </div>
-        )}
-
+      <div className="p-3 rounded-lg bg-card text-card-foreground shadow-card hover:shadow-hover transition-shadow duration-150 border-0 flex flex-col h-full min-h-0 p-0 w-full">
         <FilesManager
           linkToModel={linkToModel}
           linkToId={linkToId}
