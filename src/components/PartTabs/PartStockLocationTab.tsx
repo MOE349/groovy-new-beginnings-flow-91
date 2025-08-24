@@ -42,7 +42,7 @@ const PartStockLocationTab: React.FC<PartStockLocationTabProps> = ({
   ];
 
   return (
-    <div className="p-3 h-full">
+    <div className="tab-content-generic">
       <div className="flex gap-3 h-full">
         <div className="flex-1 min-w-0 flex flex-col">
           <PartStockLocationTable
