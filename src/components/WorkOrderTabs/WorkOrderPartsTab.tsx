@@ -39,8 +39,6 @@ const WorkOrderPartsTab: React.FC<WorkOrderPartsTabProps> = ({
 
   return (
     <>
-
-
       <TableTab
         endpoint={`/parts/work-order-parts?work_order=${workOrderId}`}
         columns={[
@@ -63,15 +61,9 @@ const WorkOrderPartsTab: React.FC<WorkOrderPartsTabProps> = ({
           {
             key: "part_name",
             header: "Part Name",
-            type: "object",
+            type: "string",
             render: (value: unknown, row: Record<string, unknown>) => {
-              const partObj = row.part;
-              if (!partObj) return "—";
-              const part =
-                typeof partObj === "object" && partObj !== null
-                  ? (partObj as Record<string, unknown>)
-                  : {};
-              const partName = (part.name as string) || "—";
+              const partName = (row.part_name as string) || "—";
               return <span>{partName}</span>;
             },
           },
