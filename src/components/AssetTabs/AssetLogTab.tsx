@@ -101,7 +101,8 @@ const AssetLogTab: React.FC<AssetLogTabProps> = ({ assetId }) => {
       {
         key: "maint_type",
         header: "Maint Type",
-        type: "string",
+        type: "object",
+        objectIdKey: "maint_type_id",
       },
       {
         key: "completion_end_date",
@@ -148,7 +149,8 @@ const AssetLogTab: React.FC<AssetLogTabProps> = ({ assetId }) => {
       {
         key: "maint_type",
         header: "Maint Type",
-        type: "string",
+        type: "object",
+        objectIdKey: "maint_type_id",
       },
       {
         key: "completion_end_date",
