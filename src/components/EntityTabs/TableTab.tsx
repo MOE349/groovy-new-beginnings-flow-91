@@ -78,6 +78,7 @@ export interface TableTabProps {
   maxHeight?: string;
   height?: string;
   filters?: Record<string, any>;
+  enableColumnReorder?: boolean;
 }
 
 const TableTab: React.FC<TableTabProps> = ({
@@ -113,6 +114,7 @@ const TableTab: React.FC<TableTabProps> = ({
   maxHeight,
   height,
   filters,
+  enableColumnReorder = true,
 }) => {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -182,55 +184,9 @@ const TableTab: React.FC<TableTabProps> = ({
 
   return (
     <div className={cn("tab-content-generic", className)}>
-      {/* Header */}
-      {(title || description || canAdd || actions.length > 0) && (
-        <div className="flex justify-between items-center">
-          <div>
-            {title && (
-              <h3 className="text-h3 font-medium text-foreground">{title}</h3>
-            )}
-            {description && (
-              <p className="text-caption text-muted-foreground">
-                {description}
-              </p>
-            )}
-          </div>
-
-          <div className="flex gap-2">
-            {actions.map((action, index) => (
-              <Button
-                key={index}
-                variant={action.variant || "outline"}
-                size="sm"
-                disabled={action.disabled}
-                onClick={action.onClick}
-              >
-                {action.icon}
-                {action.label}
-              </Button>
-            ))}
-
-            {canAdd && addFields.length > 0 && (
-              <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-                <DialogContent className="max-w-2xl">
-                  <DialogHeader>
-                    <DialogTitle>{addButtonText}</DialogTitle>
-                  </DialogHeader>
-                  <ApiForm
-                    fields={addFields}
-                    onSubmit={handleAddSubmit}
-                    submitText={addButtonText}
-                    initialData={addInitialData}
-                  />
-                </DialogContent>
-              </Dialog>
-            )}
-          </div>
-        </div>
-      )}
-
       {/* Table */}
       <ApiTable
+        title={title}
         hasCreateButton={hasCreateButton}
         createNewText={addButtonText}
         onCreateNew={() => setIsAddDialogOpen(true)}
@@ -250,6 +206,7 @@ const TableTab: React.FC<TableTabProps> = ({
         maxHeight={maxHeight}
         height={height}
         filters={filters}
+        enableColumnReorder={enableColumnReorder}
         className={cn("w-full", tableClassName)}
       />
 
