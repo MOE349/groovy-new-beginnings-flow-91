@@ -27,12 +27,11 @@ const WorkOrderLogsTab: React.FC<WorkOrderLogsTabProps> = ({
       objectIdKey: "work_order_id",
     },
     { key: "receipt_id", header: "Receipt ID", type: "text" },
+    { key: "total_price", header: "Total Price", type: "text" },
   ];
 
   return (
     <>
-
-
       <DualApiTableTab
         assetId={workOrderId}
         leftTable={{
@@ -70,7 +69,7 @@ const WorkOrderLogsTab: React.FC<WorkOrderLogsTabProps> = ({
         }}
         rightTable={{
           title: "Part Movement Log",
-          endpoint: `/parts/movements`,
+          endpoint: `/parts/work-order-parts-log`,
           columns: movementColumns,
           tableId: `part-movement-logs-${workOrderId}`,
           queryKey: ["part_movement", workOrderId],

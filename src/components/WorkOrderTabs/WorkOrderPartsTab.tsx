@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { TableTab } from "@/components/EntityTabs";
 import { FormField } from "@/components/ApiForm";
 import {
@@ -11,7 +11,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
 import ApiForm from "@/components/ApiForm";
+import { PartSelectionDialog } from "@/components/PartSelectionDialog";
 import { toast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { apiCall } from "@/utils/apis";
@@ -25,52 +32,106 @@ const WorkOrderPartsTab: React.FC<WorkOrderPartsTabProps> = ({
   workOrderId,
   isReadOnly = false,
 }) => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isLocationDialogOpen, setIsLocationDialogOpen] = useState(false);
+  const [isPartSelectionDialogOpen, setIsPartSelectionDialogOpen] =
+    useState(false);
+  const [locationPopoverOpen, setLocationPopoverOpen] = useState(false);
   const [currentEditContext, setCurrentEditContext] = useState<{
     rowId: string | number;
     columnKey: string;
     newValue: unknown;
     updatedRow: Record<string, unknown>;
     partId?: string | number;
+    onSave?: () => void;
   } | null>(null);
+  const [availableLocations, setAvailableLocations] = useState<
+    { id: string; name: string; qty?: number }[]
+  >([]);
+  const [popoverPosition, setPopoverPosition] = useState<{
+    top: number;
+    left: number;
+  } | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const popoverRef = useRef<HTMLDivElement>(null);
   const queryClient = useQueryClient();
 
-  const partsFormTemplate: FormField[] = [
-    {
-      name: "work_order",
-      type: "input",
-      inputType: "hidden",
-      required: false,
-    },
-    {
-      name: "part",
-      type: "dropdown",
-      label: "Part",
-      required: true,
-      endpoint: "/parts/parts",
-      queryKey: ["parts_parts"],
-      optionValueKey: "id",
-      optionLabelKey: "name",
-    },
-  ];
+  // Handle clicks outside the popover to close it
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        locationPopoverOpen &&
+        popoverRef.current &&
+        inputRef.current &&
+        !popoverRef.current.contains(event.target as Node) &&
+        !inputRef.current.contains(event.target as Node)
+      ) {
+        // Close popover and clean up state
+        setLocationPopoverOpen(false);
+        setCurrentEditContext(null);
+        setAvailableLocations([]);
+        setPopoverPosition(null);
+      }
+    };
 
-  // Initial data for the form with work_order prefilled
-  const initialFormData = {
-    work_order: workOrderId,
+    if (locationPopoverOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }
+  }, [locationPopoverOpen]);
+
+  // Calculate popover position based on input element
+  const calculatePopoverPosition = (inputElement: HTMLInputElement) => {
+    const rect = inputElement.getBoundingClientRect();
+    const popoverWidth = 384; // w-96 = 384px
+
+    // Estimate actual popover height based on content (much smaller due to compact styling)
+    const itemCount = availableLocations.length;
+    const itemHeight = 32; // py-1.5 = ~6px top + 6px bottom + text height ≈ 32px per item
+    const padding = 8; // p-1 = 4px top + 4px bottom
+    const actualPopoverHeight = Math.min(itemCount * itemHeight + padding, 160); // Cap at 160px for max-h-40
+
+    let top = rect.top - actualPopoverHeight; // Align bottom of popup with top of input
+    let left = rect.left;
+
+    // Adjust if popover would go off-screen vertically
+    if (top < 10) {
+      top = rect.bottom + 2; // Show below with minimal gap if no space above
+    }
+
+    // Keep original horizontal positioning (left-aligned with input)
+    if (left + popoverWidth > window.innerWidth - 20) {
+      left = window.innerWidth - popoverWidth - 20;
+    }
+
+    if (left < 20) {
+      left = 20;
+    }
+
+    return { top, left };
   };
 
-  // Handle form submission
-  const handleFormSubmit = async (data: Record<string, unknown>) => {
+  // Handle multiple parts selection from new dialog
+  const handlePartsSelection = async (selectedPartIds: string[]) => {
     try {
-      await apiCall("/parts/work-order-parts", {
-        method: "POST",
-        body: data,
-      });
+      // Add each selected part to the work order
+      const promises = selectedPartIds.map((partId) =>
+        apiCall("/parts/work-order-parts", {
+          method: "POST",
+          body: {
+            work_order: workOrderId,
+            part: partId,
+          },
+        })
+      );
+
+      await Promise.all(promises);
 
       toast({
         title: "Success",
-        description: "Part added to work order successfully!",
+        description: `${selectedPartIds.length} part${
+          selectedPartIds.length !== 1 ? "s" : ""
+        } added to work order successfully!`,
       });
 
       // Invalidate and refresh the work order parts table
@@ -78,47 +139,50 @@ const WorkOrderPartsTab: React.FC<WorkOrderPartsTabProps> = ({
         queryKey: ["work_order_parts", workOrderId],
       });
 
-      setIsDialogOpen(false);
+      setIsPartSelectionDialogOpen(false);
     } catch (error: unknown) {
       toast({
         title: "Error",
         description:
           (error instanceof Error ? error.message : String(error)) ||
-          "Failed to add part to work order",
+          "Failed to add parts to work order",
         variant: "destructive",
       });
     }
   };
 
-  // Location selection form for parts that need location when qty_used is set
-  const locationFormTemplate: FormField[] = [
-    {
-      name: "location_id",
-      type: "dropdown",
-      label: "Location",
-      required: true,
-      endpoint: `/parts/get-part-location?part=${String(
-        currentEditContext?.partId || ""
-      )}&work_order=${workOrderId}`,
-      optionValueKey: "id",
-      optionLabelKey: "name",
-      queryKey: [
-        "parts-get-part-location",
-        String(currentEditContext?.partId || ""),
-        workOrderId,
-      ],
-    },
-  ];
+  // Fetch available locations for a part
+  const fetchLocations = async (partId: string | number) => {
+    try {
+      console.log("Fetching locations for part:", partId);
+      const response = await apiCall(
+        `/parts/get-part-location?part=${partId}&work_order=${workOrderId}`
+      );
+      console.log("Locations API response:", response);
+      const locations = response?.data?.data || response?.data || [];
+      console.log("Processed locations:", locations);
+      const processedLocations = Array.isArray(locations) ? locations : [];
+      setAvailableLocations(processedLocations);
+      return processedLocations; // Return the locations for immediate use
+    } catch (error) {
+      console.error("Failed to fetch locations:", error);
+      setAvailableLocations([]);
+      return [];
+    }
+  };
 
-  // Handle location form submission
-  const handleLocationSubmit = async (data: Record<string, unknown>) => {
+  // Handle location selection from popover
+  const handleLocationSelect = async (
+    locationId: string,
+    locationName: string
+  ) => {
     if (!currentEditContext) return;
 
     try {
       // Create the payload with both qty_used and location
       const updatePayload = {
         [currentEditContext.columnKey]: currentEditContext.newValue,
-        location: data.location_id, // Use "location" in payload, but get value from "location_id" field
+        location: locationId,
       };
 
       // Update the work order part with both qty and location
@@ -129,7 +193,7 @@ const WorkOrderPartsTab: React.FC<WorkOrderPartsTabProps> = ({
 
       toast({
         title: "Success",
-        description: "Part quantity and location updated successfully!",
+        description: `Part quantity and location (${locationName}) updated successfully!`,
       });
 
       // Refresh the table
@@ -137,9 +201,17 @@ const WorkOrderPartsTab: React.FC<WorkOrderPartsTabProps> = ({
         queryKey: ["work_order_parts", workOrderId],
       });
 
-      setIsLocationDialogOpen(false);
+      // Exit edit mode by calling the stored onSave callback
+      if (currentEditContext?.onSave) {
+        currentEditContext.onSave();
+      }
+
+      // Clean up state
+      setLocationPopoverOpen(false);
       setCurrentEditContext(null);
-      console.log("Location form submitted, context cleared");
+      setAvailableLocations([]);
+      setPopoverPosition(null);
+      console.log("Location selected, cell deselected, context cleared");
     } catch (error: unknown) {
       toast({
         title: "Error",
@@ -198,26 +270,19 @@ const WorkOrderPartsTab: React.FC<WorkOrderPartsTabProps> = ({
         return null; // Valid
       },
       editRender: (value, row, onChange, onSave, onCancel) => {
-        const handleSave = () => {
-          const numValue =
-            typeof value === "number" ? value : parseFloat(String(value));
-          const originalValue = Number(row.qty_used) || 0;
+        const numValue =
+          typeof value === "number" ? value : parseFloat(String(value));
+        const originalValue = Number(row.qty_used) || 0;
+        const needsLocationSelection =
+          numValue > 0 && !row.location_id && originalValue <= 0;
 
-          // Check if we need location selection for positive quantities
-          // Only show dialog if:
-          // 1. New value > 0
-          // 2. No location assigned
-          // 3. Original value was 0/null/undefined (transitioning from empty to positive)
-          if (numValue > 0 && !row.location_id && originalValue <= 0) {
-            console.log(
-              "Triggering location dialog for row:",
-              row.id,
-              "qty:",
-              numValue,
-              "originalQty:",
-              originalValue
-            );
+        const handleSave = async () => {
+          console.log(
+            "HandleSave called - needsLocationSelection:",
+            needsLocationSelection
+          );
 
+          if (needsLocationSelection) {
             // Extract part ID from the row data
             const partId =
               row.part_id ||
@@ -225,34 +290,85 @@ const WorkOrderPartsTab: React.FC<WorkOrderPartsTabProps> = ({
                 ? (row.part as Record<string, unknown>).id
                 : row.part);
 
-            // Clear any existing context first
-            setCurrentEditContext(null);
-            setIsLocationDialogOpen(false);
+            console.log(
+              "Setting context and fetching locations for part:",
+              partId
+            );
 
-            // Set new context and show dialog
-            setTimeout(() => {
-              setCurrentEditContext({
-                rowId: row.id as string | number,
-                columnKey: "qty_used",
-                newValue: value,
-                updatedRow: row,
-                partId: partId as string | number,
-              });
-              setIsLocationDialogOpen(true);
-            }, 100);
+            // Set context and fetch locations
+            setCurrentEditContext({
+              rowId: row.id as string | number,
+              columnKey: "qty_used",
+              newValue: value,
+              updatedRow: row,
+              partId: partId as string | number,
+              onSave: onSave, // Store the onSave callback for later use
+            });
 
-            onCancel(); // Cancel the current edit
-            return;
+            // Fetch locations and show popover
+            const fetchedLocations = await fetchLocations(
+              partId as string | number
+            );
+            console.log(
+              "About to set popover open, fetched locations count:",
+              fetchedLocations.length
+            );
+
+            // Calculate and set popover position if we have an input ref
+            if (inputRef.current && fetchedLocations.length > 0) {
+              const position = calculatePopoverPosition(inputRef.current);
+              setPopoverPosition(position);
+              setLocationPopoverOpen(true);
+              console.log(
+                "Location popover set to true with position:",
+                position
+              );
+            }
+            return; // Don't save yet, wait for location selection
           }
 
           // Normal save if location exists or value is 0
+          console.log("Normal save");
           onSave();
         };
+
+        // Debug: console.log("Popover check:", { needsLocationSelection, locationPopoverOpen, shouldShow: needsLocationSelection && locationPopoverOpen && currentEditContext?.rowId === row.id });
+
+        if (
+          needsLocationSelection &&
+          locationPopoverOpen &&
+          currentEditContext?.rowId === row.id
+        ) {
+          return (
+            <div className="flex items-center gap-1 min-w-[120px]">
+              <input
+                ref={inputRef}
+                type="number"
+                value={String(value)}
+                onChange={(e) => onChange(e.target.value)}
+                className="w-full h-7 px-2 text-xs border rounded"
+                disabled
+              />
+              <button
+                onClick={() => {
+                  setLocationPopoverOpen(false);
+                  setCurrentEditContext(null);
+                  setAvailableLocations([]);
+                  setPopoverPosition(null);
+                  onCancel();
+                }}
+                className="h-6 w-6 p-0 text-red-600 hover:text-red-700 flex items-center justify-center"
+              >
+                ✗
+              </button>
+            </div>
+          );
+        }
 
         return (
           <div className="flex items-center gap-1 min-w-[120px]">
             <input
-              ref={(ref) => ref && ref.focus()}
+              ref={inputRef}
               type="number"
               value={String(value)}
               onChange={(e) => onChange(e.target.value)}
@@ -262,6 +378,7 @@ const WorkOrderPartsTab: React.FC<WorkOrderPartsTabProps> = ({
                   handleSave();
                 } else if (e.key === "Escape") {
                   e.preventDefault();
+                  setPopoverPosition(null);
                   onCancel();
                 }
               }}
@@ -274,7 +391,10 @@ const WorkOrderPartsTab: React.FC<WorkOrderPartsTabProps> = ({
               ✓
             </button>
             <button
-              onClick={onCancel}
+              onClick={() => {
+                setPopoverPosition(null);
+                onCancel();
+              }}
               className="h-6 w-6 p-0 text-red-600 hover:text-red-700 flex items-center justify-center"
             >
               ✗
@@ -296,7 +416,7 @@ const WorkOrderPartsTab: React.FC<WorkOrderPartsTabProps> = ({
         updateMode="field"
         hasCreateButton={!isReadOnly}
         createNewText="Add Part"
-        onCreateNew={() => setIsDialogOpen(true)}
+        onCreateNew={() => setIsPartSelectionDialogOpen(true)}
         onCellUpdate={(rowId, columnKey, newValue, updatedRow) => {
           console.log(`Updated ${columnKey} for row ${rowId}:`, newValue);
         }}
@@ -308,56 +428,60 @@ const WorkOrderPartsTab: React.FC<WorkOrderPartsTabProps> = ({
         }}
       />
 
-      {/* Add Part Dialog */}
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle>Add Part to Work Order</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <ApiForm
-              fields={partsFormTemplate}
-              onSubmit={handleFormSubmit}
-              initialData={initialFormData}
-              submitText="Add Part"
-              cancelText="Cancel"
-              onCancel={() => setIsDialogOpen(false)}
-              className="space-y-4"
-            />
-          </div>
-        </DialogContent>
-      </Dialog>
+      {/* Part Selection Dialog */}
+      <PartSelectionDialog
+        open={isPartSelectionDialogOpen}
+        onOpenChange={setIsPartSelectionDialogOpen}
+        onConfirm={handlePartsSelection}
+        workOrderId={workOrderId}
+      />
 
-      {/* Location Selection Dialog */}
-      <Dialog
-        open={isLocationDialogOpen}
-        onOpenChange={setIsLocationDialogOpen}
-      >
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle>Select Location for Part</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <p className="text-sm text-muted-foreground">
-              Please select a location for this part before setting the
-              quantity.
-            </p>
-            <ApiForm
-              fields={locationFormTemplate}
-              onSubmit={handleLocationSubmit}
-              initialData={{}}
-              submitText="Confirm"
-              cancelText="Cancel"
-              onCancel={() => {
-                console.log("Location dialog cancelled, clearing context");
-                setIsLocationDialogOpen(false);
-                setCurrentEditContext(null);
-              }}
-              className="space-y-4"
-            />
+      {/* Location Selection Popover - rendered outside table structure */}
+      {locationPopoverOpen && popoverPosition && (
+        <div
+          ref={popoverRef}
+          className="fixed z-[9999] w-96 bg-background border-2 border-yellow-500 rounded-lg shadow-lg"
+          style={{
+            top: `${popoverPosition.top}px`,
+            left: `${popoverPosition.left}px`,
+          }}
+        >
+          <div className="p-1">
+            {availableLocations.length === 0 ? (
+              <div className="text-sm text-muted-foreground py-2 px-3">
+                No locations available for this part
+              </div>
+            ) : (
+              <div className="max-h-40 overflow-y-auto">
+                {availableLocations.map((location, index) => (
+                  <button
+                    key={location.id}
+                    onClick={() =>
+                      handleLocationSelect(location.id, location.name)
+                    }
+                    className={`w-full text-left px-3 py-1.5 text-sm hover:bg-yellow-50 hover:border-yellow-400 transition-colors border-b border-yellow-200 focus:outline-none focus:bg-yellow-100 focus:border-yellow-500 ${
+                      index === availableLocations.length - 1
+                        ? "border-b-0"
+                        : ""
+                    }`}
+                  >
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium truncate">
+                        {location.name}
+                      </span>
+                      {location.qty !== undefined && (
+                        <span className="text-xs text-muted-foreground ml-2 flex-shrink-0">
+                          Qty: {location.qty}
+                        </span>
+                      )}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
-        </DialogContent>
-      </Dialog>
+        </div>
+      )}
     </>
   );
 };
