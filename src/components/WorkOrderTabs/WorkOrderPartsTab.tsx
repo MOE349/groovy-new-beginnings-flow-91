@@ -164,9 +164,67 @@ const WorkOrderPartsTab: React.FC<WorkOrderPartsTabProps> = ({
       const processedLocations = Array.isArray(locations) ? locations : [];
       setAvailableLocations(processedLocations);
       return processedLocations; // Return the locations for immediate use
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Failed to fetch locations:", error);
+
+      // Handle specific API error format - check multiple possible error structures
+      console.log("API error:", error);
+      console.log("API error structure:", JSON.stringify(error, null, 2));
+
+      let errorMessage = "Failed to fetch available locations for this part";
+
+      if (error && typeof error === "object") {
+        // Check for direct errors.error structure
+        if ("errors" in error) {
+          const apiError = error as { errors?: { error?: string } };
+          if (apiError.errors?.error) {
+            errorMessage = apiError.errors.error;
+          }
+        }
+        // Check for error.response.data structure (common with axios)
+        else if (
+          "response" in error &&
+          error.response &&
+          typeof error.response === "object" &&
+          "data" in error.response
+        ) {
+          const responseError = error.response as {
+            data?: { errors?: { error?: string } };
+          };
+          if (responseError.data?.errors?.error) {
+            errorMessage = responseError.data.errors.error;
+          }
+        }
+        // Check for error.data structure
+        else if (
+          "data" in error &&
+          error.data &&
+          typeof error.data === "object" &&
+          "errors" in error.data
+        ) {
+          const dataError = error.data as { errors?: { error?: string } };
+          if (dataError.errors?.error) {
+            errorMessage = dataError.errors.error;
+          }
+        }
+        // Check if error has a message property
+        else if ("message" in error && typeof error.message === "string") {
+          errorMessage = error.message;
+        }
+      }
+
+      toast({
+        title: "Location Error",
+        description: errorMessage,
+        variant: "destructive",
+      });
+
+      // Reset state when there's an error
       setAvailableLocations([]);
+      setLocationPopoverOpen(false);
+      setCurrentEditContext(null);
+      setPopoverPosition(null);
+
       return [];
     }
   };
@@ -323,6 +381,10 @@ const WorkOrderPartsTab: React.FC<WorkOrderPartsTabProps> = ({
                 "Location popover set to true with position:",
                 position
               );
+            } else if (fetchedLocations.length === 0) {
+              // No locations available (could be due to error), exit edit mode
+              setCurrentEditContext(null);
+              console.log("No locations available, exiting edit mode");
             }
             return; // Don't save yet, wait for location selection
           }
